@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/util/theme-utils.dart';
 
 class AllComponents extends StatelessWidget {
+  
+  static const String ROUTE_NAME = "judiSettings";
 
   @override
   Widget build(BuildContext context) {
 
-    return ListView(
-
-      children: <Widget>[
-        Container( 
+    return JudiTheme.buildFromParent(title: "Ijudi",
+     child: Container( 
           alignment: Alignment.topLeft,
           child: Column(
           children: <Widget>[
+            Headers.getHeader(context),
             Forms.searchField(context, "search shop name, item you want to buy or service"),
             Forms.create(context, 
               Column(
@@ -28,13 +29,20 @@ class AllComponents extends StatelessWidget {
             Buttons.account(text: "Register"),
             Buttons.account(text: "Logout"),
             FloatingActionButton(
+              heroTag: "test",
               onPressed: () => {},
               child: Icon(Icons.arrow_forward),
               ),
-              FloatingActionButton(
-              onPressed: () => {},
-              child: Icon(Icons.add_shopping_cart),
-              ),
+            Padding(padding: EdgeInsets.all(4)),
+            FloatingActionButton(
+              heroTag: "test2",
+            onPressed: () => {},
+            child: Icon(Icons.add_shopping_cart),
+            ),
+            Buttons.google(),
+            Buttons.facebook(),
+            Buttons.back(),
+            Buttons.home(),
             Buttons.menu(
               context: context,  
               children: <Widget>[
@@ -51,8 +59,6 @@ class AllComponents extends StatelessWidget {
             Cards.shop()
           ]
         )
-      )
-    ]
-    );
+      ));
   }
 }
