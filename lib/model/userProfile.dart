@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/model/profile.dart';
 
-class Shop extends Profile {
-  String registrationNumber;
+class UserProfile extends Profile {
+  
+  String idNumber;
 
-  Shop(
+  UserProfile(
       {@required String id,
       @required String name,
-      this.registrationNumber,
+      @required this.idNumber,
       @required String description,
-      @required int yearsInService,
-      @required String address,
+      int yearsInService,
+      String address,
       @required String imageUrl,
       int likes,
-      @required int servicesCompleted,
+      int servicesCompleted,
       int badges,
       @required String mobileNumber,
-      @required String role, 
+      @required String role,
       @required Bank bank})
       : super(
             id: id,

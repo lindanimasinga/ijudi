@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:ijudi/components/ads-card-component.dart';
+import 'package:ijudi/components/scrollable-parent-container.dart';
+import 'package:ijudi/components/shop-component.dart';
 import 'package:ijudi/util/theme-utils.dart';
 
-class AllComponents extends StatelessWidget {
+class AllComponentsView extends StatelessWidget {
   
   static const String ROUTE_NAME = "judiSettings";
 
   @override
   Widget build(BuildContext context) {
 
-    return JudiTheme.buildFromParent(title: "Ijudi",
-     child: Container( 
+    return ScrollableParent(title: "Ijudi",
+      hasDrawer: true,
+      appBarColor: IjudiColors.color1,
+      child: Container( 
           alignment: Alignment.topLeft,
           child: Column(
           children: <Widget>[
             Headers.getHeader(context),
             Forms.searchField(context, "search shop name, item you want to buy or service"),
-            Forms.create(context, 
-              Column(
+            Forms.create(
+              child: Column(
                 children: <Widget>[
-                  Forms.inputField(context, 'Cell Number', TextInputType.phone),
-                  Forms.inputField(context, 'Password', TextInputType.visiblePassword),
-                  Forms.inputField(context, 'Name', TextInputType.text),
-                  Forms.inputField(context, 'Surname', TextInputType.text),
-                  Forms.inputField(context, 'Id Number', TextInputType.number)
+                  Forms.inputField(hint: 'Cell Number', type: TextInputType.phone),
+                      Forms.inputField(hint: 'Name', type: TextInputType.text),
+                      Forms.inputField(hint: 'Surname', type: TextInputType.text),
+                      Forms.inputField(hint: 'Id Number', type: TextInputType.text),
                 ],
               ),
             ),
@@ -53,10 +57,10 @@ class AllComponents extends StatelessWidget {
                   Buttons.menuItem(text: "Settings", color: IjudiColors.color5, isLast: true)
                 ]
             ),
-            Cards.createAd(color: IjudiColors.color2),
-            Cards.createAd(color: IjudiColors.color1),
-            Cards.createAd(color: IjudiColors.color3),
-            Cards.shop()
+            AdsCardComponent(color: IjudiColors.color2, imageUrl: "https://www.findspecials.co.za/files/spar(1).PNG",),
+            AdsCardComponent(color: IjudiColors.color1, imageUrl: "https://www.findspecials.co.za/files/spar(1).PNG",),
+            AdsCardComponent(color: IjudiColors.color3, imageUrl: "https://www.findspecials.co.za/files/spar(1).PNG",),
+            IJudiCard()
           ]
         )
       ));
