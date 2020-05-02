@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:ijudi/api/api-service.dart';
+import 'package:ijudi/components/ijudi-address-input-field.dart';
+import 'package:ijudi/components/ijudi-form.dart';
+import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/profile-header-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/model/profile.dart';
@@ -53,14 +56,14 @@ class _PersonalAndBankViewState extends State<PersonalAndBankView> {
                             style: IjudiStyles.SUBTITLE_1
                           ),
                 ),
-                Forms.create(
+                IjudiForm(
                   child: Column(
                           children: <Widget>[
-                            Forms.inputField(hint: 'Cell Number', type: TextInputType.phone, text: userProfile.mobileNumber),
-                            Forms.inputField(hint: 'Name', type: TextInputType.text, text: userProfile.name),
-                            Forms.inputField(hint: 'Surname', type: TextInputType.text, text: userProfile.description),
-                            Forms.inputField(hint: 'Id Number', type: TextInputType.text, text: userProfile.idNumber),
-                            Forms.inputField(hint: 'Address', type: TextInputType.number, text: userProfile.address)
+                            IjudiInputField(hint: 'Cell Number', type: TextInputType.phone, text: userProfile.mobileNumber),
+                            IjudiInputField(hint: 'Name', type: TextInputType.text, text: userProfile.name),
+                            IjudiInputField(hint: 'Surname', type: TextInputType.text, text: userProfile.description),
+                            IjudiInputField(hint: 'Id Number', type: TextInputType.text, text: userProfile.idNumber),
+                            IjudiAddressInputField(hint: 'Address', type: TextInputType.number, text: userProfile.address)
                           ],
                   ),
                 ),
@@ -70,12 +73,12 @@ class _PersonalAndBankViewState extends State<PersonalAndBankView> {
                             style: IjudiStyles.SUBTITLE_2
                           ),
                 ),
-                Forms.create( 
+                IjudiForm( 
                   child: Column(
                           children: <Widget>[
-                            Forms.inputField(hint: 'Bank Name', type: TextInputType.text, text: userProfile.bank.name),
-                            Forms.inputField(hint: 'Account Number', type: TextInputType.text, text: userProfile.bank.account),
-                            Forms.inputField(hint: 'Account Type', type: TextInputType.text, text: userProfile.bank.type)
+                            IjudiInputField(hint: 'Bank Name', type: TextInputType.text, text: userProfile.bank.name),
+                            IjudiInputField(hint: 'Account Number', type: TextInputType.text, text: userProfile.bank.account),
+                            IjudiInputField(hint: 'Account Type', type: TextInputType.text, text: userProfile.bank.type)
                           ],
                   ),
                 )

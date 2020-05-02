@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/ads-card-component.dart';
+import 'package:ijudi/components/ijudi-form.dart';
+import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/shop-component.dart';
 import 'package:ijudi/util/theme-utils.dart';
@@ -20,13 +22,13 @@ class AllComponentsView extends StatelessWidget {
           children: <Widget>[
             Headers.getHeader(context),
             Forms.searchField(context, "search shop name, item you want to buy or service"),
-            Forms.create(
+            IjudiForm(
               child: Column(
                 children: <Widget>[
-                  Forms.inputField(hint: 'Cell Number', type: TextInputType.phone),
-                      Forms.inputField(hint: 'Name', type: TextInputType.text),
-                      Forms.inputField(hint: 'Surname', type: TextInputType.text),
-                      Forms.inputField(hint: 'Id Number', type: TextInputType.text),
+                  IjudiInputField(hint: 'Cell Number', type: TextInputType.phone),
+                  IjudiInputField(hint: 'Name', type: TextInputType.text),
+                  IjudiInputField(hint: 'Surname', type: TextInputType.text),
+                  IjudiInputField(hint: 'Id Number', type: TextInputType.text),
                 ],
               ),
             ),

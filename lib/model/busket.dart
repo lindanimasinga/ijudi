@@ -5,10 +5,10 @@ import 'package:ijudi/model/userProfile.dart';
 class Busket {
 
   final List<BusketItem> items = [];
-  final UserProfile userProfile;
+  final UserProfile customer;
   final Shop shop;
 
-  Busket(this.userProfile, this.shop);
+  Busket(this.customer, this.shop);
 
   addItem(BusketItem busketItem) {
     BusketItem item = items.firstWhere(

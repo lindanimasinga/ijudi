@@ -3,6 +3,7 @@ import 'package:ijudi/view/all-components.dart';
 import 'package:ijudi/view/all-shops-view.dart';
 import 'package:ijudi/view/delivery-options.dart';
 import 'package:ijudi/view/my-shops.dart';
+import 'package:ijudi/view/payment-view.dart';
 import 'package:ijudi/view/personal-and-bank.dart';
 import 'package:ijudi/view/profile-view.dart';
 import 'package:ijudi/view/start-shopping.dart';
@@ -26,6 +27,8 @@ class NavigatorService {
         return MaterialPageRoute(builder: (context) => StartShoppingView(shop: args));
       case DeliveryOptions.ROUTE_NAME:
         return MaterialPageRoute(builder: (context) => DeliveryOptions(busket: args));  
+      case PaymentView.ROUTE_NAME:
+        return MaterialPageRoute(builder: (context) => PaymentView(order: args));  
       default : return MaterialPageRoute(builder: (context) => AllShopsView());
     }
   }
