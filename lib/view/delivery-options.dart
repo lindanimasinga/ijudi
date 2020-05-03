@@ -45,6 +45,7 @@ class _StateDeliveryOptions extends State<DeliveryOptions> {
     newOrder.shippingData.messanger = messangers[0];
     newOrder.shippingData.fromAddress = busket.shop.name;
     newOrder.shippingData.toAddress= busket.customer.address;
+    newOrder.shippingData.fee = 10;
     super.initState();
   }
 
