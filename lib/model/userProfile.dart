@@ -6,7 +6,8 @@ class UserProfile extends Profile {
   String idNumber;
 
   UserProfile(
-      {@required String id,
+      {
+      @required String id,
       @required String name,
       @required this.idNumber,
       @required String description,

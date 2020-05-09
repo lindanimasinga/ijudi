@@ -3,13 +3,13 @@ import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 
 class MessagerPreviewComponent extends StatefulWidget {
-  final UserProfile userProfile;
+  final UserProfile messenger;
 
-  MessagerPreviewComponent(this.userProfile);
+  MessagerPreviewComponent({this.messenger});
 
   @override
   _MessagerPreviewComponentState createState() =>
-      _MessagerPreviewComponentState(userProfile);
+      _MessagerPreviewComponentState(messenger);
 }
 
 class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {

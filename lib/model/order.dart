@@ -8,6 +8,8 @@ class Order {
   Shipping shippingData;
   Busket busket;
   String id = Random().nextInt(1000000).toString();
+
+  get totalAmount => busket.getBusketTotalAmount() + shippingData.fee;
   
 }
 

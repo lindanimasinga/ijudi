@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:ijudi/model/stock.dart';
 import 'package:ijudi/util/theme-utils.dart';
@@ -65,7 +67,8 @@ class _StocksComponentState extends State<StocksComponent> {
       ));
     });
 
-    return Card(child:Column(
+    return Card(
+      child:Column(
       children: stockWidget,
     ));
   }

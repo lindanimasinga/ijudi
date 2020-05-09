@@ -22,7 +22,7 @@ class ApiService {
           badges: 2,
           likes: 35,
           servicesCompleted: 350,
-          bank: Bank(name: "FNB", account: "266881121283", type: "Cheque")),
+          bank: Bank(name: "FNB", account: "6900576239", type: "Cheque")),
       Shop(
           name: "Spar",
           description: "Sells veggies, meat, airtime and electricity.",
@@ -37,7 +37,7 @@ class ApiService {
           badges: 5,
           likes: 20,
           servicesCompleted: 850,
-          bank: Bank(name: "FNB", account: "266881121283", type: "Cheque")),
+          bank: Bank(name: "FNB", account: "6900576239", type: "Cheque")),
       Shop(
           name: "Sbonelo Tuckshop",
           description: "Sells veggies, fruits, airtime and electricity.",
@@ -52,7 +52,7 @@ class ApiService {
           badges: 1,
           likes: 20,
           servicesCompleted: 150,
-          bank: Bank(name: "FNB", account: "266881121283", type: "Cheque")),
+          bank: Bank(name: "FNB", account: "6900576239", type: "Cheque")),
       Shop(
           name: "Mthembeni Tuckshop",
           imageUrl:
@@ -67,11 +67,11 @@ class ApiService {
           badges: 0,
           likes: 3,
           servicesCompleted: 50,
-          bank: Bank(name: "FNB", account: "266881121283", type: "Cheque")),
+          bank: Bank(name: "FNB", account: "6900576239", type: "Cheque")),
           Shop(
           name: "Boxer Store",
           imageUrl:
-              "https://lh3.googleusercontent.com/proxy/1g8Zh_g5O4u5lANt8KLeuPZlZRmcPrvauqzHZzUaLkgMv5wiBppmQzKsYkxIP-R3p14rEMqDiwgIdkyL15RlIc0YD0xWv2CHrIRn5fxqbiNqjlW-XltSWVRSckpaTgKHbHZaB_jH",
+              "https://www.boxer.co.za/wp-content/uploads/2018/04/Boxer-Stores.jpg",
           id: "1",
           registrationNumber: "20170098087",
           mobileNumber: "0813114112",
@@ -82,7 +82,7 @@ class ApiService {
           badges: 0,
           likes: 3,
           servicesCompleted: 50,
-          bank: Bank(name: "FNB", account: "266881121283", type: "Cheque")),
+          bank: Bank(name: "FNB", account: "6900576239", type: "Cheque")),
           Shop(
           name: "Chester Butchery",
           imageUrl:
@@ -97,7 +97,7 @@ class ApiService {
           badges: 0,
           likes: 3,
           servicesCompleted: 50,
-          bank: Bank(name: "FNB", account: "266881121283", type: "Cheque")),
+          bank: Bank(name: "FNB", account: "6900576239", type: "Cheque")),
           Shop(
           name: "Themba Fastfood",
           imageUrl:
@@ -112,7 +112,7 @@ class ApiService {
           badges: 0,
           likes: 3,
           servicesCompleted: 50,
-          bank: Bank(name: "FNB", account: "266881121283", type: "Cheque")),
+          bank: Bank(name: "FNB", account: "6900576239", type: "Cheque")),
     ];
     return shops;
   }
@@ -148,7 +148,7 @@ class ApiService {
         badges: 1,
         likes: 20,
         servicesCompleted: 150,
-        bank: Bank(name: "FNB", account: "266881121283", type: "Cheque"));
+        bank: Bank(name: "FNB", account: "6900576239", type: "Cheque"));
 
     return shop;
   }
@@ -168,10 +168,10 @@ class ApiService {
         badges: 1,
         likes: 20,
         servicesCompleted: 150,
-        bank: Bank(name: "FNB",
-         account: "266881121283",
-         type: "Cheque",
-         cellphoneNumber: "0812815704",
+        bank: Bank(name: "Ukhese",
+         account: "6900576239",
+         type: "Wallet",
+         cellphoneNumber: "0812815707",
          currentBalance: 350.00,
          availableBalance: 325.00));
 

@@ -5,19 +5,19 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
 
 class IjudiAddressInputField extends StatefulWidget {
-  String hint;
-  Color color;
-  TextInputType type;
-  String text;
-  Function onTap;
-  bool enabled;
+  final String hint;
+  final Color color;
+  final TextInputType type;
+  final String text;
+  final Function onTap;
+  final bool enabled;
 
   IjudiAddressInputField(
       {@required this.hint,
       this.enabled,
       this.color = IjudiColors.color5,
       this.type,
-      this.text,
+      this.text = "",
       this.onTap});
 
   @override
@@ -43,7 +43,7 @@ class _StateIjudiAddressInputField extends State<IjudiAddressInputField> {
   TextEditingController controller;
 
   _StateIjudiAddressInputField(
-      @required this.hint,
+      this.hint,
       this.enabled,
       this.color,
       this.type,
@@ -56,7 +56,7 @@ class _StateIjudiAddressInputField extends State<IjudiAddressInputField> {
         text: text,
         selection:
             TextSelection.fromPosition(TextPosition(offset: text.length))));
-
+    double width = MediaQuery.of(context).size.width > 360 ? 190 : 150;
     return Row(children: <Widget>[
       Container(
         color: color,
@@ -70,7 +70,7 @@ class _StateIjudiAddressInputField extends State<IjudiAddressInputField> {
                 overflow: TextOverflow.ellipsis)),
       ),
       Container(
-          width: 190,
+          width: width,
           child: Padding(
               padding: EdgeInsets.only(left: 8, top: 4, bottom: 0),
               child: TextField(
@@ -99,7 +99,7 @@ class _StateIjudiAddressInputField extends State<IjudiAddressInputField> {
   }
 
   openAddressFinder(BuildContext context) async {
-    print("changed");
+    print("finding address....");
     Prediction p = await PlacesAutocomplete.show(
         context: context,
         apiKey: kGoogleApiKey,

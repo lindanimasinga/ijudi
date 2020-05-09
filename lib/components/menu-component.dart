@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/all-components.dart';
 import 'package:ijudi/view/all-shops-view.dart';
+import 'package:ijudi/view/login-view.dart';
 import 'package:ijudi/view/my-shops.dart';
 import 'package:ijudi/view/profile-view.dart';
 
@@ -35,7 +36,7 @@ class MenuComponent extends StatelessWidget {
                         ]
                       ),
                 Padding(padding: EdgeInsets.all(30)),      
-                Buttons.account(text: "Logout")    
+                Buttons.accountFlat(text: "Logout", action: () => Navigator.pushNamedAndRemoveUntil(context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false))    
                 ]
               )
       ]);

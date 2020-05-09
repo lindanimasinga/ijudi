@@ -1,30 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/components/ads-card-component.dart';
+import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/shop-component.dart';
-import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/viewmodel/all-shops-view-model.dart';
 
-class AllShopsView extends StatefulWidget {
+class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
 
   static const ROUTE_NAME = "shopping";
 
-  @override
-  _AllShopsViewState createState() => _AllShopsViewState();
+  AllShopsView({AllShopsViewModel viewModel}) : super(viewModel);
 
-}
-
-
-class _AllShopsViewState extends State<AllShopsView> {
-
-  
   @override
   Widget build(BuildContext context) {
 
-    List<Shop> shops = ApiService.findAllShopByLocation();
     List<ShopComponent> shopComponets = [];
-    shops.forEach((shop) => shopComponets.add(ShopComponent(shop: shop)));
+    viewModel.shops.forEach((shop) => shopComponets.add(ShopComponent(shop: shop)));
 
     return ScrollableParent(
       hasDrawer: true,

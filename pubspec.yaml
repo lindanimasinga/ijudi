@@ -19,15 +19,22 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_google_places: ^0.2.5  
+  flutter_google_places: ^0.2.4  
+  json_annotation: ^3.0.1
+  camera_camera: ^1.0.31
+  mobx: ^1.1.1
+  flutter_mobx: ^1.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  #cupertino_icons: ^0.1.2
+  cupertino_icons: ^0.1.2
 
 dev_dependencies:
-  #flutter_test:
-  #  sdk: flutter
+  flutter_test:
+    sdk: flutter
+  build_runner: ^1.9.0
+  json_serializable: ^3.3.0
+  mobx_codegen: ^1.0.3
 
 
 # For information on the generic Dart part of this file, see the
@@ -48,6 +55,7 @@ flutter:
     - assets/images/badge.png
     - assets/images/make-call.png
     - assets/images/checkout.png
+    - assets/images/uKhese-logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

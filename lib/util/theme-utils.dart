@@ -17,17 +17,19 @@ class JudiTheme {
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: IjudiColors.color2
-      )
+      ),
+      buttonTheme: ButtonThemeData(
+          buttonColor: Colors.white
+        )
     );
     
       final ThemeData dark = ThemeData.dark().copyWith(
-      cardTheme: CardTheme(
-        shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25))
-      ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: IjudiColors.color2
-      )
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: IjudiColors.color1
+        ),
+        buttonTheme: ButtonThemeData(
+            buttonColor: IjudiColors.color5
+        )
     );
 
 }
@@ -162,15 +164,37 @@ class Buttons {
       );
     }
 
-    static Widget account({String text}) {
+    static Widget account({String text, Function action}) {
       return Container(
         margin: EdgeInsets.only(bottom: 4),
         child: RaisedButton(
             padding: EdgeInsets.all(0),
-            onPressed: () => {},
+            onPressed: () => action(),
             shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(topRight: Radius.circular(25.0), bottomRight: Radius.circular(25.0))),
-            color: Colors.white,
+            child: Container(
+              height: 51,
+              width: 128,
+              child : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                      Text(text, style: accountButtonTextStyle,)
+                    ]
+              )
+            )
+          )
+      ); 
+    }
+
+    static Widget accountFlat({String text, Function action}) {
+      return Container(
+        margin: EdgeInsets.only(bottom: 4),
+        child: FlatButton(
+            padding: EdgeInsets.all(0),
+            onPressed: () => action(),
+            shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(topRight: Radius.circular(25.0), bottomRight: Radius.circular(25.0))),
             child: Container(
               height: 51,
               width: 128,
@@ -188,7 +212,7 @@ class Buttons {
 
     static Widget google() {
       return Container(
-        margin: EdgeInsets.all(4),
+        margin: EdgeInsets.all(16),
         child: FloatingActionButton(
             heroTag: "google",
             backgroundColor: Colors.white,
@@ -199,7 +223,7 @@ class Buttons {
 
     static Widget facebook() {
       return Container(
-        margin: EdgeInsets.all(4),
+        margin: EdgeInsets.all(16),
         child: FloatingActionButton(
             heroTag: "facebook",
             backgroundColor: IjudiColors.facebook,

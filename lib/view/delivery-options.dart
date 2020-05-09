@@ -7,53 +7,26 @@ import 'package:ijudi/components/ijudi-address-input-field.dart';
 import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/messager-preview-component.dart';
+import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/model/busket.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/payment-view.dart';
+import 'package:ijudi/viewmodel/delivery-option-view-model.dart';
 
-class DeliveryOptions extends StatefulWidget {
-  final Busket busket;
+class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
+  
   static const String ROUTE_NAME = "delivery";
 
-  DeliveryOptions({@required this.busket});
-
-  @override
-  _StateDeliveryOptions createState() => _StateDeliveryOptions(this.busket);
-}
-
-class _StateDeliveryOptions extends State<DeliveryOptions> {
-  static const kGoogleApiKey = "AIzaSyAZbvE4NBcJIplfzmy8cSEdSpbocBggylc";
-  final GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
-
-  Busket busket;
-  List<UserProfile> messangers;
-  bool _delivery = true;
-  Order newOrder;
-
-  _StateDeliveryOptions(this.busket);
-
-  @override
-  void initState() {
-    messangers = ApiService.findNearbyMessangers("");
-    newOrder = Order();
-    newOrder.busket = busket;
-    newOrder.shippingData = Shipping();
-    newOrder.shippingData.type = ShippingType.COLLECTION;
-    newOrder.shippingData.messanger = messangers[0];
-    newOrder.shippingData.fromAddress = busket.shop.name;
-    newOrder.shippingData.toAddress= busket.customer.address;
-    newOrder.shippingData.fee = 10;
-    super.initState();
-  }
+  DeliveryOptionsView({viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
     List<Widget> messageComponents = [];
-    messangers.forEach((mess) {
-      messageComponents.add(MessagerPreviewComponent(mess));
+    viewModel.messangers.forEach((mess) {
+      messageComponents.add(MessagerPreviewComponent(messenger: mess));
     });
 
     return ScrollableParent(
@@ -74,21 +47,21 @@ class _StateDeliveryOptions extends State<DeliveryOptions> {
                     padding: EdgeInsets.only(
                         bottom: 16, left: 16, right: 16, top: 16),
                     alignment: Alignment.center,
-                    child: BusketViewOnlyComponent(busket: busket),
+                    child: BusketViewOnlyComponent(busket: viewModel.busket),
                   ),
                   IjudiForm(
                       child: Row(
                     children: <Widget>[
                       Radio(
                         value: ShippingType.COLLECTION,
-                        groupValue: newOrder.shippingData.type,
-                        onChanged: (selection) => delivery = selection,
+                        groupValue: viewModel.newOrder.shippingData.type,
+                        onChanged: (selection) => viewModel.delivery = selection,
                       ),
                       Text('Collection', style: Forms.INPUT_TEXT_STYLE),
                       Radio(
                         value: ShippingType.DELIVERY,
-                        groupValue: newOrder.shippingData.type,
-                        onChanged: (selection) => delivery = selection,
+                        groupValue: viewModel.newOrder.shippingData.type,
+                        onChanged: (selection) => viewModel.delivery = selection,
                       ),
                       Text('Delivery', style: Forms.INPUT_TEXT_STYLE)
                     ],
@@ -100,14 +73,14 @@ class _StateDeliveryOptions extends State<DeliveryOptions> {
                       IjudiInputField(
                           hint: "From Shop",
                           enabled: false,
-                          text: busket.shop.name,
+                          text: viewModel.busket.shop.name,
                           color: IjudiColors.color5),
                       IjudiAddressInputField(
                           hint: "To Address",
                           enabled: true,
-                          text: customerAddress,
+                          text: viewModel.deliveryAddress,
                           color: IjudiColors.color5,
-                          onTap: (value) => delivery = value),
+                          onTap: (value) => viewModel.deliveryAddress = value),
                     ],
                   )),
                   Padding(padding: EdgeInsets.only(top: 16)),
@@ -127,7 +100,7 @@ class _StateDeliveryOptions extends State<DeliveryOptions> {
                     child: FloatingActionButton(
                       onPressed: () => Navigator.pushNamed(
                                   context, PaymentView.ROUTE_NAME,
-                                  arguments: newOrder),
+                                  arguments: viewModel.newOrder),
                       child: Icon(Icons.arrow_forward),
                     ),
                   )
@@ -136,31 +109,4 @@ class _StateDeliveryOptions extends State<DeliveryOptions> {
         ]));
   }
 
-  get delivery => newOrder.shippingData.type;
-  set delivery(ShippingType value) {
-    newOrder.shippingData.type = value;
-    setState(() {});
-  }
-
-  get customerAddress => newOrder.busket.customer.address;
-  set customerAddress(String value) {
-    newOrder.busket.customer.address = value;
-    setState(() {});
-  }
-
-  openAddressFinder() async {
-    print("changed");
-    Prediction p = await PlacesAutocomplete.show(
-        context: context,
-        apiKey: kGoogleApiKey,
-        mode: Mode.fullscreen, // Mode.fullscreen
-        language: "za",
-        components: [Component(Component.country, "za")]);
-    if (p != null) {
-      // get detail (lat/lng)
-      PlacesDetailsResponse detail =
-          await _places.getDetailsByPlaceId(p.placeId);
-      customerAddress = detail.result.formattedAddress;
-    }
-  }
 }
