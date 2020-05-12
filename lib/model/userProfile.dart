@@ -17,6 +17,7 @@ class UserProfile extends Profile {
       int likes,
       int servicesCompleted,
       int badges,
+      String verificationCode,
       @required String mobileNumber,
       @required String role,
       @required Bank bank})
@@ -31,6 +32,7 @@ class UserProfile extends Profile {
             servicesCompleted: servicesCompleted,
             badges: badges,
             mobileNumber: mobileNumber,
+            verificationCode: verificationCode,
             role: role,
             bank: bank);
 }

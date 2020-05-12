@@ -35,7 +35,8 @@ class ScrollableParent extends StatelessWidget {
                   ))
                 ],
             ),
-          drawer: hasDrawer ?Drawer(child: MenuComponent()) : null
+          drawer: hasDrawer ?Drawer(child: MenuComponent()) : null,
+          
     ); 
   }
 }

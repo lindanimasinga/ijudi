@@ -1,9 +1,8 @@
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/shop.dart';
-import 'package:ijudi/view/all-shops-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
-class AllShopsViewModel extends BaseViewModel<AllShopsView> {
+class AllShopsViewModel extends BaseViewModel {
 
   List<Shop> _shops = [];
   List<Shop> get shops => _shops;

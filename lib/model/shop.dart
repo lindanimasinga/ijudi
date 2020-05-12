@@ -15,6 +15,7 @@ class Shop extends Profile {
       int likes,
       @required int servicesCompleted,
       int badges,
+      String verificationCode,
       @required String mobileNumber,
       @required String role, 
       @required Bank bank})
@@ -29,6 +30,7 @@ class Shop extends Profile {
             servicesCompleted: servicesCompleted,
             badges: badges,
             mobileNumber: mobileNumber,
+            verificationCode: verificationCode,
             role: role,
             bank: bank);
 }

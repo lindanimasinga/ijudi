@@ -1,11 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/busket.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/userProfile.dart';
-import 'package:ijudi/view/delivery-options.dart';
+import 'package:ijudi/view/payment-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
-class DeliveryOptionsViewModel extends BaseViewModel<DeliveryOptionsView> {
+class DeliveryOptionsViewModel extends BaseViewModel {
 
   final Busket busket;
   
@@ -51,6 +52,10 @@ class DeliveryOptionsViewModel extends BaseViewModel<DeliveryOptionsView> {
     newOrder.shippingData.fromAddress = busket.shop.name;
     newOrder.shippingData.toAddress= busket.customer.address;
     newOrder.shippingData.fee = 10;
+  }
+
+  proceed() {
+    Navigator.pushNamed(context, PaymentView.ROUTE_NAME, arguments: newOrder);
   }
   
 }

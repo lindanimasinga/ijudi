@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
+import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/messager-preview-component.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/order-component.dart';
@@ -60,12 +61,10 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                                 UkheshePaymentComponent(viewModel.order.busket.customer)),
                         Padding(
                           padding: EdgeInsets.only(left: 16, bottom: 24),
-                        child: FloatingActionButton(
+                        child: FloatingActionButtonWithProgress(
+                          viewModel: viewModel.progressMv,
                           onPressed: () {
-                            UkhesheService.paymentForOrder(viewModel.order)
-                                .listen((event) {
-                              print("pending");
-                            });
+                            viewModel.processPayment();
                           },
                           child: Icon(Icons.arrow_forward),
                         )),

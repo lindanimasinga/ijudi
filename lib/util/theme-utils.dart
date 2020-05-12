@@ -9,6 +9,7 @@ class JudiTheme {
       backgroundColor: IjudiColors.backgroud,
       scaffoldBackgroundColor: IjudiColors.backgroud,
       primaryColor: IjudiColors.color2,
+      accentColor: IjudiColors.color2,
       accentColorBrightness: Brightness.light,
       primaryColorBrightness: Brightness.light,
       appBarTheme: AppBarTheme(
@@ -265,6 +266,7 @@ class IjudiColors {
   static const color3 = Color(0XFFd69447);
   static const color4 = Color(0XFF1083a5);
   static const color5 = Color(0XFF707070);
+  static const color6 = Color(0XFFA2A2A2);
   static const facebook = Color(0XFF1778f2);
   static const backgroud = Color(0XFFF8F7F7);
 }
@@ -358,6 +360,17 @@ class IjudiStyles {
     fontSize: 12,
     fontFamily: "Roboto",
     color: IjudiColors.color1
+  );
+
+  static const COUNT_DOWN = TextStyle(
+    fontSize: 26,
+    fontWeight: FontWeight.w500,
+    fontFamily: "Roboto",
+  );
+
+    static const COUNT_DOWN_LABEL = TextStyle(
+    fontSize: 14,
+    fontFamily: "Roboto",
   );
 
 }

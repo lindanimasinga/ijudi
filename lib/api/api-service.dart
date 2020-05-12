@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ijudi/model/busket.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/stock.dart';
@@ -196,5 +197,13 @@ class ApiService {
     messagers.add(messager2);
 
     return messagers;
+  }
+
+  static Stream<dynamic> registerUser(UserProfile user) {
+    return Future.delayed(Duration(seconds: 2)).asStream();
+  }
+
+  static Stream<dynamic> verifyCanBuy(Busket busket) {
+    return Future.delayed(Duration(seconds: 2)).asStream();
   }
 }

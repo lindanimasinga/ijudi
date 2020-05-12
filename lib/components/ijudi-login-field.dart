@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/util/theme-utils.dart';
 
 class IjudiLoginField extends StatelessWidget {
-  String hint;
-  Color color;
-  TextInputType type;
-  Icon icon;
-  Function onTap;
-  bool enabled;
+  
+  final String hint;
+  final Color color;
+  final bool isPassword;
+  final Icon icon;
+  final TextInputType type;
+  final Function onTap;
+  final bool enabled;
 
   IjudiLoginField(
       {@required this.hint,
       this.enabled,
       this.color = IjudiColors.color5,
-      this.type,
+      this.isPassword = false,
       this.icon,
-      this.onTap});
+      this.onTap, 
+      this.type = TextInputType.text});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +37,7 @@ class IjudiLoginField extends StatelessWidget {
           child: Padding(
               padding: EdgeInsets.only(left: 8, top: 4, bottom: 0),
               child: TextField(
+                obscureText: isPassword,
                 keyboardType: type,
                 enabled: enabled,
                 onChanged: (value) => onTap(value),

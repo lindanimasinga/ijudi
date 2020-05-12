@@ -1,13 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/busket-item.dart';
 import 'package:ijudi/model/busket.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/stock.dart';
 import 'package:ijudi/services/busket-service.dart';
-import 'package:ijudi/view/start-shopping.dart';
+import 'package:ijudi/view/delivery-options.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
-class StartShoppingViewModel extends BaseViewModel<StartShoppingView> {
+class StartShoppingViewModel extends BaseViewModel {
   final Shop _shop;
   Shop get shop => _shop;
 
@@ -42,5 +43,14 @@ class StartShoppingViewModel extends BaseViewModel<StartShoppingView> {
   void add(busketItem) {
     busket.addItem(busketItem);
     notifyChanged();
+  }
+
+  void verifyItemsAvailable() {
+    progressMv.isBusy = true;
+    var subscr = ApiService.verifyCanBuy(busket).listen(null);
+    subscr.onData((data) {
+      Navigator.pushNamed(context, DeliveryOptionsView.ROUTE_NAME, arguments: busket);
+    });
+    subscr.onDone(() => progressMv.isBusy = false);
   }
 }

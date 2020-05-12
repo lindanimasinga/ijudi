@@ -14,6 +14,7 @@ abstract class Profile {
   String mobileNumber;
   String role;
   int responseTimeMinutes;
+  String verificationCode;
   Bank bank;
 
   Profile(
@@ -25,6 +26,7 @@ abstract class Profile {
       this.likes,
       this.servicesCompleted,
       this.badges,
+      this.verificationCode,
       @required this.mobileNumber,
       @required this.role,
       @required this.id, 

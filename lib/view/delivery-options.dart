@@ -98,9 +98,7 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
                     alignment: Alignment.center,
                     margin: EdgeInsets.only(left: 16, right: 16, bottom: 16),
                     child: FloatingActionButton(
-                      onPressed: () => Navigator.pushNamed(
-                                  context, PaymentView.ROUTE_NAME,
-                                  arguments: viewModel.newOrder),
+                      onPressed: () => viewModel.proceed(),
                       child: Icon(Icons.arrow_forward),
                     ),
                   )

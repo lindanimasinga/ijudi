@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/busket-component.dart';
+import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/profile-header-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
@@ -45,10 +46,9 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text("Busket",style: IjudiStyles.HEADER_TEXT),
-                            FloatingActionButton(
-                              onPressed: () => Navigator.pushNamed(
-                                  context, DeliveryOptionsView.ROUTE_NAME,
-                                  arguments: viewModel.busket),
+                            FloatingActionButtonWithProgress(
+                              viewModel: viewModel.progressMv,
+                              onPressed: () => viewModel.verifyItemsAvailable(),
                               child: Icon(Icons.arrow_forward)
                               )
                           ],

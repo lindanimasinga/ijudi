@@ -1,30 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/components/ijudi-address-input-field.dart';
 import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
+import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/profile-header-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
-import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/viewmodel/my-shops-view-model.dart';
 
-class MyShopsView extends StatefulWidget {
+class MyShopsView extends MvStatefulWidget<MyShopsViewModel> {
   
   static const String ROUTE_NAME = "myshops";
 
-  @override
-  _MyShopsViewState createState() => _MyShopsViewState();
-}
-
-class _MyShopsViewState extends State<MyShopsView> {
-  
-  Shop storeProfile;
-
-  @override
-  void initState() {
-    storeProfile = ApiService.findShopById("idfromotherscreen");
-    super.initState();
-  }
+  MyShopsView({viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +24,15 @@ class _MyShopsViewState extends State<MyShopsView> {
         children: <Widget>[
           Headers.getShopHeader(context),
           Container(
-            margin: EdgeInsets.only(right: 16),
             width: MediaQuery.of(context).size.width,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: 16),
+                  padding: EdgeInsets.only(left: 16, right: 16),
                   child: ProfileHeaderComponent(
-                    profile: storeProfile,
+                    profile: viewModel.shop,
                     profilePicBorder: IjudiColors.color1
                   )
                 ),
@@ -58,11 +45,11 @@ class _MyShopsViewState extends State<MyShopsView> {
                 IjudiForm( 
                   child: Column(
                           children: <Widget>[
-                            IjudiInputField(hint: 'Shop Name', type: TextInputType.phone, text: storeProfile.name),
-                            IjudiInputField(hint: 'Company Reg Number', type: TextInputType.visiblePassword, text: storeProfile.registrationNumber),
-                            IjudiInputField(hint: 'Description', type: TextInputType.text, text: storeProfile.description),
-                            IjudiInputField(hint: 'Years in service', type: TextInputType.text, text: "${storeProfile.yearsInService}"),
-                            IjudiAddressInputField(hint: 'Address', type: TextInputType.number, text: storeProfile.address)
+                            IjudiInputField(hint: 'Shop Name', type: TextInputType.phone, text: viewModel.shop.name),
+                            IjudiInputField(hint: 'Company Reg Number', type: TextInputType.visiblePassword, text: viewModel.shop.registrationNumber),
+                            IjudiInputField(hint: 'Description', type: TextInputType.text, text: viewModel.shop.description),
+                            IjudiInputField(hint: 'Years in service', type: TextInputType.text, text: "${viewModel.shop.yearsInService}"),
+                            IjudiAddressInputField(hint: 'Address', type: TextInputType.number, text: viewModel.shop.address)
                           ],
                   ),
                 ),
@@ -75,9 +62,9 @@ class _MyShopsViewState extends State<MyShopsView> {
                 IjudiForm( 
                   child: Column(
                         children: <Widget>[
-                          IjudiInputField(hint: 'Bank Name', type: TextInputType.text, text: storeProfile.bank.name),
-                          IjudiInputField(hint: 'Account Number', type: TextInputType.text, text: storeProfile.bank.account),
-                          IjudiInputField(hint: 'Account Type', type: TextInputType.text, text: storeProfile.bank.type)
+                          IjudiInputField(hint: 'Bank Name', type: TextInputType.text, text: viewModel.shop.bank.name),
+                          IjudiInputField(hint: 'Account Number', type: TextInputType.text, text: viewModel.shop.bank.account),
+                          IjudiInputField(hint: 'Account Type', type: TextInputType.text, text: viewModel.shop.bank.type)
                         ],
                   ),
                 ),

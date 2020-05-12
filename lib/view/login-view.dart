@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-login-field.dart';
+import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/util/theme-utils.dart';
-import 'package:ijudi/view/all-shops-view.dart';
-import 'package:ijudi/view/register-view.dart';
+import 'package:ijudi/viewmodel/login-view-model.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends MvStatefulWidget<LoginViewModel> {
+  
   static const String ROUTE_NAME = "/";
+
+  LoginView({LoginViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
        appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.white),
@@ -31,26 +36,28 @@ class LoginView extends StatelessWidget {
                             children: <Widget>[
                               IjudiLoginField(
                                   hint: "Cell Number",
+                                  type: TextInputType.phone,
                                   icon: Icon(Icons.phone_android,
                                       size: 22,
                                       color: Colors.white),
-                                  type: TextInputType.phone,
+                                  onTap: (number) => viewModel.username = number,
                                   color: IjudiColors.color5),
                               IjudiLoginField(
                                 hint: "Password",
                                 icon: Icon(Icons.lock,
                                       size: 22,
-                                      color: Colors.white),
-                                type: TextInputType.visiblePassword,
+                                      color: Colors.white,),
+                                isPassword: true,
+                                onTap: (pass) => viewModel.password = pass,
                                 color: IjudiColors.color5,
                               ),
                             ],
                           ),
                         ),
                         Padding(padding: EdgeInsets.only(right: 16)),
-                        FloatingActionButton(
-                          onPressed: () => Navigator.pushNamedAndRemoveUntil(context, 
-                                                AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false),
+                        FloatingActionButtonWithProgress(
+                          viewModel: viewModel.progressMv,
+                          onPressed: () => viewModel.login(),
                           child: Icon(Icons.arrow_forward),
                         )
                       ],
@@ -65,11 +72,11 @@ class LoginView extends StatelessWidget {
                     Padding(padding: EdgeInsets.only(bottom: 32)),
                     Container(
                       alignment: Alignment.topLeft,
-                      child: Buttons.account(
+                      child: Buttons.account( 
                                 text: "Register",
-                                action: () => Navigator.pushNamed(context, 
-                                                RegisterView.ROUTE_NAME),
-                    ))
+                                action: () => viewModel.register(),
+                              )
+                    )
               ])
               ),
               Container(

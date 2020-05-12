@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:ijudi/api/ukheshe/model/jwt-response.dart';
 import 'package:ijudi/model/order.dart';
+import 'package:ijudi/model/profile.dart';
 import 'model/payment-response.dart';
 
 class UkhesheService {
   
+  static const TIMEOUT_SEC = 20;
   static String apiBaseUrl = "https://api.ukheshe.co.za/ukheshe-conductor/rest/v1";
   static Map<String, String> headers = {"Content-Type": "application/json"};
   static JWTResponse jwtResponse;
@@ -17,15 +19,13 @@ class UkhesheService {
     print("authenticating");
     return http
         .post('$apiBaseUrl/login', headers: headers, body: json.encode(request))
+        .timeout(Duration(seconds: TIMEOUT_SEC))
         .asStream()
-        .map((data) {
-          print("response");
-          return data.statusCode != 401? 
-                  JWTResponse.fromJson(json.decode(data.body)) : null;}
-        )
-        .map((response) {
-          jwtResponse = response;
-          print("response");
+        .map((data) =>
+          data.statusCode != 200? throw(data) :
+          JWTResponse.fromJson(json.decode(data.body))
+        ).map((data) {
+          jwtResponse = data;
           return jwtResponse;
         });
   }
@@ -53,10 +53,15 @@ class UkhesheService {
     return http
         .post('$apiBaseUrl/transfers', headers: headers, body: json.encode(request))
         .asStream()
+        .timeout(Duration(seconds: TIMEOUT_SEC))
         .map((data) {
           print("response " + data.statusCode.toString());
           return data.statusCode != 401? 
                   PaymentResponse.fromJson(json.decode(data.body)) : null;}
         );
+  }
+
+  static Stream<String> registerUkhesheAccount(Bank bank) {
+    return Stream.value("200");
   }
 }
