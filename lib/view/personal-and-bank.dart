@@ -77,7 +77,7 @@ class _PersonalAndBankViewState extends State<PersonalAndBankView> {
                   child: Column(
                           children: <Widget>[
                             IjudiInputField(hint: 'Bank Name', type: TextInputType.text, text: userProfile.bank.name),
-                            IjudiInputField(hint: 'Account Number', type: TextInputType.text, text: userProfile.bank.account),
+                            IjudiInputField(hint: 'Account Number', type: TextInputType.text, text: userProfile.bank.accountId),
                             IjudiInputField(hint: 'Account Type', type: TextInputType.text, text: userProfile.bank.type)
                           ],
                   ),

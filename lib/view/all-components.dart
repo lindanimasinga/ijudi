@@ -4,6 +4,7 @@ import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/shop-component.dart';
+import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/util/theme-utils.dart';
 
 class AllComponentsView extends StatelessWidget {
@@ -59,9 +60,9 @@ class AllComponentsView extends StatelessWidget {
                   Buttons.menuItem(text: "Settings", color: IjudiColors.color5, isLast: true)
                 ]
             ),
-            AdsCardComponent(color: IjudiColors.color2, imageUrl: "https://www.findspecials.co.za/files/spar(1).PNG",),
-            AdsCardComponent(color: IjudiColors.color1, imageUrl: "https://www.findspecials.co.za/files/spar(1).PNG",),
-            AdsCardComponent(color: IjudiColors.color3, imageUrl: "https://www.findspecials.co.za/files/spar(1).PNG",),
+            AdsCardComponent(color: IjudiColors.color2, advert: Advert(imageUrl: "https://www.findspecials.co.za/files/spar(1).PNG"),),
+            AdsCardComponent(color: IjudiColors.color1, advert: Advert(imageUrl: "https://www.findspecials.co.za/files/spar(1).PNG"),),
+            AdsCardComponent(color: IjudiColors.color3, advert: Advert(imageUrl: "https://www.findspecials.co.za/files/spar(1).PNG"),),
             IJudiCard()
           ]
         )

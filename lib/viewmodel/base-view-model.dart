@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
+import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/viewmodel/progress-view-model.dart';
 
 abstract class BaseViewModel extends State {
@@ -8,7 +9,7 @@ abstract class BaseViewModel extends State {
   bool _hasError = false;
   String _errorMessage = "";
   Function buildFunction;
-  Function initFunction;
+  Function initWidgetFunction;
 
   String get errorMessage => _errorMessage;
   set errorMessage(String errorMessage) {
@@ -31,7 +32,7 @@ abstract class BaseViewModel extends State {
   @override
   void initState() {
     super.initState();
-    initFunction();
+    initWidgetFunction();
     initialize();
     progressMv = ProgressViewModel();
   }
@@ -47,6 +48,6 @@ abstract class BaseViewModel extends State {
 
   notifyChanged() => setState(() {});
 
-  get currentUser => ApiService.findUserById("s");
+  Profile get currentUser => ApiService.findUserById("s");
 
 }

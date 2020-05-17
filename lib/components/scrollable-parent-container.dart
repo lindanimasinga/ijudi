@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/menu-component.dart';
+import 'package:ijudi/util/theme-utils.dart';
 
 class ScrollableParent extends StatelessWidget {
   
@@ -19,7 +20,14 @@ class ScrollableParent extends StatelessWidget {
     final Brightness brightnessValue = MediaQuery.of(context).platformBrightness;
     bool isLight = brightnessValue == Brightness.light;
     return Scaffold(
-        body: CustomScrollView(
+        body: 
+        Stack(
+          children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height/2,
+              color: appBarColor,
+            ),
+            CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
                     iconTheme: IconThemeData(color: !isLight || appBarColor is Color ? Colors.white : Colors.black),
@@ -29,13 +37,20 @@ class ScrollableParent extends StatelessWidget {
                             )),
                     
                   ),
-                  SliverList(delegate: SliverChildListDelegate([
-                      child
+                  SliverList(
+                    delegate: SliverChildListDelegate([
+                      Container(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        child : child
+                      )
                     ]
                   ))
                 ],
-            ),
-          drawer: hasDrawer ?Drawer(child: MenuComponent()) : null,
+            )],
+        ),
+        drawer: hasDrawer ?Drawer(
+          child: MenuComponent()
+        ) : null,
           
     ); 
   }

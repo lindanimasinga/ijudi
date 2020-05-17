@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/model/busket.dart';
+import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/stock.dart';
@@ -23,7 +25,7 @@ class ApiService {
           badges: 2,
           likes: 35,
           servicesCompleted: 350,
-          bank: Bank(name: "FNB", account: "6900576239", type: "Cheque")),
+          bank: Bank(name: "FNB", accountId: "2885091160", type: "Cheque")),
       Shop(
           name: "Spar",
           description: "Sells veggies, meat, airtime and electricity.",
@@ -38,7 +40,7 @@ class ApiService {
           badges: 5,
           likes: 20,
           servicesCompleted: 850,
-          bank: Bank(name: "FNB", account: "6900576239", type: "Cheque")),
+          bank: Bank(name: "FNB", accountId: "2885091160", type: "Cheque")),
       Shop(
           name: "Sbonelo Tuckshop",
           description: "Sells veggies, fruits, airtime and electricity.",
@@ -53,7 +55,7 @@ class ApiService {
           badges: 1,
           likes: 20,
           servicesCompleted: 150,
-          bank: Bank(name: "FNB", account: "6900576239", type: "Cheque")),
+          bank: Bank(name: "FNB", accountId: "2885091160", type: "Cheque")),
       Shop(
           name: "Mthembeni Tuckshop",
           imageUrl:
@@ -68,8 +70,8 @@ class ApiService {
           badges: 0,
           likes: 3,
           servicesCompleted: 50,
-          bank: Bank(name: "FNB", account: "6900576239", type: "Cheque")),
-          Shop(
+          bank: Bank(name: "FNB", accountId: "2885091160", type: "Cheque")),
+      Shop(
           name: "Boxer Store",
           imageUrl:
               "https://www.boxer.co.za/wp-content/uploads/2018/04/Boxer-Stores.jpg",
@@ -83,11 +85,10 @@ class ApiService {
           badges: 0,
           likes: 3,
           servicesCompleted: 50,
-          bank: Bank(name: "FNB", account: "6900576239", type: "Cheque")),
-          Shop(
+          bank: Bank(name: "FNB", accountId: "2885091160", type: "Cheque")),
+      Shop(
           name: "Chester Butchery",
-          imageUrl:
-              "https://pbs.twimg.com/media/BeFonWZCYAAi9BJ.jpg",
+          imageUrl: "https://pbs.twimg.com/media/BeFonWZCYAAi9BJ.jpg",
           id: "1",
           registrationNumber: "20170098087",
           mobileNumber: "0813114112",
@@ -98,8 +99,8 @@ class ApiService {
           badges: 0,
           likes: 3,
           servicesCompleted: 50,
-          bank: Bank(name: "FNB", account: "6900576239", type: "Cheque")),
-          Shop(
+          bank: Bank(name: "FNB", accountId: "2885091160", type: "Cheque")),
+      Shop(
           name: "Themba Fastfood",
           imageUrl:
               "https://cdn.24.co.za/files/Cms/General/d/4968/485b8622d96b49be8df4977f58522f19.jpg",
@@ -113,26 +114,26 @@ class ApiService {
           badges: 0,
           likes: 3,
           servicesCompleted: 50,
-          bank: Bank(name: "FNB", account: "6900576239", type: "Cheque")),
+          bank: Bank(name: "FNB", accountId: "2885091160", type: "Cheque")),
     ];
     return shops;
   }
 
-  static List<Stock> findAllStockByShopId(String s) {
+  static Stream<List<Stock>> findAllStockByShopId(String s) {
     List<Stock> stock = [
       Stock(
         name: "Eggs",
         quantity: 20,
-        price: 16.00,
+        price: 00.00,
       ),
-      Stock(name: "Bread", quantity: 50, price: 14.50),
+      Stock(name: "Bread", quantity: 50, price: 35.00),
       Stock(name: "Banana", quantity: 20, price: 10.50),
-      Stock(name: "Eggs 6", quantity: 20, price: 11.00),
+      Stock(name: "Eggs 6", quantity: 20, price: 0.00),
       Stock(name: "Airtime", quantity: 20, price: 16.00),
       Stock(name: "Banana", quantity: 20, price: 10.50),
-      Stock(name: "Eggs 6", quantity: 20, price: 11.00)
+      Stock(name: "Eggs 6", quantity: 20, price: 0.00)
     ];
-    return stock;
+    return Stream.value(stock);
   }
 
   static Shop findShopById(String s) {
@@ -149,7 +150,7 @@ class ApiService {
         badges: 1,
         likes: 20,
         servicesCompleted: 150,
-        bank: Bank(name: "FNB", account: "6900576239", type: "Cheque"));
+        bank: Bank(name: "Ukheshe", accountId: "2885091160", type: "Wallet"));
 
     return shop;
   }
@@ -169,12 +170,13 @@ class ApiService {
         badges: 1,
         likes: 20,
         servicesCompleted: 150,
-        bank: Bank(name: "Ukhese",
-         account: "6900576239",
-         type: "Wallet",
-         cellphoneNumber: "0812815707",
-         currentBalance: 350.00,
-         availableBalance: 325.00));
+        bank: Bank(
+            name: "Ukhese",
+            accountId: "2885091160",
+            type: "Wallet",
+            phone: "0812815707",
+            currentBalance: 0.00,
+            availableBalance: 0.00));
 
     return profile;
   }
@@ -186,14 +188,16 @@ class ApiService {
     messager1.name = "Sandile Ngema";
     messager1.likes = 12;
     messager1.responseTimeMinutes = 2 + Random().nextInt(13);
-    messager1.imageUrl = "https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/man-raising-hand-medium-dark-skin-tone.png";
+    messager1.imageUrl =
+        "https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/man-raising-hand-medium-dark-skin-tone.png";
     messagers.add(messager1);
 
     var messager2 = findUserById("");
     messager2.name = "Xolani Shezi";
     messager2.likes = 12;
     messager2.responseTimeMinutes = 2 + Random().nextInt(13);
-    messager2.imageUrl = "https://i.pinimg.com/236x/5b/11/99/5b1199b7336b689439563863d8b911e1--black-fathers-father-christmas.jpg";
+    messager2.imageUrl =
+        "https://i.pinimg.com/236x/5b/11/99/5b1199b7336b689439563863d8b911e1--black-fathers-father-christmas.jpg";
     messagers.add(messager2);
 
     return messagers;
@@ -205,5 +209,43 @@ class ApiService {
 
   static Stream<dynamic> verifyCanBuy(Busket busket) {
     return Future.delayed(Duration(seconds: 2)).asStream();
+  }
+
+  static findAllAdsByLocation() {
+    return <Advert>[
+      Advert(
+        imageUrl:
+            "https://www.foodinaminute.co.nz/var/fiam/storage/images/recipes/mexican-bean-and-corn-pies/7314837-14-eng-US/Mexican-Bean-and-Corn-Pies_recipeimage.jpg",
+      ),
+      Advert(
+        imageUrl:
+            "https://sowetourban.co.za/wp-content/uploads/sites/112/2018/08/IMG_4251_27897_tn-520x400.jpg",
+      ),
+      Advert(
+        imageUrl:
+            "https://snapsizzleandcook.co.za/wp-content/uploads/2018/07/images1.jpg",
+      ),
+      Advert(
+        imageUrl:
+            "https://i.pinimg.com/236x/76/ab/66/76ab66a5e774d4deaf21ce7c02806a32--the-ad-advertising-design.jpg",
+      )
+    ];
+  }
+
+  static Stream<String> updateShop(Shop shop) {
+    return Future.delayed(Duration(seconds: 2))
+      .asStream()
+      .map((resp) => "200");
+  }
+
+  static Stream<String> addStockItem(String id, Stock stock) {
+    return Future.delayed(Duration(seconds: 2))
+      .asStream()
+      .map((resp) => "200");
+  }
+
+  static Stream<Order> startOrder(Order order) {
+    return  Future.delayed(Duration(seconds: 2)).asStream()
+              .map((re) => order);
   }
 }

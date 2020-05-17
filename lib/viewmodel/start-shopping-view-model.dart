@@ -9,6 +9,7 @@ import 'package:ijudi/view/delivery-options.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class StartShoppingViewModel extends BaseViewModel {
+  
   final Shop _shop;
   Shop get shop => _shop;
 
@@ -30,7 +31,6 @@ class StartShoppingViewModel extends BaseViewModel {
 
   @override
   void initialize() {
-    stock = ApiService.findAllStockByShopId(shop.id);
     busket = BusketService().createNew(currentUser, shop);
   }
 
@@ -49,7 +49,8 @@ class StartShoppingViewModel extends BaseViewModel {
     progressMv.isBusy = true;
     var subscr = ApiService.verifyCanBuy(busket).listen(null);
     subscr.onData((data) {
-      Navigator.pushNamed(context, DeliveryOptionsView.ROUTE_NAME, arguments: busket);
+      Navigator.pushNamed(context, DeliveryOptionsView.ROUTE_NAME,
+          arguments: busket);
     });
     subscr.onDone(() => progressMv.isBusy = false);
   }

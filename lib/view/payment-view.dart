@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
+import 'package:ijudi/components/ijudi-form.dart';
+import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/messager-preview-component.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/order-component.dart';
@@ -17,6 +18,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
 
   @override
   Widget build(BuildContext context) {
+
     return ScrollableParent(
         hasDrawer: false,
         appBarColor: IjudiColors.color3,
@@ -64,6 +66,10 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                         child: FloatingActionButtonWithProgress(
                           viewModel: viewModel.progressMv,
                           onPressed: () {
+                            if(viewModel.isBalanceLow) {
+                              _showLowBalanceMessage(context);
+                              return;
+                            }
                             viewModel.processPayment();
                           },
                           child: Icon(Icons.arrow_forward),
@@ -72,5 +78,46 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                     )
                   ]))
         ]));
+  }
+
+  _showLowBalanceMessage(BuildContext context) {
+    showMessageDialog(
+        context,
+        title: "Insufficient Funds",
+        actionName: "Topup",
+        child:
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[ 
+              Padding(padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text("Your order costs R${viewModel.order.totalAmount}", style: Forms.INPUT_TEXT_STYLE),
+                    Text("Your Available Balance is R${viewModel.order.busket.customer.bank.availableBalance}", style: Forms.INPUT_TEXT_STYLE),
+                    Text(""),
+                    Image.asset("assets/images/uKhese-logo.png", width: 90),
+                    Text("Please topup to finish your order.", style: Forms.INPUT_TEXT_STYLE),
+                  ],
+                )
+              ),
+              IjudiInputField(
+                  hint: "Amount",
+                  type: TextInputType.numberWithOptions(decimal: true),
+                  text: viewModel.topupAmount,
+                  onTap: (value) => viewModel.topupAmount = value,
+              ),
+            ]
+          ),
+        action: () {
+          viewModel.topUp()
+            .onData((topUpData) {
+              showWebViewDialog(context,
+               header: Image.asset("assets/images/uKhese-logo.png", width: 20),
+               url: "${viewModel.baseUrl}${topUpData.completionUrl}",
+               doneAction: () => viewModel.fetchNewAccountBalances());
+            });
+        });
   }
 }

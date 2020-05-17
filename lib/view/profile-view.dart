@@ -109,7 +109,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 children: <Widget>[
                                   Text("Card Number",
                                       style: IjudiStyles.CARD_DISCR),
-                                  Text("${userProfile.bank.account}",
+                                  Text("${userProfile.bank.accountId}",
                                       style: IjudiStyles.CARD_DISCR_ITAL)
                                 ],
                               )

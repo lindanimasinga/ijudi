@@ -8,11 +8,13 @@ class Order {
   Shipping shippingData;
   Busket busket;
   String id = Random().nextInt(1000000).toString();
+  DateTime date = DateTime.now();
   int _stage = 0;
 
   int get stage => _stage;
   
-  get totalAmount => busket.getBusketTotalAmount() + shippingData.fee;
+  double get totalAmount => busket.getBusketTotalAmount() + shippingData.fee;
+  UserProfile get customer => busket.customer;
 
   void moveNextStage() {
     if(_stage < 3 )

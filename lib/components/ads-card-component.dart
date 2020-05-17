@@ -1,10 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:ijudi/model/advert.dart';
 
 class AdsCardComponent extends StatelessWidget {
   final Color color;
-  final String imageUrl;
+  final Advert advert;
 
-  AdsCardComponent({@required this.color, @required this.imageUrl});
+  AdsCardComponent({@required this.color, @required this.advert});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class AdsCardComponent extends StatelessWidget {
           child: FittedBox(
               fit: BoxFit.cover,
               alignment: Alignment.center,
-              child: Image.network(imageUrl),
+              child: CachedNetworkImage(imageUrl: advert.imageUrl),
             )),
         );
   }

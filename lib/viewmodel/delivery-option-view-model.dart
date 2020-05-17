@@ -51,11 +51,19 @@ class DeliveryOptionsViewModel extends BaseViewModel {
     newOrder.shippingData.messanger = messangers[0];
     newOrder.shippingData.fromAddress = busket.shop.name;
     newOrder.shippingData.toAddress= busket.customer.address;
-    newOrder.shippingData.fee = 10;
+    newOrder.shippingData.fee = 0;
   }
 
-  proceed() {
-    Navigator.pushNamed(context, PaymentView.ROUTE_NAME, arguments: newOrder);
+  startOrder() {
+    progressMv.isBusy = true;
+    ApiService.startOrder(newOrder)
+      .listen((persistedOrder) {
+        newOrder = persistedOrder;
+        Navigator.pushNamed(context, PaymentView.ROUTE_NAME, arguments: newOrder);
+      },
+      onDone: () {
+        progressMv.isBusy = false;
+      });
   }
   
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-address-input-field.dart';
 import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
@@ -63,7 +64,7 @@ class MyShopsView extends MvStatefulWidget<MyShopsViewModel> {
                   child: Column(
                         children: <Widget>[
                           IjudiInputField(hint: 'Bank Name', type: TextInputType.text, text: viewModel.shop.bank.name),
-                          IjudiInputField(hint: 'Account Number', type: TextInputType.text, text: viewModel.shop.bank.account),
+                          IjudiInputField(hint: 'Account Number', type: TextInputType.text, text: viewModel.shop.bank.accountId),
                           IjudiInputField(hint: 'Account Type', type: TextInputType.text, text: viewModel.shop.bank.type)
                         ],
                   ),
@@ -71,8 +72,9 @@ class MyShopsView extends MvStatefulWidget<MyShopsViewModel> {
                 Container(
                     alignment: Alignment.center,
                     margin: EdgeInsets.all(16),
-                    child: FloatingActionButton(
-                      onPressed: null,
+                    child: FloatingActionButtonWithProgress(
+                      viewModel: viewModel.progressMv,
+                      onPressed: () => viewModel.updateProfile(),
                       child: Icon(Icons.check),
                       ),
                   )

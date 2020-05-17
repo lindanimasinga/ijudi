@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget {
 
@@ -9,7 +10,7 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
   MvStatefulWidget(T viewModel) : this.viewModel = viewModel
   {
     this.viewModel.buildFunction = build;
-     this.viewModel.initFunction = initialize;
+     this.viewModel.initWidgetFunction = initialize;
   }
 
   @override
@@ -21,7 +22,7 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
   }
 
   void showMessageDialog(BuildContext context, {
-      String title, Widget child, Function action}) {
+      String title, Widget child, String actionName, Function action}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -30,16 +31,47 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
           titlePadding: EdgeInsets.only(left: 16, top: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
-            side: BorderSide(color: IjudiColors.color5, width: 5)),
-          title: new Text("Confirm Code"),
+           ),
+          title: new Text(title),
           content: child,
+          actions: <Widget>[
+            new FlatButton(
+              textColor: Theme.of(context).primaryColor,
+              child: new Text(actionName, style: Forms.INPUT_TEXT_STYLE),
+              onPressed: () {
+                Navigator.of(context).pop();
+                action();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showWebViewDialog(BuildContext context, {
+      Widget header, String url, Function doneAction}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.only(left: 0, top: 16),
+          titlePadding: EdgeInsets.only(left: 16, top: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+           ),
+          title: header,
+          content: WebView(
+            initialUrl: url,
+            javascriptMode: JavascriptMode.unrestricted
+          ),
           actions: <Widget>[
             new FlatButton(
               textColor: Theme.of(context).primaryColor,
               child: new Text("Close", style: Forms.INPUT_TEXT_STYLE),
               onPressed: () {
                 Navigator.of(context).pop();
-                action();
+                doneAction();
               },
             ),
           ],

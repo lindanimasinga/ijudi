@@ -35,7 +35,7 @@ class UkheshePaymentComponent extends StatelessWidget {
             IjudiInputField(
               hint: "Card Number",
               enabled: true,
-              text: customer.bank.account,
+              text: customer.bank.accountId,
               color: IjudiColors.color5,
             ),
           ],

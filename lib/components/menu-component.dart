@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ijudi/services/impl/shared-pref-storage-manager.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/all-components.dart';
 import 'package:ijudi/view/all-shops-view.dart';
@@ -7,6 +8,8 @@ import 'package:ijudi/view/my-shops.dart';
 import 'package:ijudi/view/profile-view.dart';
 
 class MenuComponent extends StatelessWidget {
+
+  const MenuComponent();
   
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,15 @@ class MenuComponent extends StatelessWidget {
                         ]
                       ),
                 Padding(padding: EdgeInsets.all(30)),      
-                Buttons.accountFlat(text: "Logout", action: () => Navigator.pushNamedAndRemoveUntil(context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false))    
+                Buttons.accountFlat(text: "Logout", action: () {
+                  SharedPrefStorageManager.singleton()
+                    .then((v) {
+                      v.clear();
+                      Navigator.pushNamedAndRemoveUntil(context, 
+                    LoginView.ROUTE_NAME, 
+                    (Route<dynamic> route) => false);
+                  });
+                })    
                 ]
               )
       ]);

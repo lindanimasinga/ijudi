@@ -36,12 +36,13 @@ abstract class Profile {
 class Bank {
 
   String name;
-  String cellphoneNumber;
-  String account;
+  String phone;
+  String accountId;
+  int customerId;
   String type;
   double currentBalance = 0;
   double availableBalance = 0;
   
-  Bank({@required this.name,@required this.account,@required this.type,
-   this.currentBalance, this.availableBalance, this.cellphoneNumber});
+  Bank({@required this.name,@required this.accountId,@required this.type,
+   this.currentBalance, this.availableBalance, this.phone, this.customerId});
 }

@@ -1,29 +1,17 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:ijudi/model/stock.dart';
+import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/viewmodel/stock-view-model.dart';
 
-class StocksComponent extends StatefulWidget {
-  final List<Stock> stock;
+class StocksComponent extends MvStatefulWidget<StockViewModel> {
   final Function addAction;
 
-  StocksComponent({@required this.stock, @required this.addAction});
-
-  @override
-  _StocksComponentState createState() => _StocksComponentState(stock, addAction);
-}
-
-class _StocksComponentState extends State<StocksComponent> {
-  List<Stock> stock;
-  Function addAction;
-
-  _StocksComponentState(this.stock, this.addAction);
+  StocksComponent({@required StockViewModel viewModel, @required this.addAction}): super(viewModel);
 
   @override
   Widget build(BuildContext context) {
-    
-    if (stock == null)
+
+    if (viewModel.stock == null)
     return 
         Card(child:Container(
             width: 352,
@@ -37,7 +25,7 @@ class _StocksComponentState extends State<StocksComponent> {
           ));
 
     List<Widget> stockWidget = <Widget>[];
-    stock.forEach((item) {
+    viewModel.stock.forEach((item) {
       stockWidget.add(Container(
         width: 352,
         height: 52,

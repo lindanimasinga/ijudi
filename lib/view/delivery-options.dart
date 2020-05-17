@@ -3,6 +3,7 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/components/busket-view-only-component.dart';
+import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-address-input-field.dart';
 import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
@@ -97,8 +98,9 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
                   Container(
                     alignment: Alignment.center,
                     margin: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                    child: FloatingActionButton(
-                      onPressed: () => viewModel.proceed(),
+                    child: FloatingActionButtonWithProgress(
+                      viewModel: viewModel.progressMv,
+                      onPressed: () => viewModel.startOrder(),
                       child: Icon(Icons.arrow_forward),
                     ),
                   )

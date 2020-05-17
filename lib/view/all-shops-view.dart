@@ -18,6 +18,14 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
     List<ShopComponent> shopComponets = [];
     viewModel.shops.forEach((shop) => shopComponets.add(ShopComponent(shop: shop)));
 
+    List<AdsCardComponent> adsComponets = [];
+    viewModel.ads.forEach((ad) => adsComponets
+            .add(AdsCardComponent(
+                advert: ad, 
+                color: IjudiColors.color3)
+            )
+          );
+
     return ScrollableParent(
       hasDrawer: true,
       title: "Shops",
@@ -32,24 +40,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             height: MediaQuery.of(context).size.height * 0.35,
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                AdsCardComponent(
-                  color: IjudiColors.color3,
-                  imageUrl: "https://www.foodinaminute.co.nz/var/fiam/storage/images/recipes/mexican-bean-and-corn-pies/7314837-14-eng-US/Mexican-Bean-and-Corn-Pies_recipeimage.jpg",
-                ),
-                AdsCardComponent(
-                  color: IjudiColors.color2,
-                  imageUrl: "https://sowetourban.co.za/wp-content/uploads/sites/112/2018/08/IMG_4251_27897_tn-520x400.jpg",
-                ),
-                AdsCardComponent(
-                  color: IjudiColors.color1,
-                  imageUrl: "https://snapsizzleandcook.co.za/wp-content/uploads/2018/07/images1.jpg",
-                ),
-                AdsCardComponent(
-                  color: IjudiColors.color4,
-                  imageUrl: "https://i.pinimg.com/236x/76/ab/66/76ab66a5e774d4deaf21ce7c02806a32--the-ad-advertising-design.jpg",
-                )
-              ]
+              children: adsComponets
             )
           ),
           Padding(padding: EdgeInsets.only(top: 8, bottom: 8)),

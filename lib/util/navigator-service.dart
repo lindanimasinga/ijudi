@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
+import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/view/all-components.dart';
 import 'package:ijudi/view/all-shops-view.dart';
 import 'package:ijudi/view/delivery-options.dart';
@@ -10,6 +12,7 @@ import 'package:ijudi/view/personal-and-bank.dart';
 import 'package:ijudi/view/profile-view.dart';
 import 'package:ijudi/view/register-view.dart';
 import 'package:ijudi/view/start-shopping.dart';
+import 'package:ijudi/view/stock-view.dart';
 import 'package:ijudi/viewmodel/all-shops-view-model.dart';
 import 'package:ijudi/viewmodel/delivery-option-view-model.dart';
 import 'package:ijudi/viewmodel/final-order-view-model.dart';
@@ -18,18 +21,28 @@ import 'package:ijudi/viewmodel/my-shops-view-model.dart';
 import 'package:ijudi/viewmodel/payment-view-model.dart';
 import 'package:ijudi/viewmodel/register-view-model.dart';
 import 'package:ijudi/viewmodel/start-shopping-view-model.dart';
+import 'package:ijudi/viewmodel/stock-management-view-mode.dart';
 
 class NavigatorService {
 
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  final StorageManager storageManager;
+  final UkhesheService ukhesheService;
+
+  NavigatorService({@required this.ukhesheService, @required this.storageManager});
+
+
+  Route<dynamic> generateRoute(RouteSettings settings) {
     var args = settings.arguments;
     var viewmodel;
-    switch (settings.name) {
+    var routeName = settings.name == LoginView.ROUTE_NAME 
+                && storageManager.isLoggedIn() ? AllShopsView.ROUTE_NAME : settings.name;
+
+    switch (routeName) {
       case LoginView.ROUTE_NAME:
-        viewmodel = LoginViewModel();
+        viewmodel = LoginViewModel(storage: storageManager, ukhesheService: ukhesheService);
         return MaterialPageRoute(builder: (context) => LoginView(viewModel: viewmodel));
       case RegisterView.ROUTE_NAME:
-        viewmodel = RegisterViewModel();
+        viewmodel = RegisterViewModel(ukhesheService);
         return MaterialPageRoute(builder: (context) => RegisterView(viewModel: viewmodel));
       case AllShopsView.ROUTE_NAME:
         viewmodel = AllShopsViewModel();
@@ -50,11 +63,14 @@ class NavigatorService {
         viewmodel = DeliveryOptionsViewModel(args);
         return MaterialPageRoute(builder: (context) => DeliveryOptionsView(viewModel: viewmodel));  
       case PaymentView.ROUTE_NAME:
-        viewmodel = PaymentViewModel(args);
+        viewmodel = PaymentViewModel(order: args, ukhesheService: ukhesheService);
         return MaterialPageRoute(builder: (context) => PaymentView(viewModel: viewmodel)); 
       case FinalOrderView.ROUTE_NAME:
         viewmodel = FinalOrderViewModel(args);
-        return MaterialPageRoute(builder: (context) => FinalOrderView(viewModel: viewmodel));    
+        return MaterialPageRoute(builder: (context) => FinalOrderView(viewModel: viewmodel));  
+      case StockManagementView.ROUTE_NAME:
+        viewmodel = StockManagementViewModel(args);
+        return MaterialPageRoute(builder: (context) => StockManagementView(viewModel: viewmodel));        
       default : return MaterialPageRoute(builder: (context) => LoginView());
     }
   }

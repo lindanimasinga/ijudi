@@ -7,6 +7,12 @@ import 'package:ijudi/view/login-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class RegisterViewModel extends BaseViewModel {
+  
+  final UkhesheService ukhesheService;
+  String otp;
+
+  RegisterViewModel(this.ukhesheService);
+  
   String _idNumber = "";
 
   String get id => _idNumber;
@@ -45,6 +51,13 @@ class RegisterViewModel extends BaseViewModel {
   set yearsInService(int yearsInService) {
     _yearsInService = yearsInService;
     notifyChanged();
+  }
+
+  String _email;
+
+  String get email => _email;
+  set email(String email) {
+    _email = email;
   }
 
   String _address = "";
@@ -164,18 +177,30 @@ class RegisterViewModel extends BaseViewModel {
     notifyChanged();
   }
 
-  Bank _bank = Bank(name: null, account: null, type: null);
+  Bank _bank = Bank(name: null, accountId: null, type: null);
 
-  registerBank() {
+  _registerBank() {
     _bank.name = _name;
-    _bank.account = bankAccountNumber;
-    _bank.type = "ukheshe";
-    UkhesheService.registerUkhesheAccount(_bank).listen((event) {
-      notifyChanged();
-    });
+    _bank.phone = mobileNumber;
+    _bank.type = "wallet";
+    progressMv.isBusy = true;
+  ukhesheService.registerUkhesheAccount(_bank, otp, _password).listen(
+      (event) {
+        notifyChanged();
+      }, 
+      onDone: () {
+          progressMv.isBusy = false;
+          Navigator.pushNamedAndRemoveUntil(
+              context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false);
+      });
   }
 
   registerUser() {
+    
+    _bank.name = _name;
+    _bank.phone = mobileNumber;
+    _bank.type = "wallet";
+
     var user = UserProfile(
         id: _idNumber,
         name: _name,
@@ -185,13 +210,34 @@ class RegisterViewModel extends BaseViewModel {
         mobileNumber: _mobileNumber,
         role: "customer",
         bank: _bank);
+        
     progressMv.isBusy = true;
-    ApiService.registerUser(user).listen((event) {
-      progressMv.isBusy = false;
-      Navigator.pushNamedAndRemoveUntil(
-          context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false);
-    });
+    ApiService.registerUser(user)
+      .listen(
+        (event) {
+          print("successful registration");
+          _registerBank();
+        }, 
+        onDone: () {
+            progressMv.isBusy = false;
+        });
   }
 
-  verifyMobileNumber() {}
+  _registerUserOtpRequest() {
+    progressMv.isBusy = true;
+    ukhesheService.requestOpt(mobileNumber)
+      .listen((event) {
+        
+      },
+      onDone: () => progressMv.isBusy = false);
+  }
+
+  void startRegistration() {
+        _registerUserOtpRequest();
+  }
+    
+  bool get allFieldsValid {
+    return password != null && passwordConfirm == password && 
+      mobileNumber != null && mobileNumber.length == 10;
+  }
 }

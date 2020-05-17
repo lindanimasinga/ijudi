@@ -1,26 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
+import 'package:ijudi/services/impl/shared-pref-storage-manager.dart';
 import 'package:ijudi/util/navigator-service.dart';
 import 'package:ijudi/util/theme-utils.dart';
-import 'package:ijudi/view/all-shops-view.dart';
 import 'package:ijudi/view/login-view.dart';
 
 main() {
   print("starting application");
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPrefStorageManager.singleton()
+    .then((storage)  {
+      var ukhesheService = UkhesheService(storage);
+      var navigation = NavigatorService(storageManager: storage, ukhesheService: ukhesheService);
+      runApp(MyApp(navigation: navigation));
+    });
 }
 
 class MyApp extends StatelessWidget {
+
+  final NavigatorService navigation;
+
+  MyApp({Key key, this.navigation}) : super(key: key);
+
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
     return MaterialApp(
       title: 'iJudi',
       debugShowCheckedModeBanner: false,
       theme: JudiTheme().theme,
       darkTheme: JudiTheme().dark,
       initialRoute: LoginView.ROUTE_NAME,
-      onGenerateRoute: NavigatorService.generateRoute,
+      onGenerateRoute: navigation.generateRoute,
     );
   }
 }

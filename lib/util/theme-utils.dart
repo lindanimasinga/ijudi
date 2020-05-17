@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ijudi/components/custom-clip-path.dart';
+import 'package:ijudi/components/shop-component.dart';
+import 'package:ijudi/util/util.dart';
 
 class JudiTheme {
 
@@ -43,19 +47,28 @@ class Headers {
     Color color3 = IjudiColors.color1
   }) {
     return ClipPath(
-      clipper: IjudyHeaderClipPath(part: Parts.FIRST),
+      clipper: IjudyHeaderClipPath(
+        part: Parts.FIRST,
+        waves: Utils.generateWaveNumber(3),
+        height: 260),
       child: Container(
         color: color1,
         height: 444.9 + 19.8,
         width: MediaQuery.of(context).size.width,
         child: ClipPath(
-                clipper: IjudyHeaderClipPath(part: Parts.SECOND),
+                clipper: IjudyHeaderClipPath(
+                  part: Parts.SECOND,
+                  waves: Utils.generateWaveNumber(3),
+                  height: 220),
                 child: Container(
                   color: color2,
                   height: 384,
                   width: 375,
                   child: ClipPath(
-                    clipper: IjudyHeaderClipPath(part: Parts.THIRD),
+                    clipper: IjudyHeaderClipPath(
+                      part: Parts.THIRD,
+                      waves: Utils.generateWaveNumber(3),
+                      height: 120),
                     child: Container(
                       color: color3,
                       height: 183,
@@ -71,7 +84,7 @@ class Headers {
     return getHeader(context,
       color3: IjudiColors.color3,
       color1: IjudiColors.color1,
-      color2: IjudiColors.color2);
+      color2: IjudiColors.color2);  
   }
 }
 

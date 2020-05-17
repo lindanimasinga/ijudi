@@ -63,7 +63,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                             ))),
                     Padding(
                       padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
-                      child: Text("Personal", style: IjudiStyles.SUBTITLE_1),
+                      child: Text("Personal", style: IjudiStyles.SUBTITLE_2),
                     ),
                     IjudiForm(
                       child: Column(
@@ -90,10 +90,15 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               onTap: (id) => viewModel.id = id,
                               hint: 'Id Number',
                               type: TextInputType.text),
+                              IjudiInputField(
+                              text: viewModel.email,
+                              onTap: (email) => viewModel.email = email,
+                              hint: 'Email Address',
+                              type: TextInputType.emailAddress),
                           IjudiAddressInputField(
                               text: viewModel.address,
                               onTap: (address) => viewModel.address = address,
-                              hint: 'Address',
+                              hint: 'Physical Address',
                               type: TextInputType.number)
                         ],
                       ),
@@ -154,7 +159,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                         children: <Widget>[
                           IjudiInputField(
                               text: viewModel.password,
-                              onTap: (pass) => viewModel.address = pass,
+                              onTap: (pass) => viewModel.password = pass,
                               hint: 'Password',
                               type: TextInputType.text),
                           IjudiInputField(
@@ -179,14 +184,19 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                         child: FloatingActionButtonWithProgress(
                           viewModel: viewModel.progressMv,
                           onPressed: () {
-                            showMessageDialog(context,
-                                title: "Confirm Code",
-                                child: IjudiInputField(
-                                  hint: "OTP",
-                                  type: TextInputType.number,
-                                  color: IjudiColors.color5,
-                                ),
-                                action: () => viewModel.registerUser());
+                            if(viewModel.allFieldsValid){
+                              viewModel.startRegistration();
+                              showMessageDialog(context,
+                                  title: "Confirm Code",
+                                  child: IjudiInputField(
+                                    hint: "OTP",
+                                    type: TextInputType.number,
+                                    color: IjudiColors.color5,
+                                    onTap: (value) => viewModel.otp = value,
+                                  ),
+                                  actionName: "Proceed",
+                                  action: () => viewModel.registerUser());
+                            }
                           },
                           child: Icon(Icons.check),
                         ))
