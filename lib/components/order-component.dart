@@ -10,9 +10,9 @@ class OrderComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-      List<Widget> busketWidget = <Widget>[];
-      order.busket.items.forEach((item) {
-        busketWidget.add(Container(
+      List<Widget> basketWidget = <Widget>[];
+      order.basket.items.forEach((item) {
+        basketWidget.add(Container(
           width: 352,
           height: 52,
           decoration: BoxDecoration(
@@ -40,7 +40,7 @@ class OrderComponent extends StatelessWidget {
         ));
       });
 
-      busketWidget.add(Container(
+      basketWidget.add(Container(
           width: 352,
           height: 52,
           decoration: BoxDecoration(
@@ -67,7 +67,7 @@ class OrderComponent extends StatelessWidget {
           ),
         ));
 
-      busketWidget.add(
+      basketWidget.add(
         Container(
         width: 352,
         height: 52,
@@ -88,7 +88,7 @@ class OrderComponent extends StatelessWidget {
             Container(
                 width: 70,
                 child: Text(
-                  "R${(order.busket.getBusketTotalAmount())}",
+                  "R${(order.basket.getBasketTotalAmount())}",
                   style: IjudiStyles.HEADER_TEXT,
                 )),
           ],
@@ -97,7 +97,7 @@ class OrderComponent extends StatelessWidget {
 
       return Card(
           child: Column(
-        children: busketWidget,
+        children: basketWidget,
       ));
     }
 }

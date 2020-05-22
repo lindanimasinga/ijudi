@@ -23,7 +23,8 @@ class _PersonalAndBankViewState extends State<PersonalAndBankView> {
 
   @override
   void initState() {
-    userProfile = ApiService.findUserById("idfrom memry");
+    ApiService.findUserById("idfrom memry")
+                .asStream().listen((user) => userProfile = user);
     super.initState();
   }
   

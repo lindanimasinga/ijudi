@@ -1,3 +1,10 @@
+import 'dart:developer';
+
+import 'package:ijudi/api/api-service.dart';
+import 'package:ijudi/model/advert.dart';
+import 'package:ijudi/model/shop.dart';
+import 'package:rxdart/rxdart.dart';
+
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/services/storage-manager.dart';
@@ -10,29 +17,26 @@ class LoginViewModel extends BaseViewModel {
   final StorageManager storage;
   final UkhesheService ukhesheService;
 
-  String _username;
+  String username;
+  String password;
+  List<Shop> shops;
+  List<Advert> ads;
 
   LoginViewModel({@required this.ukhesheService,@required this.storage});
 
-  String get username => _username;
-  set username(String username) {
-    _username = username;
-  }
-
-  String _password;
-
-  String get password => _password;
-  set password(String password) {
-    _password = password;
-  }
-
   login() {
     progressMv.isBusy = true;
-    var subscr = ukhesheService.authenticate(_username, _password).listen(null);
+                    
+    var subscr = 
+      ukhesheService.authenticate(username, password)
+        .asStream()
+        .asyncExpand((res) => ApiService.findUserById("id").asStream())
+        .listen(null);
+
     subscr.onData((data) {
       progressMv.isBusy = false;
         hasError = false;
-        storage.mobileNumber = _username;
+        storage.mobileNumber = username;
         Navigator.pushNamedAndRemoveUntil(
             context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false);
     }); 
@@ -40,7 +44,7 @@ class LoginViewModel extends BaseViewModel {
     subscr.onError((handleError) {
       hasError = true;
       errorMessage = handleError.toString();
-      print(handleError);
+      //log(handleError);
       progressMv.isBusy = false;
     });
   }

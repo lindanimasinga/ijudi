@@ -4,6 +4,7 @@ import 'package:ijudi/components/profile-header-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/shop-component.dart';
 import 'package:ijudi/model/profile.dart';
+import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/personal-and-bank.dart';
 
@@ -15,11 +16,13 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
-  Profile userProfile;
+  
+  UserProfile userProfile = UserProfile();
 
   @override
   void initState() {
-    userProfile = ApiService.findUserById("idfrom memry");
+    ApiService.findUserById("idfrom memry")
+                .asStream().listen((user) => userProfile = user);
     super.initState();
   }
 

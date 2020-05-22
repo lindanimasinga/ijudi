@@ -21,6 +21,7 @@ class StockManagementViewModel extends BaseViewModel {
       quantity: newItemQuantity);
       
     ApiService.addStockItem(shop.id, stock)
+        .asStream()
         .listen((event) { 
           newItemName = "";
           newItemQuantity = "";

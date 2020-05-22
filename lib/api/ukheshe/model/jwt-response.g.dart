@@ -8,16 +8,16 @@ part of 'jwt-response.dart';
 
 JWTResponse _$JWTResponseFromJson(Map<String, dynamic> json) {
   return JWTResponse(
-    json['expires'] == null ? null : DateTime.parse(json['expires'] as String),
-    json['headerName'],
-    json['headerValue'],
+    json['expires'] as String,
+    json['headerName'] as String,
+    json['headerValue'] as String,
     (json['expiresEpochSecs'] as num)?.toDouble(),
   );
 }
 
 Map<String, dynamic> _$JWTResponseToJson(JWTResponse instance) =>
     <String, dynamic>{
-      'expires': instance.expires?.toIso8601String(),
+      'expires': instance.expires,
       'headerName': instance.headerName,
       'headerValue': instance.headerValue,
       'expiresEpochSecs': instance.expiresEpochSecs,

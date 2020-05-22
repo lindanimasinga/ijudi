@@ -13,9 +13,9 @@ class MessagerPreviewComponent extends StatefulWidget {
 }
 
 class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
-  UserProfile userProfile;
+  UserProfile messanger;
 
-  _MessagerPreviewComponentState(this.userProfile);
+  _MessagerPreviewComponentState(this.messanger);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
             padding: EdgeInsets.only(left: 4, right: 4),
             child: Column(
               children: <Widget>[
-                Text("${userProfile.likes}", style: IjudiStyles.RATING_DARK),
+                Text("${messanger.likes}", style: IjudiStyles.RATING_DARK),
                 Text("Likes", style: IjudiStyles.RATING_LABEL_DARK)
               ],
             )),
@@ -36,7 +36,7 @@ class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
             padding: EdgeInsets.only(left: 4, right: 4),
             child: Column(
               children: <Widget>[
-                Text("${userProfile.servicesCompleted}", style: IjudiStyles.RATING_DARK),
+                Text("${messanger.servicesCompleted}", style: IjudiStyles.RATING_DARK),
                 Text("Served", style: IjudiStyles.RATING_LABEL_DARK)
               ],
             )),
@@ -45,7 +45,7 @@ class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("${userProfile.badges}", style: IjudiStyles.RATING_DARK),
+                Text("${messanger.badges}", style: IjudiStyles.RATING_DARK),
                 Image.asset("assets/images/badge.png", width: 40,)
               ],
             )),
@@ -75,14 +75,14 @@ class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
                   color: IjudiColors.color1
                 ),
                 image: DecorationImage(
-                  image: NetworkImage(userProfile.imageUrl),
+                  image: NetworkImage(messanger.imageUrl),
                   fit: BoxFit.cover,
                 ),
               )),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Text(userProfile.name, style: Forms.INPUT_TEXT_STYLE),
+                  Text(messanger.name, style: Forms.INPUT_TEXT_STYLE),
                   ratings,
                 ],
               ),
@@ -92,7 +92,7 @@ class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
                   Icon(Icons.check_circle, color: IjudiColors.color1),
                   Container(
                     width: 73,
-                    child:Text("Responds in ${userProfile.responseTimeMinutes} min",
+                    child:Text("Responds in ${messanger.responseTimeMinutes} min",
                       style: IjudiStyles.RATING_LABEL_DARK, textAlign: TextAlign.center,),
                   )                
                 ],

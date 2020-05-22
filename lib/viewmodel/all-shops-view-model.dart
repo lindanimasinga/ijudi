@@ -2,29 +2,51 @@ import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
+import 'package:rxdart/rxdart.dart';
 
 class AllShopsViewModel extends BaseViewModel {
 
   List<Shop> _shops = [];
-  List<Advert> _ads;
+  List<Advert> _ads = [];
 
-  List<Advert> get ads => _ads;
+  AllShopsViewModel();
   
-  List<Shop> get shops => _shops;
-
-    @override
+  @override
   void initialize() {
-   _shops = fetchAllShops();
-   _ads = fetchAllAds();
+    Rx.merge([
+      ApiService.findAllShopByLocation()
+        .asStream()
+        .map((resp) => shops = resp),
+      ApiService.findAllAdsByLocation()
+        .asStream()
+        .map((resp) => ads = resp)
+    ]).listen((resp) {
+
+    }, onDone: () {
+      
+    });
+
   }
 
   addShop(Shop shop) {
-    _shops.add(shop);
-    setState(() {});
+    shops.add(shop);
+    notifyChanged();
   }
 
-  fetchAllShops() => ApiService.findAllShopByLocation();
+  List<Advert> get ads => _ads;
 
-  fetchAllAds() => ApiService.findAllAdsByLocation();
+  set ads(List<Advert> ads) {
+    _ads = ads;
+    notifyChanged();
+  }
+
+  List<Shop> get shops => _shops;
+
+  set shops(List<Shop> shops) {
+    _shops = shops;
+    notifyChanged();
+  }
+
+
 
 }

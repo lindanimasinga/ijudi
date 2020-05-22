@@ -1,4 +1,4 @@
-import 'busket-item.dart';
+import 'basket-item.dart';
 
 class Stock {
   String name;
@@ -17,13 +17,13 @@ class Stock {
     return _quantity;
   }
 
-  BusketItem take(int quantity) {
+  BasketItem take(int quantity) {
     if (quantity > _quantity) {
       return null;
     }
 
     _quantity = _quantity - quantity;
-    return BusketItem(
+    return BasketItem(
         name: name,
         quantity: quantity,
         price: price,

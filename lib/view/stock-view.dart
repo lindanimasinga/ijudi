@@ -90,7 +90,7 @@ class StockManagementView extends MvStatefulWidget<StockManagementViewModel> {
                       EdgeInsets.only(left: 16, right: 16, bottom: 16),
                   child: StocksComponent(
                       viewModel: StockViewModel(viewModel.shop),
-                      addAction: (busketItem) => {
+                      addAction: (basketItem) => {
 
                       }
                   )

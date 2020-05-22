@@ -40,9 +40,9 @@ class SharedPrefStorageManager extends StorageManager {
   }
 
   @override
-  bool isLoggedIn() {
+  bool get isLoggedIn {
     var token = findUkhesheAccessToken();
-    return token != null && token.isNotEmpty;
+    return token != null && token.isNotEmpty && !hasTokenExpired;
   }
 
   @override
@@ -58,4 +58,25 @@ class SharedPrefStorageManager extends StorageManager {
     if(value == null || value.isEmpty) return null;
     _prefs.setString(StorageManager.MOBILE, value);
   }
+
+  @override
+  String findUkhesheTokenExpiryDate() {
+      return _prefs.getString(StorageManager.UKHESHE_EXPIRY);
+  }
+  
+  @override
+  void saveUkhesheTokenExpiryDate(String value) {
+    if(value == null || value.isEmpty) return null;
+    _prefs.setString(StorageManager.UKHESHE_EXPIRY, value);
+  }
+
+  @override
+  bool get hasTokenExpired {
+    var ukhesheExpiry = findUkhesheTokenExpiryDate();
+    if(ukhesheExpiry == null) return true;
+    var ukhesheExpDate = DateTime.parse(ukhesheExpiry);
+    print(ukhesheExpDate);
+    return ukhesheExpDate.isBefore(DateTime.now().add(Duration(minutes: 1)));
+  }
+  
 }

@@ -35,7 +35,7 @@ class NavigatorService {
     var args = settings.arguments;
     var viewmodel;
     var routeName = settings.name == LoginView.ROUTE_NAME 
-                && storageManager.isLoggedIn() ? AllShopsView.ROUTE_NAME : settings.name;
+                && storageManager.isLoggedIn ? AllShopsView.ROUTE_NAME : settings.name;
 
     switch (routeName) {
       case LoginView.ROUTE_NAME:
@@ -60,7 +60,7 @@ class NavigatorService {
         viewmodel = StartShoppingViewModel(args);
         return MaterialPageRoute(builder: (context) => StartShoppingView(viewModel: viewmodel));
       case DeliveryOptionsView.ROUTE_NAME:
-        viewmodel = DeliveryOptionsViewModel(args);
+        viewmodel = DeliveryOptionsViewModel(order: args, ukhesheService: ukhesheService);
         return MaterialPageRoute(builder: (context) => DeliveryOptionsView(viewModel: viewmodel));  
       case PaymentView.ROUTE_NAME:
         viewmodel = PaymentViewModel(order: args, ukhesheService: ukhesheService);

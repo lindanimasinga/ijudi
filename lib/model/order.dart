@@ -1,24 +1,59 @@
-import 'dart:math';
 
-import 'package:ijudi/model/busket.dart';
+import 'package:ijudi/model/basket.dart';
+import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/userProfile.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'order.g.dart';
+
+@JsonSerializable(includeIfNull: false)
 class Order {
 
-  Shipping shippingData;
-  Busket busket;
-  String id = Random().nextInt(1000000).toString();
-  DateTime date = DateTime.now();
-  int _stage = 0;
+  String id;
+  Shipping shippingData = Shipping();
+  Basket basket = Basket();
+  String customerId;
+  String shopId;
+  @JsonKey(fromJson: dateFromJson)
+  DateTime date;
+  int stage = 0;
 
-  int get stage => _stage;
+  UserProfile _customer;
+  Shop _shop;
+
+  Order();
   
-  double get totalAmount => busket.getBusketTotalAmount() + shippingData.fee;
-  UserProfile get customer => busket.customer;
+  double get totalAmount => basket.getBasketTotalAmount() + shippingData.fee;
+
+  @JsonKey(ignore: true)
+  Shop get shop => _shop;
+
+  @JsonKey(ignore: true)
+  set shop(Shop shop) {
+    _shop = shop;
+    shopId = _shop.id;
+  }
+
+  @JsonKey(ignore: true)
+  UserProfile get customer => _customer;
+  
+  @JsonKey(ignore: true)
+  set customer(UserProfile customer) {
+    _customer = customer;
+    customerId = _customer.id;
+  }
 
   void moveNextStage() {
-    if(_stage < 3 )
-      _stage  = _stage + 1; 
+    if(stage < 3 )
+      stage  = stage + 1; 
+  }
+  
+  factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderToJson(this); 
+
+  static DateTime dateFromJson(String date) {
+    return DateTime.parse(date).toLocal();
   }
   
 }
@@ -28,6 +63,7 @@ enum ShippingType {
   DELIVERY
 }
 
+@JsonSerializable(includeIfNull: false)
 class Shipping {
 
   String fromAddress;
@@ -35,5 +71,11 @@ class Shipping {
   String additionalInstructions;
   ShippingType type;
   double fee;
-  UserProfile messanger;
+  UserProfile messenger;
+
+  Shipping();
+
+  factory Shipping.fromJson(Map<String, dynamic> json) => _$ShippingFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ShippingToJson(this); 
 }

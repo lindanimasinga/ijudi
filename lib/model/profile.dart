@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'profile.g.dart';
 
 abstract class Profile {
   
@@ -15,7 +18,7 @@ abstract class Profile {
   String role;
   int responseTimeMinutes;
   String verificationCode;
-  Bank bank;
+  Bank bank = Bank();
 
   Profile(
       {@required this.name,
@@ -30,9 +33,10 @@ abstract class Profile {
       @required this.mobileNumber,
       @required this.role,
       @required this.id, 
-      @required this.bank});
+      @required this.bank}); 
 }
 
+@JsonSerializable(includeIfNull: false)
 class Bank {
 
   String name;
@@ -45,4 +49,12 @@ class Bank {
   
   Bank({@required this.name,@required this.accountId,@required this.type,
    this.currentBalance, this.availableBalance, this.phone, this.customerId});
+
+
+  factory Bank.fromJson(Map<String, dynamic> json) => _$BankFromJson(json);
+
+  /// `toJson` is the convention for a class to declare support for serialization
+  /// to JSON. The implementation simply calls the private, generated
+  /// helper method `_$UserToJson`.
+  Map<String, dynamic> toJson() => _$BankToJson(this); 
 }

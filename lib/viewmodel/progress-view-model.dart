@@ -5,7 +5,7 @@ class ProgressViewModel extends BaseViewModel with SingleTickerProviderStateMixi
 
   var _isBusy = false;
   var colorTween;
-  var controller;
+  AnimationController controller;
 
   get isBusy => _isBusy;
   set isBusy(isBusy) {

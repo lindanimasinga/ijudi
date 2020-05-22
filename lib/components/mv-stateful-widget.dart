@@ -24,6 +24,7 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
   void showMessageDialog(BuildContext context, {
       String title, Widget child, String actionName, Function action}) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -35,8 +36,13 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
           title: new Text(title),
           content: child,
           actions: <Widget>[
+            FlatButton(
+              child: Text("Cancel", style: Forms.INPUT_TEXT_STYLE),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
             new FlatButton(
-              textColor: Theme.of(context).primaryColor,
               child: new Text(actionName, style: Forms.INPUT_TEXT_STYLE),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -52,6 +58,7 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
   void showWebViewDialog(BuildContext context, {
       Widget header, String url, Function doneAction}) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -66,9 +73,8 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
             javascriptMode: JavascriptMode.unrestricted
           ),
           actions: <Widget>[
-            new FlatButton(
-              textColor: Theme.of(context).primaryColor,
-              child: new Text("Close", style: Forms.INPUT_TEXT_STYLE),
+            FlatButton(
+              child: Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
                 doneAction();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/profile.dart';
+import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/viewmodel/progress-view-model.dart';
 
 abstract class BaseViewModel extends State {
@@ -47,7 +48,5 @@ abstract class BaseViewModel extends State {
   }
 
   notifyChanged() => setState(() {});
-
-  Profile get currentUser => ApiService.findUserById("s");
 
 }

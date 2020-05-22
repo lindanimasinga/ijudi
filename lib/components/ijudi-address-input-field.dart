@@ -37,10 +37,11 @@ class _StateIjudiAddressInputField extends State<IjudiAddressInputField> {
   String hint;
   Color color;
   TextInputType type;
-  String text;
+  String text = "";
   Function onChanged;
   bool enabled;
   TextEditingController controller;
+  TextField addressField;
 
   _StateIjudiAddressInputField(
       this.hint,
@@ -52,28 +53,13 @@ class _StateIjudiAddressInputField extends State<IjudiAddressInputField> {
 
   @override
   Widget build(BuildContext context) {
-    var controller = TextEditingController.fromValue(TextEditingValue(
+    controller = TextEditingController.fromValue(TextEditingValue(
         text: text,
         selection:
             TextSelection.fromPosition(TextPosition(offset: text.length))));
     double width = MediaQuery.of(context).size.width > 360 ? 190 : 150;
-    return Row(children: <Widget>[
-      Container(
-        color: color,
-        width: 90,
-        height: 104,
-        alignment: Alignment.centerLeft,
-        child: Padding(
-            padding: EdgeInsets.only(left: 8),
-            child: Text(hint,
-                style: Forms.INPUT_LABEL_STYLE,
-                overflow: TextOverflow.ellipsis)),
-      ),
-      Container(
-          width: width,
-          child: Padding(
-              padding: EdgeInsets.only(left: 8, top: 4, bottom: 0),
-              child: TextField(
+
+    addressField = TextField(
                 controller: controller,
                 keyboardType: type,
                 enabled: enabled,
@@ -94,7 +80,25 @@ class _StateIjudiAddressInputField extends State<IjudiAddressInputField> {
                         borderSide: BorderSide(
                       width: 0.01,
                     ))),
-              )))
+              );
+
+    return Row(children: <Widget>[
+      Container(
+        color: color,
+        width: 90,
+        height: 104,
+        alignment: Alignment.centerLeft,
+        child: Padding(
+            padding: EdgeInsets.only(left: 8),
+            child: Text(hint,
+                style: Forms.INPUT_LABEL_STYLE,
+                overflow: TextOverflow.ellipsis)),
+      ),
+      Container(
+          width: width,
+          child: Padding(
+              padding: EdgeInsets.only(left: 8, top: 4, bottom: 0),
+              child: addressField))
     ]);
   }
 
@@ -113,6 +117,7 @@ class _StateIjudiAddressInputField extends State<IjudiAddressInputField> {
           await _places.getDetailsByPlaceId(p.placeId);
       text = detail.result.formattedAddress;
       setState(() {});
+      addressField.onChanged(text);
     }
   }
 }

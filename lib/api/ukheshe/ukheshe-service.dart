@@ -1,5 +1,9 @@
 
 import 'dart:convert';
+import 'dart:developer';
+import 'package:ijudi/model/shop.dart';
+import 'package:ijudi/model/userProfile.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:ijudi/api/ukheshe/model/customer-info-response.dart';
 import 'package:ijudi/api/ukheshe/model/init-topup-response.dart';
@@ -21,26 +25,47 @@ class UkhesheService {
 
   UkhesheService(this.storageManager);
 
-  Stream<JWTResponse> authenticate(String username, String password) {
+  bool get isLoggedIn => storageManager.findUkhesheAccessToken() != null;
+
+  Future<JWTResponse> authenticate(String username, String password) async {
     
     var request = {"identity": username, "password": password};
     print("authenticating");
-    return http
+
+    var response  =  await  http
         .post('$apiUrl/login', headers: headers, body: json.encode(request))
-        .timeout(Duration(seconds: TIMEOUT_SEC))
-        .asStream()
-        .map((data) =>
-          data.statusCode != 200? throw(data.body) :
-          JWTResponse.fromJson(json.decode(data.body))
-        ).map((data) {
-          storageManager.saveUkhesheAccessToken(data.headerValue);
-          return data;
-        });
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    log(response.body);
+    if(response.statusCode != 200) throw(response.body);
+    JWTResponse jwt = JWTResponse.fromJson(json.decode(response.body));
+    storageManager.saveUkhesheAccessToken(jwt.headerValue);
+    storageManager.saveUkhesheTokenExpiryDate(jwt.expires);
+    return jwt;
+      
   }
 
-  bool get isLoggedIn => storageManager.findUkhesheAccessToken() != null;
+  Future<JWTResponse> refreshToken() async {
 
-  Stream<PaymentResponse> paymentForOrder(Order order) {
+    var token = storageManager.findUkhesheAccessToken();
+    var request = {"token": token};
+    print("refreshing toke");
+
+    var response  =  await  http
+        .post('$apiUrl/login', headers: headers, body: json.encode(request))
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    
+    if(response.statusCode != 200) throw(response.body);
+    JWTResponse jwt = JWTResponse.fromJson(json.decode(response.body));
+    storageManager.saveUkhesheAccessToken(jwt.headerValue);
+    storageManager.saveUkhesheTokenExpiryDate(jwt.expires);
+    return jwt;
+  }
+
+  Future<PaymentResponse> paymentForOrder(Order order) async {
+
+    if(storageManager.hasTokenExpired) {
+      refreshToken();
+    }
 
     Map<String, String> headers = {
       "Content-type": "application/json",
@@ -48,8 +73,8 @@ class UkhesheService {
     }; 
 
     var request = {
-      "fromAccountId": order.busket.customer.bank.accountId,
-      "toAccountId": order.busket.shop.bank.accountId,
+      "fromAccountId": order.customer.bank.accountId,
+      "toAccountId": order.shop.bank.accountId,
       "type": "MANUAL_APP",
       "amount": order.totalAmount,
       "description": "Payment from ${order.customer.mobileNumber}: order ${order.id}",
@@ -62,21 +87,25 @@ class UkhesheService {
     print(headers);
     print(json.encode(request));
 
-    return http
-        .post('$apiUrl/transfers', headers: headers, body: json.encode(request))
-        .asStream()
-        .timeout(Duration(seconds: TIMEOUT_SEC))
-        .map((data) {
-          print("response " + data.statusCode.toString());
-          return data.statusCode == 200 ? 
-                  PaymentResponse.fromJson(json.decode(data.body)) : throw(data);}
-        );
+    var response  =  await http.post('$apiUrl/transfers', 
+            headers: headers, 
+            body: json.encode(request))
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+        
+    return response.statusCode == 200 ? 
+                  PaymentResponse.fromJson(json.decode(response.body)) : throw(response);
+        
   }
 
-  Stream registerUkhesheAccount(Bank bank, String otp, String password) {
+  Future registerUkhesheAccount(Bank bank, String otp, String password) async {
+    
+    if(storageManager.hasTokenExpired) {
+      refreshToken();
+    }
+
     Map<String, String> headers = {
       "Content-type": "application/json"
-      };
+    };
 
     var request = {
       "phone": bank.phone,
@@ -88,39 +117,42 @@ class UkhesheService {
     print(headers);
     print(json.encode(request));
 
-    return http
-        .post('$apiUrl/customers', headers: headers, body: json.encode(request))
-        .asStream()
-        .timeout(Duration(seconds: TIMEOUT_SEC))
-        .map((data) {
-          print("response " + data.statusCode.toString());
-          print("response " + data.body);
-          return data.statusCode == 200 ? 
-                  PaymentResponse.fromJson(json.decode(data.body)) : throw(data);}
-        );
+    var response = await http.post('$apiUrl/customers', 
+            headers: headers, 
+            body: json.encode(request))
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+
+    return response.statusCode == 200 ? 
+                  PaymentResponse.fromJson(json.decode(response.body)) : throw(response);
   }
 
-  Stream<CustomerInfoResponse> getAccountInformation() {
-     
+
+  Future<CustomerInfoResponse> getAccountInformation() async {
+    
+    if(storageManager.hasTokenExpired) {
+      refreshToken().then((value) => null);
+    }
+    
      Map<String, String> headers = {
       "Content-type": "application/json",
       "Authorization": storageManager.findUkhesheAccessToken()
       };  
 
-    return http
+    var response = await http
         .get('$apiUrl/customers?username=${storageManager.mobileNumber}', headers: headers)
-        .asStream()
-        .timeout(Duration(seconds: TIMEOUT_SEC))
-        .map((data) {
-          print("response " + data.statusCode.toString());
-          print("response " + data.body);
-          return data.statusCode == 200? 
-                  CustomerInfoResponse.fromJson(json.decode(data.body)) : throw(data);}
-        );
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    log(response.body);
+    return response.statusCode == 200? 
+            CustomerInfoResponse.fromJson(json.decode(response.body)) : throw(response);
   }
 
-  Stream<InitTopUpResponse> initiateTopUp(int customerId, double amount, String uniqueId) {
+
+  Future<InitTopUpResponse> initiateTopUp(int customerId, double amount, String uniqueId) async {
     
+    if(storageManager.hasTokenExpired) {
+      refreshToken();
+    }
+
     Map<String, String> headers = {
       "Content-type": "application/json",
       "Authorization": storageManager.findUkhesheAccessToken()
@@ -134,23 +166,18 @@ class UkhesheService {
     print(headers);
     print(json.encode(request));
 
-    return http
+    var response = await http
         .post('$apiUrl/topups', headers: headers, body: json.encode(request))
-        .asStream()
-        .timeout(Duration(seconds: TIMEOUT_SEC))
-        .map((data) {
-          print("response " + data.statusCode.toString());
-          print("response " + data.body);
-          return data.statusCode == 200 ? 
-                  InitTopUpResponse.fromJson(json.decode(data.body)) : throw(data);}
-        );
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+   
+    return response.statusCode == 200 ? 
+            InitTopUpResponse.fromJson(json.decode(response.body)) : throw(response);
   }
 
-  Stream requestOpt(String mobileNumber) {
-    
+  Future requestOpt(String mobileNumber) async {
+
     Map<String, String> headers = {
-      "Content-type": "application/json",
-      "Authorization": storageManager.findUkhesheAccessToken()
+      "Content-type": "application/json"
       };
 
     var request = [
@@ -160,14 +187,9 @@ class UkhesheService {
     print(headers);
     print(json.encode(request));
 
-    return http
+    var data = await http
         .post('$apiUrl/customers/verifications', headers: headers, body: json.encode(request))
-        .asStream()
-        .timeout(Duration(seconds: TIMEOUT_SEC))
-        .map((data) {
-          print("response " + data.statusCode.toString());
-          return data.statusCode == 204 ? 
-                  data : throw(data);}
-        );
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    return data.statusCode == 204 ? data : throw(data);
   }
 }

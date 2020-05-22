@@ -16,6 +16,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
 
   @override
   Widget build(BuildContext context) {
+    
     String ukhesheMessage = viewModel.hasUkheshe
         ? "Your Ijudi account will be linked to your Ukheshe account. " +
             "You will be able to top up and buy goods using ukheshe account"
@@ -57,7 +58,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               ),
                               image: DecorationImage(
                                 image: NetworkImage(
-                                    "https://pbs.twimg.com/media/C1OKE9QXgAAArDp.jpg"),
+                                    viewModel.imageUrl),
                                 fit: BoxFit.contain,
                               ),
                             ))),
@@ -86,8 +87,8 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               hint: 'Surname',
                               type: TextInputType.text),
                           IjudiInputField(
-                              text: viewModel.id,
-                              onTap: (id) => viewModel.id = id,
+                              text: viewModel.idNumber,
+                              onTap: (id) => viewModel.idNumber = id,
                               hint: 'Id Number',
                               type: TextInputType.text),
                               IjudiInputField(
@@ -141,14 +142,14 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               children: <Widget>[
                                 IjudiInputField(
                                     text: viewModel.bankAccountNumber,
-                                    onTap: (address) =>
-                                        viewModel.address = address,
+                                    onTap: (bank) =>
+                                        viewModel.bankAccountNumber = bank,
                                     hint: 'Card Number',
                                     type: TextInputType.number),
                                 IjudiInputField(
                                     text: viewModel.bankCellNumber,
-                                    onTap: (address) =>
-                                        viewModel.address = address,
+                                    onTap: (phone) =>
+                                        viewModel.mobileNumber = phone,
                                     hint: 'Cell Number',
                                     type: TextInputType.phone)
                               ],

@@ -19,7 +19,9 @@ class StockViewModel extends BaseViewModel{
   @override
   void initialize() {
     //progressMv.isBusy = true;
-    ApiService.findAllStockByShopId(shop.id).listen(
+    ApiService.findAllStockByShopId(shop.id)
+    .asStream()
+    .listen(
       (resp) {
         stock = resp;
       }, onDone: () {

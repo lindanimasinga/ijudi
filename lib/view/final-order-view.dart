@@ -31,14 +31,14 @@ class FinalOrderView extends MvStatefulWidget<FinalOrderViewModel> {
                           countMinutes: 1),
                       label: "Order Number ${viewModel.order.id}",
                       text:
-                          "Waiting for shop ${viewModel.order.busket.shop.name} to accept your order. This may take a few minutes."),
+                          "Waiting for shop ${viewModel.shop.name} to accept your order. This may take a few minutes."),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
                           orderViewModel: viewModel, 
                           stage: 1, 
                           countMinutes: 2),
                       text:
-                          "${viewModel.order.busket.shop.name} is now packing your order"),
+                          "${viewModel.shop.name} is now packing your order"),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
                           orderViewModel: viewModel, 
@@ -52,7 +52,7 @@ class FinalOrderView extends MvStatefulWidget<FinalOrderViewModel> {
                           stage: 3, 
                           countMinutes: 1),
                       text:
-                          "${viewModel.order.shippingData.messanger.name} has arrived. Please come collect."),
+                          "${viewModel.order.shippingData.messenger.name} has arrived. Please come collect."),
                 ],
               ))
         ]));

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ijudi/components/busket-component.dart';
+import 'package:ijudi/components/basket-component.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/profile-header-component.dart';
@@ -46,7 +46,7 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text("Busket",style: IjudiStyles.SUBTITLE_2),
+                            Text("Basket",style: IjudiStyles.SUBTITLE_2),
                             FloatingActionButtonWithProgress(
                               viewModel: viewModel.progressMv,
                               onPressed: () => viewModel.verifyItemsAvailable(),
@@ -57,10 +57,10 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                     Padding(
                         padding:
                             EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                        child: BusketComponent(
-                            busket: viewModel.busket,
-                            removeAction: (busketItem) =>
-                                viewModel.remove(busketItem))),
+                        child: BasketComponent(
+                            basket: viewModel.order.basket,
+                            removeAction: (basketItem) =>
+                                viewModel.remove(basketItem))),
                     Padding(
                         padding:
                             EdgeInsets.only(left: 16, right: 16, bottom: 16),
@@ -73,7 +73,7 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                             EdgeInsets.only(left: 16, right: 16, bottom: 16),
                         child: StocksComponent(
                                 viewModel: StockViewModel(viewModel.shop),
-                                addAction: (busketItem) => viewModel.add(busketItem)
+                                addAction: (basketItem) => viewModel.add(basketItem)
                               )
                     )
                   ],

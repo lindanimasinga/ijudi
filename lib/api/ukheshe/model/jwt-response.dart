@@ -6,9 +6,9 @@ part 'jwt-response.g.dart';
 @JsonSerializable()
 class JWTResponse {
 
-  final DateTime expires;
-  final headerName;
-  final headerValue;
+  final String expires;
+  final String headerName;
+  final String headerValue;
   final double expiresEpochSecs;
 
   JWTResponse(this.expires, this.headerName, this.headerValue, this.expiresEpochSecs);

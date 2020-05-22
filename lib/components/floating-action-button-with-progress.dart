@@ -17,8 +17,12 @@ class FloatingActionButtonWithProgress extends MvStatefulWidget<ProgressViewMode
   @override
   Widget build(BuildContext context) {
 
+    //viewModel.isBusy = false;
+    //print("chnged");
     if(viewModel.isBusy) {
       viewModel.controller.repeat();
+    } else {
+      viewModel.controller.stop();
     }
 
     return viewModel.isBusy

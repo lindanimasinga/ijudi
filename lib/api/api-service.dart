@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'dart:developer' as logger;
 import 'dart:math';
 
+import 'package:http/http.dart' as http;
 import 'package:ijudi/model/advert.dart';
-import 'package:ijudi/model/busket.dart';
+import 'package:ijudi/model/basket.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/shop.dart';
@@ -9,117 +12,23 @@ import 'package:ijudi/model/stock.dart';
 import 'package:ijudi/model/userProfile.dart';
 
 class ApiService {
-  static List<Shop> findAllShopByLocation() {
-    List<Shop> shops = [
-      Shop(
-          imageUrl:
-              "https://www.dailymaverick.co.za/wp-content/uploads/BM-Ruan-spaza-main-1600x870.jpg",
-          id: "1",
-          name: "Sheila's TuckShop",
-          registrationNumber: "20170098087",
-          mobileNumber: "0813114112",
-          description: "Sells Veggies, Fruits, Drinks",
-          address: "BB Umlazi, Durban, KZN",
-          role: "Shop",
-          yearsInService: 5,
-          badges: 2,
-          likes: 35,
-          servicesCompleted: 350,
-          bank: Bank(name: "FNB", accountId: "2885091160", type: "Cheque")),
-      Shop(
-          name: "Spar",
-          description: "Sells veggies, meat, airtime and electricity.",
-          imageUrl:
-              "https://richesworld.bid/wp-content/uploads/2019/03/home1.png",
-          id: "1",
-          registrationNumber: "20170098087",
-          mobileNumber: "0713134112",
-          address: "U Umlazi, Durban, KZN",
-          role: "Shop",
-          yearsInService: 7,
-          badges: 5,
-          likes: 20,
-          servicesCompleted: 850,
-          bank: Bank(name: "FNB", accountId: "2885091160", type: "Cheque")),
-      Shop(
-          name: "Sbonelo Tuckshop",
-          description: "Sells veggies, fruits, airtime and electricity.",
-          imageUrl:
-              "https://gga.org/wp-content/uploads/2018/02/2017-04-27-14.42.12-1080x675.jpg",
-          id: "1",
-          registrationNumber: "20170098087",
-          mobileNumber: "0813114112",
-          address: "BB Umlazi, Durban, KZN",
-          role: "Shop",
-          yearsInService: 3,
-          badges: 1,
-          likes: 20,
-          servicesCompleted: 150,
-          bank: Bank(name: "FNB", accountId: "2885091160", type: "Cheque")),
-      Shop(
-          name: "Mthembeni Tuckshop",
-          imageUrl:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRLhCGtBvdID_7ysGxYzHc9QtG3Fjl_uVutkvO2-PDqRxvyXhAC&usqp=CAU",
-          id: "1",
-          registrationNumber: "20170098087",
-          mobileNumber: "0813114112",
-          description: "Sells Veggies, Fruits, Drinks",
-          address: "BB Umlazi, Durban, KZN",
-          role: "Shop",
-          yearsInService: 10,
-          badges: 0,
-          likes: 3,
-          servicesCompleted: 50,
-          bank: Bank(name: "FNB", accountId: "2885091160", type: "Cheque")),
-      Shop(
-          name: "Boxer Store",
-          imageUrl:
-              "https://www.boxer.co.za/wp-content/uploads/2018/04/Boxer-Stores.jpg",
-          id: "1",
-          registrationNumber: "20170098087",
-          mobileNumber: "0813114112",
-          description: "Sells Veggies, Fruits, Drinks",
-          address: "BB Umlazi, Durban, KZN",
-          role: "Shop",
-          yearsInService: 10,
-          badges: 0,
-          likes: 3,
-          servicesCompleted: 50,
-          bank: Bank(name: "FNB", accountId: "2885091160", type: "Cheque")),
-      Shop(
-          name: "Chester Butchery",
-          imageUrl: "https://pbs.twimg.com/media/BeFonWZCYAAi9BJ.jpg",
-          id: "1",
-          registrationNumber: "20170098087",
-          mobileNumber: "0813114112",
-          description: "Sells Veggies, Fruits, Drinks",
-          address: "BB Umlazi, Durban, KZN",
-          role: "Shop",
-          yearsInService: 10,
-          badges: 0,
-          likes: 3,
-          servicesCompleted: 50,
-          bank: Bank(name: "FNB", accountId: "2885091160", type: "Cheque")),
-      Shop(
-          name: "Themba Fastfood",
-          imageUrl:
-              "https://cdn.24.co.za/files/Cms/General/d/4968/485b8622d96b49be8df4977f58522f19.jpg",
-          id: "1",
-          registrationNumber: "20170098087",
-          mobileNumber: "0813114112",
-          description: "Sells Veggies, Fruits, Drinks",
-          address: "BB Umlazi, Durban, KZN",
-          role: "Shop",
-          yearsInService: 10,
-          badges: 0,
-          likes: 3,
-          servicesCompleted: 50,
-          bank: Bank(name: "FNB", accountId: "2885091160", type: "Cheque")),
-    ];
-    return shops;
+
+  static const API_URL = "http://ec2co-ecsel-1b20jvvw3yfzt-2104564802.af-south-1.elb.amazonaws.com";
+  static const TIMEOUT_SEC = 20;
+  static UserProfile currentUser;
+  
+  static Future<List<Shop>> findAllShopByLocation() async {
+    logger.log("fetching all shops");
+    var event = await http.get('$API_URL/store')
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+
+    if(event.statusCode != 200) throw(event);     
+        
+    Iterable list = json.decode(event.body);
+    return list.map((f) => Shop.fromJson(f)).toList();
   }
 
-  static Stream<List<Stock>> findAllStockByShopId(String s) {
+  static Future<List<Stock>> findAllStockByShopId(String s) async {
     List<Stock> stock = [
       Stock(
         name: "Eggs",
@@ -133,7 +42,7 @@ class ApiService {
       Stock(name: "Banana", quantity: 20, price: 10.50),
       Stock(name: "Eggs 6", quantity: 20, price: 0.00)
     ];
-    return Stream.value(stock);
+    return Future.value(stock);
   }
 
   static Shop findShopById(String s) {
@@ -155,36 +64,28 @@ class ApiService {
     return shop;
   }
 
-  static Profile findUserById(String s) {
-    UserProfile profile = UserProfile(
-        id: "1",
-        name: "Thabani Mlotshwa",
-        idNumber: "8909126118083",
-        mobileNumber: "0815114442",
-        description: "Deliveries and errands",
-        address: "BB Umlazi, Durban, KZN",
-        imageUrl:
-            "https://webcomicms.net/sites/default/files/clipart/146130/black-women-cliparts-146130-7812411.jpg",
-        role: "Shop",
-        yearsInService: 3,
-        badges: 1,
-        likes: 20,
-        servicesCompleted: 150,
-        bank: Bank(
-            name: "Ukhese",
-            accountId: "2885091160",
-            type: "Wallet",
-            phone: "0812815707",
-            currentBalance: 0.00,
-            availableBalance: 0.00));
+  static Future<UserProfile> findUserById(String id) async {
+    id = "b51198d4-909c-4ab6-af5f-3a34b172754f";
+    if(currentUser != null) {
+      return Future.value(currentUser);
+    }
 
-    return profile;
+    var event = await http.get('$API_URL/user/$id')
+            .timeout(Duration(seconds: TIMEOUT_SEC));
+    if(event.statusCode != 200) {
+      logger.log(event.statusCode.toString());
+      logger.log(event.body);
+      throw(event);
+    }       
+    
+    currentUser = UserProfile.fromJson(json.decode(event.body));
+    return currentUser;
   }
 
-  static List<UserProfile> findNearbyMessangers(String s) {
+  static Future<List<UserProfile>> findNearbyMessangers(String s) async {
     var messagers = <UserProfile>[];
 
-    var messager1 = findUserById("");
+    var messager1 = await findUserById("");
     messager1.name = "Sandile Ngema";
     messager1.likes = 12;
     messager1.responseTimeMinutes = 2 + Random().nextInt(13);
@@ -192,7 +93,7 @@ class ApiService {
         "https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/man-raising-hand-medium-dark-skin-tone.png";
     messagers.add(messager1);
 
-    var messager2 = findUserById("");
+    var messager2 = await findUserById("");
     messager2.name = "Xolani Shezi";
     messager2.likes = 12;
     messager2.responseTimeMinutes = 2 + Random().nextInt(13);
@@ -203,16 +104,26 @@ class ApiService {
     return messagers;
   }
 
-  static Stream<dynamic> registerUser(UserProfile user) {
+  static Future registerUser(UserProfile user) async {
+    Map<String, String> headers = {
+      "Content-type": "application/json",
+    };
+
+    var request = json.encode(user);
+    logger.log(request);
+    var event = await http
+        .post('$API_URL/user', headers: headers, body: request)
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    if(event.statusCode != 200) throw(event);   
+    return event;
+  }
+
+  static Future<dynamic> verifyCanBuy(Basket basket) async {
     return Future.delayed(Duration(seconds: 2)).asStream();
   }
 
-  static Stream<dynamic> verifyCanBuy(Busket busket) {
-    return Future.delayed(Duration(seconds: 2)).asStream();
-  }
-
-  static findAllAdsByLocation() {
-    return <Advert>[
+  static Future<List<Advert>> findAllAdsByLocation() async {
+    return Future.value(<Advert>[
       Advert(
         imageUrl:
             "https://www.foodinaminute.co.nz/var/fiam/storage/images/recipes/mexican-bean-and-corn-pies/7314837-14-eng-US/Mexican-Bean-and-Corn-Pies_recipeimage.jpg",
@@ -229,23 +140,30 @@ class ApiService {
         imageUrl:
             "https://i.pinimg.com/236x/76/ab/66/76ab66a5e774d4deaf21ce7c02806a32--the-ad-advertising-design.jpg",
       )
-    ];
+    ]);
   }
 
-  static Stream<String> updateShop(Shop shop) {
-    return Future.delayed(Duration(seconds: 2))
-      .asStream()
-      .map((resp) => "200");
+  static Future<String> updateShop(Shop shop) async {
+    return Future.delayed(Duration(seconds: 2));
   }
 
-  static Stream<String> addStockItem(String id, Stock stock) {
-    return Future.delayed(Duration(seconds: 2))
-      .asStream()
-      .map((resp) => "200");
+  static Future<String> addStockItem(String id, Stock stock) async {
+    return Future.delayed(Duration(seconds: 2));
   }
 
-  static Stream<Order> startOrder(Order order) {
-    return  Future.delayed(Duration(seconds: 2)).asStream()
-              .map((re) => order);
+  static Future<Order> startOrder(Order order) async {
+
+    Map<String, String> headers = {
+      "Content-type": "application/json",
+    };
+
+    var request = json.encode(order);
+    print(request);
+    var event = await http
+        .post('$API_URL/order', headers: headers, body: request)
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    logger.log(event.body);
+    if(event.statusCode != 200) throw(event);
+    return Order.fromJson(json.decode(event.body));
   }
 }

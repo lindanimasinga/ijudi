@@ -21,7 +21,7 @@ class JudiTheme {
         color: IjudiColors.backgroud
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: IjudiColors.color2
+        backgroundColor: IjudiColors.color1
       ),
       buttonTheme: ButtonThemeData(
           buttonColor: Colors.white
@@ -29,6 +29,7 @@ class JudiTheme {
     );
     
       final ThemeData dark = ThemeData.dark().copyWith(
+        accentColor: IjudiColors.color2,
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: IjudiColors.color1
         ),

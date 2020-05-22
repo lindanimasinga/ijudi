@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/model/profile.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'shop.g.dart';
+
+@JsonSerializable(includeIfNull: false)
 class Shop extends Profile {
   String registrationNumber;
 
@@ -33,4 +37,9 @@ class Shop extends Profile {
             verificationCode: verificationCode,
             role: role,
             bank: bank);
+
+
+  factory Shop.fromJson(Map<String, dynamic> json) => _$ShopFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ShopToJson(this); 
 }

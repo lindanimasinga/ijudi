@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:ijudi/api/api-service.dart';
-import 'package:ijudi/components/busket-view-only-component.dart';
+import 'package:ijudi/components/basket-view-only-component.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-address-input-field.dart';
 import 'package:ijudi/components/ijudi-form.dart';
@@ -10,7 +10,7 @@ import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/messager-preview-component.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
-import 'package:ijudi/model/busket.dart';
+import 'package:ijudi/model/basket.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/util/theme-utils.dart';
@@ -43,25 +43,25 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
                 children: <Widget>[
                   Container(
                       padding: EdgeInsets.only(left: 16),
-                      child: Text("Busket", style: IjudiStyles.HEADER_TEXT)),
+                      child: Text("Basket", style: IjudiStyles.HEADER_TEXT)),
                   Container(
                     padding: EdgeInsets.only(
                         bottom: 16, left: 16, right: 16, top: 16),
                     alignment: Alignment.center,
-                    child: BusketViewOnlyComponent(busket: viewModel.busket),
+                    child: BasketViewOnlyComponent(basket: viewModel.order.basket),
                   ),
                   IjudiForm(
                       child: Row(
                     children: <Widget>[
                       Radio(
                         value: ShippingType.COLLECTION,
-                        groupValue: viewModel.newOrder.shippingData.type,
+                        groupValue: viewModel.order.shippingData.type,
                         onChanged: (selection) => viewModel.delivery = selection,
                       ),
                       Text('Collection', style: Forms.INPUT_TEXT_STYLE),
                       Radio(
                         value: ShippingType.DELIVERY,
-                        groupValue: viewModel.newOrder.shippingData.type,
+                        groupValue: viewModel.order.shippingData.type,
                         onChanged: (selection) => viewModel.delivery = selection,
                       ),
                       Text('Delivery', style: Forms.INPUT_TEXT_STYLE)
@@ -74,7 +74,7 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
                       IjudiInputField(
                           hint: "From Shop",
                           enabled: false,
-                          text: viewModel.busket.shop.name,
+                          text: viewModel.order.shop.name,
                           color: IjudiColors.color5),
                       IjudiAddressInputField(
                           hint: "To Address",

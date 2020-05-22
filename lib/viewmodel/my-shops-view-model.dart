@@ -21,10 +21,12 @@ class MyShopsViewModel extends BaseViewModel {
 
   void updateProfile() {
     progressMv.isBusy = true;
-    ApiService.updateShop(shop).listen((resp) {
-      Navigator.pushNamed(context, StockManagementView.ROUTE_NAME, arguments: _shop);
-    }, onDone: () {
+    ApiService.updateShop(shop)
+      .asStream()
+      .listen((resp) {
+        Navigator.pushNamed(context, StockManagementView.ROUTE_NAME, arguments: _shop);
+      }, onDone: () {
       progressMv.isBusy = false;
-    });
+      });
   }
 }

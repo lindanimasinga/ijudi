@@ -33,7 +33,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 8, left: 16),
-                        child: Text("${viewModel.order.busket.shop.name}",
+                        child: Text("${viewModel.order.shop.name}",
                             style: IjudiStyles.HEADER_TEXT)),
                     Container(
                         alignment: Alignment.topLeft,
@@ -47,7 +47,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                         child: Text("Delivery By",
                             style: IjudiStyles.HEADER_TEXT)),
                     MessagerPreviewComponent(
-                        messenger: viewModel.order.shippingData.messanger),
+                        messenger: viewModel.order.shippingData.messenger),
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 16, top: 16, left: 16),
@@ -60,7 +60,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                             alignment: Alignment.topLeft,
                             padding: EdgeInsets.only(bottom: 16),
                             child:
-                                UkheshePaymentComponent(viewModel.order.busket.customer)),
+                                UkheshePaymentComponent(viewModel.order.customer)),
                         Padding(
                           padding: EdgeInsets.only(left: 16, bottom: 24),
                         child: FloatingActionButtonWithProgress(
@@ -70,7 +70,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                               _showLowBalanceMessage(context);
                               return;
                             }
-                            viewModel.processPayment();
+                            showConfirmPayment(context);
                           },
                           child: Icon(Icons.arrow_forward),
                         )),
@@ -95,7 +95,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text("Your order costs R${viewModel.order.totalAmount}", style: Forms.INPUT_TEXT_STYLE),
-                    Text("Your Available Balance is R${viewModel.order.busket.customer.bank.availableBalance}", style: Forms.INPUT_TEXT_STYLE),
+                    Text("Your Available Balance is R${viewModel.order.customer.bank.availableBalance}", style: Forms.INPUT_TEXT_STYLE),
                     Text(""),
                     Image.asset("assets/images/uKhese-logo.png", width: 90),
                     Text("Please topup to finish your order.", style: Forms.INPUT_TEXT_STYLE),
@@ -119,5 +119,19 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                doneAction: () => viewModel.fetchNewAccountBalances());
             });
         });
+  }
+
+  showConfirmPayment(BuildContext context) {
+    showMessageDialog(
+        context,
+        title: "Confirm Payment",
+        actionName: "Pay",
+        child: 
+          Padding(
+            padding: EdgeInsets.all(16),
+            child: Text("Please click pay to confirm your order of R${viewModel.order.totalAmount}", style: Forms.INPUT_TEXT_STYLE)
+          ),
+        action: () => viewModel.processPayment()
+    );
   }
 }

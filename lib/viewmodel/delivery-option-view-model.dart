@@ -1,69 +1,86 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
-import 'package:ijudi/model/busket.dart';
+import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/model/order.dart';
+import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/view/payment-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
+import 'package:ijudi/api/ukheshe/model/customer-info-response.dart';
 
 class DeliveryOptionsViewModel extends BaseViewModel {
 
-  final Busket busket;
+  Order order;
+  final UkhesheService ukhesheService;
   
-  DeliveryOptionsViewModel(this.busket);
+  DeliveryOptionsViewModel({@required this.ukhesheService, @required this.order});
 
-  List<UserProfile> _messangers;
+  List<UserProfile> _messangers = [];
 
   List<UserProfile> get messangers => _messangers;
-
   set messangers(List<UserProfile> messangers) {
     _messangers = messangers;
+    notifyChanged();
   }
 
   ShippingType _delivery = ShippingType.DELIVERY;
 
   ShippingType get delivery => _delivery;
   set delivery(ShippingType delivery) {
-    newOrder.shippingData.type = delivery;
+    order.shippingData.type = delivery;
     notifyChanged();
   }
 
-  Order _newOrder;
-
-  Order get newOrder => _newOrder;
-  set newOrder(Order newOrder) {
-    _newOrder = newOrder;
-  }
-
-  get deliveryAddress => newOrder.shippingData.toAddress;
+  get deliveryAddress => order.shippingData.toAddress;
   set deliveryAddress(deliveryAddress) {
-    newOrder.shippingData.toAddress = deliveryAddress;
+    order.shippingData.toAddress = deliveryAddress;
     notifyChanged();
   }
 
   @override
   void initialize() {
-    messangers = ApiService.findNearbyMessangers("");
-    newOrder = Order();
-    newOrder.busket = busket;
-    newOrder.shippingData = Shipping();
-    newOrder.shippingData.type = ShippingType.COLLECTION;
-    newOrder.shippingData.messanger = messangers[0];
-    newOrder.shippingData.fromAddress = busket.shop.name;
-    newOrder.shippingData.toAddress= busket.customer.address;
-    newOrder.shippingData.fee = 0;
+    //shipping
+    ApiService.findNearbyMessangers("")
+      .asStream()
+      .listen((messa) { 
+        messangers = messa;
+        order.shippingData.messenger = messangers[0];
+      });
+    order.shippingData.toAddress= order.customer.address;
+    order.shippingData.type = ShippingType.COLLECTION;
+    order.shippingData.fromAddress = order.shop.name;
+    order.shippingData.fee = 0;
   }
 
   startOrder() {
     progressMv.isBusy = true;
-    ApiService.startOrder(newOrder)
-      .listen((persistedOrder) {
-        newOrder = persistedOrder;
-        Navigator.pushNamed(context, PaymentView.ROUTE_NAME, arguments: newOrder);
+    ApiService.startOrder(order)
+      .asStream()
+      .map((resp) {
+        order.id = resp.id;
+        order.date = resp.date;
+      })
+      .asyncExpand((element) => ukhesheService.getAccountInformation().asStream())
+      .listen((customerResponse) {
+        availableBalance = customerResponse;
+        Navigator.pushNamed(context, PaymentView.ROUTE_NAME, arguments: order);
       },
       onDone: () {
         progressMv.isBusy = false;
-      });
+    });
+  }
+
+  set availableBalance(CustomerInfoResponse value) {
+    order.customer.bank = value;
+    print(order.customer.bank);
+    print(order.customer.bank.currentBalance);
+    order.customer.bank.currentBalance =
+      order.customer.bank.currentBalance == null? 0 : order.customer.bank.currentBalance;
+    order.customer.bank.availableBalance =
+      order.customer.bank.availableBalance == null? 0 : order.customer.bank.availableBalance;
+    notifyChanged();
   }
   
 }
