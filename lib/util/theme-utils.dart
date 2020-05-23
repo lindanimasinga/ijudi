@@ -87,6 +87,41 @@ class Headers {
       color1: IjudiColors.color1,
       color2: IjudiColors.color2);  
   }
+
+  static getMenuHeader(BuildContext context) {
+    return ClipPath(
+      clipper: IjudyHeaderClipPath(
+        part: Parts.FIRST,
+        waves: Utils.generateWaveNumber(3),
+        height: 100),
+      child: Container(
+        color: IjudiColors.color3,
+        height: 150,
+        width: MediaQuery.of(context).size.width,
+        child: ClipPath(
+                clipper: IjudyHeaderClipPath(
+                  part: Parts.SECOND,
+                  waves: Utils.generateWaveNumber(3),
+                  height: 65),
+                child: Container(
+                  color: IjudiColors.color2,
+                  height: 75,
+                  width: 375,
+                  child: ClipPath(
+                    clipper: IjudyHeaderClipPath(
+                      part: Parts.THIRD,
+                      waves: Utils.generateWaveNumber(3),
+                      height: 35),
+                    child: Container(
+                      color: IjudiColors.color1,
+                      height: 45,
+                      width: 375,
+                  ),
+              ),
+          ),
+      ),
+    ));
+  }
 }
 
 class Forms {
@@ -130,7 +165,6 @@ class Forms {
 class Buttons {
 
     static const darkButtonTextStyle = TextStyle(
-      color: Colors.white,
       fontSize: 16,
       fontWeight: FontWeight.w500
     );
@@ -158,11 +192,11 @@ class Buttons {
         );
     }
 
-    static Widget menuItem({String text, Color color, bool isFirst = false, bool isLast = false, Function action}) {
+    static Widget menuItem({String text, Color color, Function action}) {
       return Container(
         margin: EdgeInsets.only(bottom: 4),
         child: FlatButton(
-            color: color,
+            color: IjudiColors.clear,
             onPressed: () => action(),
             shape: RoundedRectangleBorder(),
             child: Container(
@@ -283,6 +317,7 @@ class IjudiColors {
   static const color6 = Color(0XFFA2A2A2);
   static const facebook = Color(0XFF1778f2);
   static const backgroud = Color(0XFFF8F7F7);
+  static const clear = Color(0X00F8F7F7);
 }
 
 class IjudiStyles {

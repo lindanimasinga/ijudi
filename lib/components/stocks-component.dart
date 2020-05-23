@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:ijudi/components/mv-stateful-widget.dart';
+import 'package:ijudi/model/stock.dart';
 import 'package:ijudi/util/theme-utils.dart';
-import 'package:ijudi/viewmodel/stock-view-model.dart';
 
-class StocksComponent extends MvStatefulWidget<StockViewModel> {
+class StocksComponent extends StatelessWidget {
   final Function addAction;
+  final List<Stock> stocks;
 
-  StocksComponent({@required StockViewModel viewModel, @required this.addAction}): super(viewModel);
+  StocksComponent({@required this.stocks, @required this.addAction});
 
   @override
   Widget build(BuildContext context) {
 
-    if (viewModel.stock == null)
+    if (stocks == null)
     return 
         Card(child:Container(
             width: 352,
@@ -25,7 +25,7 @@ class StocksComponent extends MvStatefulWidget<StockViewModel> {
           ));
 
     List<Widget> stockWidget = <Widget>[];
-    viewModel.stock.forEach((item) {
+    stocks.forEach((item) {
       stockWidget.add(Container(
         width: 352,
         height: 52,

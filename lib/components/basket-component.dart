@@ -3,22 +3,12 @@ import 'package:ijudi/model/basket-item.dart';
 import 'package:ijudi/model/basket.dart';
 import 'package:ijudi/util/theme-utils.dart';
 
-class BasketComponent extends StatefulWidget {
+class BasketComponent extends StatelessWidget {
 
   final Basket basket;
   final Function(BasketItem) removeAction;
 
   BasketComponent({@required this.basket, this.removeAction});
-
-  @override
-  _BasketComponentState createState() => _BasketComponentState(basket, this.removeAction);
-}
-
-class _BasketComponentState extends State<BasketComponent> {
-  Basket basket;
-  Function(BasketItem) removeAction;
-
-  _BasketComponentState(this.basket, this.removeAction);
 
   @override
   Widget build(BuildContext context) {

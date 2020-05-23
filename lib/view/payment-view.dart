@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
-import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/messager-preview-component.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
-import 'package:ijudi/components/order-component.dart';
+import 'package:ijudi/components/order-review-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/ukheshe-payment-compoment.dart';
 import 'package:ijudi/util/theme-utils.dart';
@@ -40,7 +39,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                         padding: EdgeInsets.only(bottom: 16, left: 16),
                         child: Text("Order: ${viewModel.order.id}",
                             style: IjudiStyles.HEADER_TEXT)),
-                    OrderComponent(order: viewModel.order),
+                    OrderReviewComponent(order: viewModel.order),
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 16, top: 16, left: 16),

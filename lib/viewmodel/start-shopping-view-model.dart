@@ -15,7 +15,7 @@ class StartShoppingViewModel extends BaseViewModel {
 
   StartShoppingViewModel(this._shop);
 
-  List<Stock> stock;
+  List<Stock> _stocks;
 
   Order order;
 
@@ -28,11 +28,19 @@ class StartShoppingViewModel extends BaseViewModel {
       .listen((user) {
         order.customer = user;
       });
+    
+    ApiService.findAllStockByShopId(shop.id)
+    .asStream()
+    .listen((resp) {
+        stocks = resp;
+      }, onDone: () {
+      
+      });  
   }
 
   void remove(BasketItem basketItem) {
     order.basket.removeOneItem(basketItem);
-    stock.firstWhere((elem) => elem.name == basketItem.name).put(1);
+    stocks.firstWhere((elem) => elem.name == basketItem.name).put(1);
     notifyChanged();
   }
 
@@ -51,5 +59,12 @@ class StartShoppingViewModel extends BaseViewModel {
           arguments: order);
     });
     subscr.onDone(() => progressMv.isBusy = false);
+  }
+
+  List<Stock> get stocks => _stocks;
+
+  set stocks(List<Stock> stocks) {
+    _stocks = stocks;
+    notifyChanged();
   }
 }

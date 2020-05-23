@@ -8,7 +8,6 @@ import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/stocks-component.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/viewmodel/stock-management-view-mode.dart';
-import 'package:ijudi/viewmodel/stock-view-model.dart';
 
 class StockManagementView extends MvStatefulWidget<StockManagementViewModel> {
   static const ROUTE_NAME = "/stock";
@@ -89,7 +88,7 @@ class StockManagementView extends MvStatefulWidget<StockManagementViewModel> {
                   padding:
                       EdgeInsets.only(left: 16, right: 16, bottom: 16),
                   child: StocksComponent(
-                      viewModel: StockViewModel(viewModel.shop),
+                      stocks: viewModel.stocks,
                       addAction: (basketItem) => {
 
                       }

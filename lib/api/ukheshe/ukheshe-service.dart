@@ -1,9 +1,6 @@
 
 import 'dart:convert';
 import 'dart:developer';
-import 'package:ijudi/model/shop.dart';
-import 'package:ijudi/model/userProfile.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:http/http.dart' as http;
 import 'package:ijudi/api/ukheshe/model/customer-info-response.dart';
 import 'package:ijudi/api/ukheshe/model/init-topup-response.dart';
@@ -41,7 +38,6 @@ class UkhesheService {
     storageManager.saveUkhesheAccessToken(jwt.headerValue);
     storageManager.saveUkhesheTokenExpiryDate(jwt.expires);
     return jwt;
-      
   }
 
   Future<JWTResponse> refreshToken() async {
@@ -93,8 +89,7 @@ class UkhesheService {
         .timeout(Duration(seconds: TIMEOUT_SEC));
         
     return response.statusCode == 200 ? 
-                  PaymentResponse.fromJson(json.decode(response.body)) : throw(response);
-        
+                  PaymentResponse.fromJson(json.decode(response.body)) : throw(response);   
   }
 
   Future registerUkhesheAccount(Bank bank, String otp, String password) async {

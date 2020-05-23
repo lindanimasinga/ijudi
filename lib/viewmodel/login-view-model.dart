@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/model/shop.dart';
-import 'package:rxdart/rxdart.dart';
 
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';

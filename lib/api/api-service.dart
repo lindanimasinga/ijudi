@@ -13,7 +13,7 @@ import 'package:ijudi/model/userProfile.dart';
 
 class ApiService {
 
-  static const API_URL = "http://ec2co-ecsel-1b20jvvw3yfzt-2104564802.af-south-1.elb.amazonaws.com";
+  static const API_URL = "http://ec2co-ecsel-1b20jvvw3yfzt-2104564802.af-south-1.elb.amazonaws.com/";
   static const TIMEOUT_SEC = 20;
   static UserProfile currentUser;
   
@@ -165,5 +165,17 @@ class ApiService {
     logger.log(event.body);
     if(event.statusCode != 200) throw(event);
     return Order.fromJson(json.decode(event.body));
+  }
+
+  static Future<List<Order>> findOrdersByCustomerId(String id) async {
+    id = "b51198d4-909c-4ab6-af5f-3a34b172754f";
+    logger.log("fetching all orders for customer $id");
+    var event = await http.get('$API_URL/order?userId=$id')
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    logger.log(event.body);
+    if(event.statusCode != 200) throw(event);     
+        
+    Iterable list = json.decode(event.body);
+    return list.map((f) => Order.fromJson(f)).toList();
   }
 }

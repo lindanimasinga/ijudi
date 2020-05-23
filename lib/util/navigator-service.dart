@@ -7,6 +7,7 @@ import 'package:ijudi/view/delivery-options.dart';
 import 'package:ijudi/view/final-order-view.dart';
 import 'package:ijudi/view/login-view.dart';
 import 'package:ijudi/view/my-shops.dart';
+import 'package:ijudi/view/order-history-view.dart';
 import 'package:ijudi/view/payment-view.dart';
 import 'package:ijudi/view/personal-and-bank.dart';
 import 'package:ijudi/view/profile-view.dart';
@@ -18,6 +19,7 @@ import 'package:ijudi/viewmodel/delivery-option-view-model.dart';
 import 'package:ijudi/viewmodel/final-order-view-model.dart';
 import 'package:ijudi/viewmodel/login-view-model.dart';
 import 'package:ijudi/viewmodel/my-shops-view-model.dart';
+import 'package:ijudi/viewmodel/order-history-view-model.dart';
 import 'package:ijudi/viewmodel/payment-view-model.dart';
 import 'package:ijudi/viewmodel/register-view-model.dart';
 import 'package:ijudi/viewmodel/start-shopping-view-model.dart';
@@ -70,7 +72,10 @@ class NavigatorService {
         return MaterialPageRoute(builder: (context) => FinalOrderView(viewModel: viewmodel));  
       case StockManagementView.ROUTE_NAME:
         viewmodel = StockManagementViewModel(args);
-        return MaterialPageRoute(builder: (context) => StockManagementView(viewModel: viewmodel));        
+        return MaterialPageRoute(builder: (context) => StockManagementView(viewModel: viewmodel));  
+      case OrderHistoryView.ROUTE_NAME:
+        viewmodel = OrderHistoryViewModel();
+        return MaterialPageRoute(builder: (context) => OrderHistoryView(viewModel: viewmodel));          
       default : return MaterialPageRoute(builder: (context) => LoginView());
     }
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/menu-component.dart';
-import 'package:ijudi/util/theme-utils.dart';
 
 class ScrollableParent extends StatelessWidget {
   

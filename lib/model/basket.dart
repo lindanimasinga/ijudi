@@ -56,12 +56,10 @@ class Basket {
   Map<String, dynamic> toJson() => _$BasketToJson(this);
 
   static List<BasketItem> listFromJson(List<dynamic> basketList) {
-      log("converting from json");
       return basketList.map((f) => BasketItem.fromJson(f)).toList();
   }
 
   static List<Map<String,dynamic>> listToJson(List<BasketItem> list) {
-    log("converting to json");
     var jsonString = list.map((f) => f.toJson())
       .toList();
     print(jsonString);

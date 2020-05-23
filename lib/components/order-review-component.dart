@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
 
-class OrderComponent extends StatelessWidget {
+class OrderReviewComponent extends StatelessWidget {
   final Order order;
 
-  const OrderComponent({this.order});
+  const OrderReviewComponent({this.order});
 
   @override
   Widget build(BuildContext context) {

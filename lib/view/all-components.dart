@@ -53,11 +53,11 @@ class AllComponentsView extends StatelessWidget {
             Buttons.menu(
               context: context,  
               children: <Widget>[
-                  Buttons.menuItem(text : "Shop", color: IjudiColors.color1, isFirst: true),
+                  Buttons.menuItem(text : "Shop", color: IjudiColors.color1),
                   Buttons.menuItem(text: "Profile", color: IjudiColors.color2),
                   Buttons.menuItem(text: "My Shops", color: IjudiColors.color3),
                   Buttons.menuItem(text: "Errands", color: IjudiColors.color4),
-                  Buttons.menuItem(text: "Settings", color: IjudiColors.color5, isLast: true)
+                  Buttons.menuItem(text: "Settings", color: IjudiColors.color5)
                 ]
             ),
             AdsCardComponent(color: IjudiColors.color2, advert: Advert(imageUrl: "https://www.findspecials.co.za/files/spar(1).PNG"),),

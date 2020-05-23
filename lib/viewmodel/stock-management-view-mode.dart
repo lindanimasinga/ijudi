@@ -6,12 +6,24 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 class StockManagementViewModel extends BaseViewModel {
 
   final Shop shop;
+  List<Stock> _stocks;
 
   String newItemName;
   String newItemPrice;
   String newItemQuantity;
 
   StockManagementViewModel(this.shop);
+
+  @override
+  initialize() {
+   ApiService.findAllStockByShopId(shop.id)
+    .asStream()
+    .listen((resp) {
+        stocks = resp;
+      }, onDone: () {
+      
+      });  
+  }
 
   addNewItem() {
     progressMv.isBusy = true;
@@ -26,10 +38,17 @@ class StockManagementViewModel extends BaseViewModel {
           newItemName = "";
           newItemQuantity = "";
           newItemPrice = "";
+          stocks.add(stock);
           notifyChanged();
         }, onDone: () {
           progressMv.isBusy = false;
         });
+  }
+
+  List<Stock> get stocks => _stocks;
+  set stocks(List<Stock> stocks) {
+    _stocks = stocks;
+    notifyChanged();
   }
   
 }

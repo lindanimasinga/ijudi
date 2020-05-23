@@ -4,8 +4,7 @@ abstract class StorageManager {
   static const ACCESS_TOKEN_IJUDI = "wewhhghtiie";
   static const ACCESS_TOKEN_UKHESHE = "22qqqS#eED";
   static const String MOBILE = "dflwe32w";
-
-  static String UKHESHE_EXPIRY;
+  static const String UKHESHE_EXPIRY = "nasdasie2";
 
   get mobileNumber;
   set mobileNumber(String value);
