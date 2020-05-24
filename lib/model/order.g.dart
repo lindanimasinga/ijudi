@@ -12,13 +12,16 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
     ..shippingData = json['shippingData'] == null
         ? null
         : Shipping.fromJson(json['shippingData'] as Map<String, dynamic>)
+    ..paymentType =
+        _$enumDecodeNullable(_$PaymentTypeEnumMap, json['paymentType'])
     ..basket = json['basket'] == null
         ? null
         : Basket.fromJson(json['basket'] as Map<String, dynamic>)
     ..customerId = json['customerId'] as String
     ..shopId = json['shopId'] as String
     ..date = Order.dateFromJson(json['date'] as String)
-    ..stage = json['stage'] as int;
+    ..stage = json['stage'] as int
+    ..description = json['description'] as String;
 }
 
 Map<String, dynamic> _$OrderToJson(Order instance) {
@@ -32,41 +35,13 @@ Map<String, dynamic> _$OrderToJson(Order instance) {
 
   writeNotNull('id', instance.id);
   writeNotNull('shippingData', instance.shippingData);
+  writeNotNull('paymentType', _$PaymentTypeEnumMap[instance.paymentType]);
   writeNotNull('basket', instance.basket);
   writeNotNull('customerId', instance.customerId);
   writeNotNull('shopId', instance.shopId);
   writeNotNull('date', instance.date?.toIso8601String());
   writeNotNull('stage', instance.stage);
-  return val;
-}
-
-Shipping _$ShippingFromJson(Map<String, dynamic> json) {
-  return Shipping()
-    ..fromAddress = json['fromAddress'] as String
-    ..toAddress = json['toAddress'] as String
-    ..additionalInstructions = json['additionalInstructions'] as String
-    ..type = _$enumDecodeNullable(_$ShippingTypeEnumMap, json['type'])
-    ..fee = (json['fee'] as num)?.toDouble()
-    ..messenger = json['messenger'] == null
-        ? null
-        : UserProfile.fromJson(json['messenger'] as Map<String, dynamic>);
-}
-
-Map<String, dynamic> _$ShippingToJson(Shipping instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('fromAddress', instance.fromAddress);
-  writeNotNull('toAddress', instance.toAddress);
-  writeNotNull('additionalInstructions', instance.additionalInstructions);
-  writeNotNull('type', _$ShippingTypeEnumMap[instance.type]);
-  writeNotNull('fee', instance.fee);
-  writeNotNull('messenger', instance.messenger);
+  writeNotNull('description', instance.description);
   return val;
 }
 
@@ -100,6 +75,40 @@ T _$enumDecodeNullable<T>(
     return null;
   }
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$PaymentTypeEnumMap = {
+  PaymentType.UKHESHE: 'UKHESHE',
+};
+
+Shipping _$ShippingFromJson(Map<String, dynamic> json) {
+  return Shipping()
+    ..fromAddress = json['fromAddress'] as String
+    ..toAddress = json['toAddress'] as String
+    ..additionalInstructions = json['additionalInstructions'] as String
+    ..type = _$enumDecodeNullable(_$ShippingTypeEnumMap, json['type'])
+    ..fee = (json['fee'] as num)?.toDouble()
+    ..messenger = json['messenger'] == null
+        ? null
+        : UserProfile.fromJson(json['messenger'] as Map<String, dynamic>);
+}
+
+Map<String, dynamic> _$ShippingToJson(Shipping instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('fromAddress', instance.fromAddress);
+  writeNotNull('toAddress', instance.toAddress);
+  writeNotNull('additionalInstructions', instance.additionalInstructions);
+  writeNotNull('type', _$ShippingTypeEnumMap[instance.type]);
+  writeNotNull('fee', instance.fee);
+  writeNotNull('messenger', instance.messenger);
+  return val;
 }
 
 const _$ShippingTypeEnumMap = {

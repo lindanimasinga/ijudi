@@ -73,7 +73,7 @@ class UkhesheService {
       "toAccountId": order.shop.bank.accountId,
       "type": "MANUAL_APP",
       "amount": order.totalAmount,
-      "description": "Payment from ${order.customer.mobileNumber}: order ${order.id}",
+      "description": order.description,
       "uniqueId": order.id,
       "externalId": order.id,
       "date": new DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(order.date),

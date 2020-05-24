@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/model/init-topup-response.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/api/ukheshe/model/customer-info-response.dart';
@@ -22,7 +23,14 @@ class PaymentViewModel extends BaseViewModel {
 
   processPayment() {
     progressMv.isBusy = true;
-    var subscr = ukhesheService.paymentForOrder(order).asStream().listen(null);
+    var subscr = ukhesheService.paymentForOrder(order)
+      .asStream()
+      .asyncExpand((event) => Future.delayed(Duration(seconds: 4)).asStream())
+      .asyncExpand((event) {
+        order.paymentType = PaymentType.UKHESHE;
+        return ApiService.completeOrderPayment(order).asStream();
+        })
+      .listen(null);
     
     subscr.onData((data) {
       Navigator.pushNamedAndRemoveUntil(
@@ -34,7 +42,6 @@ class PaymentViewModel extends BaseViewModel {
 
     subscr.onDone(() {
       progressMv.isBusy = false;
-      
     });
   }
 

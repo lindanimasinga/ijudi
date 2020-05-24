@@ -11,6 +11,7 @@ class Order {
 
   String id;
   Shipping shippingData = Shipping();
+  PaymentType paymentType;
   Basket basket = Basket();
   String customerId;
   String shopId;
@@ -20,6 +21,8 @@ class Order {
 
   UserProfile _customer;
   Shop _shop;
+
+  String description;
 
   Order();
   
@@ -61,6 +64,10 @@ class Order {
 enum ShippingType {
   COLLECTION,
   DELIVERY
+}
+
+enum PaymentType {
+  UKHESHE
 }
 
 @JsonSerializable(includeIfNull: false)

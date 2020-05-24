@@ -23,6 +23,7 @@ class StartShoppingViewModel extends BaseViewModel {
   void initialize() {
     order = Order();
     order.shop = _shop;
+    order.description = "order from ${shop.name}";
     ApiService.findUserById("")
       .asStream()
       .listen((user) {

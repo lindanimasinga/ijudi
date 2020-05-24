@@ -37,6 +37,7 @@ class IjudiLoginField extends StatelessWidget {
           child: Padding(
               padding: EdgeInsets.only(left: 8, top: 4, bottom: 0),
               child: TextField(
+                
                 obscureText: isPassword,
                 keyboardType: type,
                 enabled: enabled,

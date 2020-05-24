@@ -1,10 +1,8 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/model/order.dart';
-import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/view/payment-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
@@ -61,6 +59,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
       .map((resp) {
         order.id = resp.id;
         order.date = resp.date;
+        order.description = "Payment from ${order.customer.mobileNumber}: order ${order.id}";
       })
       .asyncExpand((element) => ukhesheService.getAccountInformation().asStream())
       .listen((customerResponse) {

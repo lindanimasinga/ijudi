@@ -1,9 +1,7 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ijudi/components/custom-clip-path.dart';
-import 'package:ijudi/components/shop-component.dart';
 import 'package:ijudi/util/util.dart';
 
 class JudiTheme {

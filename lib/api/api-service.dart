@@ -13,7 +13,7 @@ import 'package:ijudi/model/userProfile.dart';
 
 class ApiService {
 
-  static const API_URL = "http://ec2co-ecsel-1b20jvvw3yfzt-2104564802.af-south-1.elb.amazonaws.com/";
+  static const API_URL = "http://ec2co-ecsel-1b20jvvw3yfzt-2104564802.af-south-1.elb.amazonaws.com";
   static const TIMEOUT_SEC = 20;
   static UserProfile currentUser;
   
@@ -161,6 +161,21 @@ class ApiService {
     print(request);
     var event = await http
         .post('$API_URL/order', headers: headers, body: request)
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    logger.log(event.body);
+    if(event.statusCode != 200) throw(event);
+    return Order.fromJson(json.decode(event.body));
+  }
+
+  static Future<Order> completeOrderPayment(Order order) async {
+    Map<String, String> headers = {
+      "Content-type": "application/json",
+    };
+
+    var request = json.encode(order);
+    print(request);
+    var event = await http
+        .patch('$API_URL/order/${order.id}', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
     logger.log(event.body);
     if(event.statusCode != 200) throw(event);
