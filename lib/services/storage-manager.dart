@@ -5,6 +5,7 @@ abstract class StorageManager {
   static const ACCESS_TOKEN_UKHESHE = "22qqqS#eED";
   static const String MOBILE = "dflwe32w";
   static const String UKHESHE_EXPIRY = "nasdasie2";
+  static const String IJUDI_USER_ID = "uiouwfflsdf";
 
   get mobileNumber;
   set mobileNumber(String value);
@@ -26,6 +27,10 @@ abstract class StorageManager {
   String findUkhesheTokenExpiryDate();
 
   bool get hasTokenExpired;
+
+  void saveIjudiUserId(String id);
+
+  String getIjudiUserId();
 
 /*
   void save<T extends Entity>(T entity);

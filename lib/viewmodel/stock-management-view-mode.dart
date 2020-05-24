@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/stock.dart';
@@ -6,17 +7,18 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 class StockManagementViewModel extends BaseViewModel {
 
   final Shop shop;
+  final ApiService apiService;
   List<Stock> _stocks;
 
   String newItemName;
   String newItemPrice;
   String newItemQuantity;
 
-  StockManagementViewModel(this.shop);
+  StockManagementViewModel({this.shop, @required this.apiService});
 
   @override
   initialize() {
-   ApiService.findAllStockByShopId(shop.id)
+   apiService.findAllStockByShopId(shop.id)
     .asStream()
     .listen((resp) {
         stocks = resp;
@@ -32,7 +34,7 @@ class StockManagementViewModel extends BaseViewModel {
       price: newItemPrice,
       quantity: newItemQuantity);
       
-    ApiService.addStockItem(shop.id, stock)
+    apiService.addStockItem(shop.id, stock)
         .asStream()
         .listen((event) { 
           newItemName = "";

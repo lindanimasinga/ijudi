@@ -26,10 +26,10 @@ class AllComponentsView extends StatelessWidget {
             IjudiForm(
               child: Column(
                 children: <Widget>[
-                  IjudiInputField(hint: 'Cell Number', type: TextInputType.phone),
-                  IjudiInputField(hint: 'Name', type: TextInputType.text),
-                  IjudiInputField(hint: 'Surname', type: TextInputType.text),
-                  IjudiInputField(hint: 'Id Number', type: TextInputType.text),
+                  IjudiInputField(hint: 'Cell Number',autofillHints: [AutofillHints.telephoneNumber], type: TextInputType.phone),
+                  IjudiInputField(hint: 'Name', autofillHints: [AutofillHints.name],type: TextInputType.text),
+                  IjudiInputField(hint: 'Surname', autofillHints: [AutofillHints.familyName],type: TextInputType.text),
+                  IjudiInputField(hint: 'Id Number', autofillHints: [AutofillHints.creditCardNumber],type: TextInputType.text),
                 ],
               ),
             ),

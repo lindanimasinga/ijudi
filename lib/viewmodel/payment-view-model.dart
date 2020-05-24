@@ -12,10 +12,12 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 class PaymentViewModel extends BaseViewModel {
   
   final Order order;
+  final ApiService apiService;
   final UkhesheService ukhesheService;
   String topupAmount;
 
-  PaymentViewModel({@required this.order, @required this.ukhesheService});
+  PaymentViewModel({@required this.apiService, 
+    @required this.order, @required this.ukhesheService});
 
   @override
   void initialize() {
@@ -28,7 +30,7 @@ class PaymentViewModel extends BaseViewModel {
       .asyncExpand((event) => Future.delayed(Duration(seconds: 4)).asStream())
       .asyncExpand((event) {
         order.paymentType = PaymentType.UKHESHE;
-        return ApiService.completeOrderPayment(order).asStream();
+        return apiService.completeOrderPayment(order).asStream();
         })
       .listen(null);
     

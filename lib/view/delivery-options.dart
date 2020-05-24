@@ -73,6 +73,7 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
                     children: <Widget>[
                       IjudiInputField(
                           hint: "From Shop",
+                          autofillHints: [AutofillHints.fullStreetAddress],
                           enabled: false,
                           text: viewModel.order.shop.name,
                           color: IjudiColors.color5),

@@ -10,10 +10,10 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class StartShoppingViewModel extends BaseViewModel {
   
-  final Shop _shop;
-  Shop get shop => _shop;
+  final Shop shop;
+  final ApiService apiService;
 
-  StartShoppingViewModel(this._shop);
+  StartShoppingViewModel({this.shop, @required this.apiService});
 
   List<Stock> _stocks;
 
@@ -22,15 +22,16 @@ class StartShoppingViewModel extends BaseViewModel {
   @override
   void initialize() {
     order = Order();
-    order.shop = _shop;
+    order.shop = shop;
     order.description = "order from ${shop.name}";
-    ApiService.findUserById("")
+    var userId = apiService.currentUserPhone;
+    apiService.findUserByPhone(userId)
       .asStream()
       .listen((user) {
         order.customer = user;
       });
     
-    ApiService.findAllStockByShopId(shop.id)
+    apiService.findAllStockByShopId(shop.id)
     .asStream()
     .listen((resp) {
         stocks = resp;
@@ -52,7 +53,7 @@ class StartShoppingViewModel extends BaseViewModel {
 
   void verifyItemsAvailable() {
     progressMv.isBusy = true;
-    var subscr = ApiService.verifyCanBuy(order.basket)
+    var subscr = apiService.verifyCanBuy(order.basket)
                   .asStream()
                   .listen(null);
     subscr.onData((data) {

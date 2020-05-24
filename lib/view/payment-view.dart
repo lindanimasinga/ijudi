@@ -103,6 +103,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
               ),
               IjudiInputField(
                   hint: "Amount",
+                  autofillHints: [AutofillHints.transactionAmount],
                   type: TextInputType.numberWithOptions(decimal: true),
                   text: viewModel.topupAmount,
                   onTap: (value) => viewModel.topupAmount = value,

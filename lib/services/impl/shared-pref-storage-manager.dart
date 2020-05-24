@@ -78,5 +78,16 @@ class SharedPrefStorageManager extends StorageManager {
     print(ukhesheExpDate);
     return ukhesheExpDate.isBefore(DateTime.now().add(Duration(minutes: 1)));
   }
+
+  @override
+  void saveIjudiUserId(String id) {
+    if(id == null || id.isEmpty) return null;
+    _prefs.setString(StorageManager.IJUDI_USER_ID, id);
+  }
+
+  @override
+  String getIjudiUserId() {
+    return _prefs.getString(StorageManager.IJUDI_USER_ID);
+  }
   
 }

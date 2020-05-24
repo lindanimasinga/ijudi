@@ -3,25 +3,33 @@ import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/components/profile-header-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/shop-component.dart';
-import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/personal-and-bank.dart';
 
 class ProfileView extends StatefulWidget {
+  
   static const ROUTE_NAME = "profile";
+  final ApiService apiService;
+
+  const ProfileView({@required this.apiService});
 
   @override
-  _ProfileViewState createState() => _ProfileViewState();
+  _ProfileViewState createState() => _ProfileViewState(apiService);
 }
 
 class _ProfileViewState extends State<ProfileView> {
   
   UserProfile userProfile = UserProfile();
 
+  final ApiService apiService;
+
+  _ProfileViewState(this.apiService);
+
   @override
   void initState() {
-    ApiService.findUserById("idfrom memry")
+    var userId = apiService.currentUserPhone;
+    apiService.findUserByPhone(userId)
                 .asStream().listen((user) => userProfile = user);
     super.initState();
   }

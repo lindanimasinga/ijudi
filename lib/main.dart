@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/services/impl/shared-pref-storage-manager.dart';
 import 'package:ijudi/util/navigator-service.dart';
@@ -11,7 +12,11 @@ main() {
   SharedPrefStorageManager.singleton()
     .then((storage)  {
       var ukhesheService = UkhesheService(storage);
-      var navigation = NavigatorService(storageManager: storage, ukhesheService: ukhesheService);
+      var apiService = ApiService(storage);
+      var navigation = NavigatorService(
+        storageManager: storage, 
+        apiService: apiService,
+        ukhesheService: ukhesheService);
       runApp(MyApp(navigation: navigation));
     });
 }

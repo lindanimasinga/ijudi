@@ -5,25 +5,31 @@ import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/profile-header-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
-import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 
 class PersonalAndBankView extends StatefulWidget {
   
   static const ROUTE_NAME = "personal";
+  final ApiService apiService;
+
+  const PersonalAndBankView({@required this.apiService});
 
   @override
-  _PersonalAndBankViewState createState() => _PersonalAndBankViewState();
+  _PersonalAndBankViewState createState() => _PersonalAndBankViewState(apiService);
 }
 
 class _PersonalAndBankViewState extends State<PersonalAndBankView> {
   
   UserProfile userProfile;
+  final ApiService apiService;
+
+  _PersonalAndBankViewState(this.apiService);
 
   @override
   void initState() {
-    ApiService.findUserById("idfrom memry")
+    var userId = apiService.currentUserPhone;
+    apiService.findUserByPhone(userId)
                 .asStream().listen((user) => userProfile = user);
     super.initState();
   }

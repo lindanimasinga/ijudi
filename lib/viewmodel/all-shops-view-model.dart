@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/model/shop.dart';
@@ -9,15 +10,17 @@ class AllShopsViewModel extends BaseViewModel {
   List<Shop> _shops = [];
   List<Advert> _ads = [];
 
-  AllShopsViewModel();
+  final ApiService apiService;
+
+  AllShopsViewModel({@required this.apiService});
   
   @override
   void initialize() {
     Rx.merge([
-      ApiService.findAllShopByLocation()
+      apiService.findAllShopByLocation()
         .asStream()
         .map((resp) => shops = resp),
-      ApiService.findAllAdsByLocation()
+      apiService.findAllAdsByLocation()
         .asStream()
         .map((resp) => ads = resp)
     ]).listen((resp) {

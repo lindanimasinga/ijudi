@@ -9,9 +9,10 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 class RegisterViewModel extends BaseViewModel {
   
   final UkhesheService ukhesheService;
+  final ApiService apiService;
   String otp;
 
-  RegisterViewModel(this.ukhesheService);
+  RegisterViewModel({this.ukhesheService, @required this.apiService});
   
   String idNumber = "";
   String name = "";
@@ -76,7 +77,7 @@ class RegisterViewModel extends BaseViewModel {
         bank: _bank);
         
     progressMv.isBusy = true;
-    ApiService.registerUser(user)
+    apiService.registerUser(user)
       .asStream()
       .listen(
         (event) {

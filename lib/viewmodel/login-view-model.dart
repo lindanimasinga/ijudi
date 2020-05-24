@@ -13,21 +13,22 @@ class LoginViewModel extends BaseViewModel {
   
   final StorageManager storage;
   final UkhesheService ukhesheService;
-
+  final ApiService apiService;
+  
   String username;
   String password;
   List<Shop> shops;
   List<Advert> ads;
 
-  LoginViewModel({@required this.ukhesheService,@required this.storage});
+  LoginViewModel({@required this.ukhesheService,@required this.storage,
+   @required this.apiService});
 
   login() {
-    progressMv.isBusy = true;
-                    
+    progressMv.isBusy = true;      
     var subscr = 
       ukhesheService.authenticate(username, password)
         .asStream()
-        .asyncExpand((res) => ApiService.findUserById("id").asStream())
+        .asyncExpand((res) => apiService.findUserByPhone(username).asStream())
         .listen(null);
 
     subscr.onData((data) {

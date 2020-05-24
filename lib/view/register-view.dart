@@ -67,10 +67,12 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                       child: Text("Personal", style: IjudiStyles.SUBTITLE_2),
                     ),
                     IjudiForm(
+                      child: AutofillGroup(
                       child: Column(
                         children: <Widget>[
                           IjudiInputField(
                             hint: 'Cell Number',
+                            autofillHints: [AutofillHints.telephoneNumber],
                             text: viewModel.mobileNumber,
                             onTap: (number) => viewModel.mobileNumber = number,
                             type: TextInputType.phone,
@@ -78,6 +80,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                           IjudiInputField(
                               text: viewModel.name,
                               onTap: (name) => viewModel.name = name,
+                              autofillHints: [AutofillHints.name],
                               hint: 'Name',
                               type: TextInputType.text),
                           IjudiInputField(
@@ -85,16 +88,19 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               onTap: (lastname) =>
                                   viewModel.lastname = lastname,
                               hint: 'Surname',
+                              autofillHints: [AutofillHints.familyName],
                               type: TextInputType.text),
                           IjudiInputField(
                               text: viewModel.idNumber,
                               onTap: (id) => viewModel.idNumber = id,
                               hint: 'Id Number',
+                              autofillHints: [AutofillHints.creditCardNumber],
                               type: TextInputType.text),
                               IjudiInputField(
                               text: viewModel.email,
                               onTap: (email) => viewModel.email = email,
                               hint: 'Email Address',
+                              autofillHints: [AutofillHints.email],
                               type: TextInputType.emailAddress),
                           IjudiAddressInputField(
                               text: viewModel.address,
@@ -102,6 +108,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               hint: 'Physical Address',
                               type: TextInputType.number)
                         ],
+                      )
                       ),
                     ),
                     Padding(
@@ -145,12 +152,14 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                                     onTap: (bank) =>
                                         viewModel.bankAccountNumber = bank,
                                     hint: 'Card Number',
+                                    autofillHints: [AutofillHints.creditCardNumber],
                                     type: TextInputType.number),
                                 IjudiInputField(
                                     text: viewModel.bankCellNumber,
                                     onTap: (phone) =>
                                         viewModel.mobileNumber = phone,
                                     hint: 'Cell Number',
+                                    autofillHints: [AutofillHints.telephoneNumber],
                                     type: TextInputType.phone)
                               ],
                             ),
@@ -162,11 +171,13 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               text: viewModel.password,
                               onTap: (pass) => viewModel.password = pass,
                               hint: 'Password',
+                              autofillHints: [AutofillHints.newPassword],
                               type: TextInputType.text),
                           IjudiInputField(
                               text: viewModel.passwordConfirm,
                               onTap: (pass) => viewModel.passwordConfirm = pass,
                               hint: 'Confirm Password',
+                              autofillHints: [AutofillHints.newPassword],
                               type: TextInputType.text)
                         ],
                       ),
@@ -191,6 +202,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                                   title: "Confirm Code",
                                   child: IjudiInputField(
                                     hint: "OTP",
+                                    autofillHints: [AutofillHints.oneTimeCode],
                                     type: TextInputType.number,
                                     color: IjudiColors.color5,
                                     onTap: (value) => viewModel.otp = value,

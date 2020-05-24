@@ -10,14 +10,20 @@ import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/stock.dart';
 import 'package:ijudi/model/userProfile.dart';
+import 'package:ijudi/services/storage-manager.dart';
 
 class ApiService {
 
   static const API_URL = "http://ec2co-ecsel-1b20jvvw3yfzt-2104564802.af-south-1.elb.amazonaws.com";
   static const TIMEOUT_SEC = 20;
   static UserProfile currentUser;
+  final StorageManager storageManager;
+
+  ApiService(this.storageManager);
+
+  get currentUserPhone => storageManager.mobileNumber;
   
-  static Future<List<Shop>> findAllShopByLocation() async {
+  Future<List<Shop>> findAllShopByLocation() async {
     logger.log("fetching all shops");
     var event = await http.get('$API_URL/store')
         .timeout(Duration(seconds: TIMEOUT_SEC));
@@ -28,7 +34,7 @@ class ApiService {
     return list.map((f) => Shop.fromJson(f)).toList();
   }
 
-  static Future<List<Stock>> findAllStockByShopId(String s) async {
+  Future<List<Stock>> findAllStockByShopId(String s) async {
     List<Stock> stock = [
       Stock(
         name: "Eggs",
@@ -45,7 +51,7 @@ class ApiService {
     return Future.value(stock);
   }
 
-  static Shop findShopById(String s) {
+  Shop findShopById(String s) {
     Shop shop = Shop(
         id: "1",
         name: "Sheila's TuckShop",
@@ -64,13 +70,12 @@ class ApiService {
     return shop;
   }
 
-  static Future<UserProfile> findUserById(String id) async {
-    id = "b51198d4-909c-4ab6-af5f-3a34b172754f";
+  Future<UserProfile> findUserByPhone(String phone) async {
     if(currentUser != null) {
       return Future.value(currentUser);
     }
 
-    var event = await http.get('$API_URL/user/$id')
+    var event = await http.get('$API_URL/user?phone=$phone')
             .timeout(Duration(seconds: TIMEOUT_SEC));
     if(event.statusCode != 200) {
       logger.log(event.statusCode.toString());
@@ -82,10 +87,10 @@ class ApiService {
     return currentUser;
   }
 
-  static Future<List<UserProfile>> findNearbyMessangers(String s) async {
+  Future<List<UserProfile>> findNearbyMessangers(String s) async {
     var messagers = <UserProfile>[];
 
-    var messager1 = await findUserById("");
+    var messager1 = await findUserByPhone("");
     messager1.name = "Sandile Ngema";
     messager1.likes = 12;
     messager1.responseTimeMinutes = 2 + Random().nextInt(13);
@@ -93,7 +98,7 @@ class ApiService {
         "https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/man-raising-hand-medium-dark-skin-tone.png";
     messagers.add(messager1);
 
-    var messager2 = await findUserById("");
+    var messager2 = await findUserByPhone("");
     messager2.name = "Xolani Shezi";
     messager2.likes = 12;
     messager2.responseTimeMinutes = 2 + Random().nextInt(13);
@@ -104,7 +109,7 @@ class ApiService {
     return messagers;
   }
 
-  static Future registerUser(UserProfile user) async {
+  Future registerUser(UserProfile user) async {
     Map<String, String> headers = {
       "Content-type": "application/json",
     };
@@ -114,15 +119,17 @@ class ApiService {
     var event = await http
         .post('$API_URL/user', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
-    if(event.statusCode != 200) throw(event);   
+    if(event.statusCode != 200) throw(event);
+    user = UserProfile.fromJson(json.decode(event.body));
+    storageManager.saveIjudiUserId(user.id);
     return event;
   }
 
-  static Future<dynamic> verifyCanBuy(Basket basket) async {
+  Future<dynamic> verifyCanBuy(Basket basket) async {
     return Future.delayed(Duration(seconds: 2)).asStream();
   }
 
-  static Future<List<Advert>> findAllAdsByLocation() async {
+  Future<List<Advert>> findAllAdsByLocation() async {
     return Future.value(<Advert>[
       Advert(
         imageUrl:
@@ -143,15 +150,15 @@ class ApiService {
     ]);
   }
 
-  static Future<String> updateShop(Shop shop) async {
+  Future<String> updateShop(Shop shop) async {
     return Future.delayed(Duration(seconds: 2));
   }
 
-  static Future<String> addStockItem(String id, Stock stock) async {
+  Future<String> addStockItem(String id, Stock stock) async {
     return Future.delayed(Duration(seconds: 2));
   }
 
-  static Future<Order> startOrder(Order order) async {
+  Future<Order> startOrder(Order order) async {
 
     Map<String, String> headers = {
       "Content-type": "application/json",
@@ -167,7 +174,7 @@ class ApiService {
     return Order.fromJson(json.decode(event.body));
   }
 
-  static Future<Order> completeOrderPayment(Order order) async {
+  Future<Order> completeOrderPayment(Order order) async {
     Map<String, String> headers = {
       "Content-type": "application/json",
     };
@@ -182,10 +189,9 @@ class ApiService {
     return Order.fromJson(json.decode(event.body));
   }
 
-  static Future<List<Order>> findOrdersByCustomerId(String id) async {
-    id = "b51198d4-909c-4ab6-af5f-3a34b172754f";
-    logger.log("fetching all orders for customer $id");
-    var event = await http.get('$API_URL/order?userId=$id')
+  Future<List<Order>> findOrdersByPhoneNumber(String phone) async {
+    logger.log("fetching all orders for customer phone number $phone");
+    var event = await http.get('$API_URL/order?phone=$phone')
         .timeout(Duration(seconds: TIMEOUT_SEC));
     logger.log(event.body);
     if(event.statusCode != 200) throw(event);     

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/view/all-components.dart';
@@ -29,8 +30,12 @@ class NavigatorService {
 
   final StorageManager storageManager;
   final UkhesheService ukhesheService;
+  final ApiService apiService;
 
-  NavigatorService({@required this.ukhesheService, @required this.storageManager});
+  NavigatorService({
+    @required this.ukhesheService, 
+    @required this.storageManager,
+    @required this.apiService});
 
 
   Route<dynamic> generateRoute(RouteSettings settings) {
@@ -41,40 +46,69 @@ class NavigatorService {
 
     switch (routeName) {
       case LoginView.ROUTE_NAME:
-        viewmodel = LoginViewModel(storage: storageManager, ukhesheService: ukhesheService);
+        viewmodel = LoginViewModel(
+          storage: storageManager, 
+          ukhesheService: ukhesheService,
+          apiService: apiService
+        );
         return MaterialPageRoute(builder: (context) => LoginView(viewModel: viewmodel));
       case RegisterView.ROUTE_NAME:
-        viewmodel = RegisterViewModel(ukhesheService);
+        viewmodel = RegisterViewModel(
+          ukhesheService : ukhesheService,
+          apiService: apiService
+        );
         return MaterialPageRoute(builder: (context) => RegisterView(viewModel: viewmodel));
       case AllShopsView.ROUTE_NAME:
-        viewmodel = AllShopsViewModel();
+        viewmodel = AllShopsViewModel(
+          apiService: apiService
+        );
         return MaterialPageRoute(builder: (context) => AllShopsView(viewModel: viewmodel));
       case AllComponentsView.ROUTE_NAME:
         return MaterialPageRoute(builder: (context) => AllComponentsView());
       case ProfileView.ROUTE_NAME:
-        return MaterialPageRoute(builder: (context) => ProfileView());
+        return MaterialPageRoute(builder: (context) => ProfileView(apiService: apiService,));
       case PersonalAndBankView.ROUTE_NAME:
-        return MaterialPageRoute(builder: (context) => PersonalAndBankView());
+        return MaterialPageRoute(builder: (context) => PersonalAndBankView(apiService: apiService,));
       case MyShopsView.ROUTE_NAME:
-        viewmodel = MyShopsViewModel();
+        viewmodel = MyShopsViewModel(
+          apiService: apiService
+        );
         return MaterialPageRoute(builder: (context) => MyShopsView(viewModel: viewmodel));
       case StartShoppingView.ROUTE_NAME:
-        viewmodel = StartShoppingViewModel(args);
+        viewmodel = StartShoppingViewModel(
+          shop: args,
+          apiService: apiService
+        );
         return MaterialPageRoute(builder: (context) => StartShoppingView(viewModel: viewmodel));
       case DeliveryOptionsView.ROUTE_NAME:
-        viewmodel = DeliveryOptionsViewModel(order: args, ukhesheService: ukhesheService);
+        viewmodel = DeliveryOptionsViewModel(
+          order: args, 
+          ukhesheService: ukhesheService,
+          apiService: apiService
+        );
         return MaterialPageRoute(builder: (context) => DeliveryOptionsView(viewModel: viewmodel));  
       case PaymentView.ROUTE_NAME:
-        viewmodel = PaymentViewModel(order: args, ukhesheService: ukhesheService);
+        viewmodel = PaymentViewModel(
+          order: args, 
+          ukhesheService: ukhesheService,
+          apiService: apiService);
         return MaterialPageRoute(builder: (context) => PaymentView(viewModel: viewmodel)); 
       case FinalOrderView.ROUTE_NAME:
-        viewmodel = FinalOrderViewModel(args);
+        viewmodel = FinalOrderViewModel(
+          order: args,
+          apiService: apiService
+        );
         return MaterialPageRoute(builder: (context) => FinalOrderView(viewModel: viewmodel));  
       case StockManagementView.ROUTE_NAME:
-        viewmodel = StockManagementViewModel(args);
+        viewmodel = StockManagementViewModel(
+          shop: args,
+          apiService: apiService
+        );
         return MaterialPageRoute(builder: (context) => StockManagementView(viewModel: viewmodel));  
       case OrderHistoryView.ROUTE_NAME:
-        viewmodel = OrderHistoryViewModel();
+        viewmodel = OrderHistoryViewModel(
+          apiService: apiService
+        );
         return MaterialPageRoute(builder: (context) => OrderHistoryView(viewModel: viewmodel));          
       default : return MaterialPageRoute(builder: (context) => LoginView());
     }

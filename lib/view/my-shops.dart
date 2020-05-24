@@ -46,10 +46,14 @@ class MyShopsView extends MvStatefulWidget<MyShopsViewModel> {
                 IjudiForm( 
                   child: Column(
                           children: <Widget>[
-                            IjudiInputField(hint: 'Shop Name', type: TextInputType.phone, text: viewModel.shop.name),
-                            IjudiInputField(hint: 'Company Reg Number', type: TextInputType.visiblePassword, text: viewModel.shop.registrationNumber),
-                            IjudiInputField(hint: 'Description', type: TextInputType.text, text: viewModel.shop.description),
-                            IjudiInputField(hint: 'Years in service', type: TextInputType.text, text: "${viewModel.shop.yearsInService}"),
+                            IjudiInputField(hint: 'Shop Name', autofillHints: [AutofillHints.name],
+                              type: TextInputType.phone, text: viewModel.shop.name),
+                            IjudiInputField(hint: 'Company Reg Number', autofillHints: [AutofillHints.creditCardNumber],
+                              type: TextInputType.visiblePassword, text: viewModel.shop.registrationNumber),
+                            IjudiInputField(hint: 'Description', autofillHints: [AutofillHints.name],
+                            type: TextInputType.text, text: viewModel.shop.description),
+                            IjudiInputField(hint: 'Years in service', 
+                              type: TextInputType.text, text: "${viewModel.shop.yearsInService}"),
                             IjudiAddressInputField(hint: 'Address', type: TextInputType.number, text: viewModel.shop.address)
                           ],
                   ),
@@ -63,9 +67,12 @@ class MyShopsView extends MvStatefulWidget<MyShopsViewModel> {
                 IjudiForm( 
                   child: Column(
                         children: <Widget>[
-                          IjudiInputField(hint: 'Bank Name', type: TextInputType.text, text: viewModel.shop.bank.name),
-                          IjudiInputField(hint: 'Account Number', type: TextInputType.text, text: viewModel.shop.bank.accountId),
-                          IjudiInputField(hint: 'Account Type', type: TextInputType.text, text: viewModel.shop.bank.type)
+                          IjudiInputField(hint: 'Bank Name', type: TextInputType.text,autofillHints: [AutofillHints.name],
+                           text: viewModel.shop.bank.name),
+                          IjudiInputField(hint: 'Account Number', type: TextInputType.text, autofillHints: [AutofillHints.creditCardNumber],
+                            text: viewModel.shop.bank.accountId),
+                          IjudiInputField(hint: 'Account Type', type: TextInputType.text, autofillHints: [AutofillHints.creditCardType],
+                            text: viewModel.shop.bank.type)
                         ],
                   ),
                 ),

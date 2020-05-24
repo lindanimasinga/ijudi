@@ -30,10 +30,12 @@ class UkheshePaymentComponent extends StatelessWidget {
             ),
             IjudiInputField(
                 hint: "Cell Number",
+                autofillHints: [AutofillHints.telephoneNumber], 
                 text: customer.mobileNumber,
                 color: IjudiColors.color5),
             IjudiInputField(
               hint: "Card Number",
+              autofillHints: [AutofillHints.creditCardNumber],
               enabled: true,
               text: customer.bank.accountId,
               color: IjudiColors.color5,

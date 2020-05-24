@@ -7,6 +7,9 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 class MyShopsViewModel extends BaseViewModel {
   
   Shop _shop = Shop();
+  ApiService apiService;
+
+  MyShopsViewModel({@required this.apiService});
 
   Shop get shop => _shop;
   set shop(Shop shop) {
@@ -16,12 +19,12 @@ class MyShopsViewModel extends BaseViewModel {
 
   @override
   void initialize() {
-    shop = ApiService.findShopById("idfromotherscreen");
+    shop = apiService.findShopById("idfromotherscreen");
   }
 
   void updateProfile() {
     progressMv.isBusy = true;
-    ApiService.updateShop(shop)
+    apiService.updateShop(shop)
       .asStream()
       .listen((resp) {
         Navigator.pushNamed(context, StockManagementView.ROUTE_NAME, arguments: _shop);

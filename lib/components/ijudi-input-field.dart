@@ -9,9 +9,11 @@ class IjudiInputField extends StatelessWidget {
   final String text;
   final Function onTap;
   final bool enabled;
+  Iterable<String> autofillHints;
 
   IjudiInputField(
       {@required this.hint,
+      this.autofillHints,
       this.enabled,
       this.color = IjudiColors.color5,
       this.type,
@@ -47,6 +49,7 @@ class IjudiInputField extends StatelessWidget {
               child: TextField(
                 controller: controller,
                 keyboardType: type,
+                autofillHints: autofillHints,
                 enabled: enabled,
                 onChanged: (value) => onTap(value),
                 decoration: InputDecoration(

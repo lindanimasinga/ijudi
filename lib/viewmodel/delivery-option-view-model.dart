@@ -12,8 +12,11 @@ class DeliveryOptionsViewModel extends BaseViewModel {
 
   Order order;
   final UkhesheService ukhesheService;
+  final ApiService apiService;
   
-  DeliveryOptionsViewModel({@required this.ukhesheService, @required this.order});
+  DeliveryOptionsViewModel({@required this.ukhesheService, 
+    @required this.order,
+    @required this.apiService});
 
   List<UserProfile> _messangers = [];
 
@@ -40,7 +43,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   @override
   void initialize() {
     //shipping
-    ApiService.findNearbyMessangers("")
+    apiService.findNearbyMessangers("")
       .asStream()
       .listen((messa) { 
         messangers = messa;
@@ -54,7 +57,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
 
   startOrder() {
     progressMv.isBusy = true;
-    ApiService.startOrder(order)
+    apiService.startOrder(order)
       .asStream()
       .map((resp) {
         order.id = resp.id;
