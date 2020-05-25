@@ -17,12 +17,6 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
   @override
   Widget build(BuildContext context) {
     
-    String ukhesheMessage = viewModel.hasUkheshe
-        ? "Your Ijudi account will be linked to your Ukheshe account. " +
-            "You will be able to top up and buy goods using ukheshe account"
-        : "Registering with Ijudi will automatically create you an Ukheshe account. " +
-            "Ukheshe is a digital wallet that allows you to pay or get paid without the need of a bank account at no transaction fees.";
-
     return ScrollableParent(
         hasDrawer: false,
         appBarColor: IjudiColors.color1,
@@ -186,7 +180,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                       padding: EdgeInsets.only(
                           left: 16, right: 16, top: 16, bottom: 16),
                       child: Text(
-                        ukhesheMessage,
+                        viewModel.ukhesheMessage,
                         style: IjudiStyles.SUBTITLE_2,
                       ),
                     ),

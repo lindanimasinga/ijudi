@@ -11,7 +11,11 @@ class RegisterViewModel extends BaseViewModel {
   final UkhesheService ukhesheService;
   final ApiService apiService;
   String otp;
+  final String _aboutUkheshe = "Ukheshe is a digital wallet that lets you buy goods and received money without a need to have a"+ 
+                      "bank account.\n\nIt simple requires only your mobile number and you are good to go." +
+                      "You can send, receive and withdraw and deposit money from any ATM or Pick n Pay stores";
 
+  
   RegisterViewModel({this.ukhesheService, @required this.apiService});
   
   String idNumber = "";
@@ -43,6 +47,13 @@ class RegisterViewModel extends BaseViewModel {
   String bankAccountType;
   String bankCellNumber;
   Bank _bank = Bank(name: null, accountId: null, type: null);
+
+  String get ukhesheMessage => hasUkheshe
+        ? "Your Ijudi account will be linked to your Ukheshe account. " +
+            "You will be able to top up, buy goods and receive money using your ukheshe account with ijudi."
+        : "Registering with Ijudi will automatically create you an Ukheshe account. " +
+            _aboutUkheshe;
+
 
   _registerBank() {
     _bank.name = name;
