@@ -131,6 +131,7 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
                         onTap: () => showWebViewDialog(
                             context,
                             url: viewModel.visitUrl,
+                            doneAction: () => viewModel.fetchNewAccountBalances()
                             ) 
                       )
                     ],
