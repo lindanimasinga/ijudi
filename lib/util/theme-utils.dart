@@ -327,6 +327,12 @@ class IjudiStyles {
     color: Colors.white
   );
 
+  static const HEADING = TextStyle(
+    fontSize: 18,
+    fontFamily: "Roboto",
+    fontWeight: FontWeight.w500,
+  );
+
   static const SUBTITLE_1 = TextStyle(
     fontSize: 14,
     fontFamily: "Roboto",
@@ -350,7 +356,7 @@ class IjudiStyles {
     fontSize: 18,
     fontFamily: "Roboto",
     fontWeight: FontWeight.w500,
-    color: IjudiColors.color1
+    color: IjudiColors.color5
   );
 
   static const CARD_SHOP_DISCR = TextStyle(
@@ -400,7 +406,6 @@ class IjudiStyles {
   static const HEADER_TEXT = TextStyle(
     fontSize: 14,
     fontFamily: "Roboto",
-    color: Colors.white
   );
 
     static const CARD_ICON_BUTTON = TextStyle(

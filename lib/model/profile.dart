@@ -47,8 +47,14 @@ class Bank {
   double currentBalance = 0;
   double availableBalance = 0;
   
-  Bank({@required this.name,@required this.accountId,@required this.type,
-   this.currentBalance, this.availableBalance, this.phone, this.customerId});
+  Bank({
+    this.name,
+    this.accountId = "",
+    this.type,
+    this.currentBalance = 0, 
+    this.availableBalance = 0, 
+    this.phone, 
+    this.customerId });
 
 
   factory Bank.fromJson(Map<String, dynamic> json) => _$BankFromJson(json);

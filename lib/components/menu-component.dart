@@ -7,6 +7,7 @@ import 'package:ijudi/view/login-view.dart';
 import 'package:ijudi/view/my-shops.dart';
 import 'package:ijudi/view/order-history-view.dart';
 import 'package:ijudi/view/profile-view.dart';
+import 'package:ijudi/view/wallet-view.dart';
 
 class MenuComponent extends StatelessWidget {
 
@@ -32,7 +33,8 @@ class MenuComponent extends StatelessWidget {
                             action : () => Navigator.pushNamedAndRemoveUntil(context, ProfileView.ROUTE_NAME, (Route<dynamic> route) => false)),
                           Buttons.menuItem(text: "My Shop",
                             action : () => Navigator.pushNamedAndRemoveUntil(context, MyShopsView.ROUTE_NAME, (Route<dynamic> route) => false)),
-                          Buttons.menuItem(text: "Wallet"),
+                          Buttons.menuItem(text: "Wallet",
+                          action : () => Navigator.pushNamedAndRemoveUntil(context, WalletView.ROUTE_NAME, (Route<dynamic> route) => false)),
                           Buttons.menuItem(text: "Orders",
                             action : () => Navigator.pushNamedAndRemoveUntil(context, OrderHistoryView.ROUTE_NAME, (Route<dynamic> route) => false)),
                           Buttons.menuItem(text: "Settings",

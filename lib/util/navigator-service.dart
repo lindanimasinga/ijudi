@@ -15,6 +15,7 @@ import 'package:ijudi/view/profile-view.dart';
 import 'package:ijudi/view/register-view.dart';
 import 'package:ijudi/view/start-shopping.dart';
 import 'package:ijudi/view/stock-view.dart';
+import 'package:ijudi/view/wallet-view.dart';
 import 'package:ijudi/viewmodel/all-shops-view-model.dart';
 import 'package:ijudi/viewmodel/delivery-option-view-model.dart';
 import 'package:ijudi/viewmodel/final-order-view-model.dart';
@@ -22,9 +23,11 @@ import 'package:ijudi/viewmodel/login-view-model.dart';
 import 'package:ijudi/viewmodel/my-shops-view-model.dart';
 import 'package:ijudi/viewmodel/order-history-view-model.dart';
 import 'package:ijudi/viewmodel/payment-view-model.dart';
+import 'package:ijudi/viewmodel/profile-view-model.dart';
 import 'package:ijudi/viewmodel/register-view-model.dart';
 import 'package:ijudi/viewmodel/start-shopping-view-model.dart';
 import 'package:ijudi/viewmodel/stock-management-view-mode.dart';
+import 'package:ijudi/viewmodel/wallet-view-model.dart';
 
 class NavigatorService {
 
@@ -66,7 +69,11 @@ class NavigatorService {
       case AllComponentsView.ROUTE_NAME:
         return MaterialPageRoute(builder: (context) => AllComponentsView());
       case ProfileView.ROUTE_NAME:
-        return MaterialPageRoute(builder: (context) => ProfileView(apiService: apiService,));
+        viewmodel = ProfileViewModel(
+          ukhesheService : ukhesheService,
+          apiService: apiService
+        );
+        return MaterialPageRoute(builder: (context) => ProfileView(viewModel: viewmodel));
       case PersonalAndBankView.ROUTE_NAME:
         return MaterialPageRoute(builder: (context) => PersonalAndBankView(apiService: apiService,));
       case MyShopsView.ROUTE_NAME:
@@ -110,6 +117,12 @@ class NavigatorService {
           apiService: apiService
         );
         return MaterialPageRoute(builder: (context) => OrderHistoryView(viewModel: viewmodel));          
+      case WalletView.ROUTE_NAME:
+        viewmodel = WalletViewModel(
+          apiService: apiService,
+          ukhesheService: ukhesheService
+        );
+        return MaterialPageRoute(builder: (context) => WalletView(viewModel: viewmodel));            
       default : return MaterialPageRoute(builder: (context) => LoginView());
     }
   }

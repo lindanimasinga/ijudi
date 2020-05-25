@@ -1,38 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:ijudi/api/api-service.dart';
-import 'package:ijudi/components/profile-header-component.dart';
+import 'package:ijudi/components/floating-action-button-with-progress.dart';
+import 'package:ijudi/components/ijudi-address-input-field.dart';
+import 'package:ijudi/components/ijudi-form.dart';
+import 'package:ijudi/components/ijudi-input-field.dart';
+import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
-import 'package:ijudi/components/shop-component.dart';
-import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/util/theme-utils.dart';
-import 'package:ijudi/view/personal-and-bank.dart';
+import 'package:ijudi/viewmodel/profile-view-model.dart';
 
-class ProfileView extends StatefulWidget {
+class ProfileView extends MvStatefulWidget<ProfileViewModel> {
   
   static const ROUTE_NAME = "profile";
-  final ApiService apiService;
 
-  const ProfileView({@required this.apiService});
-
-  @override
-  _ProfileViewState createState() => _ProfileViewState(apiService);
-}
-
-class _ProfileViewState extends State<ProfileView> {
-  
-  UserProfile userProfile = UserProfile();
-
-  final ApiService apiService;
-
-  _ProfileViewState(this.apiService);
-
-  @override
-  void initState() {
-    var userId = apiService.currentUserPhone;
-    apiService.findUserByPhone(userId)
-                .asStream().listen((user) => userProfile = user);
-    super.initState();
-  }
+  ProfileView({ProfileViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -43,139 +23,83 @@ class _ProfileViewState extends State<ProfileView> {
         child: Stack(
           children: <Widget>[
             Headers.getHeader(context),
-            Container(
-                //  margin: EdgeInsets.only(left: 16, right: 16),
+            viewModel.userProfile == null ? Container() : Container(
                 width: MediaQuery.of(context).size.width,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
+                      child: Text("Profile Picture",
+                          style: IjudiStyles.SUBTITLE_1),
+                    ),
+                    FittedBox(
+                        fit: BoxFit.contain,
+                        child: Container(
+                            width: 150,
+                            height: 150,
+                            margin: EdgeInsets.all(0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(75),
+                                  bottomRight: Radius.circular(75)),
+                              color: Colors.white,
+                              border: Border.all(
+                                color: IjudiColors.color1,
+                                width: 4,
+                              ),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    viewModel.userProfile.imageUrl),
+                                fit: BoxFit.contain,
+                              ),
+                            ))),
+                    Padding(
+                      padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
+                      child: Text("Personal", style: IjudiStyles.HEADER_TEXT),
+                    ),
+                    IjudiForm(
+                      child: AutofillGroup(
+                      child: Column(
+                        children: <Widget>[
+                          IjudiInputField(
+                            hint: 'Cell Number',
+                            autofillHints: [AutofillHints.telephoneNumber],
+                            text: viewModel.userProfile.mobileNumber,
+                            onTap: (number) => viewModel.userProfile.mobileNumber = number,
+                            type: TextInputType.phone,
+                          ),
+                          IjudiInputField(
+                              text: viewModel.userProfile.name,
+                              onTap: (name) => viewModel.userProfile.name = name,
+                              autofillHints: [AutofillHints.name],
+                              hint: 'Name',
+                              type: TextInputType.text),
+                          IjudiAddressInputField(
+                              text: viewModel.userProfile.address,
+                              onTap: (address) => viewModel.userProfile.address = address,
+                              hint: 'Physical Address',
+                              type: TextInputType.number),   
+                        ],
+                      )
+                      ),
+                    ), 
                     Container(
-                        margin: EdgeInsets.only(left: 16, right: 16),
-                        child: ProfileHeaderComponent(
-                            profile: userProfile,
-                            profilePicBorder: IjudiColors.color3)),
-                    buildProfileCard(
-                        action: () => Navigator.pushNamed(
-                            context, PersonalAndBankView.ROUTE_NAME),
-                        header: "Account",
-                        actions: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Column(
-                              children: <Widget>[
-                                IconButton(
-                                    iconSize: 32,
-                                    icon: Icon(Icons.add_circle,
-                                        color: IjudiColors.color4),
-                                    onPressed: null),
-                                Text("TopUp",
-                                    style: IjudiStyles.CARD_ICON_BUTTON)
-                              ],
-                            ),
-                            Padding(padding: EdgeInsets.only(left: 8)),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                IconButton(
-                                    iconSize: 32,
-                                    icon: Icon(Icons.monetization_on,
-                                        color: IjudiColors.color2),
-                                    onPressed: null),
-                                Text("Withdraw",
-                                    style: IjudiStyles.CARD_ICON_BUTTON)
-                              ],
-                            )
-                          ],
-                        ),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("Current Balance",
-                                      style: IjudiStyles.CARD_DISCR),
-                                  Padding(padding: EdgeInsets.only(left: 16)),
-                                  Text("R ${userProfile.bank.currentBalance}",
-                                      style: IjudiStyles.CARD_DISCR_ITAL)
-                                ],
-                              ),
-                              Padding(padding: EdgeInsets.only(bottom: 4)),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("Available Balance",
-                                      style: IjudiStyles.CARD_DISCR),
-                                  Text("R ${userProfile.bank.availableBalance}",
-                                      style: IjudiStyles.CARD_DISCR_ITAL)
-                                ],
-                              ),
-                              Padding(padding: EdgeInsets.only(bottom: 4)),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("Card Number",
-                                      style: IjudiStyles.CARD_DISCR),
-                                  Text("${userProfile.bank.accountId}",
-                                      style: IjudiStyles.CARD_DISCR_ITAL)
-                                ],
-                              )
-                            ])),
-                    buildProfileCard(
-                        header: "Stores And Services",
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text("Phumlani Dube",
-                                  style: IjudiStyles.CARD_DISCR),
-                              Text("Age: 26 Dube",
-                                  style: IjudiStyles.CARD_DISCR),
-                              Text("ID Number: 9401216110082",
-                                  style: IjudiStyles.CARD_DISCR),
-                              Text("Email: pdube@gmail.com",
-                                  style: IjudiStyles.CARD_DISCR)
-                            ])),
-                    buildProfileCard(
-                        header: "Reviews and Ratings",
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text("Phumlani Dube",
-                                  style: IjudiStyles.CARD_DISCR),
-                              Text("Age: 26 Dube",
-                                  style: IjudiStyles.CARD_DISCR),
-                              Text("ID Number: 9401216110082",
-                                  style: IjudiStyles.CARD_DISCR),
-                              Text("Email: pdube@gmail.com",
-                                  style: IjudiStyles.CARD_DISCR)
-                            ]))
+                      margin: EdgeInsets.only(top: 16),
+                      alignment: Alignment.center,
+                      child: FloatingActionButtonWithProgress(
+                          viewModel: viewModel.progressMv,
+                          child: Icon(Icons.check),
+                          onPressed: () => {
+
+                          },
+                      ) ,
+                    )
+                    
                   ],
                 ))
           ],
         ));
-  }
-
-  Widget buildProfileCard(
-      {String header, Widget child, Widget actions, Function action}) {
-    actions = actions == null ? Container() : actions;
-    return IJudiCard(
-        child: Container(
-      margin: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 16),
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(header, style: IjudiStyles.CARD_HEADER),
-            Padding(padding: EdgeInsets.only(bottom: 14)),
-            child,
-            Padding(padding: EdgeInsets.only(bottom: 8)),
-            actions
-          ]),
-    ));
   }
 }
