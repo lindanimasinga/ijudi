@@ -111,11 +111,11 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
                       children: [
                       Text("What is Ukheshe", style: IjudiStyles.HEADING,),
                       Padding(padding: EdgeInsets.only(top: 8)),
-                      Text(viewModel.about, style: IjudiStyles.HEADER_TEXT,),
+                      Text(viewModel.about, style: IjudiStyles.CONTENT_TEXT,),
                       Padding(padding: EdgeInsets.only(top: 32)),
                       Text("How to deposit or withdraw my money", style: IjudiStyles.HEADING,),
                       Padding(padding: EdgeInsets.only(top: 8)),
-                      Text(viewModel.depositNWithdraw, style: IjudiStyles.HEADER_TEXT,),
+                      Text(viewModel.depositNWithdraw, style: IjudiStyles.CONTENT_TEXT,),
                       Padding(padding: EdgeInsets.only(top: 32)),
                       Text("Learn more about Ukheshe", style: IjudiStyles.HEADING,),
                       Padding(padding: EdgeInsets.only(top: 8)),

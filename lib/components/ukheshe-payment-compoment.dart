@@ -22,7 +22,6 @@ class UkheshePaymentComponent extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Image.asset("assets/images/uKhese-logo.png", width: width),
                   Text("Avialable Balance", style: Forms.INPUT_TEXT_STYLE),
                   Text("R${customer.bank.availableBalance}", style: Forms.INPUT_TEXT_STYLE)
                 ],

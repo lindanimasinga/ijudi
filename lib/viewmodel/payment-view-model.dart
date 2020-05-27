@@ -23,30 +23,6 @@ class PaymentViewModel extends BaseViewModel {
   void initialize() {
   }
 
-  processPayment() {
-    progressMv.isBusy = true;
-    var subscr = ukhesheService.paymentForOrder(order)
-      .asStream()
-      .asyncExpand((event) => Future.delayed(Duration(seconds: 4)).asStream())
-      .asyncExpand((event) {
-        order.paymentType = PaymentType.UKHESHE;
-        return apiService.completeOrderPayment(order).asStream();
-        })
-      .listen(null);
-    
-    subscr.onData((data) {
-      Navigator.pushNamedAndRemoveUntil(
-            context,
-            FinalOrderView.ROUTE_NAME,
-            (Route<dynamic> route) => false,
-            arguments: order);
-    });
-
-    subscr.onDone(() {
-      progressMv.isBusy = false;
-    });
-  }
-
   set availableBalance(CustomerInfoResponse value) {
     order.customer.bank = value;
     print(order.customer.bank);
@@ -61,6 +37,19 @@ class PaymentViewModel extends BaseViewModel {
   bool get isBalanceLow => order.customer.bank.availableBalance < order.totalAmount;
 
   String get baseUrl => UkhesheService.baseURL;
+
+  String get collectionInstructions => "Please produce your order number ${order.id} when collecting your order at ${order.shop.name}. Contact Number : ${order.shop.mobileNumber}";
+
+  String get deliveryHeader => isDelivery ? "Delivery By" : "Collection";
+
+  bool get isDelivery => order.shippingData.type == ShippingType.DELIVERY;
+
+  get paymentType => order.paymentType;
+
+  set paymentType(PaymentType paymentType) {
+    order.paymentType = paymentType;
+    notifyChanged();
+  }
 
   StreamSubscription<InitTopUpResponse> topUp() {
     progressMv.isBusy = true;
@@ -84,5 +73,47 @@ class PaymentViewModel extends BaseViewModel {
       onDone: () {
         progressMv.isBusy = false;
       });
+  }
+
+    processPayment() {
+    progressMv.isBusy = true;
+    var subscr = ukhesheService.paymentForOrder(order)
+      .asStream()
+      .asyncExpand((event) => Future.delayed(Duration(seconds: 4)).asStream())
+      .asyncExpand((event) {
+        order.paymentType = PaymentType.UKHESHE;
+        return apiService.completeOrderPayment(order).asStream();
+        })
+      .listen(null);
+    
+    subscr.onData((data) {
+      Navigator.pushNamedAndRemoveUntil(
+            context,
+            FinalOrderView.ROUTE_NAME,
+            (Route<dynamic> route) => false,
+            arguments: order);
+    });
+
+    subscr.onDone(() {
+      progressMv.isBusy = false;
+    });
+  }
+
+  processCashPayment() {
+    progressMv.isBusy = true;
+    var subscr = apiService.completeOrderPayment(order).asStream()
+      .listen(null);
+    
+    subscr.onData((data) {
+      Navigator.pushNamedAndRemoveUntil(
+            context,
+            FinalOrderView.ROUTE_NAME,
+            (Route<dynamic> route) => false,
+            arguments: order);
+    });
+
+    subscr.onDone(() {
+      progressMv.isBusy = false;
+    });
   }
 }

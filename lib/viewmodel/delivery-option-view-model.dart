@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
+import 'package:ijudi/model/business-hours.dart';
+import 'package:ijudi/model/day.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/view/payment-view.dart';
@@ -21,15 +23,14 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   List<UserProfile> _messangers = [];
 
   List<UserProfile> get messangers => _messangers;
+
   set messangers(List<UserProfile> messangers) {
     _messangers = messangers;
     notifyChanged();
   }
 
-  ShippingType _delivery = ShippingType.DELIVERY;
-
-  ShippingType get delivery => _delivery;
-  set delivery(ShippingType delivery) {
+  ShippingType get shippingType => order.shippingData.type;
+  set shippingType(ShippingType delivery) {
     order.shippingData.type = delivery;
     notifyChanged();
   }
@@ -37,6 +38,29 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   get deliveryAddress => order.shippingData.toAddress;
   set deliveryAddress(deliveryAddress) {
     order.shippingData.toAddress = deliveryAddress;
+    notifyChanged();
+  }
+
+  get isDelivery => shippingType == ShippingType.DELIVERY;
+
+  get businessHours {
+      var hours = order.shop.businessHours;
+      if(hours != null) return hours;
+
+      hours = [
+        BusinessHours(Day.MONDAY, TimeOfDay(hour: 8, minute: 0), TimeOfDay(hour: 17, minute: 0)),
+        BusinessHours(Day.TUESDAY, TimeOfDay(hour: 8, minute: 0), TimeOfDay(hour: 17, minute: 0)),
+        BusinessHours(Day.WEDNESDAY, TimeOfDay(hour: 8, minute: 0), TimeOfDay(hour: 17, minute: 0)),
+        BusinessHours(Day.THURSDAY, TimeOfDay(hour: 8, minute: 0), TimeOfDay(hour: 17, minute: 0)),
+        BusinessHours(Day.FRIDAY, TimeOfDay(hour: 8, minute: 0), TimeOfDay(hour: 17, minute: 0)),
+      ];
+      return hours;
+    }
+
+  TimeOfDay get arrivalTime => order.shippingData.pickUpTime;
+
+  set arrivalTime(TimeOfDay arrivalTime) {
+    order.shippingData.pickUpTime = arrivalTime;
     notifyChanged();
   }
 

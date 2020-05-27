@@ -14,7 +14,7 @@ import 'package:ijudi/services/storage-manager.dart';
 
 class ApiService {
 
-  static const API_URL = "http://ec2co-ecsel-1b20jvvw3yfzt-2104564802.af-south-1.elb.amazonaws.com";
+  static const API_URL = "http://localhost";
   static const TIMEOUT_SEC = 20;
   static UserProfile currentUser;
   final StorageManager storageManager;

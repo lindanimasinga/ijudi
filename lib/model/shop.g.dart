@@ -24,7 +24,13 @@ Shop _$ShopFromJson(Map<String, dynamic> json) {
     bank: json['bank'] == null
         ? null
         : Bank.fromJson(json['bank'] as Map<String, dynamic>),
-  )..responseTimeMinutes = json['responseTimeMinutes'] as int;
+  )
+    ..responseTimeMinutes = json['responseTimeMinutes'] as int
+    ..businessHours = (json['businessHours'] as List)
+        ?.map((e) => e == null
+            ? null
+            : BusinessHours.fromJson(e as Map<String, dynamic>))
+        ?.toList();
 }
 
 Map<String, dynamic> _$ShopToJson(Shop instance) {
@@ -51,5 +57,6 @@ Map<String, dynamic> _$ShopToJson(Shop instance) {
   writeNotNull('verificationCode', instance.verificationCode);
   writeNotNull('bank', instance.bank);
   writeNotNull('registrationNumber', instance.registrationNumber);
+  writeNotNull('businessHours', instance.businessHours);
   return val;
 }

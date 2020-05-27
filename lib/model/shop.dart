@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import 'business-hours.dart';
+
 part 'shop.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class Shop extends Profile {
+  
   String registrationNumber;
+  List<BusinessHours> businessHours;
 
   Shop(
       {@required String id,
