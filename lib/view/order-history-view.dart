@@ -26,6 +26,7 @@ class OrderHistoryView extends MvStatefulWidget<OrderHistoryViewModel> {
         children: <Widget>[
           Headers.getShopHeader(context),
           Container(
+            width: MediaQuery.of(context).size.width,
             child: Column(
               children: orderItemsComponents,
             ),
