@@ -54,21 +54,21 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                         )),
                     Padding(
                         padding:
-                            EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                            EdgeInsets.only(left: 0, right: 16, bottom: 16),
                         child: BasketComponent(
                             basket: viewModel.order.basket,
                             removeAction: (basketItem) =>
                                 viewModel.remove(basketItem))),
-                    Padding(
-                        padding:
-                            EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                    Container(
+                        alignment: Alignment.topLeft,
+                        padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
                         child: Text(
                           "Available Items",
-                          style: Forms.INPUT_TEXT_STYLE,
+                          style: IjudiStyles.SUBTITLE_2
                         )),
                     Padding(
                         padding:
-                            EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                            EdgeInsets.only(left: 0, right: 16, bottom: 16),
                         child: StocksComponent(
                                 stocks: viewModel.stocks,
                                 addAction: (basketItem) => viewModel.add(basketItem)

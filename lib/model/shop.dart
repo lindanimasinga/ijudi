@@ -11,11 +11,13 @@ class Shop extends Profile {
   
   String registrationNumber;
   List<BusinessHours> businessHours;
+  bool hasVat;
 
   Shop(
       {@required String id,
       @required String name,
       this.registrationNumber,
+      this.hasVat = false,
       @required String description,
       @required int yearsInService,
       @required String address,

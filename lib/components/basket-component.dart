@@ -13,22 +13,24 @@ class BasketComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   if (basket == null || basket.items.isEmpty)
-    return Card(child:Container(
-            width: 352,
-            height: 52,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              border: Border.all(color: IjudiColors.color5, width: 0.25),
-            ),
-            child: Text("Basket empty", style: Forms.INPUT_TEXT_STYLE),
+    return Card(
+            margin: EdgeInsets.only(left: 0),
+            child: Container(
+              height: 52,
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(left: 16),
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                border: Border.all(color: IjudiColors.color5, width: 0.25),
+              ),
+              child: Text("Basket empty", style: Forms.INPUT_TEXT_STYLE),
           ));
 
     List<Widget> basketWidget = <Widget>[];
     basket.items.forEach((item) {
       basketWidget.add(Container(
-        width: 352,
         height: 52,
+        padding: EdgeInsets.only(left: 16),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           border: Border.all(color: IjudiColors.color5, width: 0.05),
@@ -55,8 +57,8 @@ class BasketComponent extends StatelessWidget {
     });
 
 basketWidget.add(Container(
-        width: 352,
         height: 52,
+        padding: EdgeInsets.only(left: 16),
         decoration: BoxDecoration(
           color: IjudiColors.color2,
           border: Border.all(color: IjudiColors.color5, width: 0.05),
@@ -80,7 +82,9 @@ basketWidget.add(Container(
         ),
       ));
 
-    return Card(child:Column(
+    return Card(
+      margin: EdgeInsets.only(left: 0),
+      child:Column(
       children: basketWidget,
     ));
   }

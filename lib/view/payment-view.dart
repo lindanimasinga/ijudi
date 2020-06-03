@@ -26,9 +26,9 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
         child: Stack(children: <Widget>[
           Headers.getShopHeader(context),
           Padding(
-              padding: EdgeInsets.only(top: 16, left: 0, right: 0),
+              padding: EdgeInsets.only(top: 16, left: 0, right: 16),
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
                         alignment: Alignment.topLeft,

@@ -28,6 +28,8 @@ class Order {
 
   double get totalAmount => basket.getBasketTotalAmount() + shippingData.fee;
 
+  bool get hasVat => shop.hasVat;
+
   @JsonKey(ignore: true)
   Shop get shop => _shop;
 
@@ -69,7 +71,7 @@ class Shipping {
   String toAddress;
   String additionalInstructions;
   ShippingType type;
-  double fee;
+  double fee = 0;
   UserProfile messenger;
   @JsonKey(fromJson: dateFromJson, toJson: dateToJson)
   TimeOfDay pickUpTime = TimeOfDay(hour: 0, minute: 0);

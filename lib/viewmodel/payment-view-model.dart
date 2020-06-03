@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/model/init-topup-response.dart';
@@ -82,7 +83,7 @@ class PaymentViewModel extends BaseViewModel {
       .asyncExpand((event) => Future.delayed(Duration(seconds: 4)).asStream())
       .asyncExpand((event) {
         order.paymentType = PaymentType.UKHESHE;
-        return apiService.completeOrderPayment(order).asStream();
+        return  apiService.completeOrderPayment(order).asStream();
         })
       .listen(null);
     

@@ -32,6 +32,9 @@ class UkhesheService {
     var response  =  await  http
         .post('$apiUrl/login', headers: headers, body: json.encode(request))
         .timeout(Duration(seconds: TIMEOUT_SEC));
+   /*     var jsonString = "{\"expires\":\"2020-06-01T16:44:05Z\",\"expiresEpochSecs\":1591029845,\"headerName\":\"Authorization\",\"headerValue\":\"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwODEyODE1NzA3IiwidWlkIjozMTg5MzAsImNoIjoic01NczNnVEVSSCIsInJvbGVzIjoiY3VzdG9tZXIiLCJzZXNzIjoiNTE2YWMzYzAtMDRhNC00YTM5LWIzNjAtMTljYjllMTNkNGRhIiwiaXNzIjoiaHR0cDpcL1wvamluaS5ndXJ1IiwiZXhwIjoxNTkxMDI5ODQ1fQ.6CknO0Aewgh-PNbz_uAy7fM_1yNMRXylPiKwsCUZ1mw\",\"roles\":[\"customer\"],\"sessionId\":\"516ac3c0-04a4-4a39-b360-19cb9e13d4da\"}";
+        var responseData = http.Response(jsonString, 200);
+        var response  =  await  Future.value(responseData); */
     log(response.body);
     if(response.statusCode != 200) throw(response.body);
     JWTResponse jwt = JWTResponse.fromJson(json.decode(response.body));
@@ -87,7 +90,7 @@ class UkhesheService {
             headers: headers, 
             body: json.encode(request))
         .timeout(Duration(seconds: TIMEOUT_SEC));
-        
+    print(response.body);    
     return response.statusCode == 200 ? 
                   PaymentResponse.fromJson(json.decode(response.body)) : throw(response);   
   }

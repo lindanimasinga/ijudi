@@ -14,7 +14,7 @@ import 'package:ijudi/services/storage-manager.dart';
 
 class ApiService {
 
-  static const API_URL = "http://localhost";
+  static const API_URL = "http://ec2co-ecsel-1b20jvvw3yfzt-2104564802.af-south-1.elb.amazonaws.com/";
   static const TIMEOUT_SEC = 20;
   static UserProfile currentUser;
   final StorageManager storageManager;
@@ -39,7 +39,7 @@ class ApiService {
       Stock(
         name: "Eggs",
         quantity: 20,
-        price: 00.00,
+        price: 1.00,
       ),
       Stock(name: "Bread", quantity: 50, price: 35.00),
       Stock(name: "Banana", quantity: 20, price: 10.50),
@@ -184,7 +184,17 @@ class ApiService {
     var event = await http
         .patch('$API_URL/order/${order.id}', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
+    logger.log("Try 1");
     logger.log(event.body);
+
+    if(event.statusCode != 200){
+       event = await http
+        .patch('$API_URL/order/${order.id}', headers: headers, body: request)
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+      logger.log("Try 2");
+      logger.log(event.body);
+    }
+
     if(event.statusCode != 200) throw(event);
     return Order.fromJson(json.decode(event.body));
   }

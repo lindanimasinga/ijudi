@@ -54,8 +54,8 @@ class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
                   );
 
     return Container(
-      width: 352,
       height: 86,
+      padding: EdgeInsets.only(left: 16),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         border: Border.all(color: IjudiColors.color5, width: 0.05),

@@ -44,13 +44,15 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             )
           ),
           Padding(padding: EdgeInsets.only(top: 8, bottom: 8)),
-          Forms.searchField(context, "store name, bread, suger"),
+          Forms.searchField(context, "shop name, burger, usu"),
           Container(
             alignment: Alignment.topLeft,
             padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
             child: Text("Shops", style: Forms.INPUT_TEXT_STYLE,),
           ),
-          Column(children: shopComponets)
+          Column(
+            children: shopComponets
+          )
         ],
       ));
   }

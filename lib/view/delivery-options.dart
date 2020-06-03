@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:google_maps_webservice/places.dart';
-import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/components/basket-view-only-component.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-address-input-field.dart';
@@ -11,11 +8,8 @@ import 'package:ijudi/components/ijudi-time-input-field.dart';
 import 'package:ijudi/components/messager-preview-component.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
-import 'package:ijudi/model/basket.dart';
 import 'package:ijudi/model/order.dart';
-import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/util/theme-utils.dart';
-import 'package:ijudi/view/payment-view.dart';
 import 'package:ijudi/viewmodel/delivery-option-view-model.dart';
 
 class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
@@ -46,7 +40,7 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
                       child: Text("Basket", style: IjudiStyles.HEADER_TEXT)),
                   Container(
                     padding: EdgeInsets.only(
-                        bottom: 16, left: 16, right: 16, top: 16),
+                        bottom: 16, left: 0, right: 16, top: 16),
                     alignment: Alignment.center,
                     child:
                         BasketViewOnlyComponent(basket: viewModel.order.basket),
@@ -89,7 +83,9 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
   }
 
   Widget shippingDetailsWidget(List<Widget> messageComponents) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start, 
+      children: [
       IjudiForm(
           child: Column(
         children: <Widget>[
@@ -112,10 +108,9 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
           padding: EdgeInsets.only(left: 16, bottom: 16),
           child: Text("Messangers Available", style: IjudiStyles.SUBTITLE_2)),
       Container(
-          margin: EdgeInsets.only(bottom: 16),
-          alignment: Alignment.center,
+          margin: EdgeInsets.only(bottom: 16, right: 16),
           child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: messageComponents))
     ]);
   }

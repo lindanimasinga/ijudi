@@ -12,6 +12,8 @@ import 'package:ijudi/view/order-history-view.dart';
 import 'package:ijudi/view/payment-view.dart';
 import 'package:ijudi/view/personal-and-bank.dart';
 import 'package:ijudi/view/profile-view.dart';
+import 'package:ijudi/view/quick-pay.dart';
+import 'package:ijudi/view/quick-payment-success.dart';
 import 'package:ijudi/view/register-view.dart';
 import 'package:ijudi/view/start-shopping.dart';
 import 'package:ijudi/view/stock-view.dart';
@@ -24,6 +26,7 @@ import 'package:ijudi/viewmodel/my-shops-view-model.dart';
 import 'package:ijudi/viewmodel/order-history-view-model.dart';
 import 'package:ijudi/viewmodel/payment-view-model.dart';
 import 'package:ijudi/viewmodel/profile-view-model.dart';
+import 'package:ijudi/viewmodel/quick-pay-view-model.dart';
 import 'package:ijudi/viewmodel/register-view-model.dart';
 import 'package:ijudi/viewmodel/start-shopping-view-model.dart';
 import 'package:ijudi/viewmodel/stock-management-view-mode.dart';
@@ -122,7 +125,22 @@ class NavigatorService {
           apiService: apiService,
           ukhesheService: ukhesheService
         );
-        return MaterialPageRoute(builder: (context) => WalletView(viewModel: viewmodel));            
+        return MaterialPageRoute(builder: (context) => WalletView(viewModel: viewmodel));
+      case QuickPayView.ROUTE_NAME:
+        viewmodel = QuickPayViewModel(
+          apiService: apiService,
+          ukhesheService: ukhesheService,
+          shop: args
+        );
+        return MaterialPageRoute(
+          builder: (context) => QuickPayView(viewModel: viewmodel),
+          fullscreenDialog: true
+        ); 
+      case QuickPaymentSuccess.ROUTE_NAME:
+        return MaterialPageRoute(
+          builder: (context) => QuickPaymentSuccess(order: args),
+          fullscreenDialog: true
+        );              
       default : return MaterialPageRoute(builder: (context) => LoginView());
     }
   }

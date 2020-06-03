@@ -28,8 +28,8 @@ class IjudiTimeInput extends StatelessWidget {
             selection:
                 TextSelection.fromPosition(TextPosition(offset: text.length))));
 
-    double width = MediaQuery.of(context).size.width > 360 ? 190 : 150;
-    double width2 = MediaQuery.of(context).size.width > 360 ? 90 : 90;
+    double width = MediaQuery.of(context).size.width > 360 ? 166 : 126;
+    double width2 = MediaQuery.of(context).size.width > 360 ? 114 : 114;
 
     return Row(children: <Widget>[
       Container(
@@ -38,7 +38,7 @@ class IjudiTimeInput extends StatelessWidget {
         height: 52,
         alignment: Alignment.centerLeft,
         child: Padding(
-            padding: EdgeInsets.only(left: 8),
+            padding: EdgeInsets.only(left: 32),
             child: Text(hint,
                 style: Forms.INPUT_LABEL_STYLE,
                 overflow: TextOverflow.ellipsis)),

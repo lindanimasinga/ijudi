@@ -13,9 +13,11 @@ class StocksComponent extends StatelessWidget {
 
     if (stocks == null)
     return 
-        Card(child:Container(
-            width: 352,
+        Card(
+          margin: EdgeInsets.only(left: 0),
+          child:Container(
             height: 52,
+            padding: EdgeInsets.only(left: 16),
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
@@ -27,8 +29,8 @@ class StocksComponent extends StatelessWidget {
     List<Widget> stockWidget = <Widget>[];
     stocks.forEach((item) {
       stockWidget.add(Container(
-        width: 352,
         height: 52,
+        padding: EdgeInsets.only(left: 16),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           border: Border.all(color: IjudiColors.color5, width: 0.05),
@@ -56,6 +58,7 @@ class StocksComponent extends StatelessWidget {
     });
 
     return Card(
+      margin: EdgeInsets.only(left: 0),
       child:Column(
       children: stockWidget,
     ));

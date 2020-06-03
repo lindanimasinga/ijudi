@@ -22,9 +22,9 @@ class IjudiLoginField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
-    double width = MediaQuery.of(context).size.width > 360 ? 190 : 170;
-    double width2 = MediaQuery.of(context).size.width > 360 ? 90 : 60;
+
+    double width = MediaQuery.of(context).size.width > 360 ? 166 : 146;
+    double width2 = MediaQuery.of(context).size.width > 360 ? 114 : 84;
     return Row(children: <Widget>[
       Container(
         color: color,

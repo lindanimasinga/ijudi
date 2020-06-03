@@ -18,7 +18,7 @@ class UkheshePaymentComponent extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 8, right: 16, top: 16, bottom: 8),
+              margin: EdgeInsets.only(left: 32, right: 16, top: 16, bottom: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
