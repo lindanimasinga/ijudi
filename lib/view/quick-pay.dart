@@ -32,7 +32,7 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
               Container(
                   margin: EdgeInsets.only(top: 32, left: 16, right: 16),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,8 +53,8 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
                             borderRadius: BorderRadius.circular(61),
                             color: Colors.white,
                             border: Border.all(
-                              color: IjudiColors.color1,
-                              width: 2,
+                              color: IjudiColors.color3,
+                              width: 3,
                             ),
                             image: DecorationImage(
                               image: NetworkImage(viewModel.shop.imageUrl),
@@ -94,8 +94,9 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
                       )
                     ],
                   ))),
-              Padding(padding: EdgeInsets.only(top: 16)),
-              FloatingActionButtonWithProgress(
+              Padding(
+                padding: EdgeInsets.only(top: 16, bottom: 16),
+              child: FloatingActionButtonWithProgress(
                   onPressed: () {
                     if (viewModel.isBalanceLow) {
                       _showLowBalanceMessage(context);
@@ -104,7 +105,7 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
                     showConfirmPayment(context);
                   },
                   child: Icon(Icons.check),
-                  viewModel: viewModel.progressMv)
+                  viewModel: viewModel.progressMv))
             ],
           )
         ]));
