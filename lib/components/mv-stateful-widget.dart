@@ -10,7 +10,8 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
   MvStatefulWidget(T viewModel) : this.viewModel = viewModel
   {
     this.viewModel.buildFunction = build;
-     this.viewModel.initWidgetFunction = initialize;
+    this.viewModel.initWidgetFunction = initialize;
+    this.viewModel.errorBuildFunction = showErrorDialog;
   }
 
   @override
@@ -33,7 +34,7 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
            ),
-          title: new Text(title),
+          title: Text(title),
           content: child,
           actions: <Widget>[
             FlatButton(
@@ -42,8 +43,8 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
                 Navigator.of(context).pop();
               },
             ),
-            new FlatButton(
-              child: new Text(actionName, style: Forms.INPUT_TEXT_STYLE),
+            FlatButton(
+              child: Text(actionName, style: Forms.INPUT_TEXT_STYLE),
               onPressed: () {
                 Navigator.of(context).pop();
                 action();
@@ -86,22 +87,22 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
     );
   }
 
-  void showErrorDialog(BuildContext context, {String errorMessage}) {
+  void showErrorDialog(BuildContext context, String errorMessage) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          contentPadding: EdgeInsets.only(left: 0, top: 16),
+          contentPadding: EdgeInsets.only(left: 16, top: 16, right: 16),
           titlePadding: EdgeInsets.only(left: 16, top: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
-            side: BorderSide(color: IjudiColors.color5, width: 5)),
-          title: new Text("Error"),
+           ),
+          title: Text("Error"),
           content: Text(errorMessage),
           actions: <Widget>[
-            new FlatButton(
+             FlatButton(
               textColor: Theme.of(context).primaryColor,
-              child: new Text("Close", style: Forms.INPUT_TEXT_STYLE),
+              child: Text("Close", style: Forms.INPUT_TEXT_STYLE),
               onPressed: () {
                 Navigator.of(context).pop();
               },

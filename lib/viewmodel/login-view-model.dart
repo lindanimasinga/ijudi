@@ -29,20 +29,17 @@ class LoginViewModel extends BaseViewModel {
       ukhesheService.authenticate(username, password)
         .asStream()
         .asyncExpand((res) => apiService.findUserByPhone(username).asStream())
-        .listen(null);
-
-    subscr.onData((data) {
+        .listen((data) {
       progressMv.isBusy = false;
         hasError = false;
         storage.mobileNumber = username;
         Navigator.pushNamedAndRemoveUntil(
             context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false);
-    }); 
-
-    subscr.onError((handleError) {
+    }, onError: (handleError) {
       hasError = true;
       errorMessage = handleError.toString();
       //log(handleError);
+    }, onDone: () {
       progressMv.isBusy = false;
     });
   }

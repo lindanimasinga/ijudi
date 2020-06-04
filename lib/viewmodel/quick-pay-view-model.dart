@@ -44,6 +44,9 @@ class QuickPayViewModel extends BaseViewModel {
           order.shippingData.fromAddress = shop.name;
           order.basket = Basket();
           order.description = "Payment from ${order.customer.mobileNumber}";
+        }, onError: (e) {
+            hasError = true;
+            errorMessage = e.toString();
         },
          onDone: () {});
   }
@@ -74,7 +77,10 @@ class QuickPayViewModel extends BaseViewModel {
             context,
             QuickPaymentSuccess.ROUTE_NAME,
             arguments: order);
-    }, onDone: () {
+    }, onError: (e) {
+      hasError = true;
+      errorMessage = e.toString();
+      }, onDone: () {
       progressMv.isBusy = false;
     });
   }

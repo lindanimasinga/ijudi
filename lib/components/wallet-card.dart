@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ijudi/components/ijudi-input-field.dart';
-import 'package:ijudi/components/shop-component.dart';
+import 'package:ijudi/components/ijudi-card.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 

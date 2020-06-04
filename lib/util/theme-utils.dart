@@ -90,16 +90,16 @@ class Headers {
     return ClipPath(
       clipper: IjudyHeaderClipPath(
         part: Parts.FIRST,
-        waves: Utils.generateWaveNumber(3),
+        waves: Utils.generateWaveNumber(2),
         height: 100),
       child: Container(
-        color: IjudiColors.color3,
+        color: IjudiColors.color1,
         height: 150,
         width: MediaQuery.of(context).size.width,
         child: ClipPath(
                 clipper: IjudyHeaderClipPath(
                   part: Parts.SECOND,
-                  waves: Utils.generateWaveNumber(3),
+                  waves: Utils.generateWaveNumber(2),
                   height: 65),
                 child: Container(
                   color: IjudiColors.color2,
@@ -108,10 +108,10 @@ class Headers {
                   child: ClipPath(
                     clipper: IjudyHeaderClipPath(
                       part: Parts.THIRD,
-                      waves: Utils.generateWaveNumber(3),
+                      waves: Utils.generateWaveNumber(2),
                       height: 35),
                     child: Container(
-                      color: IjudiColors.color1,
+                      color: IjudiColors.color3,
                       height: 45,
                       width: 375,
                   ),
@@ -327,6 +327,11 @@ class IjudiStyles {
     color: Colors.white
   );
 
+  static const HEADER_2 = TextStyle(
+    fontSize: 18,
+    fontFamily: "Roboto",
+  );
+
   static const HEADING = TextStyle(
     fontSize: 18,
     fontFamily: "Roboto",
@@ -352,6 +357,12 @@ class IjudiStyles {
     color: IjudiColors.color2
   );
 
+  static const CARD_SHOP_HEADER2  = TextStyle(
+    fontSize: 14,
+    fontFamily: "Roboto",
+    fontWeight: FontWeight.w500,
+  );
+
   static const CARD_HEADER = TextStyle(
     fontSize: 18,
     fontFamily: "Roboto",
@@ -361,6 +372,11 @@ class IjudiStyles {
 
   static const CARD_SHOP_DISCR = TextStyle(
     fontSize: 14,
+    fontFamily: "Roboto"
+  );
+
+  static const CARD_SHOP_DISCR2 = TextStyle(
+    fontSize: 12,
     fontFamily: "Roboto"
   );
 
@@ -411,7 +427,8 @@ class IjudiStyles {
 
   static const CONTENT_TEXT = TextStyle(
     fontSize: 14,
-    fontFamily: "Roboto"
+    fontFamily: "Roboto",
+    color: Colors.white
   );
 
     static const CARD_ICON_BUTTON = TextStyle(

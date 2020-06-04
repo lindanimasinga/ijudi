@@ -26,11 +26,13 @@ class WalletViewModel extends BaseViewModel {
 
   @override
   initialize() {
-    this.ukhesheService.getAccountInformation().asStream()
+    this.ukhesheService.getAccountInformation()
+      .asStream()
       .listen((data) {
         this.wallet = data;
-      },onError: (error) {
-
+      },onError: (e) {
+      hasError = true;
+      errorMessage = e.toString();
       });
   }
 
@@ -52,6 +54,12 @@ class WalletViewModel extends BaseViewModel {
     sub.onDone(() {
       //progressMv.isBusy = false;
     });
+
+    sub.onError((e) {
+      hasError = true;
+      errorMessage = e.toString();
+    });
+
     return sub;    
   }
 
@@ -61,6 +69,9 @@ class WalletViewModel extends BaseViewModel {
       .asStream()
       .listen((resp) {
         wallet = resp;
+      },onError: (e) {
+      hasError = true;
+      errorMessage = e.toString();
       },
       onDone: () {
        // progressMv.isBusy = false;

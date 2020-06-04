@@ -27,6 +27,9 @@ class AllShopsViewModel extends BaseViewModel {
 
     }, onDone: () {
       
+    }, onError: (e) {
+      hasError = true;
+      errorMessage = e.toString();
     });
 
   }

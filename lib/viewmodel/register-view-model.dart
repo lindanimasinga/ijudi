@@ -64,6 +64,9 @@ class RegisterViewModel extends BaseViewModel {
       (event) {
         Navigator.pushNamedAndRemoveUntil(
               context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false);
+      }, onError: (e) {
+      hasError = true;
+      errorMessage = e.toString();
       }, 
       onDone: () {
         progressMv.isBusy = false;
@@ -90,8 +93,7 @@ class RegisterViewModel extends BaseViewModel {
     progressMv.isBusy = true;
     apiService.registerUser(user)
       .asStream()
-      .listen(
-        (event) {
+      .listen((event) {
           print("successful registration");
           if(!hasUkheshe) {
           _registerBank();
@@ -99,10 +101,13 @@ class RegisterViewModel extends BaseViewModel {
           }
           Navigator.pushNamedAndRemoveUntil(
                 context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false);
-        }, 
-        onDone: () {
+        }, onError: (e) {
+      hasError = true;
+      errorMessage = e.toString();
+      },
+      onDone: () {
             progressMv.isBusy = false;
-        });
+      });
   }
 
   _registerUserOtpRequest() {
@@ -110,6 +115,9 @@ class RegisterViewModel extends BaseViewModel {
     ukhesheService.requestOpt(mobileNumber)
       .asStream()
       .listen((event) {
+      }, onError: (e) {
+      hasError = true;
+      errorMessage = e.toString();
       },
       onDone: () => progressMv.isBusy = false);
   }

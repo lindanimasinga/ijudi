@@ -8,7 +8,6 @@ import 'package:ijudi/view/delivery-options.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class StartShoppingViewModel extends BaseViewModel {
-  
   final Shop shop;
   final ApiService apiService;
 
@@ -25,18 +24,16 @@ class StartShoppingViewModel extends BaseViewModel {
     order.description = "order from ${shop.name}";
     var userId = apiService.currentUserPhone;
     apiService.findUserByPhone(userId)
-      .asStream()
-      .listen((user) {
-        order.customer = user;
-      });
-    
+    .asStream()
+    .listen((user) {
+      order.customer = user;
+    });
+
     apiService.findAllStockByShopId(shop.id)
     .asStream()
     .listen((resp) {
-        stocks = resp;
-      }, onDone: () {
-      
-      });  
+      stocks = resp;
+    }, onDone: () {});
   }
 
   void remove(BasketItem basketItem) {
@@ -52,14 +49,17 @@ class StartShoppingViewModel extends BaseViewModel {
 
   void verifyItemsAvailable() {
     progressMv.isBusy = true;
-    var subscr = apiService.verifyCanBuy(order.basket)
-                  .asStream()
-                  .listen(null);
-    subscr.onData((data) {
-      Navigator.pushNamed(context, DeliveryOptionsView.ROUTE_NAME,
-          arguments: order);
-    });
-    subscr.onDone(() => progressMv.isBusy = false);
+    apiService.verifyCanBuy(order.basket)
+    .asStream()
+    .listen((data) {
+        Navigator.pushNamed(context, DeliveryOptionsView.ROUTE_NAME,
+        arguments: order);
+    },
+    onError: (e) {
+      hasError = true;
+      errorMessage = e.toString();
+    },
+    onDone: () => progressMv.isBusy = false);
   }
 
   List<Stock> get stocks => _stocks;

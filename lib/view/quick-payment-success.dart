@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ijudi/components/basket-component.dart';
-import 'package:ijudi/components/basket-view-only-component.dart';
+import 'package:ijudi/components/ijudi-card.dart';
 import 'package:ijudi/components/order-review-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
-import 'package:ijudi/components/shop-component.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:intl/intl.dart';

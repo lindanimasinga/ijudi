@@ -11,6 +11,7 @@ class Shop extends Profile {
   
   String registrationNumber;
   List<BusinessHours> businessHours;
+  List<String> tags;
   bool hasVat;
 
   Shop(
@@ -18,6 +19,7 @@ class Shop extends Profile {
       @required String name,
       this.registrationNumber,
       this.hasVat = false,
+      this.tags = const ["restuarant", "veggies", "takeaway", "pizza", "burger", "italian"],
       @required String description,
       @required int yearsInService,
       @required String address,

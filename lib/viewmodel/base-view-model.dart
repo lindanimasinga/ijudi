@@ -7,6 +7,7 @@ abstract class BaseViewModel extends State {
   bool _hasError = false;
   String _errorMessage = "";
   Function buildFunction;
+  Function errorBuildFunction;
   Function initWidgetFunction;
 
   String get errorMessage => _errorMessage;
@@ -24,6 +25,11 @@ abstract class BaseViewModel extends State {
   @protected
   @override
   Widget build(BuildContext context) {
+    if(hasError) {
+      Future.delayed(Duration(milliseconds: 500))
+      .then((value) => errorBuildFunction(context, errorMessage));
+      _hasError = false;
+    }
     return buildFunction(context);
   }
 

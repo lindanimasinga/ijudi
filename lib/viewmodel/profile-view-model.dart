@@ -20,7 +20,10 @@ class ProfileViewModel  extends BaseViewModel {
     .asyncExpand((resp) => ukhesheService.getAccountInformation().asStream())
     .listen((wallet) { 
       userProfile.bank = wallet;
-    });
+    }, onError: (e) {
+      hasError = true;
+      errorMessage = e.toString();
+      });
   }
 
   UserProfile get userProfile => _userProfile;

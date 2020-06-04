@@ -3,6 +3,7 @@ import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-login-field.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
+import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/viewmodel/login-view-model.dart';
 
@@ -15,16 +16,14 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-       appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.white),
-          backgroundColor: IjudiColors.color1,
-          elevation: 0,
-          title: Text("Login", style: TextStyle(color: Colors.white)),
-        ),
-        body: Stack(children: <Widget>[
+    return ScrollableParent(
+        hasDrawer: false,
+        title: "Login",
+        appBarColor: IjudiColors.color1,
+        child: Stack(children: <Widget>[
           Headers.getHeader(context),
-          Center(
+          Container(
+              height: MediaQuery.of(context).size.height,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -76,13 +75,13 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                                 text: "Register",
                                 action: () => viewModel.register(),
                               )
-                    )
-              ])
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 16),
+                    ),
+                    Container(
+                margin: EdgeInsets.only(bottom: 8, top: 16),
                 alignment: Alignment.bottomCenter,
-                child: Text("2020 All rights reserved. View our policy here"),
+                child: Text("2020 All rights reserved. View our policy here", style: IjudiStyles.SUBTITLE_2),
+              )
+              ])
               )
         ]));
   }

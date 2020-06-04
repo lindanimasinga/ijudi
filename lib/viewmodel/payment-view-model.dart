@@ -85,17 +85,17 @@ class PaymentViewModel extends BaseViewModel {
         order.paymentType = PaymentType.UKHESHE;
         return  apiService.completeOrderPayment(order).asStream();
         })
-      .listen(null);
-    
-    subscr.onData((data) {
+      .listen((data) {
       Navigator.pushNamedAndRemoveUntil(
             context,
             FinalOrderView.ROUTE_NAME,
             (Route<dynamic> route) => false,
             arguments: order);
-    });
-
-    subscr.onDone(() {
+    }, onError: (e) {
+      hasError = true;
+      errorMessage = e.toString();
+      }
+    ,onDone: () {
       progressMv.isBusy = false;
     });
   }

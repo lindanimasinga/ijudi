@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/ads-card-component.dart';
+import 'package:ijudi/components/ijudi-card.dart';
 import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';

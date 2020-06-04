@@ -12,9 +12,15 @@ class OrderHistoryViewModel extends BaseViewModel {
   @override
   void initialize() {
     var userId = apiService.currentUserPhone;
-    apiService.findOrdersByPhoneNumber(userId).asStream().listen((respo) {
+    apiService.findOrdersByPhoneNumber(userId)
+    .asStream()
+    .listen((respo) {
       orders = respo;
-    }, onDone: () {
+    }, onError: (e) {
+      hasError = true;
+      errorMessage = e.toString();
+      }
+    , onDone: () {
     });
   }
 

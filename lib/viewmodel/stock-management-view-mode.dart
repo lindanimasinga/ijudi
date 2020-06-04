@@ -22,9 +22,12 @@ class StockManagementViewModel extends BaseViewModel {
     .asStream()
     .listen((resp) {
         stocks = resp;
-      }, onDone: () {
+    }, onError: (e) {
+      hasError = true;
+      errorMessage = e.toString();
+    }, onDone: () {
       
-      });  
+    });  
   }
 
   addNewItem() {
@@ -42,6 +45,9 @@ class StockManagementViewModel extends BaseViewModel {
           newItemPrice = "";
           stocks.add(stock);
           notifyChanged();
+        }, onError: (e) {
+          hasError = true;
+          errorMessage = e.toString();
         }, onDone: () {
           progressMv.isBusy = false;
         });
