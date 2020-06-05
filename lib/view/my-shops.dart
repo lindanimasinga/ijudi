@@ -13,7 +13,7 @@ class MyShopsView extends MvStatefulWidget<MyShopsViewModel> {
   
   static const String ROUTE_NAME = "myshops";
 
-  MyShopsView({viewModel}) : super(viewModel);
+  MyShopsView({MyShopsViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {

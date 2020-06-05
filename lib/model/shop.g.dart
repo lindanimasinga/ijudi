@@ -11,6 +11,12 @@ Shop _$ShopFromJson(Map<String, dynamic> json) {
     id: json['id'] as String,
     name: json['name'] as String,
     registrationNumber: json['registrationNumber'] as String,
+    stockList: (json['stockList'] as List)
+        ?.map(
+            (e) => e == null ? null : Stock.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    hasVat: json['hasVat'] as bool,
+    tags: (json['tags'] as List)?.map((e) => e as String)?.toList(),
     description: json['description'] as String,
     yearsInService: json['yearsInService'] as int,
     address: json['address'] as String,
@@ -58,5 +64,8 @@ Map<String, dynamic> _$ShopToJson(Shop instance) {
   writeNotNull('bank', instance.bank);
   writeNotNull('registrationNumber', instance.registrationNumber);
   writeNotNull('businessHours', instance.businessHours);
+  writeNotNull('stockList', instance.stockList);
+  writeNotNull('tags', instance.tags);
+  writeNotNull('hasVat', instance.hasVat);
   return val;
 }

@@ -58,7 +58,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                             ))),
                     Padding(
                       padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
-                      child: Text("Personal", style: IjudiStyles.SUBTITLE_2),
+                      child: Text("Personal", style: IjudiStyles.HEADER_TEXT),
                     ),
                     IjudiForm(
                       child: AutofillGroup(
@@ -183,6 +183,34 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                         viewModel.ukhesheMessage,
                         style: IjudiStyles.SUBTITLE_2,
                       ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 16, right: 16, bottom: 4),
+                      child: InkWell(
+                        child: RichText (
+                          text:TextSpan(
+                            children: [
+                              TextSpan(text: "Terms and Conditions ", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
+                              TextSpan( text: "UKheshe", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
+                            ]
+                          )
+                        )
+                      )
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 16, right: 16, bottom: 16),
+                      child: InkWell(
+                        child: RichText (
+                          text:TextSpan(
+                            children: [
+                              TextSpan(text: "Terms and Conditions ", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
+                              TextSpan( text: "iJudi Market", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
+                            ]
+                          )
+                        )
+                      )
                     ),
                     Container(
                         alignment: Alignment.center,

@@ -11,8 +11,8 @@ class StockManagementViewModel extends BaseViewModel {
   List<Stock> _stocks;
 
   String newItemName;
-  String newItemPrice;
-  String newItemQuantity;
+  double newItemPrice = 0;
+  int newItemQuantity = 0;
 
   StockManagementViewModel({this.shop, @required this.apiService});
 
@@ -35,14 +35,15 @@ class StockManagementViewModel extends BaseViewModel {
     var stock = Stock(
       name: newItemName,
       price: newItemPrice,
-      quantity: newItemQuantity);
+      quantity: newItemQuantity
+    );
       
     apiService.addStockItem(shop.id, stock)
         .asStream()
-        .listen((event) { 
+        .listen((newStock) {
           newItemName = "";
-          newItemQuantity = "";
-          newItemPrice = "";
+          newItemQuantity = 0;
+          newItemPrice = 0;
           stocks.add(stock);
           notifyChanged();
         }, onError: (e) {

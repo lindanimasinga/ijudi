@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/shop.dart';
+import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class FinalOrderViewModel extends BaseViewModel {
   
   final Order order;
 
-  Shop shop;
+  Shop shop = Shop.createPlaceHolder();
   ApiService apiService;
 
   FinalOrderViewModel({@required this.order, 
@@ -16,7 +17,13 @@ class FinalOrderViewModel extends BaseViewModel {
 
   @override
   void initialize() {
-    shop = apiService.findShopById("s");
+    apiService.findShopById("42b2e967-d653-4085-a7b7-ef20301acec8")
+      .asStream()
+      .listen((shp) => shop = shp
+      ,onError: (e) {
+        hasError = true;
+        errorMessage = e.toString();
+      });
   }
   
   void moveNextStage() {

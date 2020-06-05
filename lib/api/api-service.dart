@@ -28,46 +28,43 @@ class ApiService {
     var event = await http.get('$API_URL/store')
         .timeout(Duration(seconds: TIMEOUT_SEC));
 
-    if(event.statusCode != 200) throw(event);     
+    if(event.statusCode != 200) throw(event.body);     
         
     Iterable list = json.decode(event.body);
     return list.map((f) => Shop.fromJson(f)).toList();
   }
 
-  Future<List<Stock>> findAllStockByShopId(String s) async {
-    List<Stock> stock = [
-      Stock(
-        name: "Eggs",
-        quantity: 20,
-        price: 1.00,
-      ),
-      Stock(name: "Bread", quantity: 50, price: 35.00),
-      Stock(name: "Banana", quantity: 20, price: 10.50),
-      Stock(name: "Eggs 6", quantity: 20, price: 0.00),
-      Stock(name: "Airtime", quantity: 20, price: 16.00),
-      Stock(name: "Banana", quantity: 20, price: 10.50),
-      Stock(name: "Eggs 6", quantity: 20, price: 0.00)
-    ];
-    return Future.value(stock);
+    Future<List<Shop>> findFeaturedShopByLocation() async {
+      logger.log("fetching fetured shops");
+      var event = await http.get('$API_URL/store?featured=true')
+          .timeout(Duration(seconds: TIMEOUT_SEC));
+
+      if(event.statusCode != 200) throw(event.body);     
+      
+      Iterable list = json.decode(event.body);
+      return list.map((f) => Shop.fromJson(f)).toList();
   }
 
-  Shop findShopById(String s) {
-    Shop shop = Shop(
-        id: "1",
-        name: "Sheila's TuckShop",
-        registrationNumber: "20170098087",
-        mobileNumber: "0813114112",
-        description: "Sells Veggies, Fruits, Drinks",
-        address: "BB Umlazi, Durban, KZN",
-        imageUrl: "https://zbinworld.com/wp-content/uploads/2017/09/spaza.jpg",
-        role: "Shop",
-        yearsInService: 3,
-        badges: 1,
-        likes: 20,
-        servicesCompleted: 150,
-        bank: Bank(name: "Ukheshe", accountId: "2885091160", type: "Wallet"));
+  Future<List<Stock>> findAllStockByShopId(String id) async {
 
-    return shop;
+    logger.log("fetching stock shops");
+      var event = await http.get('$API_URL/store/$id/stock')
+          .timeout(Duration(seconds: TIMEOUT_SEC));
+
+      if(event.statusCode != 200) throw(event.body);     
+      
+      Iterable list = json.decode(event.body);
+      return list.map((f) => Stock.fromJson(f)).toList();
+  }
+
+  Future<Shop> findShopById(String id) async {
+    logger.log("fetching fetured shops");
+    var event = await http.get('$API_URL/store/$id')
+          .timeout(Duration(seconds: TIMEOUT_SEC));
+          
+    if(event.statusCode != 200) throw(event.body);     
+  
+    return Shop.fromJson(json.decode(event.body));
   }
 
   Future<UserProfile> findUserByPhone(String phone) async {
@@ -155,7 +152,20 @@ class ApiService {
   }
 
   Future<String> addStockItem(String id, Stock stock) async {
-    return Future.delayed(Duration(seconds: 2));
+    
+    logger.log("adding stock..");
+    Map<String, String> headers = {
+      "Content-type": "application/json",
+    };
+
+    var request = json.encode(stock);
+    print(request);
+    var event = await http.patch('$API_URL/store/$id/stock', headers: headers, body: request, )
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+
+    if(event.statusCode != 200) throw(event.body);     
+
+    return event.body;
   }
 
   Future<Order> startOrder(Order order) async {

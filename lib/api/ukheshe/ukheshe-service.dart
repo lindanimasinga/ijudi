@@ -92,7 +92,7 @@ class UkhesheService {
         .timeout(Duration(seconds: TIMEOUT_SEC));
     print(response.body);    
     return response.statusCode == 200 ? 
-                  PaymentResponse.fromJson(json.decode(response.body)) : throw(response);   
+                  PaymentResponse.fromJson(json.decode(response.body)) : throw(response.body);   
   }
 
   Future registerUkhesheAccount(Bank bank, String otp, String password) async {
@@ -121,7 +121,7 @@ class UkhesheService {
         .timeout(Duration(seconds: TIMEOUT_SEC));
 
     return response.statusCode == 200 ? 
-                  PaymentResponse.fromJson(json.decode(response.body)) : throw(response);
+                  PaymentResponse.fromJson(json.decode(response.body)) : throw(response.body);
   }
 
 
@@ -141,7 +141,7 @@ class UkhesheService {
         .timeout(Duration(seconds: TIMEOUT_SEC));
     log(response.body);
     return response.statusCode == 200? 
-            CustomerInfoResponse.fromJson(json.decode(response.body)) : throw(response);
+            CustomerInfoResponse.fromJson(json.decode(response.body)) : throw(response.body);
   }
 
 
@@ -169,7 +169,7 @@ class UkhesheService {
         .timeout(Duration(seconds: TIMEOUT_SEC));
    
     return response.statusCode == 200 ? 
-            InitTopUpResponse.fromJson(json.decode(response.body)) : throw(response);
+            InitTopUpResponse.fromJson(json.decode(response.body)) : throw(response.body);
   }
 
   Future requestOpt(String mobileNumber) async {
@@ -188,6 +188,6 @@ class UkhesheService {
     var data = await http
         .post('$apiUrl/customers/verifications', headers: headers, body: json.encode(request))
         .timeout(Duration(seconds: TIMEOUT_SEC));
-    return data.statusCode == 204 ? data : throw(data);
+    return data.statusCode == 204 ? data : throw(data.body);
   }
 }

@@ -8,6 +8,7 @@ import 'package:rxdart/rxdart.dart';
 class AllShopsViewModel extends BaseViewModel {
 
   List<Shop> _shops = [];
+  List<Shop> _featuredShops = [];
   List<Advert> _ads = [];
 
   final ApiService apiService;
@@ -17,6 +18,9 @@ class AllShopsViewModel extends BaseViewModel {
   @override
   void initialize() {
     Rx.merge([
+      apiService.findFeaturedShopByLocation()
+        .asStream()
+        .map((resp) => featuredShops = resp),
       apiService.findAllShopByLocation()
         .asStream()
         .map((resp) => shops = resp),
@@ -39,20 +43,21 @@ class AllShopsViewModel extends BaseViewModel {
     notifyChanged();
   }
 
-  List<Advert> get ads => _ads;
+  List<Shop> get featuredShops => _featuredShops;
+  set featuredShops(List<Shop> featuredShops) {
+    _featuredShops = featuredShops;
+  }
 
+  List<Advert> get ads => _ads;
   set ads(List<Advert> ads) {
     _ads = ads;
     notifyChanged();
   }
 
   List<Shop> get shops => _shops;
-
   set shops(List<Shop> shops) {
     _shops = shops;
     notifyChanged();
   }
-
-
 
 }

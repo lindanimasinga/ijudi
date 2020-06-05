@@ -2,23 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 
-class ProfileHeaderComponent extends StatefulWidget {
+class ProfileHeaderComponent extends StatelessWidget {
   final Color profilePicBorder;
   final Profile profile;
 
   ProfileHeaderComponent(
       {@required this.profile, @required this.profilePicBorder});
-
-  @override
-  _ProfileHeaderComponentState createState() =>
-      _ProfileHeaderComponentState(profile, profilePicBorder);
-}
-
-class _ProfileHeaderComponentState extends State<ProfileHeaderComponent> {
-  Profile profile;
-  Color profilePicBorder;
-
-  _ProfileHeaderComponentState(this.profile, this.profilePicBorder);
 
   @override
   Widget build(BuildContext context) {

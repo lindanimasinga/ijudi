@@ -92,6 +92,11 @@ class DeliveryOptionsViewModel extends BaseViewModel {
       .listen((customerResponse) {
         availableBalance = customerResponse;
         Navigator.pushNamed(context, PaymentView.ROUTE_NAME, arguments: order);
+      }, 
+      onError: (handleError) {
+        hasError = true;
+        errorMessage = handleError.toString();
+      //log(handleError);
       },
       onDone: () {
         progressMv.isBusy = false;

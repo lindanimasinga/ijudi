@@ -30,8 +30,7 @@ class LoginViewModel extends BaseViewModel {
         .asStream()
         .asyncExpand((res) => apiService.findUserByPhone(username).asStream())
         .listen((data) {
-      progressMv.isBusy = false;
-        hasError = false;
+        progressMv.isBusy = false;
         storage.mobileNumber = username;
         Navigator.pushNamedAndRemoveUntil(
             context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false);

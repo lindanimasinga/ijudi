@@ -22,6 +22,7 @@ class StartShoppingViewModel extends BaseViewModel {
     order = Order();
     order.shop = shop;
     order.description = "order from ${shop.name}";
+    stocks  = shop.stockList;
     var userId = apiService.currentUserPhone;
     apiService.findUserByPhone(userId)
     .asStream()
@@ -29,11 +30,18 @@ class StartShoppingViewModel extends BaseViewModel {
       order.customer = user;
     });
 
-    apiService.findAllStockByShopId(shop.id)
-    .asStream()
-    .listen((resp) {
-      stocks = resp;
-    }, onDone: () {});
+    if(stocks == null) {
+      apiService.findAllStockByShopId(shop.id)
+      .asStream()
+      .listen((resp) {
+        stocks = resp;
+      }, onError: (e) {
+        hasError = true;
+        errorMessage = e.toString(); 
+      }, onDone: () {
+
+      });
+    }
   }
 
   void remove(BasketItem basketItem) {

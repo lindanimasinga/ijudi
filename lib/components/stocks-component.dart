@@ -11,7 +11,7 @@ class StocksComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    if (stocks == null)
+    if (stocks == null || stocks.isEmpty)
     return 
         Card(
           margin: EdgeInsets.only(left: 0),

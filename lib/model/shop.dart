@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/model/profile.dart';
+import 'package:ijudi/model/stock.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'business-hours.dart';
@@ -11,6 +12,7 @@ class Shop extends Profile {
   
   String registrationNumber;
   List<BusinessHours> businessHours;
+  List<Stock> stockList;
   List<String> tags;
   bool hasVat;
 
@@ -18,6 +20,7 @@ class Shop extends Profile {
       {@required String id,
       @required String name,
       this.registrationNumber,
+      this.stockList,
       this.hasVat = false,
       this.tags = const ["restuarant", "veggies", "takeaway", "pizza", "burger", "italian"],
       @required String description,
@@ -49,5 +52,22 @@ class Shop extends Profile {
 
   factory Shop.fromJson(Map<String, dynamic> json) => _$ShopFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ShopToJson(this); 
+  Map<String, dynamic> toJson() => _$ShopToJson(this);
+
+  static Shop createPlaceHolder() {
+        return Shop(
+        id: "1",
+        name: "......",
+        registrationNumber: "",
+        mobileNumber: "...........",
+        description: "..............",
+        address: "............",
+        imageUrl: "https://pbs.twimg.com/media/C1OKE9QXgAAArDp.jpg",
+        role: "Shop",
+        yearsInService: 0,
+        badges: 0,
+        likes: 0,
+        servicesCompleted: 0,
+        bank: Bank(name: "Name", accountId: "Account", type: "Wallet"));
+  } 
 }

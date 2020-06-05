@@ -6,20 +6,23 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class MyShopsViewModel extends BaseViewModel {
   
-  Shop _shop = Shop();
+  Shop _shop;
   ApiService apiService;
 
   MyShopsViewModel({@required this.apiService});
 
-  Shop get shop => _shop;
-  set shop(Shop shop) {
-    _shop = shop;
-    notifyChanged();
-  }
-
   @override
   void initialize() {
-    shop = apiService.findShopById("idfromotherscreen");
+    shop = Shop.createPlaceHolder();
+    apiService.findShopById("42b2e967-d653-4085-a7b7-ef20301acec8")
+      .asStream()
+      .listen((shp) {
+        shop = shp;
+      }
+      ,onError: (e) {
+        hasError = true;
+        errorMessage = e.toString();
+      });
   }
 
   void updateProfile() {
@@ -28,8 +31,14 @@ class MyShopsViewModel extends BaseViewModel {
       .asStream()
       .listen((resp) {
         Navigator.pushNamed(context, StockManagementView.ROUTE_NAME, arguments: _shop);
-      }, onDone: () {
-      progressMv.isBusy = false;
+      },onDone: () {
+        progressMv.isBusy = false;
       });
+  }
+
+  Shop get shop => _shop;
+  set shop(Shop shop) {
+    _shop = shop;
+    notifyChanged();
   }
 }

@@ -13,7 +13,7 @@ class RegisterViewModel extends BaseViewModel {
   String otp;
   final String _aboutUkheshe = "Ukheshe is a digital wallet that lets you buy goods and received money without a need to have a"+ 
                       "bank account.\n\nIt simple requires only your mobile number and you are good to go." +
-                      "You can send, receive and withdraw and deposit money from any ATM or Pick n Pay stores";
+                      "You can send, receive and withdraw and deposit money from any ATM or Pick n Pay stores.\n\nBy signing up, I agree to the terms and conditions below.";
 
   
   RegisterViewModel({this.ukhesheService, @required this.apiService});

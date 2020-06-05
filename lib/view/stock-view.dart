@@ -53,16 +53,19 @@ class StockManagementView extends MvStatefulWidget<StockManagementViewModel> {
                             IjudiInputField(
                               hint: "Name",
                               text: viewModel.newItemName,
+                              onTap: (value) => viewModel.newItemName = value,
                             ),
                             IjudiInputField(
                               hint: "Price",
-                              text: viewModel.newItemPrice,
+                              text: "${viewModel.newItemPrice}",
                               type: TextInputType.number,
+                              onTap: (value) => viewModel.newItemPrice = double.parse(value),
                             ),
                             IjudiInputField(
                               hint: "Quantity",
-                              text: viewModel.newItemQuantity,
+                              text: "${viewModel.newItemQuantity}",
                               type: TextInputType.number,
+                              onTap: (value) => viewModel.newItemQuantity = int.parse(value),
                             ),
                           ],
                         ),

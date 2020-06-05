@@ -22,11 +22,16 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
     double deviceWidth = MediaQuery.of(context).size.width;
     var colorPickCount = 0;
     Set<FeaturedShop> featuredShops = HashSet();
+    if(viewModel.shops.length > 0){
+      viewModel.featuredShops.forEach((shop) {
+        featuredShops.add(FeaturedShop(shop: shop));
+      });
+    }
+
     Set<ShopComponent> shopComponets = HashSet();
     Set<Widget> filters = HashSet();
     if(viewModel.shops.length > 0) {
     viewModel.shops.map((shop) {
-        featuredShops.add(FeaturedShop(shop: shop));
         shopComponets.add(ShopComponent(shop: shop));
         return shop.tags;
       })
