@@ -21,36 +21,39 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
     
     double deviceWidth = MediaQuery.of(context).size.width;
     var colorPickCount = 0;
-    Set<FeaturedShop> featuredShops = HashSet();
-    if(viewModel.shops.length > 0){
-      viewModel.featuredShops.forEach((shop) {
-        featuredShops.add(FeaturedShop(shop: shop));
-      });
-    }
+    List<FeaturedShop> featuredShopComponents = [];
+    List<ShopComponent> shopComponets = [];
+    List<Widget> filterComponents = [];
 
-    Set<ShopComponent> shopComponets = HashSet();
-    Set<Widget> filters = HashSet();
-    if(viewModel.shops.length > 0) {
-    viewModel.shops.map((shop) {
-        shopComponets.add(ShopComponent(shop: shop));
-        return shop.tags;
-      })
-      .reduce((current, next) { 
-        var list = [];
-        list.addAll(next);
-        list.addAll(next);
-        return current;
-      }).forEach((filterName) {
+    if(viewModel.shops.isNotEmpty) {
+      var sortedFilterNames = viewModel.shops
+        .map((shop) => shop.tags)
+        .reduce((current, next) { 
+          Set<String> tagsSet = HashSet();
+          tagsSet.addAll(current);
+          tagsSet.addAll(next);
+          return tagsSet;
+        }).toList();
+
+      sortedFilterNames.sort();
+      for(var filterName in sortedFilterNames) {
         var color = BreadCrumb.statusColors[colorPickCount++];
-        filters.add(
-          BreadCrumb(
-            filterName: filterName, 
-            onPressed: () => {},
-            color: color,
-          )
-        );
-        if(colorPickCount > 3) colorPickCount = 0;
-      });
+          filterComponents.add(
+            BreadCrumb(
+              color: color,
+              filterName: filterName,
+              selected: viewModel.filters.contains(filterName),
+              onPressed: (name) {
+                if(viewModel.filters.contains(name)) {
+                  viewModel.removeFilter(name);
+                } else {
+                  viewModel.addFilter(name);
+                }
+              }
+            )
+          );
+          if(colorPickCount > 3) colorPickCount = 0;
+        } 
     }
 
     List<AdsCardComponent> adsComponets = [];
@@ -60,6 +63,18 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 color: IjudiColors.color3)
             )
           );
+    
+    viewModel.featuredShops
+      .where((shop) => viewModel.filters.isEmpty || viewModel.filters.intersection(shop.tags).length > 0)
+      .forEach((shop) {
+        featuredShopComponents.add(FeaturedShop(shop: shop));
+      });
+
+    viewModel.shops
+      .where((shop) => viewModel.filters.isEmpty || viewModel.filters.intersection(shop.tags).length > 0)
+      .forEach((shop) {
+        shopComponets.add(ShopComponent(shop: shop));
+      });  
 
     return ScrollableParent(
       hasDrawer: true,
@@ -85,7 +100,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             margin: EdgeInsets.only(top: 8, bottom: 8),
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: filters.toList()
+              children: filterComponents
             )
           ),
           Container(
@@ -94,7 +109,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             child: Text("Featured", style: IjudiStyles.HEADER_2),
           ),
           Column(
-            children: featuredShops.toList()
+            children: featuredShopComponents
           ),
           shopComponets.isEmpty? Container() : Container(
             alignment: Alignment.topLeft,
@@ -106,7 +121,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             margin: EdgeInsets.only(bottom: 32),
             child: ListView(
               scrollDirection: Axis.horizontal,
-              children: shopComponets.toList()
+              children: shopComponets
             )
           ),
         ],

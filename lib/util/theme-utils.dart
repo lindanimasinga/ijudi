@@ -428,7 +428,6 @@ class IjudiStyles {
   static const CONTENT_TEXT = TextStyle(
     fontSize: 14,
     fontFamily: "Roboto",
-    color: Colors.white
   );
 
     static const CARD_ICON_BUTTON = TextStyle(

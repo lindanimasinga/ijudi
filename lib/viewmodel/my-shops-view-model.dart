@@ -41,4 +41,10 @@ class MyShopsViewModel extends BaseViewModel {
     _shop = shop;
     notifyChanged();
   }
+
+  String get address => _shop.address;
+  set address(String address) {
+    _shop.address = address;
+    notifyChanged();
+  }
 }

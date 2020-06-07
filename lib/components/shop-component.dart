@@ -7,19 +7,10 @@ import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/quick-pay.dart';
 import 'package:ijudi/view/start-shopping.dart';
 
-class ShopComponent extends StatefulWidget {
+class ShopComponent extends StatelessWidget {
   final Shop shop;
 
   ShopComponent({this.shop});
-
-  @override
-  _ShopComponentState createState() => _ShopComponentState(shop: shop);
-}
-
-class _ShopComponentState extends State<ShopComponent> {
-  Shop shop;
-
-  _ShopComponentState({@required this.shop});
 
   @override
   Widget build(BuildContext context) {

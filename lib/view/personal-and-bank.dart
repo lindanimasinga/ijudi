@@ -70,7 +70,11 @@ class _PersonalAndBankViewState extends State<PersonalAndBankView> {
                             IjudiInputField(hint: 'Name', type: TextInputType.text, text: userProfile.name),
                             IjudiInputField(hint: 'Surname', type: TextInputType.text, text: userProfile.description),
                             IjudiInputField(hint: 'Id Number', type: TextInputType.text, text: userProfile.idNumber),
-                            IjudiAddressInputField(hint: 'Address', type: TextInputType.number, text: userProfile.address)
+                            IjudiAddressInputField(
+                              hint: 'Address', 
+                              type: TextInputType.number, 
+                              text: userProfile.address,
+                              onTap: (value) => userProfile.address = value)
                           ],
                   ),
                 ),

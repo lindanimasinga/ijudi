@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/advert.dart';
@@ -10,6 +12,7 @@ class AllShopsViewModel extends BaseViewModel {
   List<Shop> _shops = [];
   List<Shop> _featuredShops = [];
   List<Advert> _ads = [];
+  Set<String> filters = HashSet();
 
   final ApiService apiService;
 
@@ -46,6 +49,7 @@ class AllShopsViewModel extends BaseViewModel {
   List<Shop> get featuredShops => _featuredShops;
   set featuredShops(List<Shop> featuredShops) {
     _featuredShops = featuredShops;
+    notifyChanged();
   }
 
   List<Advert> get ads => _ads;
@@ -57,6 +61,16 @@ class AllShopsViewModel extends BaseViewModel {
   List<Shop> get shops => _shops;
   set shops(List<Shop> shops) {
     _shops = shops;
+    notifyChanged();
+  }
+
+  void removeFilter(String filterName) {
+    filters.remove(filterName);
+    notifyChanged();
+  }
+
+  void addFilter(String filterName) {
+    filters.add(filterName);
     notifyChanged();
   }
 

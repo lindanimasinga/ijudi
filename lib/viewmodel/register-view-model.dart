@@ -24,7 +24,7 @@ class RegisterViewModel extends BaseViewModel {
   String description = "";
   int yearsInService = 0;
   String email;
-  String address = "";
+  String _address = "";
   String imageUrl = "https://pbs.twimg.com/media/C1OKE9QXgAAArDp.jpg";
   int likes = 0;
   int servicesCompleted = 0;
@@ -39,6 +39,12 @@ class RegisterViewModel extends BaseViewModel {
   bool get hasUkheshe => _hasUkheshe;
   set hasUkheshe(bool hasUkheshe) {
     _hasUkheshe = hasUkheshe;
+    notifyChanged();
+  }
+
+  String get address => _address;
+  set address(String address) {
+    _address = address;
     notifyChanged();
   }
 

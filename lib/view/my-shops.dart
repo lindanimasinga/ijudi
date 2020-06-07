@@ -54,7 +54,10 @@ class MyShopsView extends MvStatefulWidget<MyShopsViewModel> {
                             type: TextInputType.text, text: viewModel.shop.description),
                             IjudiInputField(hint: 'Years in service', 
                               type: TextInputType.text, text: "${viewModel.shop.yearsInService}"),
-                            IjudiAddressInputField(hint: 'Address', type: TextInputType.number, text: viewModel.shop.address)
+                            IjudiAddressInputField(hint: 'Address', 
+                              type: TextInputType.number, 
+                              text: viewModel.address,
+                              onTap: (value) => viewModel.address = value)
                           ],
                   ),
                 ),

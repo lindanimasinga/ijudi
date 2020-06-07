@@ -47,7 +47,9 @@ class ProfileHeaderComponent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Image.asset("assets/images/make-call.png"),
+        Padding(padding: EdgeInsets.only(right: 8),
+          child: Icon(Icons.phone, color: IjudiColors.backgroud),
+        ),
         Text(profile.mobileNumber, style: IjudiStyles.HEADER_TEXT)
       ],
     );
@@ -66,7 +68,8 @@ class ProfileHeaderComponent extends StatelessWidget {
             image: NetworkImage(profile.imageUrl),
             fit: BoxFit.cover,
           ),
-        ));
+        )
+    );
 
     return Container(
         height: 237,
@@ -89,9 +92,14 @@ class ProfileHeaderComponent extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text("Location", style: IjudiStyles.SUBTITLE_1),
-                              Text(profile.address,
-                                  style: IjudiStyles.HEADER_TEXT, maxLines: 1)
+                              Container(
+                               width: 180,
+                               child: Text(profile.address,
+                                  style: IjudiStyles.HEADER_TEXT, maxLines: 2,
+                                  overflow: TextOverflow.ellipsis)
+                              )
                             ]),
+                        Padding(padding: EdgeInsets.only(top: 16)),
                         contacts
                       ],
                     ),

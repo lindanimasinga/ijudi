@@ -12,7 +12,7 @@ class IjudiAddressInputField extends StatelessWidget {
   final String hint;
   final Color color;
   final TextInputType type;
-  String text;
+  final String text;
   final Function onTap;
   final bool enabled;
 
@@ -21,15 +21,14 @@ class IjudiAddressInputField extends StatelessWidget {
       this.enabled,
       this.color = IjudiColors.color5,
       this.type,
-      this.text = "",
-      this.onTap});
+      @required this.text,
+      @required this.onTap});
 
-  TextEditingController controller;
   TextField addressField;
 
   @override
   Widget build(BuildContext context) {
-    controller = text == null? null : TextEditingController.fromValue(TextEditingValue(
+    TextEditingController controller = text == null? null : TextEditingController.fromValue(TextEditingValue(
         text: text,
         selection:
             TextSelection.fromPosition(TextPosition(offset: text.length))));
@@ -45,11 +44,10 @@ class IjudiAddressInputField extends StatelessWidget {
                 onTap: () => openAddressFinder(context),
                 onChanged: (value) {
                   print("changed here");
-                  onTap(value);
                 },
                 onSubmitted: (value) {
                   print("submitted");
-                //  onTap(value);
+                  onTap(value);
                 },
                 decoration: InputDecoration(
                     hintText: hint,
@@ -92,8 +90,8 @@ class IjudiAddressInputField extends StatelessWidget {
       // get detail (lat/lng)
       PlacesDetailsResponse detail =
           await _places.getDetailsByPlaceId(p.placeId);
-      text = detail.result.formattedAddress;
-      addressField.onChanged(text);
+      var text = detail.result.formattedAddress;
+      addressField.onSubmitted(text);
     }
   }
 }
