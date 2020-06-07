@@ -27,6 +27,7 @@ import 'package:ijudi/viewmodel/order-history-view-model.dart';
 import 'package:ijudi/viewmodel/payment-view-model.dart';
 import 'package:ijudi/viewmodel/profile-view-model.dart';
 import 'package:ijudi/viewmodel/quick-pay-view-model.dart';
+import 'package:ijudi/viewmodel/receipt-view-model.dart';
 import 'package:ijudi/viewmodel/register-view-model.dart';
 import 'package:ijudi/viewmodel/start-shopping-view-model.dart';
 import 'package:ijudi/viewmodel/stock-management-view-mode.dart';
@@ -136,9 +137,13 @@ class NavigatorService {
           builder: (context) => QuickPayView(viewModel: viewmodel),
           fullscreenDialog: true
         ); 
-      case QuickPaymentSuccess.ROUTE_NAME:
+      case ReceiptView.ROUTE_NAME:
+        viewmodel = ReceiptViewModel(
+          apiService: apiService,
+          order: args
+        );
         return MaterialPageRoute(
-          builder: (context) => QuickPaymentSuccess(order: args),
+          builder: (context) => ReceiptView(viewModel: viewmodel),
           fullscreenDialog: true
         );              
       default : return MaterialPageRoute(builder: (context) => LoginView());

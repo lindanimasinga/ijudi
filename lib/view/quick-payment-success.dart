@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/ijudi-card.dart';
+import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/order-review-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
-import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/viewmodel/receipt-view-model.dart';
 import 'package:intl/intl.dart';
 
-class QuickPaymentSuccess extends StatelessWidget {
-  final Order order;
-  static const String ROUTE_NAME = "quick-pay-success";
+class ReceiptView extends MvStatefulWidget<ReceiptViewModel> {
 
-  const QuickPaymentSuccess({this.order});
+  static const String ROUTE_NAME = "receipt";
+
+  ReceiptView({ReceiptViewModel viewModel}): super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -44,26 +45,26 @@ class QuickPaymentSuccess extends StatelessWidget {
                               width: 2,
                             ),
                             image: DecorationImage(
-                              image: NetworkImage(order.shop.imageUrl),
+                              image: NetworkImage(viewModel.shop.imageUrl),
                               fit: BoxFit.cover,
                             ),
                           )),
-                          Text("Tax Invoice  #${order.id}", style: IjudiStyles.CARD_SHOP_DISCR,),
+                          Text("Tax Invoice  #${viewModel.order.id}", style: IjudiStyles.CARD_SHOP_DISCR,),
                       ]
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("${order.shop.name}", style: IjudiStyles.CARD_SHOP_HEADER),
-                        Text("Date: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.date)}", style: IjudiStyles.CARD_SHOP_DISCR,)
+                        Text("${viewModel.shop.name}", style: IjudiStyles.CARD_SHOP_HEADER),
+                        Text("Date: ${DateFormat("dd MMM yy 'at' HH:mm").format(viewModel.order.date)}", style: IjudiStyles.CARD_SHOP_DISCR,)
                       ],
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 8)),
                     Text("*In store purchace", style: IjudiStyles.CARD_SHOP_DISCR,),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
-                    OrderReviewComponent(order: order),
+                    OrderReviewComponent(order: viewModel.order),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
-                    Text("Contact:  ${order.shop.mobileNumber}", style: IjudiStyles.CARD_SHOP_DISCR,),
+                    Text("Contact:  ${viewModel.shop.mobileNumber}", style: IjudiStyles.CARD_SHOP_DISCR,),
                     Padding(padding: EdgeInsets.only(bottom: 16)),
                      Text("Thank you for your support", style: IjudiStyles.CARD_SHOP_DISCR,),
 

@@ -40,6 +40,7 @@ class QuickPayViewModel extends BaseViewModel {
           order.shop = shop;
           order.shippingData = Shipping();
           order.shippingData.type = ShippingType.COLLECTION;
+          order.orderType = OrderType.INSTORE;
           order.shippingData.pickUpTime = TimeOfDay.now();
           order.shippingData.fromAddress = shop.name;
           order.basket = Basket();
@@ -66,6 +67,7 @@ class QuickPayViewModel extends BaseViewModel {
         order.id = newOrder.id;
         order.date = newOrder.date;
         order.paymentType = PaymentType.UKHESHE;
+        order.hasVat = newOrder.hasVat;
         order.description = "Payment from ${order.customer.mobileNumber} order ${order.id}";
       })
       .asyncExpand((event) => ukhesheService.paymentForOrder(order).asStream())
@@ -75,7 +77,7 @@ class QuickPayViewModel extends BaseViewModel {
       .listen((data) {
       Navigator.popAndPushNamed (
             context,
-            QuickPaymentSuccess.ROUTE_NAME,
+            ReceiptView.ROUTE_NAME,
             arguments: order);
     }, onError: (e) {
       hasError = true;

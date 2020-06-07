@@ -12,6 +12,8 @@ class Order {
   String id;
   Shipping shippingData = Shipping();
   PaymentType paymentType = PaymentType.UKHESHE;
+  OrderType orderType = OrderType.ONLINE;
+  bool hasVat;
   Basket basket = Basket();
   String customerId;
   String shopId;
@@ -27,8 +29,6 @@ class Order {
   Order();
 
   double get totalAmount => basket.getBasketTotalAmount() + shippingData.fee;
-
-  bool get hasVat => shop.hasVat;
 
   @JsonKey(ignore: true)
   Shop get shop => _shop;
@@ -64,6 +64,8 @@ class Order {
 enum ShippingType { COLLECTION, DELIVERY }
 
 enum PaymentType { UKHESHE, CASH }
+
+enum OrderType { ONLINE, INSTORE}
 
 @JsonSerializable(includeIfNull: false)
 class Shipping {

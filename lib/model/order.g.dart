@@ -14,6 +14,8 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
         : Shipping.fromJson(json['shippingData'] as Map<String, dynamic>)
     ..paymentType =
         _$enumDecodeNullable(_$PaymentTypeEnumMap, json['paymentType'])
+    ..orderType = _$enumDecodeNullable(_$OrderTypeEnumMap, json['orderType'])
+    ..hasVat = json['hasVat'] as bool
     ..basket = json['basket'] == null
         ? null
         : Basket.fromJson(json['basket'] as Map<String, dynamic>)
@@ -36,6 +38,8 @@ Map<String, dynamic> _$OrderToJson(Order instance) {
   writeNotNull('id', instance.id);
   writeNotNull('shippingData', instance.shippingData);
   writeNotNull('paymentType', _$PaymentTypeEnumMap[instance.paymentType]);
+  writeNotNull('orderType', _$OrderTypeEnumMap[instance.orderType]);
+  writeNotNull('hasVat', instance.hasVat);
   writeNotNull('basket', instance.basket);
   writeNotNull('customerId', instance.customerId);
   writeNotNull('shopId', instance.shopId);
@@ -80,6 +84,11 @@ T _$enumDecodeNullable<T>(
 const _$PaymentTypeEnumMap = {
   PaymentType.UKHESHE: 'UKHESHE',
   PaymentType.CASH: 'CASH',
+};
+
+const _$OrderTypeEnumMap = {
+  OrderType.ONLINE: 'ONLINE',
+  OrderType.INSTORE: 'INSTORE',
 };
 
 Shipping _$ShippingFromJson(Map<String, dynamic> json) {

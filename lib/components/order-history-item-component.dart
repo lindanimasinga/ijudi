@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/ijudi-card.dart';
-import 'package:ijudi/components/shop-component.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/final-order-view.dart';
+import 'package:ijudi/view/quick-payment-success.dart';
 import 'package:intl/intl.dart';
 
 class OrderHistoryItemComponent extends StatelessWidget {
@@ -40,9 +40,15 @@ class OrderHistoryItemComponent extends StatelessWidget {
                 ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(context,
-                    FinalOrderView.ROUTE_NAME,
-                      (Route<dynamic> route) => false, arguments: order);
+                  if(order.orderType == OrderType.ONLINE){
+                    Navigator.pushNamedAndRemoveUntil(context,
+                      FinalOrderView.ROUTE_NAME,
+                        (Route<dynamic> route) => false, arguments: order);
+                  } else {
+                    Navigator.pushNamed(context,
+                      ReceiptView.ROUTE_NAME,
+                      arguments: order);
+                  }
                 }, 
                 child: Container(
                   alignment: Alignment.center,

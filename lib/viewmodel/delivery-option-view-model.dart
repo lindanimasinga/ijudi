@@ -86,6 +86,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
       .map((resp) {
         order.id = resp.id;
         order.date = resp.date;
+        order.hasVat = resp.hasVat;
         order.description = "Payment from ${order.customer.mobileNumber}: order ${order.id}";
       })
       .asyncExpand((element) => ukhesheService.getAccountInformation().asStream())
