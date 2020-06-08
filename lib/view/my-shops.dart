@@ -9,7 +9,7 @@ import 'package:ijudi/viewmodel/my-shops-view-model.dart';
 
 class MyShopsView extends MvStatefulWidget<MyShopsViewModel> {
   
-  static const ROUTE_NAME = "order-history";
+  static const ROUTE_NAME = "my-shops-view";
   
   MyShopsView({MyShopsViewModel viewModel}) : super(viewModel);
   
