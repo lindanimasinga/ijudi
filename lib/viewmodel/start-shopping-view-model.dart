@@ -56,6 +56,9 @@ class StartShoppingViewModel extends BaseViewModel {
   }
 
   void verifyItemsAvailable() {
+    if(order.basket.getBasketTotalItems() == 0) {
+      return; 
+    }
     progressMv.isBusy = true;
     apiService.verifyCanBuy(order.basket)
     .asStream()

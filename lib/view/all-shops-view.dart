@@ -81,12 +81,12 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
       title: "Shops",
       child: Column(
         children: <Widget>[
-          Container(
+          adsComponets.length == 0 ? Container() : Container(
             alignment: Alignment.topLeft,
             padding: EdgeInsets.only(left:16, top: 8, bottom: 8),
             child: Text("Promotions", style: IjudiStyles.HEADER_2),
           ),
-          Container(
+          adsComponets.length == 0 ? Container() : Container(
             height: MediaQuery.of(context).size.height * 0.35,
             child: ListView(
               scrollDirection: Axis.horizontal,

@@ -129,7 +129,17 @@ class ApiService {
   }
 
   Future<List<Advert>> findAllAdsByLocation() async {
-    return Future.value(<Advert>[
+      
+      logger.log("fetching fetured Ads");
+      var event = await http.get('$API_URL/promotion')
+          .timeout(Duration(seconds: TIMEOUT_SEC));
+
+      if(event.statusCode != 200) throw(event.body);     
+      
+      Iterable list = json.decode(event.body);
+      return list.map((f) => Advert.fromJson(f)).toList();
+/*
+          return Future.value(<Advert>[
       Advert(
         imageUrl:
             "https://www.foodinaminute.co.nz/var/fiam/storage/images/recipes/mexican-bean-and-corn-pies/7314837-14-eng-US/Mexican-Bean-and-Corn-Pies_recipeimage.jpg",
@@ -146,7 +156,7 @@ class ApiService {
         imageUrl:
             "https://i.pinimg.com/236x/76/ab/66/76ab66a5e774d4deaf21ce7c02806a32--the-ad-advertising-design.jpg",
       )
-    ]);
+    ]);*/
   }
 
   Future<String> updateShop(Shop shop) async {

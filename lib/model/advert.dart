@@ -1,7 +1,21 @@
+
+import 'package:json_annotation/json_annotation.dart';
+
+part 'advert.g.dart';
+
+@JsonSerializable()
 class Advert {
 
-  final String imageUrl;
+  String id;
+  String imageUrl;
+  String actionUrl;
+  String shopId;
+  String title;
+  String message;
 
-  Advert({this.imageUrl});
+  Advert();
 
+  factory Advert.fromJson(Map<String, dynamic> json) => _$AdvertFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AdvertToJson(this);
 }

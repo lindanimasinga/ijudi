@@ -61,9 +61,9 @@ class AllComponentsView extends StatelessWidget {
                   Buttons.menuItem(text: "Settings", color: IjudiColors.color5)
                 ]
             ),
-            AdsCardComponent(color: IjudiColors.color2, advert: Advert(imageUrl: "https://www.findspecials.co.za/files/spar(1).PNG"),),
-            AdsCardComponent(color: IjudiColors.color1, advert: Advert(imageUrl: "https://www.findspecials.co.za/files/spar(1).PNG"),),
-            AdsCardComponent(color: IjudiColors.color3, advert: Advert(imageUrl: "https://www.findspecials.co.za/files/spar(1).PNG"),),
+            AdsCardComponent(color: IjudiColors.color2, advert: Advert(),),
+            AdsCardComponent(color: IjudiColors.color1, advert: Advert(),),
+            AdsCardComponent(color: IjudiColors.color3, advert: Advert(),),
             IJudiCard()
           ]
         )

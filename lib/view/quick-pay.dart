@@ -17,7 +17,7 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
   Widget build(BuildContext context) {
     return ScrollableParent(
         hasDrawer: false,
-        title: "Pay",
+        title: "Pay In Store",
         appBarColor: IjudiColors.color1,
         child: Stack(children: <Widget>[
           Headers.getHeader(context),
