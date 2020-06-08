@@ -15,9 +15,9 @@ class Shop extends Profile {
   List<Stock> stockList;
   Set<String> tags;
   bool hasVat;
+  String ownerId;
 
-  Shop(
-      {@required String id,
+  Shop({@required String id,
       @required String name,
       this.registrationNumber,
       this.stockList,

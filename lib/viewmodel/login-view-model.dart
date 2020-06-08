@@ -32,6 +32,7 @@ class LoginViewModel extends BaseViewModel {
         .listen((data) {
         progressMv.isBusy = false;
         storage.mobileNumber = username;
+        storage.saveIjudiUserId(data.id);
         Navigator.pushNamedAndRemoveUntil(
             context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false);
     }, onError: (handleError) {

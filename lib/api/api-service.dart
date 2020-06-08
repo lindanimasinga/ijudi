@@ -22,6 +22,8 @@ class ApiService {
   ApiService(this.storageManager);
 
   get currentUserPhone => storageManager.mobileNumber;
+
+  get currentUserId => storageManager.getIjudiUserId();
   
   Future<List<Shop>> findAllShopByLocation() async {
     logger.log("fetching all shops");
@@ -218,5 +220,16 @@ class ApiService {
         
     Iterable list = json.decode(event.body);
     return list.map((f) => Order.fromJson(f)).toList();
+  }
+
+  Future<List<Shop>> findShopByOwnerId(String ownerId) async {
+        logger.log("fetching fetured shops");
+    var event = await http.get('$API_URL/store?ownerId=$ownerId')
+          .timeout(Duration(seconds: TIMEOUT_SEC));
+          
+    if(event.statusCode != 200) throw(event.body);     
+        
+    Iterable list = json.decode(event.body);
+    return list.map((f) => Shop.fromJson(f)).toList();
   }
 }

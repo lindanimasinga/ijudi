@@ -15,6 +15,7 @@ import 'package:ijudi/view/profile-view.dart';
 import 'package:ijudi/view/quick-pay.dart';
 import 'package:ijudi/view/quick-payment-success.dart';
 import 'package:ijudi/view/register-view.dart';
+import 'package:ijudi/view/shop-profile-view.dart';
 import 'package:ijudi/view/start-shopping.dart';
 import 'package:ijudi/view/stock-view.dart';
 import 'package:ijudi/view/wallet-view.dart';
@@ -29,6 +30,7 @@ import 'package:ijudi/viewmodel/profile-view-model.dart';
 import 'package:ijudi/viewmodel/quick-pay-view-model.dart';
 import 'package:ijudi/viewmodel/receipt-view-model.dart';
 import 'package:ijudi/viewmodel/register-view-model.dart';
+import 'package:ijudi/viewmodel/shop-profile-view-model.dart';
 import 'package:ijudi/viewmodel/start-shopping-view-model.dart';
 import 'package:ijudi/viewmodel/stock-management-view-mode.dart';
 import 'package:ijudi/viewmodel/wallet-view-model.dart';
@@ -85,6 +87,12 @@ class NavigatorService {
           apiService: apiService
         );
         return MaterialPageRoute(builder: (context) => MyShopsView(viewModel: viewmodel));
+      case ShopProfileView.ROUTE_NAME:
+        viewmodel = ShopProfileViewModel(
+          apiService: apiService,
+          shop: args
+        );
+        return MaterialPageRoute(builder: (context) => ShopProfileView(viewModel: viewmodel));
       case StartShoppingView.ROUTE_NAME:
         viewmodel = StartShoppingViewModel(
           shop: args,
