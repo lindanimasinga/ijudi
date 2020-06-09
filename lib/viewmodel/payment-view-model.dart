@@ -84,15 +84,15 @@ class PaymentViewModel extends BaseViewModel {
       .asyncExpand((event) {
         order.paymentType = PaymentType.UKHESHE;
         return  apiService.completeOrderPayment(order).asStream();
-        })
+      })
       .listen((data) {
-      Navigator.pushNamedAndRemoveUntil(
+        Navigator.pushNamedAndRemoveUntil(
             context,
             FinalOrderView.ROUTE_NAME,
             (Route<dynamic> route) => false,
             arguments: order);
-    }, onError: (e) {
-      hasError = true;
+      }, onError: (e) {
+        hasError = true;
       errorMessage = e.toString();
       }
     ,onDone: () {

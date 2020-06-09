@@ -23,7 +23,7 @@ class AllComponentsView extends StatelessWidget {
           child: Column(
           children: <Widget>[
             Headers.getHeader(context),
-            Forms.searchField(context, "search shop name, item you want to buy or service"),
+            Forms.searchField(context, hint: "search shop name, item you want to buy or service"),
             IjudiForm(
               child: Column(
                 children: <Widget>[

@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:ijudi/api/ukheshe/model/customer-info-response.dart';
 import 'package:ijudi/api/ukheshe/model/init-topup-response.dart';
 import 'package:ijudi/api/ukheshe/model/jwt-response.dart';
+import 'package:ijudi/api/ukheshe/model/ukheshe-transaction.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/services/storage-manager.dart';
@@ -142,6 +143,28 @@ class UkhesheService {
     log(response.body);
     return response.statusCode == 200? 
             CustomerInfoResponse.fromJson(json.decode(response.body)) : throw(response.body);
+  }
+
+
+  Future<List<UkhesheTransaction>> getTransactions(int customerId) async {
+    
+        if(storageManager.hasTokenExpired) {
+      refreshToken().then((value) => null);
+    }
+    
+     Map<String, String> headers = {
+      "Content-type": "application/json",
+      "Authorization": storageManager.findUkhesheAccessToken()
+      };  
+
+    log("fetching all transaction for customer $customerId");
+    var event = await http.get('$apiUrl/customers/$customerId/transactions', headers: headers)
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    log(event.body);
+    if(event.statusCode != 200) throw(event.body);  
+        
+    Iterable list = json.decode(event.body);
+    return list.map((f) => UkhesheTransaction.fromJson(f)).toList();        
   }
 
 

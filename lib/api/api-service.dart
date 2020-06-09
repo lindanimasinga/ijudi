@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/model/basket.dart';
 import 'package:ijudi/model/order.dart';
-import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/stock.dart';
 import 'package:ijudi/model/userProfile.dart';
@@ -138,29 +137,20 @@ class ApiService {
       
       Iterable list = json.decode(event.body);
       return list.map((f) => Advert.fromJson(f)).toList();
-/*
-          return Future.value(<Advert>[
-      Advert(
-        imageUrl:
-            "https://www.foodinaminute.co.nz/var/fiam/storage/images/recipes/mexican-bean-and-corn-pies/7314837-14-eng-US/Mexican-Bean-and-Corn-Pies_recipeimage.jpg",
-      ),
-      Advert(
-        imageUrl:
-            "https://sowetourban.co.za/wp-content/uploads/sites/112/2018/08/IMG_4251_27897_tn-520x400.jpg",
-      ),
-      Advert(
-        imageUrl:
-            "https://snapsizzleandcook.co.za/wp-content/uploads/2018/07/images1.jpg",
-      ),
-      Advert(
-        imageUrl:
-            "https://i.pinimg.com/236x/76/ab/66/76ab66a5e774d4deaf21ce7c02806a32--the-ad-advertising-design.jpg",
-      )
-    ]);*/
   }
 
   Future<String> updateShop(Shop shop) async {
-    return Future.delayed(Duration(seconds: 2));
+    Map<String, String> headers = {
+      "Content-type": "application/json",
+    };
+
+    var request = json.encode(shop);
+    logger.log(request);
+    var event = await http
+        .patch('$API_URL/store/${shop.id}', headers: headers, body: request)
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    if(event.statusCode != 200) throw(event.body);
+    return event.body;
   }
 
   Future<String> addStockItem(String id, Stock stock) async {
@@ -192,7 +182,7 @@ class ApiService {
         .post('$API_URL/order', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
     logger.log(event.body);
-    if(event.statusCode != 200) throw(event);
+    if(event.statusCode != 200) throw(event.body);
     return Order.fromJson(json.decode(event.body));
   }
 
@@ -217,7 +207,7 @@ class ApiService {
       logger.log(event.body);
     }
 
-    if(event.statusCode != 200) throw(event);
+    if(event.statusCode != 200) throw(event.body);
     return Order.fromJson(json.decode(event.body));
   }
 
@@ -226,7 +216,7 @@ class ApiService {
     var event = await http.get('$API_URL/order?phone=$phone')
         .timeout(Duration(seconds: TIMEOUT_SEC));
     logger.log(event.body);
-    if(event.statusCode != 200) throw(event);     
+    if(event.statusCode != 200) throw(event.body);     
         
     Iterable list = json.decode(event.body);
     return list.map((f) => Order.fromJson(f)).toList();

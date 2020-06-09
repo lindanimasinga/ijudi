@@ -37,7 +37,7 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                     Padding(
                         padding: EdgeInsets.only(top: 24, bottom: 16),
                         child: Forms.searchField(
-                            context, "bread, sugar, airtime")),
+                            context, hint: "bread, sugar, airtime")),
                     Padding(
                         padding:
                             EdgeInsets.only(left: 16, right: 16, bottom: 16),

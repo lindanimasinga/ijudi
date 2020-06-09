@@ -17,7 +17,7 @@ class ShopProfileViewModel extends BaseViewModel {
       .asStream()
       .listen((resp) {
         Navigator.pushNamed(context, StockManagementView.ROUTE_NAME, arguments: shop);
-      },onDone: () {
+      }, onDone: () {
         progressMv.isBusy = false;
       });
   }

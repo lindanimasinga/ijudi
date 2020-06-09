@@ -11,13 +11,17 @@ part 'shop.g.dart';
 class Shop extends Profile {
   
   String registrationNumber;
+  @JsonKey(toJson: listToJson)
   List<BusinessHours> businessHours;
+  @JsonKey(toJson: listToJson)
   List<Stock> stockList;
+  @JsonKey(toJson: listToJson)
   Set<String> tags;
   bool hasVat;
   String ownerId;
 
-  Shop({@required String id,
+  Shop(
+      {@required String id,
       @required String name,
       this.registrationNumber,
       this.stockList,
@@ -32,7 +36,7 @@ class Shop extends Profile {
       int badges,
       String verificationCode,
       @required String mobileNumber,
-      @required String role, 
+      @required String role,
       @required Bank bank})
       : super(
             id: id,
@@ -49,25 +53,15 @@ class Shop extends Profile {
             role: role,
             bank: bank);
 
-
   factory Shop.fromJson(Map<String, dynamic> json) => _$ShopFromJson(json);
 
   Map<String, dynamic> toJson() => _$ShopToJson(this);
 
-  static Shop createPlaceHolder() {
-        return Shop(
-        id: "1",
-        name: "......",
-        registrationNumber: "",
-        mobileNumber: "...........",
-        description: "..............",
-        address: "............",
-        imageUrl: "https://pbs.twimg.com/media/C1OKE9QXgAAArDp.jpg",
-        role: "Shop",
-        yearsInService: 0,
-        badges: 0,
-        likes: 0,
-        servicesCompleted: 0,
-        bank: Bank(name: "Name", accountId: "Account", type: "Wallet"));
-  } 
+  static List<Map<String,dynamic>> listToJson(Iterable<dynamic> list) {
+    print("converting to json");
+    var jsonString = list.map((f) => f.toJson())
+      .toList();
+    print(jsonString);
+    return jsonString;  
+  }
 }

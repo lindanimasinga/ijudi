@@ -18,6 +18,7 @@ import 'package:ijudi/view/register-view.dart';
 import 'package:ijudi/view/shop-profile-view.dart';
 import 'package:ijudi/view/start-shopping.dart';
 import 'package:ijudi/view/stock-view.dart';
+import 'package:ijudi/view/tranasction-history-view.dart';
 import 'package:ijudi/view/wallet-view.dart';
 import 'package:ijudi/viewmodel/all-shops-view-model.dart';
 import 'package:ijudi/viewmodel/delivery-option-view-model.dart';
@@ -33,6 +34,7 @@ import 'package:ijudi/viewmodel/register-view-model.dart';
 import 'package:ijudi/viewmodel/shop-profile-view-model.dart';
 import 'package:ijudi/viewmodel/start-shopping-view-model.dart';
 import 'package:ijudi/viewmodel/stock-management-view-mode.dart';
+import 'package:ijudi/viewmodel/transaction-history-view-model.dart';
 import 'package:ijudi/viewmodel/wallet-view-model.dart';
 
 class NavigatorService {
@@ -153,7 +155,15 @@ class NavigatorService {
         return MaterialPageRoute(
           builder: (context) => ReceiptView(viewModel: viewmodel),
           fullscreenDialog: true
-        );              
+        );
+      case TransactionHistoryView.ROUTE_NAME:
+        viewmodel = TransactionHistoryViewModel(
+          ukhesheService: ukhesheService,
+          wallet: args
+        );
+        return MaterialPageRoute(
+          builder: (context) => TransactionHistoryView(viewModel: viewmodel)
+        );               
       default : return MaterialPageRoute(builder: (context) => LoginView());
     }
   }

@@ -64,9 +64,9 @@ Map<String, dynamic> _$ShopToJson(Shop instance) {
   writeNotNull('verificationCode', instance.verificationCode);
   writeNotNull('bank', instance.bank);
   writeNotNull('registrationNumber', instance.registrationNumber);
-  writeNotNull('businessHours', instance.businessHours);
-  writeNotNull('stockList', instance.stockList);
-  writeNotNull('tags', instance.tags?.toList());
+  writeNotNull('businessHours', Shop.listToJson(instance.businessHours));
+  writeNotNull('stockList', Shop.listToJson(instance.stockList));
+  writeNotNull('tags', Shop.listToJson(instance.tags));
   writeNotNull('hasVat', instance.hasVat);
   writeNotNull('ownerId', instance.ownerId);
   return val;

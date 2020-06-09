@@ -94,7 +94,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             )
           ),
           Padding(padding: EdgeInsets.only(top: 8, bottom: 8)),
-          Forms.searchField(context, "shop name, burger, usu"),
+          Forms.searchField(context, hint: "shop name, burger, usu"),
           Container(
             height: 35,
             margin: EdgeInsets.only(top: 8, bottom: 8),

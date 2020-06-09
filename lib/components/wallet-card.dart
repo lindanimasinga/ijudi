@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/components/ijudi-card.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/view/tranasction-history-view.dart';
 
 class WalletCard extends StatelessWidget {
   final Bank wallet;
@@ -84,6 +85,18 @@ class WalletCard extends StatelessWidget {
                             color: IjudiColors.color3),
                         onPressed: null),
                     Text("Deposit", style: IjudiStyles.CARD_ICON_BUTTON)
+                  ],
+                ),
+                Padding(padding: EdgeInsets.only(left: 8)),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    IconButton(
+                        iconSize: 32,
+                        icon: Icon(Icons.list,
+                            color: IjudiColors.color5),
+                        onPressed: () => Navigator.pushNamed(context, TransactionHistoryView.ROUTE_NAME, arguments: wallet)),
+                    Text("Transactions", style: IjudiStyles.CARD_ICON_BUTTON)
                   ],
                 )
               ],

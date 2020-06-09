@@ -132,13 +132,14 @@ class Forms {
           color: Colors.white
         );       
 
-  static Widget searchField(BuildContext context, String hint) {
+  static Widget searchField(BuildContext context, {String hint, Function onChanged}) {
 
     return Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
           child: Padding(
             padding: EdgeInsets.only(left: 16, right: 16), 
             child: TextFormField(
+                onChanged: (value) => onChanged(value),
                 decoration: InputDecoration(
                   hintText: hint,
                   enabledBorder: UnderlineInputBorder(

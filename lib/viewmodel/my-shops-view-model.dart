@@ -5,7 +5,8 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class MyShopsViewModel extends BaseViewModel {
   
-  List<Shop> shops = [];
+  List<Shop> _shops = [];
+
   ApiService apiService;
 
   MyShopsViewModel({@required this.apiService});
@@ -22,5 +23,11 @@ class MyShopsViewModel extends BaseViewModel {
         hasError = true;
         errorMessage = e.toString();
       });
+  }
+
+  List<Shop> get shops => _shops;
+  set shops(List<Shop> shops) {
+    _shops = shops;
+    notifyChanged();
   }
 }
