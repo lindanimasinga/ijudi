@@ -9,9 +9,10 @@ import 'package:intl/intl.dart';
 class OrderHistoryItemComponent extends StatelessWidget {
   
   static const statusColors = [IjudiColors.color2, 
-            IjudiColors.color3, IjudiColors.color4, IjudiColors.color1];
+            IjudiColors.color3, IjudiColors.color4, IjudiColors.color1,
+            IjudiColors.color5, IjudiColors.color6];
   static const statusText = ["Processing", 
-            "Scheduled", "Arriving", "Delivered"];          
+            "Scheduled", "Ready", "Arriving", "Delivered", "Completed"];          
   final Order order;
 
   OrderHistoryItemComponent({this.order});
