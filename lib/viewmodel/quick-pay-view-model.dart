@@ -71,7 +71,6 @@ class QuickPayViewModel extends BaseViewModel {
         order.description = "Payment from ${order.customer.mobileNumber} order ${order.id}";
       })
       .asyncExpand((event) => ukhesheService.paymentForOrder(order).asStream())
-      .asyncExpand((event) => Future.delayed(Duration(seconds: 4)).asStream())
       .asyncExpand((event) => apiService.completeOrderPayment(order).asStream()
         )
       .listen((data) {

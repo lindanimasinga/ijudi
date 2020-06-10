@@ -58,11 +58,13 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
 
   void showWebViewDialog(BuildContext context, {
       Widget header, String url, Function doneAction}) {
+        print(url);
     showDialog(
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          insetPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           contentPadding: EdgeInsets.only(left: 0, top: 16),
           titlePadding: EdgeInsets.only(left: 16, top: 16),
           shape: RoundedRectangleBorder(
@@ -71,6 +73,11 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
           title: header,
           content: WebView(
             initialUrl: url,
+            onPageFinished: (url) {
+              if(url == "http:/localhost") {
+
+              }
+            },
             javascriptMode: JavascriptMode.unrestricted
           ),
           actions: <Widget>[

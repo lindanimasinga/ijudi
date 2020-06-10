@@ -27,6 +27,7 @@ class MyShopsView extends MvStatefulWidget<MyShopsViewModel> {
         children: <Widget>[
           Headers.getShopHeader(context),
           Container(
+            margin: EdgeInsets.only(top: 16),
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: shopItemsComponents,

@@ -280,18 +280,13 @@ class Buttons {
             )); 
     }
 
-    static Widget iconButton(Icon icon) {
+    static Widget iconButton(Icon icon,{ Color color}) {
       return Container(
-        width: 54,
-        height: 54,
+
         margin: EdgeInsets.all(4),
-        child: FlatButton(
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: IjudiColors.color2,
-                width: 2
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(27.0))),
+        child: FloatingActionButton(
+          heroTag: icon,
+          backgroundColor: color,
           onPressed: () => {},
           child: icon,
         )

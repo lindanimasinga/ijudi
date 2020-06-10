@@ -193,11 +193,14 @@ class ApiService {
 
     var request = json.encode(order);
     print(request);
+    await Future.delayed(Duration(seconds: 3));
     var event = await http
         .patch('$API_URL/order/${order.id}', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
     logger.log("Try 1");
     logger.log(event.body);
+
+    await Future.delayed(Duration(seconds: 3));
 
     if(event.statusCode != 200){
        event = await http

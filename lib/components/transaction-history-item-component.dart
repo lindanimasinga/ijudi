@@ -8,12 +8,16 @@ class TransactionHistoryItemComponent extends StatelessWidget {
   final Transaction transaction;
   final statuColors = {
     "TRANSFER_DB" : IjudiColors.color2,
-    "TRANSFER_CR" : IjudiColors.color4
+    "TRANSFER_CR" : IjudiColors.color4,
+    "FEE" : IjudiColors.color3,
+    "TOPUP" : IjudiColors.color1,
   };
 
     final statuNames = {
     "TRANSFER_DB" : "DEBIT",
-    "TRANSFER_CR" : "CREDIT"
+    "TRANSFER_CR" : "CREDIT",
+    "FEE" : "FEE",
+    "TOPUP" : "TOPUP"
   };
 
   TransactionHistoryItemComponent(this.transaction);
@@ -37,7 +41,7 @@ class TransactionHistoryItemComponent extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(new DateFormat("dd MMM yyyy HH:mm").format(transaction.date), style: IjudiStyles.HEADER_TEXT),
+                  Text(new DateFormat("dd MMM yyyy HH:mm").format(transaction.date.toLocal()), style: IjudiStyles.HEADER_TEXT),
                   Text("${statuNames[transaction.type]}", style: IjudiStyles.HEADER_TEXT)
                 ]
               ),

@@ -62,11 +62,15 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                       ],
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
-                    Text("Sign in With"),
+                    Text("Having Trouble?"),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[Buttons.google(), Buttons.facebook()],
+                      children: <Widget>[
+                        Buttons.iconButton(Icon(Icons.settings), color: IjudiColors.color4),
+                        Padding(padding: EdgeInsets.only(right: 16)),
+                        Buttons.iconButton(Icon(Icons.chat), color: IjudiColors.color2)
+                      ],
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
                     Container(
@@ -77,10 +81,10 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                               )
                     ),
                     Container(
-                margin: EdgeInsets.only(bottom: 8, top: 16),
-                alignment: Alignment.bottomCenter,
-                child: Text("2020 All rights reserved. View our policy here", style: IjudiStyles.SUBTITLE_2),
-              )
+                      margin: EdgeInsets.only(bottom: 8, top: 32),
+                      alignment: Alignment.bottomCenter,
+                      child: Text("2020 All rights reserved. View our policy here", style: IjudiStyles.SUBTITLE_2),
+                    )
               ])
               )
         ]));
