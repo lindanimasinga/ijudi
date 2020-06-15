@@ -1,12 +1,13 @@
 import 'dart:async';
 
+import 'package:ijudi/model/order.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:ijudi/viewmodel/final-order-view-model.dart';
 
 class OrderProgressViewModel extends BaseViewModel {
 
   final FinalOrderViewModel orderViewModel;
-  final int stage;
+  final OrderStage stage;
   Timer _timer;
   int _startAt;
 
@@ -50,6 +51,6 @@ class OrderProgressViewModel extends BaseViewModel {
 
   bool get timerStarted => _timer != null;
 
-  int get currentStage => orderViewModel.stage;
+  OrderStage get currentStage => orderViewModel.stage;
 
 }

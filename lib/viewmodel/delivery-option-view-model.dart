@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
@@ -97,7 +99,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
       onError: (handleError) {
         hasError = true;
         errorMessage = handleError.toString();
-      //log(handleError);
+        log("handleError", error: handleError);
       },
       onDone: () {
         progressMv.isBusy = false;

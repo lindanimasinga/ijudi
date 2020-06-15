@@ -19,7 +19,7 @@ class Order {
   String shopId;
   @JsonKey(fromJson: dateFromJson)
   DateTime date;
-  int stage = 0;
+  OrderStage stage = OrderStage.STAGE_0_CUSTOMER_NOT_PAID;
 
   UserProfile _customer;
   Shop _shop;
@@ -46,10 +46,6 @@ class Order {
   set customer(UserProfile customer) {
     _customer = customer;
     customerId = _customer.id;
-  }
-
-  void moveNextStage() {
-    if (stage < 3) stage = stage + 1;
   }
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
@@ -96,4 +92,17 @@ class Shipping {
     var pickupDate = DateTime(date.year, date.month, date.day, time.hour, time.minute);
     return pickupDate.toIso8601String();
   }
+}
+
+
+enum OrderStage {
+
+    STAGE_0_CUSTOMER_NOT_PAID,
+    STAGE_1_WAITING_STORE_CONFIRM,
+    STAGE_2_STORE_PROCESSING,
+    STAGE_3_READY_FOR_COLLECTION,
+    STAGE_4_ON_THE_ROAD,
+    STAGE_5_ARRIVED,
+    STAGE_6_WITH_CUSTOMER,
+    STAGE_7_PAID_SHOP
 }

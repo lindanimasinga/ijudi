@@ -235,4 +235,23 @@ class ApiService {
     Iterable list = json.decode(event.body);
     return list.map((f) => Shop.fromJson(f)).toList();
   }
+
+  Future<List<Order>> findOrdersByShopId(String id) async {
+    logger.log("fetching all orders for shope with id $id");
+    var event = await http.get('$API_URL/order?storeId=$id')
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    logger.log(event.body);
+    if(event.statusCode != 200) throw(event.body);     
+        
+    Iterable list = json.decode(event.body);
+    return list.map((f) => Order.fromJson(f)).toList();
+  }
+
+  Future<Order> progressOrderNextStage(String id) async {
+    var event = await http.get('$API_URL/order/$id/nextstage')
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    logger.log(event.body);
+    if(event.statusCode != 200) throw(event.body);
+    return Order.fromJson(json.decode(event.body));
+  }
 }

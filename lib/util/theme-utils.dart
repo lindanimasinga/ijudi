@@ -280,14 +280,14 @@ class Buttons {
             )); 
     }
 
-    static Widget iconButton(Icon icon,{ Color color}) {
+    static Widget iconButton(Icon icon,{Color color, Function onPressed}) {
       return Container(
 
         margin: EdgeInsets.all(4),
         child: FloatingActionButton(
           heroTag: icon,
           backgroundColor: color,
-          onPressed: () => {},
+          onPressed: () => onPressed(),
           child: icon,
         )
       ); 
@@ -325,6 +325,12 @@ class IjudiStyles {
 
   static const HEADER_2 = TextStyle(
     fontSize: 18,
+    fontFamily: "Roboto",
+  );
+
+    static const HEADER_2_WHITE = TextStyle(
+    fontSize: 18,
+    color: Colors.white,
     fontFamily: "Roboto",
   );
 
@@ -428,8 +434,7 @@ class IjudiStyles {
 
     static const CARD_ICON_BUTTON = TextStyle(
     fontSize: 12,
-    fontFamily: "Roboto",
-    color: IjudiColors.color1
+    fontFamily: "Roboto"
   );
 
   static const COUNT_DOWN = TextStyle(

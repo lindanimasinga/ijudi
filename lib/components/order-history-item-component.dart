@@ -1,72 +1,83 @@
 import 'package:flutter/material.dart';
-import 'package:ijudi/components/ijudi-card.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
-import 'package:ijudi/view/final-order-view.dart';
-import 'package:ijudi/view/quick-payment-success.dart';
 import 'package:intl/intl.dart';
 
 class OrderHistoryItemComponent extends StatelessWidget {
-  
-  static const statusColors = [IjudiColors.color2, 
-            IjudiColors.color3, IjudiColors.color4, IjudiColors.color1,
-            IjudiColors.color5, IjudiColors.color6];
-  static const statusText = ["Processing", 
-            "Scheduled", "Ready", "Arriving", "Delivered", "Completed"];          
-  final Order order;
+  static const statusColors = {
+    OrderStage.STAGE_0_CUSTOMER_NOT_PAID: IjudiColors.color2,
+    OrderStage.STAGE_1_WAITING_STORE_CONFIRM: IjudiColors.color2,
+    OrderStage.STAGE_2_STORE_PROCESSING: IjudiColors.color3,
+    OrderStage.STAGE_3_READY_FOR_COLLECTION: IjudiColors.color4,
+    OrderStage.STAGE_4_ON_THE_ROAD: IjudiColors.color1,
+    OrderStage.STAGE_5_ARRIVED: IjudiColors.color5,
+    OrderStage.STAGE_6_WITH_CUSTOMER: IjudiColors.color6,
+    OrderStage.STAGE_7_PAID_SHOP: IjudiColors.color4
+  };
 
-  OrderHistoryItemComponent({this.order});
+  static const LOTTIE_BY_STAGE = {
+    OrderStage.STAGE_0_CUSTOMER_NOT_PAID: "assets/lottie/loading.json",
+    OrderStage.STAGE_1_WAITING_STORE_CONFIRM: "assets/lottie/packing.json",
+    OrderStage.STAGE_2_STORE_PROCESSING: "assets/lottie/delivery.json",
+    OrderStage.STAGE_3_READY_FOR_COLLECTION: "assets/lottie/food.json",
+    OrderStage.STAGE_4_ON_THE_ROAD: "assets/lottie/done.json"
+  };
+
+  static const statusText = {
+    OrderStage.STAGE_0_CUSTOMER_NOT_PAID: "Not Paid",
+    OrderStage.STAGE_1_WAITING_STORE_CONFIRM: "Shop to Confirm",
+    OrderStage.STAGE_2_STORE_PROCESSING: "Processing",
+    OrderStage.STAGE_3_READY_FOR_COLLECTION: "Ready",
+    OrderStage.STAGE_4_ON_THE_ROAD: "Arriving",
+    OrderStage.STAGE_5_ARRIVED: "Arrived",
+    OrderStage.STAGE_6_WITH_CUSTOMER: "Delivered",
+    OrderStage.STAGE_7_PAID_SHOP: "Completed"
+  };
+
+  final Order order;
+  final Function onTap;
+
+  OrderHistoryItemComponent({@required this.order, @required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: 8, right: 8, top: 8),
-      child: IJudiCard(
+    return GestureDetector(
+        onTap: () => onTap(),
         child: Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(left: 8, right: 8, top: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text("Order Number: ${order.id}", style: IjudiStyles.CARD_SHOP_DISCR),
-                      Padding(padding: EdgeInsets.only(top: 8)),
-                      Text("Ordered On: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.date)}", style: IjudiStyles.CARD_SHOP_DISCR),
-                      Padding(padding: EdgeInsets.only(top: 8)),
-                      Text("Total Amount: R${order.totalAmount}")
-                    ],
-                  )
-                ),
-              GestureDetector(
-                onTap: () {
-                  if(order.orderType == OrderType.ONLINE){
-                    Navigator.pushNamedAndRemoveUntil(context,
-                      FinalOrderView.ROUTE_NAME,
-                        (Route<dynamic> route) => false, arguments: order);
-                  } else {
-                    Navigator.pushNamed(context,
-                      ReceiptView.ROUTE_NAME,
-                      arguments: order);
-                  }
-                }, 
-                child: Container(
-                  alignment: Alignment.center,
-                  width: 90,
-                  height: 100,
-                  decoration: BoxDecoration(
-                    color: statusColors[order.stage],
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(25.0),
-                        bottomRight: Radius.circular(25.0)),
-                  ),
-                  child: Text(statusText[order.stage], style: IjudiStyles.HEADER_TEXT,),
-                )
-              )
-            ]
-            )
-          ),
-      ),
-    );
+          margin: EdgeInsets.only(left: 0, right: 8, top: 1),
+          child: Card(
+              margin: EdgeInsets.only(left: 0),
+              child: Container(
+                  color: Theme.of(context).cardColor,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                            padding: EdgeInsets.only(left: 8, right: 8, top: 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text("Order Number: ${order.id}",
+                                    style: IjudiStyles.CARD_SHOP_DISCR),
+                                Padding(padding: EdgeInsets.only(top: 8)),
+                                Text(
+                                    "Ordered On: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.date)}",
+                                    style: IjudiStyles.CARD_SHOP_DISCR),
+                                Padding(padding: EdgeInsets.only(top: 8)),
+                                Text("Total Amount: R${order.totalAmount}")
+                              ],
+                            )),
+                        Container(
+                          alignment: Alignment.center,
+                          width: 120,
+                          height: 90,
+                          color: statusColors[order.stage],
+                          child: Text(
+                            statusText[order.stage],
+                            style: IjudiStyles.HEADER_TEXT,
+                          ),
+                        )
+                      ]))),
+        ));
   }
 }

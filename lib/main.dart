@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/services/impl/shared-pref-storage-manager.dart';
+import 'package:ijudi/services/local-notification-service.dart';
 import 'package:ijudi/util/navigator-service.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/login-view.dart';
@@ -9,6 +10,10 @@ import 'package:ijudi/view/login-view.dart';
 main() {
   print("starting application");
   WidgetsFlutterBinding.ensureInitialized();
+  var localNotifications = LocalNotificationService();
+  localNotifications.initialize().then((value) => {
+    print("notification initialized $value")
+  });
   SharedPrefStorageManager.singleton()
     .then((storage)  {
       var ukhesheService = UkhesheService(storage);
@@ -16,9 +21,10 @@ main() {
       var navigation = NavigatorService(
         storageManager: storage, 
         apiService: apiService,
-        ukhesheService: ukhesheService);
+        ukhesheService: ukhesheService,
+        localNotificationService: localNotifications);
       runApp(MyApp(navigation: navigation));
-    });
+  });
 }
 
 class MyApp extends StatelessWidget {

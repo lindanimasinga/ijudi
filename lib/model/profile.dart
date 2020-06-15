@@ -15,7 +15,7 @@ abstract class Profile {
   int servicesCompleted;
   int badges;
   String mobileNumber;
-  String role;
+  ProfileRoles role;
   int responseTimeMinutes;
   String verificationCode;
   Bank bank = Bank();
@@ -63,4 +63,12 @@ class Bank {
   /// to JSON. The implementation simply calls the private, generated
   /// helper method `_$UserToJson`.
   Map<String, dynamic> toJson() => _$BankToJson(this); 
+}
+
+enum ProfileRoles {
+
+    CUSTOMER,
+    STORE_ADMIN,
+    STORE,
+    MESSENGER
 }

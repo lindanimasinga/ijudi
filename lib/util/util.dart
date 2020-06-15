@@ -24,7 +24,7 @@ class Utils {
         description: "..............",
         address: "............",
         imageUrl: "https://pbs.twimg.com/media/C1OKE9QXgAAArDp.jpg",
-        role: "Shop",
+        role: ProfileRoles.STORE,
         yearsInService: 0,
         badges: 0,
         likes: 0,

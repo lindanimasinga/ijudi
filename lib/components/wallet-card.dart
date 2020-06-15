@@ -94,7 +94,7 @@ class WalletCard extends StatelessWidget {
                     IconButton(
                         iconSize: 32,
                         icon: Icon(Icons.list,
-                            color: IjudiColors.color5),
+                            color: IjudiColors.color1),
                         onPressed: () => Navigator.pushNamed(context, TransactionHistoryView.ROUTE_NAME, arguments: wallet)),
                     Text("Transactions", style: IjudiStyles.CARD_ICON_BUTTON)
                   ],

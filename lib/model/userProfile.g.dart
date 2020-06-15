@@ -20,7 +20,7 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) {
     badges: json['badges'] as int,
     verificationCode: json['verificationCode'] as String,
     mobileNumber: json['mobileNumber'] as String,
-    role: json['role'] as String,
+    role: _$enumDecodeNullable(_$ProfileRolesEnumMap, json['role']),
     bank: json['bank'] == null
         ? null
         : Bank.fromJson(json['bank'] as Map<String, dynamic>),
@@ -46,10 +46,49 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) {
   writeNotNull('servicesCompleted', instance.servicesCompleted);
   writeNotNull('badges', instance.badges);
   writeNotNull('mobileNumber', instance.mobileNumber);
-  writeNotNull('role', instance.role);
+  writeNotNull('role', _$ProfileRolesEnumMap[instance.role]);
   writeNotNull('responseTimeMinutes', instance.responseTimeMinutes);
   writeNotNull('verificationCode', instance.verificationCode);
   writeNotNull('bank', instance.bank);
   writeNotNull('idNumber', instance.idNumber);
   return val;
 }
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$ProfileRolesEnumMap = {
+  ProfileRoles.CUSTOMER: 'CUSTOMER',
+  ProfileRoles.STORE_ADMIN: 'STORE_ADMIN',
+  ProfileRoles.STORE: 'STORE',
+  ProfileRoles.MESSENGER: 'MESSENGER',
+};

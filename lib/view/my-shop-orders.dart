@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:ijudi/components/ijudi-card.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/order-history-item-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
-import 'package:ijudi/view/final-order-view.dart';
-import 'package:ijudi/viewmodel/order-history-view-model.dart';
+import 'package:ijudi/view/my-shop-order-update.dart';
+import 'package:ijudi/viewmodel/myshop-orders-view-model.dart';
 
-import 'quick-payment-success.dart';
+class MyShopOrdersView extends MvStatefulWidget<MyShopOrdersViewModel> {
+  static const ROUTE_NAME = "myshop-orders";
 
-class OrderHistoryView extends MvStatefulWidget<OrderHistoryViewModel> {
-  static const ROUTE_NAME = "order-history";
-
-  OrderHistoryView({OrderHistoryViewModel viewModel}) : super(viewModel);
+  MyShopOrdersView({MyShopOrdersViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -30,47 +27,30 @@ class OrderHistoryView extends MvStatefulWidget<OrderHistoryViewModel> {
 
     viewModel.orders
         .where((order) => order.stage != OrderStage.STAGE_7_PAID_SHOP)
-        .forEach((order) => pendingOrderItemsComponents
-            .add(OrderHistoryItemComponent(
-              order: order,
-              onTap: () {
-                if (order.orderType == OrderType.ONLINE) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      FinalOrderView.ROUTE_NAME,
-                      (Route<dynamic> route) => false,
+        .forEach((order) =>
+            pendingOrderItemsComponents.add(OrderHistoryItemComponent(
+                order: order,
+                onTap: () {
+                  Navigator.pushNamed(context, MyShopOrderUpdateView.ROUTE_NAME,
                       arguments: order);
-                } else {
-                  Navigator.pushNamed(context, ReceiptView.ROUTE_NAME,
-                      arguments: order);
-                }
-              })));
+                })));
 
     viewModel.orders
         .where((order) => order.stage == OrderStage.STAGE_7_PAID_SHOP)
         .forEach((order) =>
             finishedOrderItemsComponents.add(OrderHistoryItemComponent(
-              order: order,
-              onTap: () {
-                if (order.orderType == OrderType.ONLINE) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      FinalOrderView.ROUTE_NAME,
-                      (Route<dynamic> route) => false,
+                order: order,
+                onTap: () {
+                  Navigator.pushNamed(context, MyShopOrderUpdateView.ROUTE_NAME,
                       arguments: order);
-                } else {
-                  Navigator.pushNamed(context, ReceiptView.ROUTE_NAME,
-                      arguments: order);
-                }
-              },
-            )));
+                })));
 
     return ScrollableParent(
-        title: "Order History",
-        appBarColor: IjudiColors.color1,
-        hasDrawer: true,
+        title: "Orders",
+        appBarColor: IjudiColors.color3,
+        hasDrawer: false,
         child: Stack(children: <Widget>[
-          Headers.getHeader(context),
+          Headers.getShopHeader(context),
           Column(children: [
             pendingOrderItemsComponents.length == 1
                 ? Container()

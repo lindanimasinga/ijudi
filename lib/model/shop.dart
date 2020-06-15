@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/stock.dart';
@@ -11,11 +14,10 @@ part 'shop.g.dart';
 class Shop extends Profile {
   
   String registrationNumber;
-  @JsonKey(toJson: listToJson)
+  @JsonKey(ignore: false, toJson: businessHoursToJson)
   List<BusinessHours> businessHours;
-  @JsonKey(toJson: listToJson)
+  @JsonKey(ignore: false, toJson: listToJson)
   List<Stock> stockList;
-  @JsonKey(toJson: listToJson)
   Set<String> tags;
   bool hasVat;
   String ownerId;
@@ -36,7 +38,7 @@ class Shop extends Profile {
       int badges,
       String verificationCode,
       @required String mobileNumber,
-      @required String role,
+      @required ProfileRoles role,
       @required Bank bank})
       : super(
             id: id,
@@ -57,10 +59,26 @@ class Shop extends Profile {
 
   Map<String, dynamic> toJson() => _$ShopToJson(this);
 
-  static List<Map<String,dynamic>> listToJson(Iterable<dynamic> list) {
-    print("converting to json");
+  static List<Map<String,dynamic>> listToJson(List<Stock> list) {
+    print("converting to json 1");
     var jsonString = list.map((f) => f.toJson())
       .toList();
+    log(json.encode(jsonString[0]));
+    return jsonString;  
+  }
+
+  static List<String> setToJson(Set<String> list) {
+    print("converting to json 1");
+    var jsonString = list.map((f) => "Map()")
+      .toList();
+    print(jsonString);
+    return jsonString;  
+  }
+
+  static List<Map<String,dynamic>> businessHoursToJson(List<BusinessHours> list) {
+    print("converting to json 2");
+    var jsonString = list.map((f) => f.toJson()).toList();
+    print("converting to json 2 passed");
     print(jsonString);
     return jsonString;  
   }

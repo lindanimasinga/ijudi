@@ -23,7 +23,7 @@ class UserProfile extends Profile {
       int badges,
       String verificationCode,
       @required String mobileNumber,
-      @required String role,
+      @required ProfileRoles role,
       @required Bank bank})
       : super(
             id: id,

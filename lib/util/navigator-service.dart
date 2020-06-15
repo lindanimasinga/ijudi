@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
+import 'package:ijudi/services/local-notification-service.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/view/all-components.dart';
 import 'package:ijudi/view/all-shops-view.dart';
 import 'package:ijudi/view/delivery-options.dart';
 import 'package:ijudi/view/final-order-view.dart';
 import 'package:ijudi/view/login-view.dart';
+import 'package:ijudi/view/my-shop-order-update.dart';
+import 'package:ijudi/view/my-shop-orders.dart';
 import 'package:ijudi/view/my-shops.dart';
 import 'package:ijudi/view/order-history-view.dart';
 import 'package:ijudi/view/payment-view.dart';
@@ -24,7 +27,9 @@ import 'package:ijudi/viewmodel/all-shops-view-model.dart';
 import 'package:ijudi/viewmodel/delivery-option-view-model.dart';
 import 'package:ijudi/viewmodel/final-order-view-model.dart';
 import 'package:ijudi/viewmodel/login-view-model.dart';
+import 'package:ijudi/viewmodel/my-shop-order-update-view-model.dart';
 import 'package:ijudi/viewmodel/my-shops-view-model.dart';
+import 'package:ijudi/viewmodel/myshop-orders-view-model.dart';
 import 'package:ijudi/viewmodel/order-history-view-model.dart';
 import 'package:ijudi/viewmodel/payment-view-model.dart';
 import 'package:ijudi/viewmodel/profile-view-model.dart';
@@ -42,11 +47,13 @@ class NavigatorService {
   final StorageManager storageManager;
   final UkhesheService ukhesheService;
   final ApiService apiService;
+  final LocalNotificationService localNotificationService;
 
   NavigatorService({
     @required this.ukhesheService, 
     @required this.storageManager,
-    @required this.apiService});
+    @required this.apiService, 
+    this.localNotificationService});
 
 
   Route<dynamic> generateRoute(RouteSettings settings) {
@@ -117,7 +124,8 @@ class NavigatorService {
       case FinalOrderView.ROUTE_NAME:
         viewmodel = FinalOrderViewModel(
           order: args,
-          apiService: apiService
+          apiService: apiService,
+          localNotificationService: localNotificationService
         );
         return MaterialPageRoute(builder: (context) => FinalOrderView(viewModel: viewmodel));  
       case StockManagementView.ROUTE_NAME:
@@ -131,6 +139,18 @@ class NavigatorService {
           apiService: apiService
         );
         return MaterialPageRoute(builder: (context) => OrderHistoryView(viewModel: viewmodel));          
+      case MyShopOrdersView.ROUTE_NAME:
+        viewmodel = MyShopOrdersViewModel(
+          apiService: apiService,
+          shopId: args
+        );
+        return MaterialPageRoute(builder: (context) => MyShopOrdersView(viewModel: viewmodel));          
+      case MyShopOrderUpdateView.ROUTE_NAME:
+        viewmodel = MyShopOrderUpdateViewModel(
+          apiService: apiService,
+          order: args
+        );
+        return MaterialPageRoute(builder: (context) => MyShopOrderUpdateView(viewModel: viewmodel));          
       case WalletView.ROUTE_NAME:
         viewmodel = WalletViewModel(
           apiService: apiService,

@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'day.dart';
@@ -11,9 +13,9 @@ part 'business-hours.g.dart';
 class BusinessHours {
 
   final Day day;
-  @JsonKey(fromJson: dateFromJson, toJson: dateToJson)
+  @JsonKey(ignore: false,fromJson: dateFromJson, toJson: dateToJson)
   final TimeOfDay open;
-  @JsonKey(fromJson: dateFromJson, toJson: dateToJson)
+  @JsonKey(ignore: false, fromJson: dateFromJson, toJson: dateToJson)
   final TimeOfDay close;
 
   BusinessHours(this.day, this.open, this.close);
@@ -28,8 +30,12 @@ class BusinessHours {
   }
 
   static String dateToJson(TimeOfDay time) {
+    log("converting $time");
     var date =DateTime.now();
     var pickupDate = DateTime(date.year, date.month, date.day, time.hour, time.minute);
-    return json.encode(pickupDate);
+    log("converting $time passed");
+    return new DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(pickupDate);
   }
+
+  
 }

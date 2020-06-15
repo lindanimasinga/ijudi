@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/order-in-progress-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
+import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/viewmodel/final-order-view-model.dart';
 import 'package:ijudi/viewmodel/order-progress-view-model.dart';
@@ -27,7 +28,7 @@ class FinalOrderView extends MvStatefulWidget<FinalOrderViewModel> {
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
                           orderViewModel: viewModel,
-                          stage: 0, 
+                          stage: OrderStage.STAGE_1_WAITING_STORE_CONFIRM, 
                           countMinutes: 1),
                       label: "Order Number ${viewModel.order.id}",
                       text:
@@ -35,21 +36,21 @@ class FinalOrderView extends MvStatefulWidget<FinalOrderViewModel> {
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
                           orderViewModel: viewModel, 
-                          stage: 1, 
+                          stage: OrderStage.STAGE_2_STORE_PROCESSING, 
                           countMinutes: 2),
                       text:
                           "${viewModel.shop.name} is now packing your order"),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
                           orderViewModel: viewModel, 
-                          stage: 2, 
+                          stage: OrderStage.STAGE_3_READY_FOR_COLLECTION, 
                           countMinutes: 1),
                       text:
                           "Your order is on its way. Brace yourself.."),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
                           orderViewModel: viewModel, 
-                          stage: 3, 
+                          stage: OrderStage.STAGE_4_ON_THE_ROAD, 
                           countMinutes: 1),
                       text:
                           "${viewModel.order.shippingData.messenger.name} has arrived. Please come collect."),

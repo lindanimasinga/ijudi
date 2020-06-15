@@ -3,6 +3,7 @@ import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/profile.dart';
+import 'package:ijudi/services/local-notification-service.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
@@ -11,10 +12,14 @@ class FinalOrderViewModel extends BaseViewModel {
   final Order order;
 
   Shop shop = Utils.createPlaceHolder();
-  ApiService apiService;
+  final ApiService apiService;
+  final LocalNotificationService localNotificationService;
 
-  FinalOrderViewModel({@required this.order, 
-    @required this.apiService});
+  FinalOrderViewModel({
+    @required this.order, 
+    @required this.apiService, 
+    @required this.localNotificationService
+  });
 
   @override
   void initialize() {
@@ -25,15 +30,32 @@ class FinalOrderViewModel extends BaseViewModel {
         hasError = true;
         errorMessage = e.toString();
       });
+
+    if(order.shop != null) {
+      var dateTime = DateTime.now().add(Duration(minutes: 10));
+        localNotificationService.scheduleMessage(dateTime, 
+          "${order.shop.name}", 
+          "Dont forget about your order. Please check progress in the app.")
+        .asStream()
+        .listen((event) {
+          
+      });
+
+      dateTime = DateTime.now().add(Duration(minutes: 20));
+        localNotificationService.scheduleMessage(dateTime, 
+          "${order.shop.name}", 
+          "Dont forget about your order. Please check progress in the app.")
+        .asStream()
+        .listen((event) {
+          
+      });
+    }
   }
   
   void moveNextStage() {
-    order.moveNextStage();
     notifyChanged();
   }
 
-  int get stage => order.stage;
-
-  
+  OrderStage get stage => order.stage;
 
 }

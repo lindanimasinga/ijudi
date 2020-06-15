@@ -93,7 +93,7 @@ class RegisterViewModel extends BaseViewModel {
         imageUrl: imageUrl,
         mobileNumber: mobileNumber,
         address: address,
-        role: "customer",
+        role: ProfileRoles.CUSTOMER,
         bank: _bank);
         
     progressMv.isBusy = true;

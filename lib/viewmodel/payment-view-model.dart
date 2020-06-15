@@ -86,6 +86,7 @@ class PaymentViewModel extends BaseViewModel {
         return  apiService.completeOrderPayment(order).asStream();
       })
       .listen((data) {
+        order.stage = data.stage;
         Navigator.pushNamedAndRemoveUntil(
             context,
             FinalOrderView.ROUTE_NAME,

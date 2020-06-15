@@ -3,16 +3,16 @@ import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
-class OrderHistoryViewModel extends BaseViewModel {
+class MyShopOrdersViewModel extends BaseViewModel {
   List<Order> _orders = [];
   final ApiService apiService;
+  final String shopId;
 
-  OrderHistoryViewModel({@required this.apiService});
+  MyShopOrdersViewModel({@required this.apiService, @required this.shopId});
 
   @override
   void initialize() {
-    var userId = apiService.currentUserPhone;
-    apiService.findOrdersByPhoneNumber(userId)
+    apiService.findOrdersByShopId(shopId)
     .asStream()
     .listen((respo) {
       orders = respo;
