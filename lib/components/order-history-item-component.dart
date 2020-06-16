@@ -53,7 +53,7 @@ class OrderHistoryItemComponent extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Container(
-                            padding: EdgeInsets.only(left: 16, right: 8, top: 0),
+                            padding: EdgeInsets.only(left: 16, right: 8),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
@@ -69,12 +69,13 @@ class OrderHistoryItemComponent extends StatelessWidget {
                             )),
                         Container(
                           alignment: Alignment.center,
-                          width: 120,
+                          width: 100,
                           height: 90,
                           color: statusColors[order.stage],
                           child: Text(
                             statusText[order.stage],
                             style: IjudiStyles.HEADER_TEXT,
+                            textAlign: TextAlign.center,
                           ),
                         )
                       ]))),
