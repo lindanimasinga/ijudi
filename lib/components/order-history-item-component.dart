@@ -25,7 +25,7 @@ class OrderHistoryItemComponent extends StatelessWidget {
 
   static const statusText = {
     OrderStage.STAGE_0_CUSTOMER_NOT_PAID: "Not Paid",
-    OrderStage.STAGE_1_WAITING_STORE_CONFIRM: "Shop to Confirm",
+    OrderStage.STAGE_1_WAITING_STORE_CONFIRM: "Waiting Confirmation",
     OrderStage.STAGE_2_STORE_PROCESSING: "Processing",
     OrderStage.STAGE_3_READY_FOR_COLLECTION: "Ready",
     OrderStage.STAGE_4_ON_THE_ROAD: "Arriving",
@@ -53,7 +53,7 @@ class OrderHistoryItemComponent extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Container(
-                            padding: EdgeInsets.only(left: 8, right: 8, top: 0),
+                            padding: EdgeInsets.only(left: 16, right: 8, top: 0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[

@@ -5,6 +5,7 @@ import 'package:ijudi/view/my-shop-orders.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class MyShopOrderUpdateViewModel extends BaseViewModel {
+  
   Order _order;
 
   final ApiService apiService;
@@ -12,7 +13,13 @@ class MyShopOrderUpdateViewModel extends BaseViewModel {
   MyShopOrderUpdateViewModel({@required Order order, @required this.apiService})
       : this._order = order;
 
-  rejectOrder() {}
+  rejectOrder() {
+    if (order.stage == OrderStage.STAGE_1_WAITING_STORE_CONFIRM) {
+      //reject order
+    } else {
+      Navigator.pop(context);
+    }
+  }
 
   progressNextStage() {
     progressMv.isBusy = true;
