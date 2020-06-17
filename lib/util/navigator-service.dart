@@ -47,7 +47,7 @@ class NavigatorService {
   final StorageManager storageManager;
   final UkhesheService ukhesheService;
   final ApiService apiService;
-  final LocalNotificationService localNotificationService;
+  final NotificationService localNotificationService;
 
   NavigatorService({
     @required this.ukhesheService, 
@@ -67,7 +67,8 @@ class NavigatorService {
         viewmodel = LoginViewModel(
           storage: storageManager, 
           ukhesheService: ukhesheService,
-          apiService: apiService
+          apiService: apiService,
+          notificationService: localNotificationService
         );
         return MaterialPageRoute(builder: (context) => LoginView(viewModel: viewmodel));
       case RegisterView.ROUTE_NAME:

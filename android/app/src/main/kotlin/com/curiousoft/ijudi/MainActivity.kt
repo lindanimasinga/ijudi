@@ -1,4 +1,4 @@
-package com.example.ijudi
+package com.curiousoft.ijudi
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

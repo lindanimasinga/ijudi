@@ -1,4 +1,5 @@
 
+import 'package:flutter/semantics.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -88,6 +89,15 @@ class SharedPrefStorageManager extends StorageManager {
   @override
   String getIjudiUserId() {
     return _prefs.getString(StorageManager.IJUDI_USER_ID);
+  }
+
+  @override
+  String get deviceId => _prefs.getString(StorageManager.IJUDI_DEVICE_ID);
+
+  @override
+  set deviceId(String id) {
+    if(id == null || id.isEmpty) return null;
+    _prefs.setString(StorageManager.IJUDI_DEVICE_ID, id);
   }
   
 }

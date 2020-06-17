@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "315529266651",
+    "firebase_url": "https://ijudi-d19bd.firebaseio.com",
+    "project_id": "ijudi-d19bd",
+    "storage_bucket": "ijudi-d19bd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315529266651:android:8e8ef81e93068393ed53fe",
+        "android_client_info": {
+          "package_name": "com.curiousoft.ijudi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "315529266651-19qnqtadkequhth9p3acuj557op890d7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.curiousoft.ijudi",
+            "certificate_hash": "b4927b73135e21fdd02939ccd8c48ed31d64574d"
+          }
+        },
+        {
+          "client_id": "315529266651-5p2av3dcfj93fmr25qnvefmc021bescc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp-6oglDWlbTL1fomlsLVVIQnQsiL_JT8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "315529266651-5p2av3dcfj93fmr25qnvefmc021bescc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

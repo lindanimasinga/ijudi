@@ -4,6 +4,7 @@ import 'package:ijudi/util/theme-utils.dart';
 import 'package:intl/intl.dart';
 
 class OrderHistoryItemComponent extends StatelessWidget {
+  
   static const statusColors = {
     OrderStage.STAGE_0_CUSTOMER_NOT_PAID: IjudiColors.color2,
     OrderStage.STAGE_1_WAITING_STORE_CONFIRM: IjudiColors.color2,

@@ -4,6 +4,7 @@ import 'package:ijudi/model/shop.dart';
 
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
+import 'package:ijudi/services/local-notification-service.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/view/all-shops-view.dart';
 import 'package:ijudi/view/register-view.dart';
@@ -14,14 +15,18 @@ class LoginViewModel extends BaseViewModel {
   final StorageManager storage;
   final UkhesheService ukhesheService;
   final ApiService apiService;
+  final NotificationService notificationService;
   
   String username;
   String password;
   List<Shop> shops;
   List<Advert> ads;
 
-  LoginViewModel({@required this.ukhesheService,@required this.storage,
-   @required this.apiService});
+  LoginViewModel({
+    @required this.ukhesheService,
+    @required this.storage,
+    @required this.apiService,
+    @required this.notificationService});
 
   login() {
     progressMv.isBusy = true;      
@@ -33,6 +38,7 @@ class LoginViewModel extends BaseViewModel {
         progressMv.isBusy = false;
         storage.mobileNumber = username;
         storage.saveIjudiUserId(data.id);
+        notificationService.updateDeviceUser();
         Navigator.pushNamedAndRemoveUntil(
             context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false);
     }, onError: (handleError) {

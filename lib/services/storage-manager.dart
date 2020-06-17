@@ -6,6 +6,7 @@ abstract class StorageManager {
   static const String MOBILE = "dflwe32w";
   static const String UKHESHE_EXPIRY = "nasdasie2";
   static const String IJUDI_USER_ID = "uiouwfflsdf";
+  static const String IJUDI_DEVICE_ID = "lahdkjahskdffdsd";
 
   get mobileNumber;
   set mobileNumber(String value);
@@ -19,6 +20,10 @@ abstract class StorageManager {
   String findUkhesheAccessToken();
 
   bool get isLoggedIn;
+
+  String get deviceId;
+
+  set deviceId(String deviceId);
 
   void clear();
 

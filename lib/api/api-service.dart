@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:http/http.dart' as http;
 import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/model/basket.dart';
+import 'package:ijudi/model/device.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/stock.dart';
@@ -253,5 +254,35 @@ class ApiService {
     logger.log(event.body);
     if(event.statusCode != 200) throw(event.body);
     return Order.fromJson(json.decode(event.body));
+  }
+
+  Future registerDevice(Device device) async {
+        Map<String, String> headers = {
+      "Content-type": "application/json",
+    };
+
+    var request = json.encode(device);
+    logger.log(request);
+    var event = await http
+        .post('$API_URL/device', headers: headers, body: request)
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    if(event.statusCode != 200) throw(event);
+    device = Device.fromJson(json.decode(event.body));
+    storageManager.deviceId = device.id;
+    return event;
+  }
+
+  Future updateDevice(Device device) async {
+        Map<String, String> headers = {
+      "Content-type": "application/json",
+    };
+
+    var request = json.encode(device);
+    logger.log(request);
+    var event = await http
+        .patch('$API_URL/device/${device.id}', headers: headers, body: request)
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    if(event.statusCode != 200) throw(event);
+    return event;
   }
 }

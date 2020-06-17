@@ -13,7 +13,7 @@ class FinalOrderViewModel extends BaseViewModel {
 
   Shop shop = Utils.createPlaceHolder();
   final ApiService apiService;
-  final LocalNotificationService localNotificationService;
+  final NotificationService localNotificationService;
 
   FinalOrderViewModel({
     @required this.order, 
@@ -33,7 +33,7 @@ class FinalOrderViewModel extends BaseViewModel {
 
     if(order.shop != null) {
       var dateTime = DateTime.now().add(Duration(minutes: 10));
-        localNotificationService.scheduleMessage(dateTime, 
+        localNotificationService.scheduleLocalMessage(dateTime, 
           "${order.shop.name}", 
           "Dont forget about your order. Please check progress in the app.")
         .asStream()
@@ -42,7 +42,7 @@ class FinalOrderViewModel extends BaseViewModel {
       });
 
       dateTime = DateTime.now().add(Duration(minutes: 20));
-        localNotificationService.scheduleMessage(dateTime, 
+        localNotificationService.scheduleLocalMessage(dateTime, 
           "${order.shop.name}", 
           "Dont forget about your order. Please check progress in the app.")
         .asStream()

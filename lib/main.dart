@@ -10,14 +10,16 @@ import 'package:ijudi/view/login-view.dart';
 main() {
   print("starting application");
   WidgetsFlutterBinding.ensureInitialized();
-  var localNotifications = LocalNotificationService();
-  localNotifications.initialize().then((value) => {
-    print("notification initialized $value")
-  });
+
+  var localNotifications;
+
   SharedPrefStorageManager.singleton()
     .then((storage)  {
       var ukhesheService = UkhesheService(storage);
       var apiService = ApiService(storage);
+      localNotifications = NotificationService(apiService: apiService);
+      localNotifications.initialize().then((value) => print("notification initialized $value"));
+      
       var navigation = NavigatorService(
         storageManager: storage, 
         apiService: apiService,
