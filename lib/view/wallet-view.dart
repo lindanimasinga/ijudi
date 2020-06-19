@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
@@ -106,12 +107,37 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
         action: () {
           viewModel.topUp()
             .onData((topUpData) {
-              showWebViewDialog(context,
+              _launchURL(context);
+              /*showWebViewDialog(context,
                header: Image.asset("assets/images/uKhese-logo.png", width: 20),
                url: "${viewModel.baseUrl}${topUpData.completionUrl}",
-               doneAction: () => viewModel.fetchNewAccountBalances());
+               doneAction: () => viewModel.fetchNewAccountBalances());*/
             });
         });
+  }
+
+    void _launchURL(BuildContext context) async {
+    try {
+      await launch(
+        'https://passwords.google.com/',
+        option: new CustomTabsOption(
+          toolbarColor: Theme.of(context).primaryColor,
+          enableDefaultShare: true,
+          enableUrlBarHiding: true,
+          showPageTitle: true,
+          animation: new CustomTabsAnimation.slideIn(),
+          extraCustomTabs: <String>[
+            // ref. https://play.google.com/store/apps/details?id=org.mozilla.firefox
+            'org.mozilla.firefox',
+            // ref. https://play.google.com/store/apps/details?id=com.microsoft.emmx
+            'com.microsoft.emmx',
+          ],        
+        ),
+      );
+    } catch (e) {
+      // An exception is thrown if browser app is not installed on Android device.
+      debugPrint(e.toString());
+    }
   }
 
 }

@@ -7,9 +7,13 @@ abstract class StorageManager {
   static const String UKHESHE_EXPIRY = "nasdasie2";
   static const String IJUDI_USER_ID = "uiouwfflsdf";
   static const String IJUDI_DEVICE_ID = "lahdkjahskdffdsd";
+  static const UKHESHE_PASSWORD = "djalske33bfsdw";
 
   get mobileNumber;
   set mobileNumber(String value);
+
+  get password;
+  set password(String value);
 
   void saveIjudiAccessToken(String token);
 
@@ -25,7 +29,7 @@ abstract class StorageManager {
 
   set deviceId(String deviceId);
 
-  void clear();
+  Stream clear();
 
   void saveUkhesheTokenExpiryDate(String expires);
 

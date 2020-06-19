@@ -36,6 +36,8 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                               IjudiLoginField(
                                   hint: "Cell Number",
                                   type: TextInputType.phone,
+                                  text: viewModel.username,
+                                  autofillHints: [AutofillHints.telephoneNumber, AutofillHints.telephoneNumberLocal],
                                   icon: Icon(Icons.phone_android,
                                       size: 22,
                                       color: Colors.white),
@@ -43,10 +45,11 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                                   color: IjudiColors.color5),
                               IjudiLoginField(
                                 hint: "Password",
+                                text: viewModel.password,
                                 icon: Icon(Icons.lock,
                                       size: 22,
                                       color: Colors.white,),
-                                isPassword: true,
+                                autofillHints: [AutofillHints.newPassword],
                                 onTap: (pass) => viewModel.password = pass,
                                 color: IjudiColors.color5,
                               ),

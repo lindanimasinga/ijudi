@@ -4,6 +4,7 @@ import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-address-input-field.dart';
 import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
+import 'package:ijudi/components/ijudi-login-field.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/util/theme-utils.dart';
@@ -161,14 +162,12 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                     IjudiForm(
                       child: Column(
                         children: <Widget>[
-                          IjudiInputField(
-                              text: viewModel.password,
+                          IjudiLoginField(
                               onTap: (pass) => viewModel.password = pass,
                               hint: 'Password',
                               autofillHints: [AutofillHints.newPassword],
                               type: TextInputType.text),
-                          IjudiInputField(
-                              text: viewModel.passwordConfirm,
+                          IjudiLoginField(
                               onTap: (pass) => viewModel.passwordConfirm = pass,
                               hint: 'Confirm Password',
                               autofillHints: [AutofillHints.newPassword],

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -13,7 +14,7 @@ part 'business-hours.g.dart';
 class BusinessHours {
 
   final Day day;
-  @JsonKey(ignore: false,fromJson: dateFromJson, toJson: dateToJson)
+  @JsonKey(ignore: false,fromJson: Utils.timeOfDayFromJson, toJson: Utils.timeOfDayToJson)
   final TimeOfDay open;
   @JsonKey(ignore: false, fromJson: dateFromJson, toJson: dateToJson)
   final TimeOfDay close;

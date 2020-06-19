@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
-import 'package:ijudi/services/impl/shared-pref-storage-manager.dart';
+import 'package:ijudi/services/impl/secure-storage-manager.dart';
 import 'package:ijudi/services/local-notification-service.dart';
 import 'package:ijudi/util/navigator-service.dart';
 import 'package:ijudi/util/theme-utils.dart';
@@ -13,7 +13,7 @@ main() {
 
   var localNotifications;
 
-  SharedPrefStorageManager.singleton()
+  SecureStorageManager.singleton()
     .then((storage)  {
       var ukhesheService = UkhesheService(storage);
       var apiService = ApiService(storage);

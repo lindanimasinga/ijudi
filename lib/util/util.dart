@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/profile.dart';
 
@@ -31,4 +32,27 @@ class Utils {
         servicesCompleted: 0,
         bank: Bank(name: "Name", accountId: "Account", type: "Wallet"));
   } 
+
+  static DateTime dateFromJson(String dateString) {
+    if(dateString == null) return null;
+    return DateTime.parse(dateString);
+  }
+
+  static String dateToJson(DateTime time) {
+    var date =DateTime.now();
+    var pickupDate = DateTime(date.year, date.month, date.day, time.hour, time.minute);
+    return pickupDate.toIso8601String();
+  }
+
+    static TimeOfDay timeOfDayFromJson(String dateString) {
+    if(dateString == null) return null;
+    var date = DateTime.parse(dateString);
+    return TimeOfDay.fromDateTime(date);
+  }
+
+  static String timeOfDayToJson(TimeOfDay time) {
+    var date =DateTime.now();
+    var pickupDate = DateTime(date.year, date.month, date.day, time.hour, time.minute);
+    return pickupDate.toIso8601String();
+  }
 }

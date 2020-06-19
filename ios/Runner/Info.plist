@@ -41,5 +41,7 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Secure sign in with touch ID?</string>
 </dict>
 </plist>

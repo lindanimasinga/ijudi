@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:ijudi/services/impl/secure-storage-manager.dart';
 import 'package:ijudi/services/impl/shared-pref-storage-manager.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/all-components.dart';
@@ -42,12 +45,14 @@ class MenuComponent extends StatelessWidget {
                         ]
                       ),      
                 Buttons.accountFlat(text: "Logout", action: () {
-                  SharedPrefStorageManager.singleton()
+                  SecureStorageManager.singleton()
                     .then((v) {
-                      v.clear();
-                      Navigator.pushNamedAndRemoveUntil(context, 
-                    LoginView.ROUTE_NAME, 
-                    (Route<dynamic> route) => false);
+                      v.clear().listen((event) {
+                        log("logged out");
+                        Navigator.pushNamedAndRemoveUntil(context, 
+                        LoginView.ROUTE_NAME, 
+                        (Route<dynamic> route) => false);
+                      });
                   });
                 }),    
                 ]

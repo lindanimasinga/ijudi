@@ -16,7 +16,6 @@ class ApiService {
 
   static const API_URL = "http://ec2co-ecsel-1b20jvvw3yfzt-2104564802.af-south-1.elb.amazonaws.com/";
   static const TIMEOUT_SEC = 20;
-  static UserProfile currentUser;
   final StorageManager storageManager;
 
   ApiService(this.storageManager);
@@ -70,10 +69,8 @@ class ApiService {
   }
 
   Future<UserProfile> findUserByPhone(String phone) async {
-    if(currentUser != null) {
-      return Future.value(currentUser);
-    }
 
+    logger.log("finding user by phone $phone");
     var event = await http.get('$API_URL/user?phone=$phone')
             .timeout(Duration(seconds: TIMEOUT_SEC));
     if(event.statusCode != 200) {
@@ -82,8 +79,7 @@ class ApiService {
       throw(event);
     }       
     
-    currentUser = UserProfile.fromJson(json.decode(event.body));
-    return currentUser;
+    return UserProfile.fromJson(json.decode(event.body));
   }
 
   Future<List<UserProfile>> findNearbyMessangers(String s) async {

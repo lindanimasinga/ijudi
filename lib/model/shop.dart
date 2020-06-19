@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/stock.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'business-hours.dart';
@@ -21,6 +22,9 @@ class Shop extends Profile {
   Set<String> tags;
   bool hasVat;
   String ownerId;
+  bool featured;
+  @JsonKey(fromJson: Utils.dateFromJson, toJson: Utils.dateToJson)
+  DateTime featuredExpiry;
 
   Shop(
       {@required String id,
@@ -29,6 +33,8 @@ class Shop extends Profile {
       this.stockList,
       this.hasVat = false,
       this.tags,
+      this.featured,
+      this.featuredExpiry,
       @required String description,
       @required int yearsInService,
       @required String address,

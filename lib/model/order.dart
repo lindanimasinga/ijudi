@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/model/basket.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/userProfile.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'order.g.dart';
@@ -71,7 +72,7 @@ class Shipping {
   ShippingType type;
   double fee = 0;
   UserProfile messenger;
-  @JsonKey(fromJson: dateFromJson, toJson: dateToJson)
+  @JsonKey(fromJson: Utils.timeOfDayFromJson, toJson: Utils.timeOfDayToJson)
   TimeOfDay pickUpTime = TimeOfDay(hour: 0, minute: 0);
 
   Shipping();
@@ -80,18 +81,6 @@ class Shipping {
       _$ShippingFromJson(json);
 
   Map<String, dynamic> toJson() => _$ShippingToJson(this);
-
-  static TimeOfDay dateFromJson(String dateString) {
-    if(dateString == null) return null;
-    var date = DateTime.parse(dateString);
-    return TimeOfDay.fromDateTime(date);
-  }
-
-  static String dateToJson(TimeOfDay time) {
-    var date =DateTime.now();
-    var pickupDate = DateTime(date.year, date.month, date.day, time.hour, time.minute);
-    return pickupDate.toIso8601String();
-  }
 }
 
 
