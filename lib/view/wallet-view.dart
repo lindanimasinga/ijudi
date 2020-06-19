@@ -107,11 +107,11 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
         action: () {
           viewModel.topUp()
             .onData((topUpData) {
-              _launchURL(context);
-              /*showWebViewDialog(context,
+              //_launchURL(context);
+              showWebViewDialog(context,
                header: Image.asset("assets/images/uKhese-logo.png", width: 20),
                url: "${viewModel.baseUrl}${topUpData.completionUrl}",
-               doneAction: () => viewModel.fetchNewAccountBalances());*/
+               doneAction: () => viewModel.fetchNewAccountBalances());
             });
         });
   }
