@@ -165,11 +165,17 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                           IjudiLoginField(
                               onTap: (pass) => viewModel.password = pass,
                               hint: 'Password',
+                              icon: Icon(Icons.lock,
+                                      size: 22,
+                                      color: Colors.white,),
                               autofillHints: [AutofillHints.newPassword],
                               type: TextInputType.text),
                           IjudiLoginField(
                               onTap: (pass) => viewModel.passwordConfirm = pass,
                               hint: 'Confirm Password',
+                              icon: Icon(Icons.lock,
+                                      size: 22,
+                                      color: Colors.white,),
                               autofillHints: [AutofillHints.newPassword],
                               type: TextInputType.text)
                         ],
