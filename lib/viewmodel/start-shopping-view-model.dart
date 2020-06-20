@@ -14,8 +14,8 @@ class StartShoppingViewModel extends BaseViewModel {
   StartShoppingViewModel({this.shop, @required this.apiService});
 
   List<Stock> _stocks;
-
   Order order;
+  String _search = "";
 
   @override
   void initialize() {
@@ -43,6 +43,16 @@ class StartShoppingViewModel extends BaseViewModel {
       });
     }
   }
+
+  String get search => _search;
+  set search(String search) {
+    _search = search;
+    notifyChanged();
+  }
+
+  get matchedStocks => _stocks
+    .where((element) => element.name.toLowerCase().contains(search.toLowerCase()))
+    .toList();
 
   void remove(BasketItem basketItem) {
     order.basket.removeOneItem(basketItem);

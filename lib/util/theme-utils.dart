@@ -26,7 +26,7 @@ class JudiTheme {
         )
     );
     
-      final ThemeData dark = ThemeData.dark().copyWith(
+    final ThemeData dark = ThemeData.dark().copyWith(
         accentColor: IjudiColors.color2,
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: IjudiColors.color1
@@ -35,7 +35,6 @@ class JudiTheme {
             buttonColor: IjudiColors.color5
         )
     );
-
 }
 
 class Headers {

@@ -13,6 +13,7 @@ class AllShopsViewModel extends BaseViewModel {
   List<Shop> _featuredShops = [];
   List<Advert> _ads = [];
   Set<String> filters = HashSet();
+  String _search = "";
 
   final ApiService apiService;
 
@@ -39,6 +40,12 @@ class AllShopsViewModel extends BaseViewModel {
       errorMessage = e.toString();
     });
 
+  }
+
+  String get search => _search;
+  set search(String search) {
+    _search = search;
+    notifyChanged();
   }
 
   addShop(Shop shop) {

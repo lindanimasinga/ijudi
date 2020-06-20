@@ -88,4 +88,11 @@ class Shop extends Profile {
     print(jsonString);
     return jsonString;  
   }
+
+  bool containsStockItem(String search) {
+    var list = stockList
+    .where((element) => element.name.toLowerCase().contains(search.toLowerCase()))
+    .toList();
+    return list != null && list.length > 0;
+  }
 }

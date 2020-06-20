@@ -65,13 +65,13 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
           );
     
     viewModel.featuredShops
-      .where((shop) => viewModel.filters.isEmpty || viewModel.filters.intersection(shop.tags).length > 0)
+      .where((shop) => (viewModel.search.isEmpty || shop.containsStockItem(viewModel.search) || shop.name.toLowerCase().contains(viewModel.search)) && (viewModel.filters.isEmpty || viewModel.filters.intersection(shop.tags).length > 0))
       .forEach((shop) {
         featuredShopComponents.add(FeaturedShop(shop: shop));
       });
 
     viewModel.shops
-      .where((shop) => viewModel.filters.isEmpty || viewModel.filters.intersection(shop.tags).length > 0)
+      .where((shop) => (viewModel.search.isEmpty || shop.containsStockItem(viewModel.search) || shop.name.toLowerCase().contains(viewModel.search)) && (viewModel.filters.isEmpty || viewModel.filters.intersection(shop.tags).length > 0))
       .forEach((shop) {
         shopComponets.add(ShopComponent(shop: shop));
       });  
@@ -94,7 +94,10 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             )
           ),
           Padding(padding: EdgeInsets.only(top: 8, bottom: 8)),
-          Forms.searchField(context, hint: "shop name, burger, usu"),
+          Forms.searchField(
+            context, 
+            hint: "shop name, burger, usu",
+            onChanged: (value) => viewModel.search = value),
           Container(
             height: 35,
             margin: EdgeInsets.only(top: 8, bottom: 8),
