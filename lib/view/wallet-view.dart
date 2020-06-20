@@ -6,6 +6,7 @@ import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/shop-component.dart';
 import 'package:ijudi/components/wallet-card.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/wallet-view-model.dart';
 
 class WalletView extends MvStatefulWidget<WalletViewModel> {
@@ -58,12 +59,19 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
                             ]
                           )
                         ),
-                        onTap: () => showWebViewDialog(
-                            context,
-                            url: viewModel.visitUrl,
-                            doneAction: () => viewModel.fetchNewAccountBalances()
-                            ) 
-                      )
+                        onTap: () => Utils.launchURL(context, url: viewModel.visitUrl)
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 8)),
+                      InkWell(
+                        child: RichText (
+                          text:TextSpan(
+                            children: [
+                              TextSpan(text: "UKHESHE Terms and Conditions", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue))
+                            ]
+                          )
+                        ),
+                        onTap: () => Utils.launchURL(context, url: "https://www.ukheshe.co.za/terms-and-conditions")
+                      ),
                     ],
                   )
                   )
@@ -115,29 +123,4 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
             });
         });
   }
-
-    void _launchURL(BuildContext context) async {
-    try {
-      await launch(
-        'https://passwords.google.com/',
-        option: new CustomTabsOption(
-          toolbarColor: Theme.of(context).primaryColor,
-          enableDefaultShare: true,
-          enableUrlBarHiding: true,
-          showPageTitle: true,
-          animation: new CustomTabsAnimation.slideIn(),
-          extraCustomTabs: <String>[
-            // ref. https://play.google.com/store/apps/details?id=org.mozilla.firefox
-            'org.mozilla.firefox',
-            // ref. https://play.google.com/store/apps/details?id=com.microsoft.emmx
-            'com.microsoft.emmx',
-          ],        
-        ),
-      );
-    } catch (e) {
-      // An exception is thrown if browser app is not installed on Android device.
-      debugPrint(e.toString());
-    }
-  }
-
 }

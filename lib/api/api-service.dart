@@ -85,7 +85,7 @@ class ApiService {
   Future<List<UserProfile>> findNearbyMessangers(String s) async {
     var messagers = <UserProfile>[];
 
-    var messager1 = await findUserByPhone("");
+    var messager1 = await findUserByPhone("0812815707");
     messager1.name = "Sandile Ngema";
     messager1.likes = 12;
     messager1.responseTimeMinutes = 2 + Random().nextInt(13);
@@ -93,7 +93,7 @@ class ApiService {
         "https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/man-raising-hand-medium-dark-skin-tone.png";
     messagers.add(messager1);
 
-    var messager2 = await findUserByPhone("");
+    var messager2 = await findUserByPhone("0812815707");
     messager2.name = "Xolani Shezi";
     messager2.likes = 12;
     messager2.responseTimeMinutes = 2 + Random().nextInt(13);

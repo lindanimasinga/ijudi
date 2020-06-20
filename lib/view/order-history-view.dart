@@ -52,16 +52,8 @@ class OrderHistoryView extends MvStatefulWidget<OrderHistoryViewModel> {
             finishedOrderItemsComponents.add(OrderHistoryItemComponent(
               order: order,
               onTap: () {
-                if (order.orderType == OrderType.ONLINE) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      FinalOrderView.ROUTE_NAME,
-                      (Route<dynamic> route) => false,
-                      arguments: order);
-                } else {
                   Navigator.pushNamed(context, ReceiptView.ROUTE_NAME,
                       arguments: order);
-                }
               },
             )));
 

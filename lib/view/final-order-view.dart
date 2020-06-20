@@ -39,21 +39,36 @@ class FinalOrderView extends MvStatefulWidget<FinalOrderViewModel> {
                           stage: OrderStage.STAGE_2_STORE_PROCESSING, 
                           countMinutes: 2),
                       text:
-                          "${viewModel.shop.name} is now packing your order"),
+                          "${viewModel.shop.name} is now processing your order"),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
                           orderViewModel: viewModel, 
                           stage: OrderStage.STAGE_3_READY_FOR_COLLECTION, 
                           countMinutes: 1),
                       text:
-                          "Your order is on its way. Brace yourself.."),
+                          "The driver is now collecting your. Brace yourself.."),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
                           orderViewModel: viewModel, 
                           stage: OrderStage.STAGE_4_ON_THE_ROAD, 
                           countMinutes: 1),
                       text:
-                          "${viewModel.order.shippingData.messenger.name} has arrived. Please come collect."),
+                          "The driver is on his way"),
+                                   OrderProgressStageComponent(
+                      viewModel: OrderProgressViewModel(
+                          orderViewModel: viewModel, 
+                          stage: OrderStage.STAGE_5_ARRIVED, 
+                          countMinutes: 1),
+                      text:
+                          "The driver has arrived. Please come collect."),
+                                            OrderProgressStageComponent(
+                      viewModel: OrderProgressViewModel(
+                          orderViewModel: viewModel, 
+                          stage: OrderStage.STAGE_6_WITH_CUSTOMER, 
+                          countMinutes: 1),
+                      text:
+                          "The driver you have received your order, Give us a review."),
+                      
                 ],
               ))
         ]));

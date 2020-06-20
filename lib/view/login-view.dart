@@ -5,6 +5,7 @@ import 'package:ijudi/components/ijudi-login-field.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/login-view-model.dart';
 
 class LoginView extends MvStatefulWidget<LoginViewModel> {
@@ -83,10 +84,19 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                                 action: () => viewModel.register(),
                               )
                     ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 8, top: 32),
-                      alignment: Alignment.bottomCenter,
-                      child: Text("2020 All rights reserved. View our policy here", style: IjudiStyles.SUBTITLE_2),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 16, right: 16, bottom: 16, top: 32),
+                      child: InkWell(
+                        child: RichText (
+                          text:TextSpan(
+                            children: [
+                              TextSpan(text: "2020 All rights reserved. View our policy here", style: TextStyle(decoration: TextDecoration.underline, color: IjudiColors.color5))
+                            ]
+                          )
+                        ),
+                        onTap: () => Utils.launchURL(context, url: "https://www.iubenda.com/privacy-policy/83133872/legal")
+                      ),
                     )
               ])
               )

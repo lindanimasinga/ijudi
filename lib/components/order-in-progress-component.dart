@@ -14,10 +14,12 @@ class OrderProgressStageComponent
   
   static const LOTTIE_BY_STAGE = {
     OrderStage.STAGE_0_CUSTOMER_NOT_PAID : "assets/lottie/loading.json",
-    OrderStage.STAGE_1_WAITING_STORE_CONFIRM : "assets/lottie/packing.json",
-    OrderStage.STAGE_2_STORE_PROCESSING : "assets/lottie/delivery.json",
+    OrderStage.STAGE_1_WAITING_STORE_CONFIRM : "assets/lottie/loading.json",
+    OrderStage.STAGE_2_STORE_PROCESSING : "assets/lottie/packing.json",
     OrderStage.STAGE_3_READY_FOR_COLLECTION : "assets/lottie/food.json",
-    OrderStage.STAGE_4_ON_THE_ROAD : "assets/lottie/done.json"
+    OrderStage.STAGE_4_ON_THE_ROAD : "assets/lottie/delivery.json",
+    OrderStage.STAGE_5_ARRIVED: "assets/lottie/loading.json",
+    OrderStage.STAGE_6_WITH_CUSTOMER : "assets/lottie/food.json"
   };
 
   static const onlineDeliveryStages = {
@@ -48,6 +50,7 @@ class OrderProgressStageComponent
 
     int xValue = onlineDeliveryStages[viewModel.stage] - onlineDeliveryStages[viewModel.currentStage];      
     double cardWidth = (-(44/3) * pow(xValue, 2)) + 352.0;
+    cardWidth = cardWidth < 180 ? 180 : cardWidth;
     double elevation = ((-0.5 * pow(xValue, 2)) + 5.0).abs();
     bool isDone =  onlineDeliveryStages[viewModel.stage] < onlineDeliveryStages[viewModel.currentStage];    
     return Column(
@@ -68,7 +71,7 @@ class OrderProgressStageComponent
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    cardWidth<= 220 ? Container() : 
+                    cardWidth <= 220 ? Container() : 
                      Lottie.asset(LOTTIE_BY_STAGE[viewModel.stage],
                         animate: viewModel.timerStarted,
                         fit: BoxFit.fill, width: 90),
@@ -81,7 +84,7 @@ class OrderProgressStageComponent
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    isDone? Image.asset("assets/images/done.png", width: 50,):
+                    isDone ? Image.asset("assets/images/done.png", width: 50,):
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

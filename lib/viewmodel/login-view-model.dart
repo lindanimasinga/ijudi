@@ -47,8 +47,13 @@ class LoginViewModel extends BaseViewModel {
     .asyncExpand((canBiometric) => !canBiometric ? Stream.value(false) : _authenticate().asStream())
     .map((authenticated) {
       if(authenticated) {
-        username = storage.mobileNumber;
-        password = storage.password;
+        if(storage.isLoggedIn) {
+          Navigator.pushNamedAndRemoveUntil(
+            context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false);
+        } else {
+          username = storage.mobileNumber;
+          password = storage.password;
+        }
       }
     })
     .listen((event) {

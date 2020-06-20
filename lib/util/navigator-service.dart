@@ -59,10 +59,8 @@ class NavigatorService {
   Route<dynamic> generateRoute(RouteSettings settings) {
     var args = settings.arguments;
     var viewmodel;
-    var routeName = settings.name == LoginView.ROUTE_NAME 
-                && storageManager.isLoggedIn ? AllShopsView.ROUTE_NAME : settings.name;
 
-    switch (routeName) {
+    switch (settings.name) {
       case LoginView.ROUTE_NAME:
         viewmodel = LoginViewModel(
           storage: storageManager, 

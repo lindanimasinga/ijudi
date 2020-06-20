@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/profile.dart';
+import 'package:ijudi/util/theme-utils.dart';
 
 class Utils {
 
@@ -54,5 +56,29 @@ class Utils {
     var date =DateTime.now();
     var pickupDate = DateTime(date.year, date.month, date.day, time.hour, time.minute);
     return pickupDate.toIso8601String();
+  }
+
+  static void launchURL(BuildContext context, {String url}) async {
+    try {
+      await launch(
+        url,
+        option: new CustomTabsOption(
+          toolbarColor: IjudiColors.color3,
+          enableDefaultShare: true,
+          enableUrlBarHiding: true,
+          showPageTitle: true,
+          animation: CustomTabsAnimation.slideIn(),
+          extraCustomTabs: <String>[
+            // ref. https://play.google.com/store/apps/details?id=org.mozilla.firefox
+            'org.mozilla.firefox',
+            // ref. https://play.google.com/store/apps/details?id=com.microsoft.emmx
+            'com.microsoft.emmx',
+          ],        
+        ),
+      );
+    } catch (e) {
+      // An exception is thrown if browser app is not installed on Android device.
+      debugPrint(e.toString());
+    }
   }
 }

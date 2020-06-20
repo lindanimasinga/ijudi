@@ -8,6 +8,7 @@ import 'package:ijudi/components/ijudi-login-field.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/register-view-model.dart';
 
 class RegisterView extends MvStatefulWidget<RegisterViewModel> {
@@ -191,17 +192,17 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          left: 16, right: 16, bottom: 4),
+                          left: 16, right: 16, bottom: 16),
                       child: InkWell(
                         child: RichText (
                           text:TextSpan(
                             children: [
-                              TextSpan(text: "Terms and Conditions ", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
-                              TextSpan( text: "UKheshe", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
+                              TextSpan(text: "iJudi Food Market Terms and Conditions", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue))
                             ]
                           )
-                        )
-                      )
+                        ),
+                        onTap: () => Utils.launchURL(context, url: "https://www.iubenda.com/privacy-policy/83133872/legal")
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
@@ -210,12 +211,12 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                         child: RichText (
                           text:TextSpan(
                             children: [
-                              TextSpan(text: "Terms and Conditions ", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
-                              TextSpan( text: "iJudi Market", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue)),
+                              TextSpan(text: "UKHESHE Terms and Conditions", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue))
                             ]
                           )
-                        )
-                      )
+                        ),
+                        onTap: () => Utils.launchURL(context, url: "https://www.ukheshe.co.za/terms-and-conditions")
+                      ),
                     ),
                     Container(
                         alignment: Alignment.center,
