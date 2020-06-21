@@ -10,29 +10,28 @@ import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/services/local-notification-service.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/view/all-shops-view.dart';
+import 'package:ijudi/view/forgot-password-view.dart';
 import 'package:ijudi/view/register-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:local_auth/local_auth.dart';
 
-class LoginViewModel extends BaseViewModel {
+class LoginViewModel extends BaseViewModel with TickerProviderStateMixin{
   
   final StorageManager storage;
   final UkhesheService ukhesheService;
   final ApiService apiService;
   final NotificationService notificationService;
 
-  final LocalAuthentication auth = LocalAuthentication();
-  bool _canCheckBiometrics;
-  List<BiometricType> _availableBiometrics;
-  String _authorized = 'Not Authorized';
-  bool _isAuthenticating = false;
-  
+  final LocalAuthentication _auth = LocalAuthentication();
+  List<BiometricType> _availableBiometrics = [];
+
   String _username = "";
   String _password = "";
 
 
   List<Shop> shops;
   List<Advert> ads;
+  double _fingerPrintIconSise = 52;
 
   LoginViewModel({
     @required this.ukhesheService,
@@ -40,8 +39,8 @@ class LoginViewModel extends BaseViewModel {
     @required this.apiService,
     @required this.notificationService});
 
-  @override
-  initialize() {
+
+  authenticate() {
     Future.delayed(Duration(seconds: 1)).asStream()
     .asyncExpand((event) => _checkBiometrics().asStream())
     .asyncExpand((canBiometric) => !canBiometric ? Stream.value(false) : _authenticate().asStream())
@@ -61,6 +60,15 @@ class LoginViewModel extends BaseViewModel {
     }, onError: (e) {
       log("error");
     });
+  }  
+
+  @override
+  initialize() {
+    authenticate();
+    _getAvailableBiometrics().asStream()
+    .listen((event) {
+      availableBiometrics = event;
+    });
   }
 
   String get password => _password;
@@ -74,6 +82,23 @@ class LoginViewModel extends BaseViewModel {
     _username = username;
     notifyChanged();
   }
+
+  double get fingerPrintIconSise => _fingerPrintIconSise;
+  set fingerPrintIconSise(double fingerPrintIconSise) {
+    _fingerPrintIconSise = fingerPrintIconSise;
+    notifyChanged();
+  }
+
+  List<BiometricType> get availableBiometrics => _availableBiometrics;
+  set availableBiometrics(List<BiometricType> availableBiometrics) {
+    _availableBiometrics = availableBiometrics;
+    notifyChanged();
+  }
+
+  bool get hasBioMetric => _availableBiometrics.isNotEmpty;
+
+  get bioMetricName => _availableBiometrics.contains(BiometricType.fingerprint)? 
+    "fingerprint" : "face ID";
 
   login() {
     progressMv.isBusy = true;      
@@ -105,7 +130,7 @@ class LoginViewModel extends BaseViewModel {
   Future<bool> _checkBiometrics() async {
     bool canCheckBiometrics;
     try {
-      canCheckBiometrics = await auth.canCheckBiometrics;
+      canCheckBiometrics = await _auth.canCheckBiometrics;
     } on PlatformException catch (e) {
       print(e);
     }
@@ -114,23 +139,23 @@ class LoginViewModel extends BaseViewModel {
     return canCheckBiometrics;
   }
 
-  Future<void> _getAvailableBiometrics() async {
+  Future<List<BiometricType>> _getAvailableBiometrics() async {
     List<BiometricType> availableBiometrics;
     try {
-      availableBiometrics = await auth.getAvailableBiometrics();
+      availableBiometrics = await _auth.getAvailableBiometrics();
     } on PlatformException catch (e) {
       print(e);
     }
-    if (!mounted) return;
+    if (!mounted) return [];
 
-    _availableBiometrics = availableBiometrics;
+    return availableBiometrics;
   }
 
   Future<bool> _authenticate() async {
     log("authenticating");
     bool authenticated = false;
     try {
-      authenticated = await auth.authenticateWithBiometrics(
+      authenticated = await _auth.authenticateWithBiometrics(
           localizedReason: 'Scan your fingerprint to authenticate',
           useErrorDialogs: true,
           stickyAuth: true);
@@ -138,13 +163,14 @@ class LoginViewModel extends BaseViewModel {
       print(e);
     }
     if (!mounted) return false;
-
-    final String message = authenticated ? 'Authorized' : 'Not Authorized';
-    _authorized = message;
     return authenticated;
   }
 
   void _cancelAuthentication() {
-    auth.stopAuthentication();
+    _auth.stopAuthentication();
+  }
+
+  forgotPassword() {
+    Navigator.pushNamed(context, ForgotPasswordView.ROUTE_NAME);
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:ijudi/components/ijudi-card.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/util/theme-utils.dart';
@@ -18,7 +17,13 @@ class ShopComponent extends StatelessWidget {
     double height = deviceWidth > 360 ? 120 : 100;
 
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, StartShoppingView.ROUTE_NAME, arguments: shop),
+      onTap: () {
+        if(shop.stockList == null || shop.stockList.isEmpty) {
+          Navigator.pushNamed(context, QuickPayView.ROUTE_NAME, arguments: shop);
+          return;
+        }
+        Navigator.pushNamed(context, StartShoppingView.ROUTE_NAME, arguments: shop);
+      },
       onLongPress: () {
         HapticFeedback.lightImpact();
         Navigator.pushNamed(context, QuickPayView.ROUTE_NAME, arguments: shop);
@@ -43,7 +48,7 @@ class ShopComponent extends StatelessWidget {
               padding: EdgeInsets.all(10.0),
             ),
             Container(
-                width: 148,
+                width: deviceWidth > 360 ? 187 : 157,
                 // padding: EdgeInsets.only(top: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

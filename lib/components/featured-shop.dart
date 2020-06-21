@@ -56,16 +56,21 @@ class FeaturedShop extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(shop.name,
+                          Padding(
+                            padding: EdgeInsets.only(right: 4, top: 8),
+                            child: Text(shop.name,
                               style: IjudiStyles.CARD_SHOP_HEADER,
                               maxLines: 1,
-                              overflow: TextOverflow.ellipsis),
-                          Padding(padding: EdgeInsets.all(4)),
-                          Text(
-                            shop.description,
-                            style: IjudiStyles.CARD_SHOP_DISCR,
-                            maxLines: 2,
-                            softWrap: true,
+                              overflow: TextOverflow.ellipsis)
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(right: 4, top: 8),
+                            child: Text(
+                              shop.description,
+                              style: IjudiStyles.CARD_SHOP_DISCR,
+                              maxLines: 2,
+                              softWrap: true,
+                            ),
                           ),
                           Padding(
                               padding: EdgeInsets.only(

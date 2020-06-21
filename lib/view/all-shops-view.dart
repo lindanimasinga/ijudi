@@ -117,10 +117,10 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
           shopComponets.isEmpty? Container() : Container(
             alignment: Alignment.topLeft,
             padding: EdgeInsets.only(left: 16, top: 32, bottom: 8),
-            child: Text("Nearby Shops", style: IjudiStyles.HEADER_2),
+            child: Text("All Shops", style: IjudiStyles.HEADER_2),
           ),
           Container(
-            height: deviceWidth > 360 ? 192 : 162,
+            height: deviceWidth > 360 ? 202 : 172,
             margin: EdgeInsets.only(bottom: 32),
             child: ListView(
               scrollDirection: Axis.horizontal,

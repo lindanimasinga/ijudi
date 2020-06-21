@@ -67,8 +67,9 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                       child: Column(
                         children: <Widget>[
                           IjudiInputField(
-                            hint: 'Cell Number',
-                            autofillHints: [AutofillHints.telephoneNumber],
+                            hint: 'SA Mobile Number',
+                            autofillHints: [AutofillHints.telephoneNumber,
+                                    AutofillHints.telephoneNumberLocal],
                             text: viewModel.mobileNumber,
                             onTap: (number) => viewModel.mobileNumber = number,
                             type: TextInputType.phone,

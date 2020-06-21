@@ -110,7 +110,7 @@ class UkhesheService {
       "phone": bank.phone,
       "password": password,
       "phoneOtp": otp,
-      //"referredBy": ""
+      "referredBy": "318930"
     }; 
 
     print(headers);
@@ -212,5 +212,38 @@ class UkhesheService {
         .post('$apiUrl/customers/verifications', headers: headers, body: json.encode(request))
         .timeout(Duration(seconds: TIMEOUT_SEC));
     return data.statusCode == 204 ? data : throw(data.body);
+  }
+
+  Future requestPasswordReset(String mobileNumber) async {
+        Map<String, String> headers = {
+      "Content-type": "application/json"
+      };
+
+    var request = {
+      "identity" : mobileNumber
+    };
+
+    print(headers);
+    print(json.encode(request));
+
+    var data = await http
+        .post('$apiUrl/customers/password-change-init', headers: headers, body: json.encode(request))
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    return data.statusCode == 200 ? data : throw(data.body);
+  }
+
+  Future resetPassword(Map<String, String> request) async {
+    
+    Map<String, String> headers = {
+      "Content-type": "application/json"
+    };
+
+    print(headers);
+    print(json.encode(request));
+
+    var data = await http
+        .post('$apiUrl/customers/password-change', headers: headers, body: json.encode(request))
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    return data.statusCode == 200 ? data : throw(data.body);
   }
 }

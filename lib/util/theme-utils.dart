@@ -168,7 +168,7 @@ class Buttons {
     );
 
     static const accountButtonTextStyle = TextStyle(
-      color: IjudiColors.color2,
+      color: IjudiColors.color3,
       fontSize: 16
     );
 

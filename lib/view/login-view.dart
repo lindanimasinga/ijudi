@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-form.dart';
@@ -9,14 +11,22 @@ import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/login-view-model.dart';
 
 class LoginView extends MvStatefulWidget<LoginViewModel> {
-  
   static const String ROUTE_NAME = "/";
+
+  Timer _timer;
 
   LoginView({LoginViewModel viewModel}) : super(viewModel);
 
   @override
-  Widget build(BuildContext context) {
+  void initialize() {
+    _timer = new Timer.periodic(Duration(seconds: 1), (time) {
+      viewModel.fingerPrintIconSise = time.tick % 2 == 0 ? 52 : 46;
+      if(time.tick == 15) time.cancel();
+    });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return ScrollableParent(
         hasDrawer: false,
         title: "Login",
@@ -35,21 +45,26 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                           child: Column(
                             children: <Widget>[
                               IjudiLoginField(
-                                  hint: "Cell Number",
+                                  hint: "SA Mobile Number",
                                   type: TextInputType.phone,
                                   text: viewModel.username,
-                                  autofillHints: [AutofillHints.telephoneNumber, AutofillHints.telephoneNumberLocal],
+                                  autofillHints: [
+                                    AutofillHints.telephoneNumber,
+                                    AutofillHints.telephoneNumberLocal
+                                  ],
                                   icon: Icon(Icons.phone_android,
-                                      size: 22,
-                                      color: Colors.white),
-                                  onTap: (number) => viewModel.username = number,
+                                      size: 22, color: Colors.white),
+                                  onTap: (number) =>
+                                      viewModel.username = number,
                                   color: IjudiColors.color5),
                               IjudiLoginField(
                                 hint: "Password",
                                 text: viewModel.password,
-                                icon: Icon(Icons.lock,
-                                      size: 22,
-                                      color: Colors.white,),
+                                icon: Icon(
+                                  Icons.lock,
+                                  size: 22,
+                                  color: Colors.white,
+                                ),
                                 autofillHints: [AutofillHints.newPassword],
                                 onTap: (pass) => viewModel.password = pass,
                                 color: IjudiColors.color5,
@@ -71,35 +86,65 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Buttons.iconButton(Icon(Icons.settings), color: IjudiColors.color4),
+                        Buttons.iconButton(
+                            Icon(Icons.settings),
+                            color: IjudiColors.color4,
+                            onPressed: () => viewModel.forgotPassword()),
                         Padding(padding: EdgeInsets.only(right: 16)),
-                        Buttons.iconButton(Icon(Icons.chat), color: IjudiColors.color2)
+                        Buttons.iconButton(Icon(Icons.chat),
+                            color: IjudiColors.color2)
                       ],
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
                     Container(
-                      alignment: Alignment.topLeft,
-                      child: Buttons.account( 
-                                text: "Register",
-                                action: () => viewModel.register(),
-                              )
-                    ),
+                        alignment: Alignment.topLeft,
+                        child: Buttons.account(
+                          text: "Register",
+                          action: () => viewModel.register(),
+                        )),
+                    !viewModel.hasBioMetric
+                        ? Container()
+                        : GestureDetector(
+                            onTap: () => viewModel.authenticate(),
+                            child: Container(
+                                height: 52,
+                                width: 52,
+                                margin: EdgeInsets.only(
+                                    left: 16, right: 16, bottom: 8, top: 16),
+                                child: AnimatedSize(
+                                    vsync: viewModel,
+                                    duration: Duration(milliseconds: 1000),
+                                    curve: Curves.bounceInOut,
+                                    child: Icon(
+                                      Icons.fingerprint,
+                                      color: IjudiColors.color1,
+                                      size: viewModel.fingerPrintIconSise,
+                                    )))),
+                    !viewModel.hasBioMetric
+                        ? Container()
+                        : Padding(
+                            padding: EdgeInsets.only(
+                                left: 16, right: 16, bottom: 0, top: 0),
+                            child: Text("Use ${viewModel.bioMetricName}"),
+                          ),
                     Padding(
                       padding: EdgeInsets.only(
-                          left: 16, right: 16, bottom: 16, top: 32),
+                          left: 16, right: 16, bottom: 16, top: 16),
                       child: InkWell(
-                        child: RichText (
-                          text:TextSpan(
-                            children: [
-                              TextSpan(text: "2020 All rights reserved. View our policy here", style: TextStyle(decoration: TextDecoration.underline, color: IjudiColors.color5))
-                            ]
-                          )
-                        ),
-                        onTap: () => Utils.launchURL(context, url: "https://www.iubenda.com/privacy-policy/83133872/legal")
-                      ),
-                    )
-              ])
-              )
+                          child: RichText(
+                              text: TextSpan(children: [
+                            TextSpan(
+                                text:
+                                    "2020 All rights reserved. View our policy here",
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: IjudiColors.color5))
+                          ])),
+                          onTap: () => Utils.launchURL(context,
+                              url:
+                                  "https://www.iubenda.com/privacy-policy/83133872/legal")),
+                    ),
+                  ]))
         ]));
   }
 }

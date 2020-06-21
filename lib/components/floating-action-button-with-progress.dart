@@ -36,7 +36,10 @@ class FloatingActionButtonWithProgress extends MvStatefulWidget<ProgressViewMode
             ))
         : FloatingActionButton(
             backgroundColor: color,
-            onPressed: () => onPressed(),
+            onPressed: () {
+              FocusScope.of(context).requestFocus(FocusNode());
+              onPressed();
+            },
             child: child
           );
   }

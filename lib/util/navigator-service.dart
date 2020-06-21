@@ -7,6 +7,7 @@ import 'package:ijudi/view/all-components.dart';
 import 'package:ijudi/view/all-shops-view.dart';
 import 'package:ijudi/view/delivery-options.dart';
 import 'package:ijudi/view/final-order-view.dart';
+import 'package:ijudi/view/forgot-password-view.dart';
 import 'package:ijudi/view/login-view.dart';
 import 'package:ijudi/view/my-shop-order-update.dart';
 import 'package:ijudi/view/my-shop-orders.dart';
@@ -26,6 +27,7 @@ import 'package:ijudi/view/wallet-view.dart';
 import 'package:ijudi/viewmodel/all-shops-view-model.dart';
 import 'package:ijudi/viewmodel/delivery-option-view-model.dart';
 import 'package:ijudi/viewmodel/final-order-view-model.dart';
+import 'package:ijudi/viewmodel/forgot-password-view-model.dart';
 import 'package:ijudi/viewmodel/login-view-model.dart';
 import 'package:ijudi/viewmodel/my-shop-order-update-view-model.dart';
 import 'package:ijudi/viewmodel/my-shops-view-model.dart';
@@ -75,6 +77,15 @@ class NavigatorService {
           apiService: apiService
         );
         return MaterialPageRoute(builder: (context) => RegisterView(viewModel: viewmodel));
+      case ForgotPasswordView.ROUTE_NAME:
+        viewmodel = ForgotPasswordViewModel(
+          storageManager: storageManager,
+          ukhesheService : ukhesheService,
+          apiService: apiService
+        );
+        return MaterialPageRoute(
+          fullscreenDialog: true,
+          builder: (context) => ForgotPasswordView(viewModel: viewmodel));  
       case AllShopsView.ROUTE_NAME:
         viewmodel = AllShopsViewModel(
           apiService: apiService
