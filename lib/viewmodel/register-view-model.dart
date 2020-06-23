@@ -101,6 +101,7 @@ class RegisterViewModel extends BaseViewModel {
       .asStream()
       .listen((event) {
           print("successful registration");
+          BaseViewModel.analytics.logSignUp(signUpMethod: "cellphone");
           if(!hasUkheshe) {
           _registerBank();
           return;
@@ -108,8 +109,19 @@ class RegisterViewModel extends BaseViewModel {
           Navigator.pushNamedAndRemoveUntil(
                 context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false);
         }, onError: (e) {
-      hasError = true;
-      errorMessage = e.toString();
+          hasError = true;
+          errorMessage = e.toString();
+          
+          BaseViewModel.analytics
+          .logEvent(
+            name: "signup-error",
+            parameters: {
+              "error" : e.toString(),
+              "cellNumber" : mobileNumber
+            })
+          .then((value) => {
+            
+          });
       },
       onDone: () {
             progressMv.isBusy = false;

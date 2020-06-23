@@ -58,6 +58,11 @@ class WalletViewModel extends BaseViewModel {
     sub.onError((e) {
       hasError = true;
       errorMessage = e.toString();
+      
+      BaseViewModel.analytics
+      .logEvent(name: "ukheshe-topup-loading-webview-error")
+      .then((value) => {});
+
     });
 
     return sub;    

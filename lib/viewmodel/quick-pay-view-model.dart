@@ -71,16 +71,32 @@ class QuickPayViewModel extends BaseViewModel {
         order.description = "Payment from ${order.customer.mobileNumber} order ${order.id}";
       })
       .asyncExpand((event) => ukhesheService.paymentForOrder(order).asStream())
-      .asyncExpand((event) => apiService.completeOrderPayment(order).asStream()
-        )
+      .asyncExpand((event) => apiService.completeOrderPayment(order).asStream())
       .listen((data) {
-      Navigator.popAndPushNamed (
-            context,
-            ReceiptView.ROUTE_NAME,
-            arguments: order);
-    }, onError: (e) {
-      hasError = true;
-      errorMessage = e.toString();
+
+        BaseViewModel.analytics
+        .logEcommercePurchase(
+          transactionId: order.id,
+          value: order.totalAmount,
+          currency: "ZAR"
+        ).then((value) => {});
+        
+        Navigator.popAndPushNamed (
+              context,
+              ReceiptView.ROUTE_NAME,
+              arguments: order);
+      }, onError: (e) {
+        hasError = true;
+        errorMessage = e.toString();
+
+        BaseViewModel.analytics
+          .logEvent(
+            name: "order-purchase-failed",
+            parameters: {
+              "shop" : order.shop.name,
+              "error" : e.toString()
+            })
+          .then((value) => {});
       }, onDone: () {
       progressMv.isBusy = false;
     });

@@ -12,7 +12,7 @@ main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   var localNotifications;
-
+  
   SecureStorageManager.singleton()
     .then((storage)  {
       var ukhesheService = UkhesheService(storage);

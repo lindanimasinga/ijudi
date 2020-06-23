@@ -2,7 +2,9 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/services/storage-manager.dart';
 
 class SecureStorageManager extends StorageManager {
@@ -136,6 +138,19 @@ class SecureStorageManager extends StorageManager {
   @override
   set password(String value) {
     _save(StorageManager.UKHESHE_PASSWORD, value);
+  }
+
+  @override
+  ProfileRoles get profileRole {
+    print(ProfileRoles.values);
+    var stringEnum = _storeMap[StorageManager.PROFILE_ROLE];
+    print(stringEnum);
+    return ProfileRoles.values.singleWhere((item) => item.toString() == stringEnum);
+  }
+
+  @override
+  set profileRole(ProfileRoles value) {
+    _save(StorageManager.PROFILE_ROLE, value.toString());
   }
   
 }

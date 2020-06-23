@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/device.dart';
 import 'package:ijudi/model/remote-message.dart';
+import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class NotificationService {
   
@@ -100,6 +101,14 @@ class NotificationService {
     log("data is map $data"); 
     RemoteMessage remoteMessage = RemoteMessage.fromJson(data);
     log(json.encode(remoteMessage));
+
+    BaseViewModel.analytics
+          .logEvent(
+            name: "push-notification",
+            parameters: {
+              "type" : remoteMessage.messageType,
+            })
+          .then((value) => {});
 
     var title;
     var body;

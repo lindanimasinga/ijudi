@@ -16,7 +16,7 @@ class FeaturedShop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
-    double height = deviceWidth > 360 ? 140 : 120;
+    double height = deviceWidth >= 360 ? 140 : 120;
 
     return Slidable(
         actionPane: SlidableDrawerActionPane(),
@@ -37,7 +37,7 @@ class FeaturedShop extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Container(
-                    width: deviceWidth > 360 ? 187 : 157,
+                    width: deviceWidth >= 360 ? 187 : 157,
                     height: height,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
@@ -51,7 +51,7 @@ class FeaturedShop extends StatelessWidget {
                     padding: EdgeInsets.all(10.0),
                   ),
                   Container(
-                      width: 148,
+                      width: deviceWidth >= 360? 148 : 128,
                       // padding: EdgeInsets.only(top: 8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +74,7 @@ class FeaturedShop extends StatelessWidget {
                           ),
                           Padding(
                               padding: EdgeInsets.only(
-                                  top: deviceWidth > 360 ? 18 : 8)),
+                                  top: deviceWidth >= 360 ? 18 : 8)),
                           Container(
                               alignment: Alignment.centerRight,
                               child: FlatButton(

@@ -1,7 +1,10 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/viewmodel/progress-view-model.dart';
 
 abstract class BaseViewModel extends State {
+
+  static final FirebaseAnalytics analytics = FirebaseAnalytics(); 
 
   ProgressViewModel progressMv;
   bool _hasError = false;

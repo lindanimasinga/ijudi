@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/menu-component.dart';
+import 'package:ijudi/model/profile.dart';
 
 class ScrollableParent extends StatelessWidget {
   
+  final menu = MenuComponent();
   final Widget child;
   final String title;
   final Color appBarColor;
   final bool hasDrawer;
+
+  ProfileRoles role;
 
   ScrollableParent({
       @required this.title,

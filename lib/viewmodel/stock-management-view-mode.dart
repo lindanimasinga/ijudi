@@ -52,6 +52,13 @@ class StockManagementViewModel extends BaseViewModel {
         }, onDone: () {
           progressMv.isBusy = false;
         });
+
+    BaseViewModel.analytics
+    .logEvent(
+      name : "addStock",
+      parameters: stock.toJson()
+    )
+    .then((value) => null);   
   }
 
   List<Stock> get stocks => _stocks;

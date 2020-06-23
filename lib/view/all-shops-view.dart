@@ -120,7 +120,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             child: Text("All Shops", style: IjudiStyles.HEADER_2),
           ),
           Container(
-            height: deviceWidth > 360 ? 202 : 172,
+            height: deviceWidth >= 360 ? 202 : 172,
             margin: EdgeInsets.only(bottom: 32),
             child: ListView(
               scrollDirection: Axis.horizontal,

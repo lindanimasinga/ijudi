@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/ijudi-card.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
@@ -60,7 +61,7 @@ class ReceiptView extends MvStatefulWidget<ReceiptViewModel> {
                       ],
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 8)),
-                    Text("*${viewModel.order.orderType}", style: IjudiStyles.CARD_SHOP_DISCR,),
+                    Text("*${describeEnum(viewModel.order.orderType)}", style: IjudiStyles.CARD_SHOP_DISCR,),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
                     OrderReviewComponent(order: viewModel.order),
                     Padding(padding: EdgeInsets.only(bottom: 32)),

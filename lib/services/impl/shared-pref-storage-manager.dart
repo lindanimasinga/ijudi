@@ -2,6 +2,7 @@
 import 'dart:developer';
 
 import 'package:flutter/semantics.dart';
+import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -104,5 +105,8 @@ class SharedPrefStorageManager extends StorageManager {
 
   @override
   String password;
+
+  @override
+  ProfileRoles profileRole;
   
 }

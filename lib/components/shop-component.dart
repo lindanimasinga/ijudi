@@ -14,7 +14,7 @@ class ShopComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
-    double height = deviceWidth > 360 ? 120 : 100;
+    double height = deviceWidth >= 360 ? 120 : 100;
 
     return GestureDetector(
       onTap: () {
@@ -30,12 +30,12 @@ class ShopComponent extends StatelessWidget {
       },
       child: Container(
           child: IJudiCard(
-        width: deviceWidth > 360 ? 157 : 127,
+        width: deviceWidth >= 360 ? 157 : 127,
         child: Column(
           children: <Widget>[
             Container(
-              width: deviceWidth > 360 ? 187 : 157,
-              height: deviceWidth > 360 ? 115 : 95,
+              width: deviceWidth >= 360 ? 187 : 157,
+              height: deviceWidth >= 360 ? 115 : 95,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(25.0),
@@ -48,7 +48,7 @@ class ShopComponent extends StatelessWidget {
               padding: EdgeInsets.all(10.0),
             ),
             Container(
-                width: deviceWidth > 360 ? 187 : 157,
+                width: deviceWidth >= 360 ? 187 : 157,
                 // padding: EdgeInsets.only(top: 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,7 +87,7 @@ class ShopCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
-    double height = deviceWidth > 360 ? 140 : 120;
+    double height = deviceWidth >= 360 ? 140 : 120;
 
     return Card(
       color: color,

@@ -81,6 +81,8 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      Text("A fee of 2% will be added for card topups", style: Forms.INPUT_TEXT_STYLE),
+                      Padding(padding: EdgeInsets.only(top: 8)),
                       Text("Your order costs R${viewModel.order.totalAmount}",
                           style: Forms.INPUT_TEXT_STYLE),
                       Text(
@@ -145,12 +147,12 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
               onChanged: (selection) => viewModel.paymentType = selection,
             ),
             Image.asset("assets/images/uKhese-logo.png", width: 60),
-            Radio(
+           /* Radio(
               value: PaymentType.CASH,
               groupValue: viewModel.paymentType,
               onChanged: (selection) => viewModel.paymentType = selection,
             ),
-            Text('Cash', style: Forms.INPUT_TEXT_STYLE)
+            Text('Cash', style: Forms.INPUT_TEXT_STYLE)*/
           ],
         )));
     return options;
@@ -158,6 +160,8 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
 
   Widget paymentWidget(BuildContext context) {
     var payment;
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double paybuttonPadding = deviceWidth >= 360 ? 16 : 8;
 
     switch (viewModel.paymentType) {
       case PaymentType.UKHESHE:
@@ -169,7 +173,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                 padding: EdgeInsets.only(bottom: 16),
                 child: UkheshePaymentComponent(viewModel.order.customer)),
             Padding(
-                padding: EdgeInsets.only(left: 16, bottom: 24),
+                padding: EdgeInsets.only(left: paybuttonPadding, bottom: 24),
                 child: FloatingActionButtonWithProgress(
                   viewModel: viewModel.progressMv,
                   onPressed: () {

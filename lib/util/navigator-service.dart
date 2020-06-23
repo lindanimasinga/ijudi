@@ -25,6 +25,7 @@ import 'package:ijudi/view/stock-view.dart';
 import 'package:ijudi/view/tranasction-history-view.dart';
 import 'package:ijudi/view/wallet-view.dart';
 import 'package:ijudi/viewmodel/all-shops-view-model.dart';
+import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:ijudi/viewmodel/delivery-option-view-model.dart';
 import 'package:ijudi/viewmodel/final-order-view-model.dart';
 import 'package:ijudi/viewmodel/forgot-password-view-model.dart';
@@ -61,6 +62,8 @@ class NavigatorService {
   Route<dynamic> generateRoute(RouteSettings settings) {
     var args = settings.arguments;
     var viewmodel;
+
+    BaseViewModel.analytics.setCurrentScreen(screenName: settings.name);
 
     switch (settings.name) {
       case LoginView.ROUTE_NAME:

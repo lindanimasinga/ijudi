@@ -1,4 +1,6 @@
 
+import 'package:ijudi/model/profile.dart';
+
 abstract class StorageManager {
 
   static const ACCESS_TOKEN_IJUDI = "wewhhghtiie";
@@ -8,6 +10,10 @@ abstract class StorageManager {
   static const String IJUDI_USER_ID = "uiouwfflsdf";
   static const String IJUDI_DEVICE_ID = "lahdkjahskdffdsd";
   static const UKHESHE_PASSWORD = "djalske33bfsdw";
+  static const PROFILE_ROLE = "laskdjhqywe738239h";
+
+  ProfileRoles get profileRole;
+  set profileRole(ProfileRoles value);
 
   get mobileNumber;
   set mobileNumber(String value);

@@ -46,6 +46,11 @@ class AllShopsViewModel extends BaseViewModel {
   set search(String search) {
     _search = search;
     notifyChanged();
+
+    if(search.length > 3)
+    BaseViewModel.analytics
+    .logSearch(searchTerm: search)
+    .then((value) => null);
   }
 
   addShop(Shop shop) {

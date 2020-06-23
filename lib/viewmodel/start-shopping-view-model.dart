@@ -19,6 +19,11 @@ class StartShoppingViewModel extends BaseViewModel {
 
   @override
   void initialize() {
+
+    BaseViewModel.analytics
+    .logViewItemList(itemCategory: shop.name)
+    .then((value) => null);
+
     order = Order();
     order.shop = shop;
     order.description = "order from ${shop.name}";
@@ -58,11 +63,28 @@ class StartShoppingViewModel extends BaseViewModel {
     order.basket.removeOneItem(basketItem);
     stocks.firstWhere((elem) => elem.name == basketItem.name).put(1);
     notifyChanged();
+    
+    BaseViewModel.analytics
+    .logRemoveFromCart(
+      itemCategory: shop.name,
+      itemId: "${basketItem.hashCode}",
+      itemName: basketItem.name, 
+      quantity: basketItem.quantity,
+      price: basketItem.price)
+    .then((value) => null);
   }
 
-  void add(basketItem) {
+  void add(BasketItem basketItem) {
     order.basket.addItem(basketItem);
     notifyChanged();
+    BaseViewModel.analytics
+    .logAddToCart(
+      itemCategory: shop.name,
+      itemId: "${basketItem.hashCode}",
+      itemName: basketItem.name, 
+      quantity: basketItem.quantity,
+      price: basketItem.price)
+    .then((value) => null);
   }
 
   void verifyItemsAvailable() {

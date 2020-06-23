@@ -87,7 +87,7 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
   _showLowBalanceMessage(BuildContext context) {
     showMessageDialog(
         context,
-        title: "Account TopTup",
+        title: "Account TopUp",
         actionName: "Topup",
         child:
           Column(
@@ -100,6 +100,8 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
                   children: <Widget>[
                     Image.asset("assets/images/uKhese-logo.png", width: 90),
                     Text("Please enter your topup amount.", style: Forms.INPUT_TEXT_STYLE),
+                    Padding(padding: EdgeInsets.only(top: 8)),
+                    Text("A fee of 2% will be added for card topups", style: Forms.INPUT_TEXT_STYLE),
                   ],
                 )
               ),

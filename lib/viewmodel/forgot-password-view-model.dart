@@ -21,6 +21,13 @@ class ForgotPasswordViewModel extends BaseViewModel {
 
   ForgotPasswordViewModel({@required this.storageManager, @required this.apiService, @required this.ukhesheService});
 
+  @override
+  initialize() {
+    BaseViewModel.analytics
+    .logEvent(name: "forgot-password")
+    .then((value) => null);
+  }
+
   String get message => _message;
 
   set message(String message) {
@@ -51,9 +58,23 @@ class ForgotPasswordViewModel extends BaseViewModel {
     ukhesheService.requestPasswordReset(mobileNumber).asStream()
     .listen((event) {
       otpRequestSent = true;
+      
+    BaseViewModel.analytics
+    .logEvent(name: "forgot-password-success")
+    .then((value) => null);
+
     }, onError: (e) {
       hasError = true;
       errorMessage = e.toString();
+
+      BaseViewModel.analytics
+      .logEvent(name: "forgot-password-error")
+      .then((value) => {
+        {
+          "error" : e.toString(),
+          "cellNumber" : mobileNumber
+        }
+      });
     }, onDone:() {
       progressMv.isBusy = false;
     });

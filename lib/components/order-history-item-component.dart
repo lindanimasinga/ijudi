@@ -42,6 +42,9 @@ class OrderHistoryItemComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double statusWidth = deviceWidth >= 360 ? 100 : 71;
+
     return GestureDetector(
         onTap: () => onTap(),
         child: Container(
@@ -70,7 +73,7 @@ class OrderHistoryItemComponent extends StatelessWidget {
                             )),
                         Container(
                           alignment: Alignment.center,
-                          width: 100,
+                          width: statusWidth,
                           height: 90,
                           color: statusColors[order.stage],
                           child: Text(

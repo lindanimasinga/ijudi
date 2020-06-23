@@ -17,7 +17,7 @@ class ShopProfileComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
-    double height = deviceWidth > 360 ? 140 : 120;
+    double height = deviceWidth >= 360 ? 140 : 120;
 
     return Slidable(
         actionPane: SlidableDrawerActionPane(),
@@ -30,7 +30,7 @@ class ShopProfileComponent extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Container(
-                      width: deviceWidth > 360 ? 167 : 137,
+                      width: deviceWidth >= 360 ? 167 : 128,
                       height: height,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(
@@ -44,8 +44,8 @@ class ShopProfileComponent extends StatelessWidget {
                       padding: EdgeInsets.all(10.0),
                     ),
                     Container(
-                        width: 172,
-                        // padding: EdgeInsets.only(top: 8),
+                        width: deviceWidth >= 360 ? 176 : 176,
+                        padding: EdgeInsets.only(left: 4),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -62,7 +62,7 @@ class ShopProfileComponent extends StatelessWidget {
                             ),
                             Padding(
                                 padding: EdgeInsets.only(
-                                    top: deviceWidth > 360 ? 18 : 8)),
+                                    top: deviceWidth >= 360 ? 18 : 8)),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [

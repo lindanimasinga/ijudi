@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/basket-view-only-component.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
@@ -118,7 +119,7 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
   Widget collectionDetailsWidget(BuildContext context) {
     List<Widget> textSpans = [];
     viewModel.businessHours.forEach((time) {
-      textSpans.add(Text("${time.open.format(context)} - ${time.close.format(context)} ${time.day}",  style: IjudiStyles.CONTENT_TEXT));
+      textSpans.add(Text("${time.open.format(context)} - ${time.close.format(context)} ${describeEnum(time.day)}",  style: IjudiStyles.CONTENT_TEXT));
       textSpans.add(Padding(padding: EdgeInsets.only(top: 8)));
 
     });

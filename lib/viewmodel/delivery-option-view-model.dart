@@ -94,6 +94,16 @@ class DeliveryOptionsViewModel extends BaseViewModel {
       .asyncExpand((element) => ukhesheService.getAccountInformation().asStream())
       .listen((customerResponse) {
         availableBalance = customerResponse;
+
+        BaseViewModel.analytics
+          .logEvent(
+            name: "order-init",
+            parameters: {
+              "shop" : order.shop.name,
+              "Delivery" : order.shippingData.type
+            })
+          .then((value) => {});
+
         Navigator.pushNamed(context, PaymentView.ROUTE_NAME, arguments: order);
       }, 
       onError: (handleError) {

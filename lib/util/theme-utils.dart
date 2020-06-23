@@ -90,10 +90,10 @@ class Headers {
       clipper: IjudyHeaderClipPath(
         part: Parts.FIRST,
         waves: Utils.generateWaveNumber(2),
-        height: 100),
+        height: MediaQuery.of(context).size.height * 0.08),
       child: Container(
         color: IjudiColors.color1,
-        height: 150,
+        height: MediaQuery.of(context).size.height * 0.08,
         width: MediaQuery.of(context).size.width,
         child: ClipPath(
                 clipper: IjudyHeaderClipPath(
@@ -190,7 +190,7 @@ class Buttons {
         );
     }
 
-    static Widget menuItem({String text, Color color, Function action}) {
+    static Widget menuItem({double height = 60, String text, Color color, Function action}) {
       return Container(
         margin: EdgeInsets.only(bottom: 4),
         child: FlatButton(
@@ -198,7 +198,7 @@ class Buttons {
             onPressed: () => action(),
             shape: RoundedRectangleBorder(),
             child: Container(
-              height: 71,
+              height: height,
               child : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,

@@ -11,6 +11,10 @@ class ProfileHeaderComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double profilePicWidth = deviceWidth >= 360 ? 123 : 108;
+
     Widget ratings = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,8 +59,8 @@ class ProfileHeaderComponent extends StatelessWidget {
     );
 
     Widget profilePic = Container(
-        width: 123,
-        height: 123,
+        width: profilePicWidth,
+        height: profilePicWidth,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(61),
           color: Colors.white,

@@ -20,8 +20,11 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
   @override
   void initialize() {
     _timer = new Timer.periodic(Duration(seconds: 1), (time) {
+      if(viewModel == null || time.tick == 15) {
+        time.cancel();
+        return;
+      }
       viewModel.fingerPrintIconSise = time.tick % 2 == 0 ? 52 : 46;
-      if(time.tick == 15) time.cancel();
     });
   }
 

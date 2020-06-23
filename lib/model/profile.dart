@@ -49,11 +49,11 @@ class Bank {
   
   Bank({
     this.name,
-    this.accountId = "",
+    this.accountId = "- - -",
     this.type,
     this.currentBalance = 0, 
     this.availableBalance = 0, 
-    this.phone, 
+    this.phone = "- - -", 
     this.customerId });
 
 

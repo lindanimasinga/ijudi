@@ -112,7 +112,7 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
 
     _showLowBalanceMessage(BuildContext context) {
     showMessageDialog(context,
-        title: "Insufficient Funds",
+        title: "Account TopUp",
         actionName: "Topup",
         child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -121,19 +121,14 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
               Padding(
                   padding: EdgeInsets.all(16),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text("Your order costs R${viewModel.order.totalAmount}",
-                          style: Forms.INPUT_TEXT_STYLE),
-                      Text(
-                          "Your Available Balance is R${viewModel.order.customer.bank.availableBalance}",
-                          style: Forms.INPUT_TEXT_STYLE),
-                      Text(""),
-                      Image.asset("assets/images/uKhese-logo.png", width: 90),
-                      Text("Please topup to finish your order.",
-                          style: Forms.INPUT_TEXT_STYLE),
-                    ],
-                  )),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Image.asset("assets/images/uKhese-logo.png", width: 90),
+                    Text("Please enter your topup amount.", style: Forms.INPUT_TEXT_STYLE),
+                    Padding(padding: EdgeInsets.only(top: 8)),
+                    Text("A fee of 2% will be added for card topups", style: Forms.INPUT_TEXT_STYLE),
+                  ],
+                )),
               IjudiInputField(
                 hint: "Amount",
                 autofillHints: [AutofillHints.transactionAmount],

@@ -87,6 +87,14 @@ class PaymentViewModel extends BaseViewModel {
       })
       .listen((data) {
         order.stage = data.stage;
+
+        BaseViewModel.analytics
+        .logEcommercePurchase(
+          transactionId: order.id,
+          value: order.totalAmount,
+          currency: "ZAR"
+        ).then((value) => {});
+
         Navigator.pushNamedAndRemoveUntil(
             context,
             FinalOrderView.ROUTE_NAME,
@@ -94,7 +102,16 @@ class PaymentViewModel extends BaseViewModel {
             arguments: order);
       }, onError: (e) {
         hasError = true;
-      errorMessage = e.toString();
+        errorMessage = e.toString();
+
+        BaseViewModel.analytics
+        .logEvent(
+          name: "order-purchase-failed",
+          parameters: {
+            "shop" : order.shop.name,
+            "error" : e.toString()
+          })
+        .then((value) => {});
       }
     ,onDone: () {
       progressMv.isBusy = false;

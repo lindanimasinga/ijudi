@@ -47,6 +47,7 @@ class LoginViewModel extends BaseViewModel with TickerProviderStateMixin{
     .map((authenticated) {
       if(authenticated) {
         if(storage.isLoggedIn) {
+          BaseViewModel.analytics.logLogin(loginMethod: "cellnumber").then((value) => null);
           Navigator.pushNamedAndRemoveUntil(
             context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false);
         } else {
@@ -108,6 +109,7 @@ class LoginViewModel extends BaseViewModel with TickerProviderStateMixin{
         progressMv.isBusy = false;
         storage.mobileNumber = username;
         storage.password = password;
+        storage.profileRole = data.role;
         log("user Id is ${data.id}");
         storage.saveIjudiUserId(data.id);
         notificationService.updateDeviceUser();

@@ -21,6 +21,10 @@ class OrderHistoryViewModel extends BaseViewModel {
       errorMessage = e.toString();
     }, onDone: () {
     });
+
+    BaseViewModel.analytics
+    .logEvent(name: "customer-view-order")
+    .then((value) => {});
   }
 
   List<Order> get orders => _orders;

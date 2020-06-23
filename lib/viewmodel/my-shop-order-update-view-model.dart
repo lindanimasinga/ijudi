@@ -25,6 +25,18 @@ class MyShopOrderUpdateViewModel extends BaseViewModel {
     progressMv.isBusy = true;
     apiService.progressOrderNextStage(order.id).asStream().listen((data) {
       order = data;
+
+      BaseViewModel.analytics
+      .logEvent(
+        name: "store-view-order",
+        parameters: {
+          "shop" : order.shopId,
+          "orderId" : order.id,
+          "Delivery" : order.shippingData.type,
+          "stage" : order.shippingData.type
+        })
+      .then((value) => {});
+
       if (order.stage == OrderStage.STAGE_6_WITH_CUSTOMER) {
         Navigator.pop(context);
         Navigator.popAndPushNamed(context, MyShopOrdersView.ROUTE_NAME,
