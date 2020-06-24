@@ -64,19 +64,19 @@ class _IntroductionViewState extends State<IntroductionView> {
           index: 1,
           color: IjudiColors.color3,
           title: "Cashless, Cardless food market",
-          message: "Find your nearest shops you can order simply using your mobile number and a digital wallet.Keep your cash in a digital wallet you can use anywhere anytime.",
+          message: "Find your nearest shops you can order simply using your mobile number and a digital wallet. Keep your cash in a digital wallet you can use anywhere anytime.",
           img: "assets/images/stores.png"),
         buildStep(
           index: 2,
           color: IjudiColors.color2,
           title: "The most affordable wallet to keep your money for daily meals or to receive payments",
-          message: "Find your nearest shops you can order simply using your mobile number and a digital wallet.Keep your cash in a digital wallet you can use anywhere anytime.",
+          message: "You can keep your money in a digital wallet to buy your daily meals. If you are a shop, you can receive payment for orders into your wallet at your convenience.",
           img: "assets/images/wallet-snap.png"),
         buildStep(
           index: 3,
           color: IjudiColors.color1,
-          title: "Pay for meals or groceries in store at your convenience",
-          message: "Find your nearest shops you can order simply using your mobile number and a digital wallet.Keep your cash in a digital wallet you can use anywhere anytime.",
+          title: "Pay in store for groceries at your convenience",
+          message: "You can pay in store simple by searching the name of the shop within the app and pay for groceries.",
           img: "assets/images/quick-pay.png"),
         Container(
           child:
@@ -93,7 +93,7 @@ class _IntroductionViewState extends State<IntroductionView> {
             index: 4,
             color: IjudiColors.color4,
             message: "Find your nearest shops you can order simply using your mobile number and a digital wallet.Keep your cash in a digital wallet you can use anywhere anytime.",
-            title: "Manage your orders and stock. Understand your customers using Analytics and A.I",
+            title: "Receive orders, manage your stock and understand your customers better using Analytics and A.I",
             img: "assets/images/orders.png")
           )
         )
