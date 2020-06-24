@@ -11,6 +11,9 @@ abstract class StorageManager {
   static const String IJUDI_DEVICE_ID = "lahdkjahskdffdsd";
   static const UKHESHE_PASSWORD = "djalske33bfsdw";
   static const PROFILE_ROLE = "laskdjhqywe738239h";
+  static const FIRST_TIME = "wer45234hhjdf";
+
+  bool viewedIntro;
 
   ProfileRoles get profileRole;
   set profileRole(ProfileRoles value);

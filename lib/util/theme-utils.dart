@@ -279,12 +279,12 @@ class Buttons {
             )); 
     }
 
-    static Widget iconButton(Icon icon,{Color color, Function onPressed}) {
+    static Widget iconButton(Icon icon,{Color color, Function onPressed, String tag}) {
       return Container(
 
         margin: EdgeInsets.all(4),
         child: FloatingActionButton(
-          heroTag: icon,
+          heroTag: tag,
           backgroundColor: color,
           onPressed: () => onPressed(),
           child: icon,
@@ -292,8 +292,8 @@ class Buttons {
       ); 
     }
 
-    static Widget back() {
-      return iconButton(Icon(Icons.arrow_back, color: IjudiColors.color2,)); 
+    static Widget back({String tag}) {
+      return iconButton(Icon(Icons.arrow_back, color: IjudiColors.color2,), tag : tag); 
     }
 
     static Widget home() {
@@ -319,6 +319,13 @@ class IjudiStyles {
     fontSize: 22,
     fontFamily: "Roboto",
     fontWeight: FontWeight.w500,
+    color: Colors.white
+  );
+
+  static const HEADER_1_MEDIUM = TextStyle(
+    fontSize: 22,
+    fontFamily: "Roboto",
+    fontWeight: FontWeight.normal,
     color: Colors.white
   );
 

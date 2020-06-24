@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/services/impl/secure-storage-manager.dart';
+import 'package:ijudi/services/impl/shared-pref-storage-manager.dart';
 import 'package:ijudi/services/local-notification-service.dart';
 import 'package:ijudi/util/navigator-service.dart';
 import 'package:ijudi/util/theme-utils.dart';
@@ -12,15 +13,19 @@ main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   var localNotifications;
+  SharedPrefStorageManager sharedPref;
   
-  SecureStorageManager.singleton()
-    .then((storage)  {
+  SharedPrefStorageManager.singleton().asStream()
+  .map((event) => sharedPref = event)
+  .asyncExpand((event) => SecureStorageManager.singleton().asStream())
+  .listen((storage)  {
       var ukhesheService = UkhesheService(storage);
       var apiService = ApiService(storage);
       localNotifications = NotificationService(apiService: apiService);
       localNotifications.initialize().then((value) => print("notification initialized $value"));
       
       var navigation = NavigatorService(
+        sharedPrefStorageManager : sharedPref,
         storageManager: storage, 
         apiService: apiService,
         ukhesheService: ukhesheService,

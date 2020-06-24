@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
+import 'package:ijudi/services/impl/shared-pref-storage-manager.dart';
 import 'package:ijudi/services/local-notification-service.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/view/all-components.dart';
@@ -8,6 +9,7 @@ import 'package:ijudi/view/all-shops-view.dart';
 import 'package:ijudi/view/delivery-options.dart';
 import 'package:ijudi/view/final-order-view.dart';
 import 'package:ijudi/view/forgot-password-view.dart';
+import 'package:ijudi/view/introduction-view.dart';
 import 'package:ijudi/view/login-view.dart';
 import 'package:ijudi/view/my-shop-order-update.dart';
 import 'package:ijudi/view/my-shop-orders.dart';
@@ -47,6 +49,7 @@ import 'package:ijudi/viewmodel/wallet-view-model.dart';
 
 class NavigatorService {
 
+  final SharedPrefStorageManager sharedPrefStorageManager;
   final StorageManager storageManager;
   final UkhesheService ukhesheService;
   final ApiService apiService;
@@ -56,16 +59,25 @@ class NavigatorService {
     @required this.ukhesheService, 
     @required this.storageManager,
     @required this.apiService, 
+    @required this.sharedPrefStorageManager,
     this.localNotificationService});
 
 
   Route<dynamic> generateRoute(RouteSettings settings) {
     var args = settings.arguments;
     var viewmodel;
+    var routeName = settings.name;
+    if(settings.name == LoginView.ROUTE_NAME && !sharedPrefStorageManager.viewedIntro) {
+      routeName = IntroductionView.ROUTE_NAME;
+    }
+    
 
     BaseViewModel.analytics.setCurrentScreen(screenName: settings.name);
 
-    switch (settings.name) {
+    switch (routeName) {
+
+      case IntroductionView.ROUTE_NAME:
+        return MaterialPageRoute(builder: (context) => IntroductionView());
       case LoginView.ROUTE_NAME:
         viewmodel = LoginViewModel(
           storage: storageManager, 

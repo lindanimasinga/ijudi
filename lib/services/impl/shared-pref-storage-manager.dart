@@ -64,6 +64,18 @@ class SharedPrefStorageManager extends StorageManager {
   }
 
   @override
+  bool get viewedIntro  {
+    var value = _prefs.getBool(StorageManager.FIRST_TIME);
+    return value != null && value;
+  }
+
+  @override
+  set viewedIntro(bool value) {
+    if(value == null) return null;
+    _prefs.setBool(StorageManager.FIRST_TIME, value);
+  }
+
+  @override
   String findUkhesheTokenExpiryDate() {
       return _prefs.getString(StorageManager.UKHESHE_EXPIRY);
   }
