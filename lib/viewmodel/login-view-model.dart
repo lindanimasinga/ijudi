@@ -7,8 +7,10 @@ import 'package:ijudi/model/shop.dart';
 
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
+import 'package:ijudi/services/impl/shared-pref-storage-manager.dart';
 import 'package:ijudi/services/local-notification-service.dart';
 import 'package:ijudi/services/storage-manager.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/all-shops-view.dart';
 import 'package:ijudi/view/forgot-password-view.dart';
 import 'package:ijudi/view/register-view.dart';
@@ -21,6 +23,7 @@ class LoginViewModel extends BaseViewModel with TickerProviderStateMixin{
   final UkhesheService ukhesheService;
   final ApiService apiService;
   final NotificationService notificationService;
+  final SharedPrefStorageManager sharedPrefs;
 
   final LocalAuthentication _auth = LocalAuthentication();
   List<BiometricType> _availableBiometrics = [];
@@ -36,9 +39,9 @@ class LoginViewModel extends BaseViewModel with TickerProviderStateMixin{
   LoginViewModel({
     @required this.ukhesheService,
     @required this.storage,
+    @required this.sharedPrefs,
     @required this.apiService,
     @required this.notificationService});
-
 
   authenticate() {
     Future.delayed(Duration(seconds: 1)).asStream()
@@ -102,6 +105,8 @@ class LoginViewModel extends BaseViewModel with TickerProviderStateMixin{
     "fingerprint" : "face ID";
 
   login() {
+    if(!allFieldsValid) return;
+
     progressMv.isBusy = true;      
     ukhesheService.authenticate(username, password).asStream()
     .asyncExpand((res) => apiService.findUserByPhone(username).asStream())
@@ -110,6 +115,7 @@ class LoginViewModel extends BaseViewModel with TickerProviderStateMixin{
         storage.mobileNumber = username;
         storage.password = password;
         storage.profileRole = data.role;
+        sharedPrefs.viewedIntro = true;
         log("user Id is ${data.id}");
         storage.saveIjudiUserId(data.id);
         notificationService.updateDeviceUser();
@@ -138,7 +144,7 @@ class LoginViewModel extends BaseViewModel with TickerProviderStateMixin{
     }
     if (!mounted) return false;
     log("has biometric $canCheckBiometrics");
-    return canCheckBiometrics;
+    return canCheckBiometrics && sharedPrefs.viewedIntro;
   }
 
   Future<List<BiometricType>> _getAvailableBiometrics() async {
@@ -174,5 +180,9 @@ class LoginViewModel extends BaseViewModel with TickerProviderStateMixin{
 
   forgotPassword() {
     Navigator.pushNamed(context, ForgotPasswordView.ROUTE_NAME);
+  }
+
+  get allFieldsValid {
+    return Utils.validSANumber(username) && password != null && password.isNotEmpty;
   }
 }

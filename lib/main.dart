@@ -6,7 +6,7 @@ import 'package:ijudi/services/impl/shared-pref-storage-manager.dart';
 import 'package:ijudi/services/local-notification-service.dart';
 import 'package:ijudi/util/navigator-service.dart';
 import 'package:ijudi/util/theme-utils.dart';
-import 'package:ijudi/view/login-view.dart';
+import 'package:ijudi/view/introduction-view.dart';
 
 main() {
   print("starting application");
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: JudiTheme().theme,
       darkTheme: JudiTheme().dark,
-      initialRoute: LoginView.ROUTE_NAME,
+      initialRoute: IntroductionView.ROUTE_NAME,
       onGenerateRoute: navigation.generateRoute,
     );
   }

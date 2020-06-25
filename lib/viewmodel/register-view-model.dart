@@ -3,21 +3,27 @@ import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/userProfile.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/login-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class RegisterViewModel extends BaseViewModel {
-  
   final UkhesheService ukhesheService;
   final ApiService apiService;
   String otp;
-  final String _aboutUkheshe = "Ukheshe is a digital wallet that lets you buy goods and received money without a need to have a"+ 
-                      "bank account.\n\nIt simple requires only your mobile number and you are good to go." +
-                      "You can send, receive and withdraw and deposit money from any ATM or Pick n Pay stores.\n\nBy signing up, I agree to the terms and conditions below.";
+  final String _aboutUkheshe =
+      "Ukheshe is a digital wallet that lets you buy goods and received money without a need to have a" +
+          "bank account.\n\nIt simple requires only your mobile number and you are good to go." +
+          "You can send, receive and withdraw and deposit money from any ATM or Pick n Pay stores.\n\nBy signing up, I agree to the terms and conditions below.";
 
-  
+  bool passwordValid = true;
+  bool mobileNumberValid = true;
+  bool nameValid = true;
+  bool lastNameValid = true;
+  var idNumberValid = true;
+
   RegisterViewModel({this.ukhesheService, @required this.apiService});
-  
+
   String idNumber = "";
   String name = "";
   String lastname = "";
@@ -55,32 +61,33 @@ class RegisterViewModel extends BaseViewModel {
   Bank _bank = Bank(name: null, accountId: null, type: null);
 
   String get ukhesheMessage => hasUkheshe
-        ? "Your Ijudi account will be linked to your Ukheshe account. " +
-            "You will be able to top up, buy goods and receive money using your ukheshe account with ijudi."
-        : "Registering with Ijudi will automatically create you an Ukheshe account. " +
-            _aboutUkheshe;
-
+      ? "Your Ijudi account will be linked to your Ukheshe account. " +
+          "You will be able to top up, buy goods and receive money using your ukheshe account with ijudi."
+      : "Registering with Ijudi will automatically create you an Ukheshe account. " +
+          _aboutUkheshe;
 
   _registerBank() {
     _bank.name = name;
     _bank.phone = mobileNumber;
     _bank.type = "wallet";
     progressMv.isBusy = true;
-  ukhesheService.registerUkhesheAccount(_bank, otp, password).asStream().listen(
-      (event) {
-        Navigator.pushNamedAndRemoveUntil(
-              context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false);
-      }, onError: (e) {
+    ukhesheService
+        .registerUkhesheAccount(_bank, otp, password)
+        .asStream()
+        .listen((event) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false);
+    }, onError: (e) {
       hasError = true;
       errorMessage = e.toString();
-      }, 
-      onDone: () {
-        progressMv.isBusy = false;
-      });
+    }, onDone: () {
+      progressMv.isBusy = false;
+    });
   }
 
   registerUser() {
-    
+    if (!allFieldsValid) return;
+
     _bank.name = "Ukheshe";
     _bank.phone = mobileNumber;
     _bank.type = "wallet";
@@ -95,57 +102,50 @@ class RegisterViewModel extends BaseViewModel {
         address: address,
         role: ProfileRoles.CUSTOMER,
         bank: _bank);
-        
+
     progressMv.isBusy = true;
-    apiService.registerUser(user)
-      .asStream()
-      .listen((event) {
-          print("successful registration");
-          BaseViewModel.analytics.logSignUp(signUpMethod: "cellphone");
-          if(!hasUkheshe) {
-          _registerBank();
-          return;
-          }
-          Navigator.pushNamedAndRemoveUntil(
-                context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false);
-        }, onError: (e) {
-          hasError = true;
-          errorMessage = e.toString();
-          
-          BaseViewModel.analytics
-          .logEvent(
-            name: "signup-error",
-            parameters: {
-              "error" : e.toString(),
-              "cellNumber" : mobileNumber
-            })
-          .then((value) => {
-            
-          });
-      },
-      onDone: () {
-            progressMv.isBusy = false;
-      });
+    apiService.registerUser(user).asStream().listen((event) {
+      print("successful registration");
+      BaseViewModel.analytics.logSignUp(signUpMethod: "cellphone");
+      if (!hasUkheshe) {
+        _registerBank();
+        return;
+      }
+      Navigator.pushNamedAndRemoveUntil(
+          context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false);
+    }, onError: (e) {
+      hasError = true;
+      errorMessage = e.toString();
+
+      BaseViewModel.analytics.logEvent(name: "signup-error", parameters: {
+        "error": e.toString(),
+        "cellNumber": mobileNumber
+      }).then((value) => {});
+    }, onDone: () {
+      progressMv.isBusy = false;
+    });
   }
 
   _registerUserOtpRequest() {
     progressMv.isBusy = true;
-    ukhesheService.requestOpt(mobileNumber)
-      .asStream()
-      .listen((event) {
-      }, onError: (e) {
-      hasError = true;
-      errorMessage = e.toString();
-      },
-      onDone: () => progressMv.isBusy = false);
+    ukhesheService.requestOpt(mobileNumber).asStream().listen((event) {},
+        onError: (e) {
+          hasError = true;
+          errorMessage = e.toString();
+        },
+        onDone: () => progressMv.isBusy = false);
   }
 
   void startRegistration() {
-        _registerUserOtpRequest();
+    _registerUserOtpRequest();
   }
-    
+
   bool get allFieldsValid {
-    return password != null && passwordConfirm == password && 
-      mobileNumber != null && mobileNumber.length == 10;
+    passwordValid = password != null && password.isNotEmpty && passwordConfirm == password;
+    mobileNumberValid = mobileNumber != null && mobileNumber.isNotEmpty && Utils.validSANumber(mobileNumber);
+    nameValid = name != null && name.isNotEmpty && name.length > 3;
+    lastNameValid = lastname != null && lastname.isNotEmpty && lastname.length > 3;
+    notifyChanged();
+    return passwordValid && mobileNumberValid && nameValid && lastNameValid;
   }
 }

@@ -3,6 +3,7 @@ import 'dart:developer' as logger;
 import 'dart:math';
 
 import 'package:http/http.dart' as http;
+import 'package:ijudi/api/api-error-response.dart';
 import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/model/basket.dart';
 import 'package:ijudi/model/device.dart';
@@ -29,7 +30,7 @@ class ApiService {
     var event = await http.get('$API_URL/store')
         .timeout(Duration(seconds: TIMEOUT_SEC));
 
-    if(event.statusCode != 200) throw(event.body);     
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
         
     Iterable list = json.decode(event.body);
     return list.map((f) => Shop.fromJson(f)).toList();
@@ -40,7 +41,7 @@ class ApiService {
       var event = await http.get('$API_URL/store?featured=true')
           .timeout(Duration(seconds: TIMEOUT_SEC));
 
-      if(event.statusCode != 200) throw(event.body);     
+      if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
       
       Iterable list = json.decode(event.body);
       return list.map((f) => Shop.fromJson(f)).toList();
@@ -52,7 +53,7 @@ class ApiService {
       var event = await http.get('$API_URL/store/$id/stock')
           .timeout(Duration(seconds: TIMEOUT_SEC));
 
-      if(event.statusCode != 200) throw(event.body);     
+      if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
       
       Iterable list = json.decode(event.body);
       return list.map((f) => Stock.fromJson(f)).toList();
@@ -63,7 +64,7 @@ class ApiService {
     var event = await http.get('$API_URL/store/$id')
           .timeout(Duration(seconds: TIMEOUT_SEC));
           
-    if(event.statusCode != 200) throw(event.body);     
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
   
     return Shop.fromJson(json.decode(event.body));
   }
@@ -76,7 +77,7 @@ class ApiService {
     if(event.statusCode != 200) {
       logger.log(event.statusCode.toString());
       logger.log(event.body);
-      throw(event);
+      throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
     }       
     
     return UserProfile.fromJson(json.decode(event.body));
@@ -114,7 +115,7 @@ class ApiService {
     var event = await http
         .post('$API_URL/user', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
-    if(event.statusCode != 200) throw(event);
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
     user = UserProfile.fromJson(json.decode(event.body));
     storageManager.saveIjudiUserId(user.id);
     return event;
@@ -130,7 +131,7 @@ class ApiService {
       var event = await http.get('$API_URL/promotion')
           .timeout(Duration(seconds: TIMEOUT_SEC));
 
-      if(event.statusCode != 200) throw(event.body);     
+      if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
       
       Iterable list = json.decode(event.body);
       return list.map((f) => Advert.fromJson(f)).toList();
@@ -146,7 +147,7 @@ class ApiService {
     var event = await http
         .patch('$API_URL/store/${shop.id}', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
-    if(event.statusCode != 200) throw(event.body);
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
     return event.body;
   }
 
@@ -162,7 +163,7 @@ class ApiService {
     var event = await http.patch('$API_URL/store/$id/stock', headers: headers, body: request, )
         .timeout(Duration(seconds: TIMEOUT_SEC));
 
-    if(event.statusCode != 200) throw(event.body);     
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
 
     return event.body;
   }
@@ -179,7 +180,7 @@ class ApiService {
         .post('$API_URL/order', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
     logger.log(event.body);
-    if(event.statusCode != 200) throw(event.body);
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
     return Order.fromJson(json.decode(event.body));
   }
 
@@ -207,7 +208,7 @@ class ApiService {
       logger.log(event.body);
     }
 
-    if(event.statusCode != 200) throw(event.body);
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
     return Order.fromJson(json.decode(event.body));
   }
 
@@ -216,7 +217,7 @@ class ApiService {
     var event = await http.get('$API_URL/order?phone=$phone')
         .timeout(Duration(seconds: TIMEOUT_SEC));
     logger.log(event.body);
-    if(event.statusCode != 200) throw(event.body);     
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
         
     Iterable list = json.decode(event.body);
     return list.map((f) => Order.fromJson(f)).toList();
@@ -227,7 +228,7 @@ class ApiService {
     var event = await http.get('$API_URL/store?ownerId=$ownerId')
           .timeout(Duration(seconds: TIMEOUT_SEC));
           
-    if(event.statusCode != 200) throw(event.body);     
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
         
     Iterable list = json.decode(event.body);
     return list.map((f) => Shop.fromJson(f)).toList();
@@ -238,7 +239,7 @@ class ApiService {
     var event = await http.get('$API_URL/order?storeId=$id')
         .timeout(Duration(seconds: TIMEOUT_SEC));
     logger.log(event.body);
-    if(event.statusCode != 200) throw(event.body);     
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
         
     Iterable list = json.decode(event.body);
     return list.map((f) => Order.fromJson(f)).toList();
@@ -248,7 +249,7 @@ class ApiService {
     var event = await http.get('$API_URL/order/$id/nextstage')
         .timeout(Duration(seconds: TIMEOUT_SEC));
     logger.log(event.body);
-    if(event.statusCode != 200) throw(event.body);
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
     return Order.fromJson(json.decode(event.body));
   }
 
@@ -262,7 +263,7 @@ class ApiService {
     var event = await http
         .post('$API_URL/device', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
-    if(event.statusCode != 200) throw(event);
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
     device = Device.fromJson(json.decode(event.body));
     storageManager.deviceId = device.id;
     return event;
@@ -278,7 +279,7 @@ class ApiService {
     var event = await http
         .patch('$API_URL/device/${device.id}', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
-    if(event.statusCode != 200) throw(event);
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
     return event;
   }
 }

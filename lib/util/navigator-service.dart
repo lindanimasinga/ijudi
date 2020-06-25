@@ -67,8 +67,8 @@ class NavigatorService {
     var args = settings.arguments;
     var viewmodel;
     var routeName = settings.name;
-    if(settings.name == LoginView.ROUTE_NAME && !sharedPrefStorageManager.viewedIntro) {
-      routeName = IntroductionView.ROUTE_NAME;
+    if(settings.name == IntroductionView.ROUTE_NAME && sharedPrefStorageManager.viewedIntro) {
+      routeName = LoginView.ROUTE_NAME;
     }
     
 
@@ -80,6 +80,7 @@ class NavigatorService {
         return MaterialPageRoute(builder: (context) => IntroductionView());
       case LoginView.ROUTE_NAME:
         viewmodel = LoginViewModel(
+          sharedPrefs: sharedPrefStorageManager,
           storage: storageManager, 
           ukhesheService: ukhesheService,
           apiService: apiService,

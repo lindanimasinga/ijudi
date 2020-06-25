@@ -449,9 +449,15 @@ class IjudiStyles {
     fontFamily: "Roboto",
   );
 
-    static const COUNT_DOWN_LABEL = TextStyle(
+  static const COUNT_DOWN_LABEL = TextStyle(
     fontSize: 14,
     fontFamily: "Roboto",
+  );
+
+  static const FORM_ERROR = TextStyle(
+    fontSize: 12,
+    fontFamily: "Roboto",
+    color: IjudiColors.color2
   );
 
 }

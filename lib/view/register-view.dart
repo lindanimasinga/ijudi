@@ -18,7 +18,6 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    
     return ScrollableParent(
         hasDrawer: false,
         appBarColor: IjudiColors.color1,
@@ -53,8 +52,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                                 width: 4,
                               ),
                               image: DecorationImage(
-                                image: NetworkImage(
-                                    viewModel.imageUrl),
+                                image: NetworkImage(viewModel.imageUrl),
                                 fit: BoxFit.contain,
                               ),
                             ))),
@@ -64,13 +62,16 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                     ),
                     IjudiForm(
                       child: AutofillGroup(
-                      child: Column(
+                          child: Column(
                         children: <Widget>[
                           IjudiInputField(
                             hint: 'SA Mobile Number',
-                            autofillHints: [AutofillHints.telephoneNumber,
-                                    AutofillHints.telephoneNumberLocal],
+                            autofillHints: [
+                              AutofillHints.telephoneNumber,
+                              AutofillHints.telephoneNumberLocal
+                            ],
                             text: viewModel.mobileNumber,
+                            error: () => viewModel.mobileNumberValid ? "" : "Invalid SA mobile number",
                             onTap: (number) => viewModel.mobileNumber = number,
                             type: TextInputType.phone,
                           ),
@@ -79,21 +80,23 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               onTap: (name) => viewModel.name = name,
                               autofillHints: [AutofillHints.name],
                               hint: 'Name',
+                              error: () => viewModel.nameValid ? "" : "Invalid name",
                               type: TextInputType.text),
                           IjudiInputField(
                               text: viewModel.lastname,
                               onTap: (lastname) =>
                                   viewModel.lastname = lastname,
                               hint: 'Surname',
+                              error: () => viewModel.lastNameValid ? "" : "Invalid surname",
                               autofillHints: [AutofillHints.familyName],
                               type: TextInputType.text),
-                          IjudiInputField(
+                         /* IjudiInputField(
                               text: viewModel.idNumber,
                               onTap: (id) => viewModel.idNumber = id,
                               hint: 'Id Number',
-                              autofillHints: [AutofillHints.creditCardNumber],
-                              type: TextInputType.text),
-                              IjudiInputField(
+                              autofillHints: ["idNumber"],
+                              type: TextInputType.text),*/
+                          IjudiInputField(
                               text: viewModel.email,
                               onTap: (email) => viewModel.email = email,
                               hint: 'Email Address',
@@ -105,8 +108,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               hint: 'Physical Address',
                               type: TextInputType.number)
                         ],
-                      )
-                      ),
+                      )),
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
@@ -149,14 +151,18 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                                     onTap: (bank) =>
                                         viewModel.bankAccountNumber = bank,
                                     hint: 'Card Number',
-                                    autofillHints: [AutofillHints.creditCardNumber],
+                                    autofillHints: [
+                                      AutofillHints.creditCardNumber
+                                    ],
                                     type: TextInputType.number),
                                 IjudiInputField(
                                     text: viewModel.bankCellNumber,
                                     onTap: (phone) =>
                                         viewModel.mobileNumber = phone,
                                     hint: 'Cell Number',
-                                    autofillHints: [AutofillHints.telephoneNumber],
+                                    autofillHints: [
+                                      AutofillHints.telephoneNumber
+                                    ],
                                     type: TextInputType.phone)
                               ],
                             ),
@@ -167,17 +173,22 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                           IjudiLoginField(
                               onTap: (pass) => viewModel.password = pass,
                               hint: 'Password',
-                              icon: Icon(Icons.lock,
-                                      size: 22,
-                                      color: Colors.white,),
+                              icon: Icon(
+                                Icons.lock,
+                                size: 22,
+                                color: Colors.white,
+                              ),
                               autofillHints: [AutofillHints.newPassword],
                               type: TextInputType.text),
                           IjudiLoginField(
                               onTap: (pass) => viewModel.passwordConfirm = pass,
                               hint: 'Confirm Password',
-                              icon: Icon(Icons.lock,
-                                      size: 22,
-                                      color: Colors.white,),
+                              error: () => viewModel.passwordValid ? "" : "passwords not match",
+                              icon: Icon(
+                                Icons.lock,
+                                size: 22,
+                                color: Colors.white,
+                              ),
                               autofillHints: [AutofillHints.newPassword],
                               type: TextInputType.text)
                         ],
@@ -192,40 +203,42 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(
-                          left: 16, right: 16, bottom: 16),
+                      padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
                       child: InkWell(
-                        child: RichText (
-                          text:TextSpan(
-                            children: [
-                              TextSpan(text: "iJudi Food Market Terms and Conditions", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue))
-                            ]
-                          )
-                        ),
-                        onTap: () => Utils.launchURL(context, url: "https://www.iubenda.com/privacy-policy/83133872/legal")
-                      ),
+                          child: RichText(
+                              text: TextSpan(children: [
+                            TextSpan(
+                                text: "iJudi Food Market Terms and Conditions",
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.blue))
+                          ])),
+                          onTap: () => Utils.launchURL(context,
+                              url:
+                                  "https://www.iubenda.com/privacy-policy/83133872/legal")),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(
-                          left: 16, right: 16, bottom: 16),
+                      padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
                       child: InkWell(
-                        child: RichText (
-                          text:TextSpan(
-                            children: [
-                              TextSpan(text: "UKHESHE Terms and Conditions", style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue))
-                            ]
-                          )
-                        ),
-                        onTap: () => Utils.launchURL(context, url: "https://www.ukheshe.co.za/terms-and-conditions")
-                      ),
+                          child: RichText(
+                              text: TextSpan(children: [
+                            TextSpan(
+                                text: "UKHESHE Terms and Conditions",
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.blue))
+                          ])),
+                          onTap: () => Utils.launchURL(context,
+                              url:
+                                  "https://www.ukheshe.co.za/terms-and-conditions")),
                     ),
                     Container(
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(top: 16, bottom: 16),
-                        child: FloatingActionButtonWithProgress(
+                        child: Builder(builder: (context) => FloatingActionButtonWithProgress(
                           viewModel: viewModel.progressMv,
                           onPressed: () {
-                            if(viewModel.allFieldsValid){
+                            if (viewModel.allFieldsValid) {
                               viewModel.startRegistration();
                               showMessageDialog(context,
                                   title: "Confirm Code",
@@ -238,10 +251,15 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                                   ),
                                   actionName: "Proceed",
                                   action: () => viewModel.registerUser());
+                            } else {
+                              Scaffold.of(context).showSnackBar(SnackBar(
+                                  backgroundColor: IjudiColors.color2,
+                                  content: Text(
+                                      'Some fields are missing or invalid.')));
                             }
                           },
                           child: Icon(Icons.check),
-                        ))
+                        )))
                   ],
                 ))
           ],

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:ijudi/api/ukheshe/model/customer-info-response.dart';
+import 'package:ijudi/api/ukheshe/model/error-response.dart';
 import 'package:ijudi/api/ukheshe/model/init-topup-response.dart';
 import 'package:ijudi/api/ukheshe/model/jwt-response.dart';
 import 'package:ijudi/api/ukheshe/model/ukheshe-transaction.dart';
@@ -37,7 +38,7 @@ class UkhesheService {
         var responseData = http.Response(jsonString, 200);
         var response  =  await  Future.value(responseData); */
     log(response.body);
-    if(response.statusCode != 200) throw(response.body);
+    if(response.statusCode != 200) throw(UkhesheErrorResponse.fromJson(json.decode(response.body)[0]).description);
     JWTResponse jwt = JWTResponse.fromJson(json.decode(response.body));
     storageManager.saveUkhesheAccessToken(jwt.headerValue);
     storageManager.saveUkhesheTokenExpiryDate(jwt.expires);
@@ -54,7 +55,7 @@ class UkhesheService {
         .post('$apiUrl/login', headers: headers, body: json.encode(request))
         .timeout(Duration(seconds: TIMEOUT_SEC));
     
-    if(response.statusCode != 200) throw(response.body);
+    if(response.statusCode != 200) throw(UkhesheErrorResponse.fromJson(json.decode(response.body)[0]).description);
     JWTResponse jwt = JWTResponse.fromJson(json.decode(response.body));
     storageManager.saveUkhesheAccessToken(jwt.headerValue);
     storageManager.saveUkhesheTokenExpiryDate(jwt.expires);
@@ -93,7 +94,7 @@ class UkhesheService {
         .timeout(Duration(seconds: TIMEOUT_SEC));
     print(response.body);    
     return response.statusCode == 200 ? 
-                  PaymentResponse.fromJson(json.decode(response.body)) : throw(response.body);   
+                  PaymentResponse.fromJson(json.decode(response.body)) : throw(UkhesheErrorResponse.fromJson(json.decode(response.body)[0]).description);   
   }
 
   Future registerUkhesheAccount(Bank bank, String otp, String password) async {
@@ -122,7 +123,7 @@ class UkhesheService {
         .timeout(Duration(seconds: TIMEOUT_SEC));
 
     return response.statusCode == 200 ? 
-                  PaymentResponse.fromJson(json.decode(response.body)) : throw(response.body);
+                  PaymentResponse.fromJson(json.decode(response.body)) : throw(UkhesheErrorResponse.fromJson(json.decode(response.body)[0]).description);
   }
 
 
@@ -142,7 +143,7 @@ class UkhesheService {
         .timeout(Duration(seconds: TIMEOUT_SEC));
     log(response.body);
     return response.statusCode == 200? 
-            CustomerInfoResponse.fromJson(json.decode(response.body)) : throw(response.body);
+            CustomerInfoResponse.fromJson(json.decode(response.body)) : throw(UkhesheErrorResponse.fromJson(json.decode(response.body)[0]).description);
   }
 
 
@@ -154,6 +155,7 @@ class UkhesheService {
     
      Map<String, String> headers = {
       "Content-type": "application/json",
+      "Accept": "application/json",
       "Authorization": storageManager.findUkhesheAccessToken()
       };  
 
@@ -161,7 +163,7 @@ class UkhesheService {
     var event = await http.get('$apiUrl/customers/$customerId/transactions', headers: headers)
         .timeout(Duration(seconds: TIMEOUT_SEC));
     log(event.body);
-    if(event.statusCode != 200) throw(event.body);  
+    if(event.statusCode != 200) throw(UkhesheErrorResponse.fromJson(json.decode(event.body)[0]));  
         
     Iterable list = json.decode(event.body);
     return list.map((f) => UkhesheTransaction.fromJson(f)).toList();        
@@ -192,7 +194,7 @@ class UkhesheService {
         .timeout(Duration(seconds: TIMEOUT_SEC));
    
     return response.statusCode == 200 ? 
-            InitTopUpResponse.fromJson(json.decode(response.body)) : throw(response.body);
+            InitTopUpResponse.fromJson(json.decode(response.body)) : throw(UkhesheErrorResponse.fromJson(json.decode(response.body)[0]).description);
   }
 
   Future requestOpt(String mobileNumber) async {
@@ -211,7 +213,7 @@ class UkhesheService {
     var data = await http
         .post('$apiUrl/customers/verifications', headers: headers, body: json.encode(request))
         .timeout(Duration(seconds: TIMEOUT_SEC));
-    return data.statusCode == 204 ? data : throw(data.body);
+    return data.statusCode == 204 ? data : throw(UkhesheErrorResponse.fromJson(json.decode(data.body)[0]).description);
   }
 
   Future requestPasswordReset(String mobileNumber) async {
@@ -229,7 +231,7 @@ class UkhesheService {
     var data = await http
         .post('$apiUrl/customers/password-change-init', headers: headers, body: json.encode(request))
         .timeout(Duration(seconds: TIMEOUT_SEC));
-    return data.statusCode == 200 ? data : throw(data.body);
+    return data.statusCode == 200 ? data : throw(UkhesheErrorResponse.fromJson(json.decode(data.body)[0]).description);
   }
 
   Future resetPassword(Map<String, String> request) async {
@@ -244,6 +246,6 @@ class UkhesheService {
     var data = await http
         .post('$apiUrl/customers/password-change', headers: headers, body: json.encode(request))
         .timeout(Duration(seconds: TIMEOUT_SEC));
-    return data.statusCode == 200 ? data : throw(data.body);
+    return data.statusCode == 200 ? data : throw(UkhesheErrorResponse.fromJson(json.decode(data.body)[0]).description);
   }
 }

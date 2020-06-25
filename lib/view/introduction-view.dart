@@ -47,11 +47,7 @@ class _IntroductionViewState extends State<IntroductionView> {
           size: 32,
           color: Colors.white), 
           onPressed: () {
-            SharedPrefStorageManager.singleton()
-            .then((store) {
-              store.viewedIntro = true;
               Navigator.popAndPushNamed(context, LoginView.ROUTE_NAME);
-            });
           }) :
           IconButton(
           icon: Icon(Icons.arrow_back, 
@@ -82,11 +78,7 @@ class _IntroductionViewState extends State<IntroductionView> {
           child:
           GestureDetector(
             onTap: () {
-              SharedPrefStorageManager.singleton()
-              .then((store) {
-                store.viewedIntro = true;
                 Navigator.popAndPushNamed(context, LoginView.ROUTE_NAME);
-              });
             },
             onHorizontalDragEnd: (value) => print(value),
             child: buildStep(
@@ -178,7 +170,7 @@ class ParticleModel {
           curve: Curves.easeIn),
     ]);
     animationProgress = AnimationProgress(duration: duration, startTime: time);
-    size = 0.2 + random.nextDouble() * 0.4;
+    size = 0.05 + random.nextDouble() * 0.1;
   }
 
   maintainRestart(Duration time) {
