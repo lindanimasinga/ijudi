@@ -72,18 +72,21 @@ class ShopProfileView extends MvStatefulWidget<ShopProfileViewModel> {
                         children: <Widget>[
                           IjudiInputField(
                             hint: 'Bank Name', 
+                            enabled: false,
                             type: TextInputType.text,
                             autofillHints: [AutofillHints.name],
                             onTap: (value) => viewModel.shop.bank.name = value,
                             text: viewModel.shop.bank.name),
                           IjudiInputField(
                             hint: 'Account Number', 
+                            enabled: false,
                             type: TextInputType.text, 
                             autofillHints: [AutofillHints.creditCardNumber],
                             onTap: (value) => viewModel.shop.bank.accountId = value,
                             text: viewModel.shop.bank.accountId),
                           IjudiInputField(
                             hint: 'Account Type', 
+                            enabled: false,
                             type: TextInputType.text, 
                             autofillHints: [AutofillHints.creditCardType],
                             onTap: (value) => viewModel.shop.bank.type = value,

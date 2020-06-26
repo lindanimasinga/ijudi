@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/theme-utils.dart';
@@ -81,7 +82,7 @@ class ProfileHeaderComponent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(profile.name, style: IjudiStyles.HEADER_1),
-              Text("${profile.role}", style: IjudiStyles.SUBTITLE_1),
+              Text("${describeEnum(profile.role)}", style: IjudiStyles.SUBTITLE_1),
               Padding(padding: EdgeInsets.only(top: 16)),
               Row(
                   mainAxisSize: MainAxisSize.max,

@@ -25,9 +25,9 @@ class ApiService {
 
   get currentUserId => storageManager.getIjudiUserId();
   
-  Future<List<Shop>> findAllShopByLocation() async {
+  Future<List<Shop>> findAllShopByLocation(double latitude, double longitude, double rage, int size) async {
     logger.log("fetching all shops");
-    var event = await http.get('$API_URL/store')
+    var event = await http.get('$API_URL/store?latitude=$latitude&longitude=$longitude&range=$rage&size=$size')
         .timeout(Duration(seconds: TIMEOUT_SEC));
 
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
@@ -36,9 +36,9 @@ class ApiService {
     return list.map((f) => Shop.fromJson(f)).toList();
   }
 
-    Future<List<Shop>> findFeaturedShopByLocation() async {
+    Future<List<Shop>> findFeaturedShopByLocation(double latitude, double longitude, double rage, int size) async {
       logger.log("fetching fetured shops");
-      var event = await http.get('$API_URL/store?featured=true')
+      var event = await http.get('$API_URL/store?featured=true&latitude=$latitude&longitude=$longitude&range=$rage&size=$size')
           .timeout(Duration(seconds: TIMEOUT_SEC));
 
       if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
@@ -125,7 +125,7 @@ class ApiService {
     return Future.delayed(Duration(seconds: 2)).asStream();
   }
 
-  Future<List<Advert>> findAllAdsByLocation() async {
+  Future<List<Advert>> findAllAdsByLocation(double latitude, double longitude, double rage, int size) async {
       
       logger.log("fetching fetured Ads");
       var event = await http.get('$API_URL/promotion')
@@ -224,7 +224,7 @@ class ApiService {
   }
 
   Future<List<Shop>> findShopByOwnerId(String ownerId) async {
-        logger.log("fetching fetured shops");
+        logger.log("fetching owner shops");
     var event = await http.get('$API_URL/store?ownerId=$ownerId')
           .timeout(Duration(seconds: TIMEOUT_SEC));
           

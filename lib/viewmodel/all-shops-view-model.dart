@@ -1,6 +1,9 @@
 import 'dart:collection';
+import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/model/shop.dart';
@@ -8,7 +11,6 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AllShopsViewModel extends BaseViewModel {
-
   List<Shop> _shops = [];
   List<Shop> _featuredShops = [];
   List<Advert> _ads = [];
@@ -18,28 +20,34 @@ class AllShopsViewModel extends BaseViewModel {
   final ApiService apiService;
 
   AllShopsViewModel({@required this.apiService});
-  
+
   @override
   void initialize() {
-    Rx.merge([
-      apiService.findFeaturedShopByLocation()
+    log("fetching location ");
+    Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .asStream()
-        .map((resp) => featuredShops = resp),
-      apiService.findAllShopByLocation()
-        .asStream()
-        .map((resp) => shops = resp),
-      apiService.findAllAdsByLocation()
-        .asStream()
-        .map((resp) => ads = resp)
-    ]).listen((resp) {
-
-    }, onDone: () {
-      
-    }, onError: (e) {
+        .asyncExpand((position) {
+          log("location is ${position.latitude} ${position.longitude}");
+          return Rx.merge([
+            apiService
+                .findFeaturedShopByLocation(position.latitude, position.longitude, 0.2, 20)
+                .asStream()
+                .map((resp) => featuredShops = resp),
+            apiService
+                .findAllShopByLocation(position.latitude, position.longitude, 0.2, 20)
+                .asStream()
+                .map((resp) => shops = resp),
+            apiService.findAllAdsByLocation(position.latitude, position.longitude, 0.2, 20)
+                .asStream()
+                .map((resp) => ads = resp)
+          ]);
+    }).listen((resp) {
+      }, onDone: () {}, onError: (e) {
+      log(e);
       hasError = true;
       errorMessage = e.toString();
     });
-
   }
 
   String get search => _search;
@@ -47,10 +55,10 @@ class AllShopsViewModel extends BaseViewModel {
     _search = search;
     notifyChanged();
 
-    if(search.length > 3)
-    BaseViewModel.analytics
-    .logSearch(searchTerm: search)
-    .then((value) => null);
+    if (search.length > 3)
+      BaseViewModel.analytics
+          .logSearch(searchTerm: search)
+          .then((value) => null);
   }
 
   addShop(Shop shop) {
@@ -85,5 +93,4 @@ class AllShopsViewModel extends BaseViewModel {
     filters.add(filterName);
     notifyChanged();
   }
-
 }
