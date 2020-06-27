@@ -1,4 +1,4 @@
-# ijudi
+# iZinga
 
 A new Flutter project.
 

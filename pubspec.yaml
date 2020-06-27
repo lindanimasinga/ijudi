@@ -1,5 +1,5 @@
 name: ijudi
-description: A new Flutter project.
+description: A cashless, cardless online food market.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -37,6 +37,7 @@ dependencies:
   liquid_swipe: ^1.4.3
   simple_animations: ^2.2.1
   geolocator: ^5.3.2+2
+  firebase_crashlytics: ^0.1.3+3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
