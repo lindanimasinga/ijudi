@@ -141,6 +141,10 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                             child: Image.asset("assets/images/uKhese-logo.png",
                                 width: 90),
                           ),
+                    viewModel.hasUkheshe? Padding(
+                            padding:
+                                EdgeInsets.only(left: 16, bottom: 4),
+                            child: Text("Please register with your Ukheshe details")) : Container(),      
                     !viewModel.hasUkheshe
                         ? Container()
                         : IjudiForm(
@@ -163,14 +167,24 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                                     autofillHints: [
                                       AutofillHints.telephoneNumber
                                     ],
-                                    type: TextInputType.phone)
+                                    type: TextInputType.phone),
+                                !viewModel.hasUkheshe? Container() : IjudiLoginField(
+                                    onTap: (pass) => viewModel.password = pass,
+                                    hint: 'Password',
+                                    icon: Icon(
+                                      Icons.lock,
+                                      size: 22,
+                                      color: Colors.white,
+                                    ),
+                                    autofillHints: [AutofillHints.password],
+                                    type: TextInputType.text)
                               ],
                             ),
                           ),
                     IjudiForm(
                       child: Column(
                         children: <Widget>[
-                          IjudiLoginField(
+                          viewModel.hasUkheshe? Container() : IjudiLoginField(
                               onTap: (pass) => viewModel.password = pass,
                               hint: 'Password',
                               icon: Icon(
@@ -180,7 +194,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               ),
                               autofillHints: [AutofillHints.newPassword],
                               type: TextInputType.text),
-                          IjudiLoginField(
+                          viewModel.hasUkheshe? Container() : IjudiLoginField(
                               onTap: (pass) => viewModel.passwordConfirm = pass,
                               hint: 'Confirm Password',
                               error: () => viewModel.passwordValid ? "" : "passwords not match",
