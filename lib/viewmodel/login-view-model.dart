@@ -56,7 +56,6 @@ class LoginViewModel extends BaseViewModel with TickerProviderStateMixin{
         } else {
           username = storage.mobileNumber;
           password = storage.password;
-          notifyChanged();
         }
       }
     })

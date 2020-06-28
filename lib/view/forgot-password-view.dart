@@ -41,7 +41,7 @@ class ForgotPasswordView extends MvStatefulWidget<ForgotPasswordViewModel> {
                               IjudiLoginField(
                                   hint: "SA Mobile Number",
                                   type: TextInputType.phone,
-                                  text: viewModel.mobileNumber,
+                                  text: () => viewModel.mobileNumber,
                                   autofillHints: [
                                     AutofillHints.telephoneNumber,
                                     AutofillHints.telephoneNumberLocal
@@ -53,7 +53,7 @@ class ForgotPasswordView extends MvStatefulWidget<ForgotPasswordViewModel> {
                                   color: IjudiColors.color5),
                               !viewModel.otpRequestSent ? Container() : IjudiLoginField(
                                 hint: "OTP",
-                                text: viewModel.otpCode,
+                                text: () => viewModel.otpCode,
                                 icon: Icon(
                                   Icons.confirmation_number,
                                   size: 22,
@@ -65,7 +65,7 @@ class ForgotPasswordView extends MvStatefulWidget<ForgotPasswordViewModel> {
                               ),
                               !viewModel.otpRequestSent ? Container() : IjudiLoginField(
                                 hint: "Password",
-                                text: viewModel.password,
+                                text: () => viewModel.password,
                                 icon: Icon(
                                   Icons.lock,
                                   size: 22,
@@ -77,7 +77,7 @@ class ForgotPasswordView extends MvStatefulWidget<ForgotPasswordViewModel> {
                               ),
                               !viewModel.otpRequestSent? Container() : IjudiLoginField(
                                 hint: "Confirm Password",
-                                text: viewModel.passwordConfirm,
+                                text: () => viewModel.passwordConfirm,
                                 icon: Icon(
                                   Icons.lock,
                                   size: 22,

@@ -10,7 +10,7 @@ class IjudiLoginField extends StatefulWidget {
   final TextInputType type;
   final Function onTap;
   final bool enabled;
-  final String text;
+  final Function text;
   Function error;
 
   IjudiLoginField(
@@ -45,7 +45,7 @@ class _IjudiLoginFieldState extends State<IjudiLoginField> {
   final TextInputType type;
   final Function onTap;
   bool enabled;
-  String text;
+  Function text;
   Function error;
   String errorText = "";
 
@@ -66,9 +66,9 @@ class _IjudiLoginFieldState extends State<IjudiLoginField> {
     var controller = text == null
         ? null
         : TextEditingController.fromValue(TextEditingValue(
-            text: text,
+            text: text(),
             selection:
-                TextSelection.fromPosition(TextPosition(offset: text.length))));
+                TextSelection.fromPosition(TextPosition(offset: text().length))));
     double width = MediaQuery.of(context).size.width > 360 ? 166 : 146;
     double width2 = MediaQuery.of(context).size.width > 360 ? 114 : 84;
     return Row(children: <Widget>[
@@ -92,7 +92,6 @@ class _IjudiLoginFieldState extends State<IjudiLoginField> {
                     keyboardType: type,
                     enabled: enabled,
                     onChanged: (value) {
-                      text = value;
                       validate(value);
                       onTap(value);
                     },

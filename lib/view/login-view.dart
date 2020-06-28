@@ -50,7 +50,7 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                               IjudiLoginField(
                                   hint: "SA Mobile Number",
                                   type: TextInputType.phone,
-                                  text: viewModel.username,
+                                  text: () => viewModel.username,
                                   autofillHints: [
                                     AutofillHints.telephoneNumber,
                                     AutofillHints.telephoneNumberLocal
@@ -62,7 +62,7 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                                   color: IjudiColors.color5),
                               IjudiLoginField(
                                 hint: "Password",
-                                text: viewModel.password,
+                                text: () => viewModel.password,
                                 icon: Icon(
                                   Icons.lock,
                                   size: 22,
