@@ -1,4 +1,4 @@
-package com.curiousoft.ijudi
+package com.curiousoft.izinga
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

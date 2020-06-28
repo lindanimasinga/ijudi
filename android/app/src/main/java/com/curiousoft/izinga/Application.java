@@ -1,4 +1,4 @@
-package com.curiousoft.ijudi;
+package com.curiousoft.izinga;
 
 import com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin;
 

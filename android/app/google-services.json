@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:315529266651:android:8e8ef81e93068393ed53fe",
+        "mobilesdk_app_id": "1:315529266651:android:9c0221f16507e71eed53fe",
         "android_client_info": {
-          "package_name": "com.curiousoft.ijudi"
+          "package_name": "com.curiousoft.izinga"
         }
       },
       "oauth_client": [
         {
-          "client_id": "315529266651-19qnqtadkequhth9p3acuj557op890d7.apps.googleusercontent.com",
+          "client_id": "315529266651-ijhvq3mb56akc0inulppgh2r1udmsvah.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.curiousoft.ijudi",
+            "package_name": "com.curiousoft.izinga",
             "certificate_hash": "b4927b73135e21fdd02939ccd8c48ed31d64574d"
           }
         },
@@ -40,46 +40,10 @@
               "client_type": 3
             },
             {
-              "client_id": "315529266651-8us3ph6lf1ebt7n071rg46ua1drv67f4.apps.googleusercontent.com",
+              "client_id": "315529266651-915qs04qgb124n55rif1tuodkhen6aje.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.cutiousoft.ijudi"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:315529266651:android:9c0221f16507e71eed53fe",
-        "android_client_info": {
-          "package_name": "com.curiousoft.izinga"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "315529266651-5p2av3dcfj93fmr25qnvefmc021bescc.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBp-6oglDWlbTL1fomlsLVVIQnQsiL_JT8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "315529266651-5p2av3dcfj93fmr25qnvefmc021bescc.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "315529266651-8us3ph6lf1ebt7n071rg46ua1drv67f4.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.cutiousoft.ijudi"
+                "bundle_id": "com.curiousoft.izinga"
               }
             }
           ]
