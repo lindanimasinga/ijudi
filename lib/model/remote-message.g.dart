@@ -63,4 +63,5 @@ const _$MessageTypeEnumMap = {
   MessageType.NEW_ORDER: 'NEW_ORDER',
   MessageType.MARKETING: 'MARKETING',
   MessageType.PAYMENT: 'PAYMENT',
+  MessageType.NEW_ORDER_UPDATE: 'NEW_ORDER_UPDATE',
 };

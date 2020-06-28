@@ -116,7 +116,11 @@ class NotificationService {
     switch(remoteMessage.messageType) {
       case MessageType.NEW_ORDER:
         title = "New Order Recieved";
-        body = "Please confirm your order :)";
+        body = "Please confirm the order :)";
+      break;
+      case MessageType.NEW_ORDER_UPDATE:
+        title = "New Order Recieved";
+        body = remoteMessage.messageContent;
       break;
       case MessageType.PAYMENT:
         title = "Order Payment Received";

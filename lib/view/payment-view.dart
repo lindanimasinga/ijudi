@@ -177,11 +177,15 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                 child: FloatingActionButtonWithProgress(
                   viewModel: viewModel.progressMv,
                   onPressed: () {
-                    if (viewModel.isBalanceLow) {
+                    if(viewModel.paymentSuccessful) { 
+                      viewModel.processPayment();
+                    }
+                    else if (viewModel.isBalanceLow) {
                       _showLowBalanceMessage(context);
                       return;
+                    } else {
+                      showConfirmPayment(context);
                     }
-                    showConfirmPayment(context);
                   },
                   child: Icon(Icons.arrow_forward),
                 )),

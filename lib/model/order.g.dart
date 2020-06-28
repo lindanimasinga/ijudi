@@ -23,6 +23,7 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
     ..shopId = json['shopId'] as String
     ..date = Order.dateFromJson(json['date'] as String)
     ..stage = _$enumDecodeNullable(_$OrderStageEnumMap, json['stage'])
+    ..serviceFee = (json['serviceFee'] as num)?.toDouble()
     ..description = json['description'] as String;
 }
 
@@ -45,6 +46,7 @@ Map<String, dynamic> _$OrderToJson(Order instance) {
   writeNotNull('shopId', instance.shopId);
   writeNotNull('date', instance.date?.toIso8601String());
   writeNotNull('stage', _$OrderStageEnumMap[instance.stage]);
+  writeNotNull('serviceFee', instance.serviceFee);
   writeNotNull('description', instance.description);
   return val;
 }

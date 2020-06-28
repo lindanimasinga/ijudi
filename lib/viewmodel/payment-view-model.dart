@@ -16,6 +16,7 @@ class PaymentViewModel extends BaseViewModel {
   final ApiService apiService;
   final UkhesheService ukhesheService;
   String topupAmount;
+  bool paymentSuccessful = false;
 
   PaymentViewModel({@required this.apiService, 
     @required this.order, @required this.ukhesheService});
@@ -78,11 +79,12 @@ class PaymentViewModel extends BaseViewModel {
 
     processPayment() {
     progressMv.isBusy = true;
-    var subscr = ukhesheService.paymentForOrder(order)
-      .asStream()
-      .asyncExpand((event) => Future.delayed(Duration(seconds: 4)).asStream())
+    var stream = paymentSuccessful? Stream.value(0) : ukhesheService.paymentForOrder(order)
+      .asStream();
+    stream.asyncExpand((event) => Future.delayed(Duration(seconds: 4)).asStream())
       .asyncExpand((event) {
         order.paymentType = PaymentType.UKHESHE;
+        paymentSuccessful = true;
         return  apiService.completeOrderPayment(order).asStream();
       })
       .listen((data) {

@@ -53,18 +53,47 @@ class OrderReviewComponent extends StatelessWidget {
               margin: EdgeInsets.only(left: 16),
               width: 145,
               child: Text(
-                "Delivery Fee",
+                "Service Fee",
                 style: Forms.INPUT_TEXT_STYLE,
               )),
           Container(
               width: 70,
               child: Text(
-                "R${order.shippingData.fee}",
+                "R${order.serviceFee}",
                 style: Forms.INPUT_TEXT_STYLE,
               ))
         ],
       ),
     ));
+
+    if (order.shippingData.fee > 0) {
+      basketWidget.add(Container(
+        height: 52,
+        padding: EdgeInsets.only(left: 16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          border: Border.all(color: IjudiColors.color5, width: 0.05),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+                margin: EdgeInsets.only(left: 16),
+                width: 145,
+                child: Text(
+                  "Delivery Fee",
+                  style: Forms.INPUT_TEXT_STYLE,
+                )),
+            Container(
+                width: 70,
+                child: Text(
+                  "R${order.shippingData.fee}",
+                  style: Forms.INPUT_TEXT_STYLE,
+                ))
+          ],
+        ),
+      ));
+    }
 
     basketWidget.add(Container(
       height: 52,
@@ -80,7 +109,7 @@ class OrderReviewComponent extends StatelessWidget {
               margin: EdgeInsets.only(left: 16),
               width: 145,
               child: Text(
-                order.hasVat? "Total(incl VAT)": "Total(excl VAT)",
+                order.hasVat ? "Total(incl VAT)" : "Total(excl VAT)",
                 style: IjudiStyles.HEADER_TEXT,
               )),
           Container(

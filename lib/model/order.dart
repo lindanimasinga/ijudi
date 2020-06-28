@@ -21,6 +21,7 @@ class Order {
   @JsonKey(fromJson: dateFromJson)
   DateTime date;
   OrderStage stage = OrderStage.STAGE_0_CUSTOMER_NOT_PAID;
+  double serviceFee = 0;
 
   UserProfile _customer;
   Shop _shop;
@@ -29,7 +30,7 @@ class Order {
 
   Order();
 
-  double get totalAmount => basket.getBasketTotalAmount() + shippingData.fee;
+  double get totalAmount => serviceFee + basket.getBasketTotalAmount() + shippingData.fee;
 
   @JsonKey(ignore: true)
   Shop get shop => _shop;

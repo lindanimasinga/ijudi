@@ -19,5 +19,6 @@ class RemoteMessage {
 enum MessageType {
   NEW_ORDER,
   MARKETING,
-  PAYMENT
+  PAYMENT,
+  NEW_ORDER_UPDATE
 }
