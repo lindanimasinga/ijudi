@@ -65,4 +65,8 @@ class Basket {
     print(jsonString);
     return jsonString;  
   }
+
+  void clear() {
+    items.clear();
+  }
 }

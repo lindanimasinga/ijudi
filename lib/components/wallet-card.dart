@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/components/ijudi-card.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/tranasction-history-view.dart';
 
 class WalletCard extends StatelessWidget {
@@ -37,7 +38,7 @@ class WalletCard extends StatelessWidget {
                   "Current Balance",
                   style: IjudiStyles.CARD_HEADER,
                 ),
-                Text("R${wallet.currentBalance}",
+                Text("R${Utils.formatToCurrency(wallet.currentBalance)}",
                     style: IjudiStyles.CARD_DISCR_ITAL),
               ],
             ),
@@ -46,7 +47,7 @@ class WalletCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("Available Balance", style: IjudiStyles.CARD_HEADER),
-                Text("R${wallet.availableBalance}",
+                Text("R${Utils.formatToCurrency(wallet.availableBalance)}",
                     style: IjudiStyles.CARD_DISCR_ITAL),
               ],
             ),

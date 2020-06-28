@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 
 class OrderReviewComponent extends StatelessWidget {
   final Order order;
@@ -31,7 +32,7 @@ class OrderReviewComponent extends StatelessWidget {
             Container(
                 width: 70,
                 child: Text(
-                  "R${(item.price * item.quantity)}",
+                  "R${Utils.formatToCurrency(item.price * item.quantity)}",
                   style: Forms.INPUT_TEXT_STYLE,
                 ))
           ],
@@ -59,7 +60,7 @@ class OrderReviewComponent extends StatelessWidget {
           Container(
               width: 70,
               child: Text(
-                "R${order.serviceFee}",
+                "R${Utils.formatToCurrency(order.serviceFee)}",
                 style: Forms.INPUT_TEXT_STYLE,
               ))
         ],
@@ -87,7 +88,7 @@ class OrderReviewComponent extends StatelessWidget {
             Container(
                 width: 70,
                 child: Text(
-                  "R${order.shippingData.fee}",
+                  "R${Utils.formatToCurrency(order.shippingData.fee)}",
                   style: Forms.INPUT_TEXT_STYLE,
                 ))
           ],
@@ -115,7 +116,7 @@ class OrderReviewComponent extends StatelessWidget {
           Container(
               width: 70,
               child: Text(
-                "R${(order.totalAmount)}",
+                "R${Utils.formatToCurrency(order.totalAmount)}",
                 style: IjudiStyles.HEADER_TEXT,
               )),
         ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/model/basket-item.dart';
 import 'package:ijudi/model/basket.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 
 class BasketComponent extends StatelessWidget {
 
@@ -43,7 +44,7 @@ class BasketComponent extends StatelessWidget {
               child: Text("${item.quantity}  x  ${item.name}", style: Forms.INPUT_TEXT_STYLE,)
             ),
             Container(
-              child: Text("R${(item.price * item.quantity)}", style: Forms.INPUT_TEXT_STYLE,)
+              child: Text("R${(Utils.formatToCurrency(item.price) * item.quantity)}", style: Forms.INPUT_TEXT_STYLE,)
             ),
             Container(
               child: FlatButton(
@@ -76,7 +77,7 @@ basketWidget.add(Container(
             ),
             Container(
               width: 70,
-              child: Text("R${(basket.getBasketTotalAmount())}", style: IjudiStyles.HEADER_TEXT,)
+              child: Text("R${Utils.formatToCurrency(basket.getBasketTotalAmount())}", style: IjudiStyles.HEADER_TEXT,)
             ),
           ],
         ),

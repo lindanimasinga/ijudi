@@ -62,18 +62,9 @@ class QuickPayViewModel extends BaseViewModel {
 
   pay() {
     progressMv.isBusy = true;
-    apiService.startOrder(order).asStream()
-      .map((newOrder) {
-        order.id = newOrder.id;
-        order.date = newOrder.date;
-        order.paymentType = PaymentType.UKHESHE;
-        order.hasVat = newOrder.hasVat;
-        order.description = "Payment from ${order.customer.mobileNumber} order ${order.id}";
-      })
-      .asyncExpand((event) => ukhesheService.paymentForOrder(order).asStream())
+    ukhesheService.paymentForOrder(order).asStream()
       .asyncExpand((event) => apiService.completeOrderPayment(order).asStream())
       .listen((data) {
-
         BaseViewModel.analytics
         .logEcommercePurchase(
           transactionId: order.id,
@@ -128,12 +119,34 @@ class QuickPayViewModel extends BaseViewModel {
   }
 
   bool get isBalanceLow {
-    BasketItem basketItem =
-        BasketItem(name: itemName, 
-          price: payAmount, 
-          quantity: quantity,
-          discountPerc: 0);
-    order.basket.addItem(basketItem);
     return order.customer.bank.availableBalance < order.totalAmount;
+  }
+
+  StreamSubscription startOrder() {
+    progressMv.isBusy = true;
+    var basketItem = BasketItem(name: itemName, quantity: quantity, price: payAmount);
+    order.basket.addItem(basketItem);
+    var subscr = apiService.startOrder(order).asStream()
+      .map((newOrder) {
+        order.id = newOrder.id;
+        order.date = newOrder.date;
+        order.paymentType = PaymentType.UKHESHE;
+        order.hasVat = newOrder.hasVat;
+        order.shippingData.fee = newOrder.shippingData.fee;
+        order.serviceFee = newOrder.serviceFee;
+        order.description = "Payment from ${order.customer.mobileNumber} order ${order.id}";
+      }).listen(null);
+
+    subscr.onError((error) {
+      errorMessage = error.toString();
+      hasError = true;
+    });
+
+    subscr.onDone(() => progressMv.isBusy = false);
+    return subscr;  
+  }
+
+  clearOrder() {
+    order.basket.clear();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/model/stock.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 
 class StocksComponent extends StatelessWidget {
   final Function addAction;
@@ -44,7 +45,7 @@ class StocksComponent extends StatelessWidget {
                           style: Forms.INPUT_TEXT_STYLE,)
             ),
             Container(
-              child: Text("R${item.price}", style: Forms.INPUT_TEXT_STYLE,)
+              child: Text("R${Utils.formatToCurrency(item.price)}", style: Forms.INPUT_TEXT_STYLE,)
             ),
             Container(
               child: FlatButton(

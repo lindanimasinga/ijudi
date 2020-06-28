@@ -23,7 +23,7 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
   }
 
   void showMessageDialog(BuildContext context, {
-      String title, Widget child, String actionName, Function action}) {
+      String title, Widget child, String actionName, Function action, Function() cancel}) {
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -40,6 +40,7 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
             FlatButton(
               child: Text("Cancel", style: Forms.INPUT_TEXT_STYLE),
               onPressed: () {
+                cancel();
                 Navigator.of(context).pop();
               },
             ),

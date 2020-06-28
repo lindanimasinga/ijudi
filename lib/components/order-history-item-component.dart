@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:intl/intl.dart';
 
 class OrderHistoryItemComponent extends StatelessWidget {
@@ -68,7 +69,7 @@ class OrderHistoryItemComponent extends StatelessWidget {
                                     "Ordered On: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.date)}",
                                     style: IjudiStyles.CARD_SHOP_DISCR),
                                 Padding(padding: EdgeInsets.only(top: 8)),
-                                Text("Total Amount: R${order.totalAmount}")
+                                Text("Total Amount: R${Utils.formatToCurrency(order.totalAmount)}")
                               ],
                             )),
                         Container(

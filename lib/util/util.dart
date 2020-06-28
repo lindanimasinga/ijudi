@@ -5,8 +5,12 @@ import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:intl/intl.dart';
 
 class Utils {
+
+  static final currencyFormatter = NumberFormat("#,##0.00");
+
   static double generateWaveNumber(int max) {
     var number;
     if (Random().nextBool()) {
@@ -120,5 +124,9 @@ class Utils {
   static bool isEmail(String name) {
     RegExp reg = RegExp(".+@.+\\..+");
     return name != null && reg.hasMatch(name);
+  }
+
+  static String formatToCurrency(double value) {
+    return currencyFormatter.format(value);
   }
 }

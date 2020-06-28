@@ -32,6 +32,8 @@ class Order {
 
   double get totalAmount => serviceFee + basket.getBasketTotalAmount() + shippingData.fee;
 
+  String get totalAmountFomarted => Utils.formatToCurrency(serviceFee + basket.getBasketTotalAmount() + shippingData.fee);
+
   @JsonKey(ignore: true)
   Shop get shop => _shop;
 

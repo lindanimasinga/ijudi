@@ -6,6 +6,7 @@ import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/wallet-card.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/quick-pay-view-model.dart';
 
 class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
@@ -96,11 +97,14 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
                 padding: EdgeInsets.only(top: 16, bottom: 16),
               child: FloatingActionButtonWithProgress(
                   onPressed: () {
-                    if (viewModel.isBalanceLow) {
-                      _showLowBalanceMessage(context);
-                      return;
-                    }
-                    showConfirmPayment(context);
+                    viewModel.startOrder()
+                    .onData((order) {
+                      if (viewModel.isBalanceLow) {
+                        _showLowBalanceMessage(context);
+                        return;
+                      }
+                      showConfirmPayment(context);
+                    });
                   },
                   child: Icon(Icons.check),
                   viewModel: viewModel.progressMv))
@@ -149,11 +153,12 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
   showConfirmPayment(BuildContext context) {
     showMessageDialog(context,
         title: "Confirm Payment",
+        cancel: () => viewModel.clearOrder(),
         actionName: "Pay",
         child: Padding(
             padding: EdgeInsets.all(16),
             child: Text(
-                "Please click pay to confirm your order of R${viewModel.order.totalAmount}",
+                "Please click pay to confirm your order of R${Utils.formatToCurrency(viewModel.order.totalAmount)}.\n\nA service fee of R${Utils.formatToCurrency(viewModel.order.serviceFee)} is already included.",
                 style: Forms.INPUT_TEXT_STYLE)),
         action: () => viewModel.pay());
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 
 import 'ijudi-input-field.dart';
 
@@ -23,7 +24,7 @@ class UkheshePaymentComponent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text("Avialable Balance", style: Forms.INPUT_TEXT_STYLE),
-                  Text("R${customer.bank.availableBalance}", style: Forms.INPUT_TEXT_STYLE)
+                  Text("R${Utils.formatToCurrency(customer.bank.availableBalance)}", style: Forms.INPUT_TEXT_STYLE)
                 ],
               )
             ),

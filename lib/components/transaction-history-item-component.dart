@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/model/transaction.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:intl/intl.dart';
 
 class TransactionHistoryItemComponent extends StatelessWidget {
@@ -55,7 +56,7 @@ class TransactionHistoryItemComponent extends StatelessWidget {
                     width: 200,
                     child: Text("${transaction.description}", style: Forms.INPUT_TEXT_STYLE)
                   ),
-                  Text("R${transaction.amount}", style: Forms.INPUT_TEXT_STYLE)
+                  Text("R${Utils.formatToCurrency(transaction.amount)}", style: Forms.INPUT_TEXT_STYLE)
                 ],
               )
             )
