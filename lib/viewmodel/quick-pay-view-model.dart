@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:ijudi/view/quick-payment-success.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
@@ -63,7 +64,10 @@ class QuickPayViewModel extends BaseViewModel {
   pay() {
     progressMv.isBusy = true;
     ukhesheService.paymentForOrder(order).asStream()
-      .asyncExpand((event) => apiService.completeOrderPayment(order).asStream())
+      .asyncExpand((event) {
+        HapticFeedback.mediumImpact();
+        return apiService.completeOrderPayment(order).asStream();
+      })
       .listen((data) {
         BaseViewModel.analytics
         .logEcommercePurchase(

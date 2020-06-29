@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
@@ -79,9 +80,11 @@ class PaymentViewModel extends BaseViewModel {
 
     processPayment() {
     progressMv.isBusy = true;
-    var stream = paymentSuccessful? Stream.value(0) : ukhesheService.paymentForOrder(order)
-      .asStream();
-    stream.asyncExpand((event) => Future.delayed(Duration(seconds: 4)).asStream())
+    var stream = paymentSuccessful? Stream.value(0) : ukhesheService.paymentForOrder(order).asStream();
+    stream.asyncExpand((event) {
+      HapticFeedback.mediumImpact();
+      return Future.delayed(Duration(seconds: 4)).asStream();
+      })
       .asyncExpand((event) {
         order.paymentType = PaymentType.UKHESHE;
         paymentSuccessful = true;
