@@ -139,7 +139,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 : Container(
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(left: 16, top: 32, bottom: 8),
-                    child: Text("All Shops", style: IjudiStyles.HEADER_2),
+                    child: Text("Shops", style: IjudiStyles.HEADER_2),
                   ),
             Container(
                 height: deviceWidth >= 360 ? 202 : 172,
