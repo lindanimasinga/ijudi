@@ -24,7 +24,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
     List<Widget> filterComponents = [];
 
     if (viewModel.shops.isNotEmpty) {
-      var sortedFilterNames =
+      var tags =
           viewModel.shops.map((shop) => shop.tags).reduce((current, next) {
         Set<String> tagsSet = HashSet();
         tagsSet.addAll(current);
@@ -32,8 +32,8 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
         return tagsSet;
       }).toList();
 
-      sortedFilterNames.sort();
-      for (var filterName in sortedFilterNames) {
+      tags.sort();
+      for (var filterName in tags) {
         var color = BreadCrumb.statusColors[colorPickCount++];
         filterComponents.add(BreadCrumb(
             color: color,
@@ -85,33 +85,43 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 ? Container()
                 : Container(
                     alignment: Alignment.topLeft,
-                    padding: EdgeInsets.only(left: 16, top: 8, bottom: 8, right: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Promotions", style: IjudiStyles.HEADER_2),
-                        DropdownButton<String>(
-                          value: viewModel.radiusText,
-                          icon: Icon(Icons.arrow_downward),
-                          iconSize: 24,
-                          elevation: 16,
-                          style: IjudiStyles.SUBTITLE_2,
-                          underline: Container(
-                            height: 2,
-                            color: IjudiColors.color5,
-                          ),
-                          onChanged: (String newValue) => viewModel.radiusText = newValue,
-                          items: <String>['10km', '15km', '30km', '1500km']
-                              .map((String value) =>
-                                DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                )
-                              ).toList(),
-                        )
-                      ],
-                    )),
-            adsComponets.length == 0
+                    padding:
+                        EdgeInsets.only(left: 16, top: 8, bottom: 8, right: 16),
+                    child: viewModel.search.isNotEmpty ||
+                            adsComponets.length == 0
+                        ? Container()
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Promotions", style: IjudiStyles.HEADER_2),
+                              DropdownButton<String>(
+                                value: viewModel.radiusText,
+                                icon: Icon(Icons.arrow_downward),
+                                iconSize: 24,
+                                elevation: 16,
+                                style: IjudiStyles.SUBTITLE_2,
+                                underline: Container(
+                                  height: 2,
+                                  color: IjudiColors.color5,
+                                ),
+                                onChanged: (String newValue) =>
+                                    viewModel.radiusText = newValue,
+                                items: <String>[
+                                  '10km',
+                                  '15km',
+                                  '30km',
+                                  '1500km'
+                                ]
+                                    .map((String value) =>
+                                        DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        ))
+                                    .toList(),
+                              )
+                            ],
+                          )),
+            viewModel.search.isNotEmpty || adsComponets.length == 0
                 ? Container()
                 : Container(
                     height: MediaQuery.of(context).size.height * 0.35,

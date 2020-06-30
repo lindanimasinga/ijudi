@@ -20,7 +20,7 @@ class QuickPayViewModel extends BaseViewModel {
 
   Bank _wallet = Bank();
   double payAmount = 0;
-  String itemName;
+  String _itemName = "";
   double topupAmount = 0;
   Order order = Order();
   int quantity = 1;
@@ -61,11 +61,17 @@ class QuickPayViewModel extends BaseViewModel {
     notifyChanged();
   }
 
+  String get itemName => _itemName;
+  set itemName(String itemName) {
+    _itemName = itemName;
+    notifyChanged();
+  }
+
   pay() {
     progressMv.isBusy = true;
     ukhesheService.paymentForOrder(order).asStream()
       .asyncExpand((event) {
-        HapticFeedback.mediumImpact();
+        HapticFeedback.vibrate();
         return apiService.completeOrderPayment(order).asStream();
       })
       .listen((data) {
@@ -81,6 +87,7 @@ class QuickPayViewModel extends BaseViewModel {
               ReceiptView.ROUTE_NAME,
               arguments: order);
       }, onError: (e) {
+        clearOrder();
         hasError = true;
         errorMessage = e.toString();
 
@@ -143,6 +150,7 @@ class QuickPayViewModel extends BaseViewModel {
 
     subscr.onError((error) {
       errorMessage = error.toString();
+      clearOrder();
       hasError = true;
     });
 
@@ -152,5 +160,10 @@ class QuickPayViewModel extends BaseViewModel {
 
   clearOrder() {
     order.basket.clear();
+  }
+
+  bool itemsSelected() {
+    var items = itemName.split(", ").toSet();
+    return shop.tags.intersection(items).length > 0;
   }
 }

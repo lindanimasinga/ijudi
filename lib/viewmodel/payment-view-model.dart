@@ -82,8 +82,8 @@ class PaymentViewModel extends BaseViewModel {
     progressMv.isBusy = true;
     var stream = paymentSuccessful? Stream.value(0) : ukhesheService.paymentForOrder(order).asStream();
     stream.asyncExpand((event) {
-      HapticFeedback.mediumImpact();
-      return Future.delayed(Duration(seconds: 4)).asStream();
+      HapticFeedback.vibrate();
+      return Future.delayed(Duration(seconds: 2)).asStream();
       })
       .asyncExpand((event) {
         order.paymentType = PaymentType.UKHESHE;

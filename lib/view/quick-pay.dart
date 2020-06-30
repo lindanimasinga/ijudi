@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ijudi/components/bread-crumb.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
@@ -16,6 +17,26 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
 
   @override
   Widget build(BuildContext context) {
+
+    var colorPickCount = 0;
+    List<Widget> tagsComponents = [];
+
+    for (var filterName in viewModel.shop.tags) {
+        var color = BreadCrumb.statusColors[colorPickCount++];
+        tagsComponents.add(BreadCrumb(
+            color: color,
+            filterName: filterName,
+            selected: viewModel.itemName.contains(filterName),
+            onPressed: (name) {
+              if (viewModel.itemName.contains(name)) {
+                viewModel.itemName = viewModel.itemName.replaceAll(", $name", "");
+              } else {
+                viewModel.itemName = "${viewModel.itemName}, $name";
+              }
+            }));
+        if (colorPickCount > 3) colorPickCount = 0;
+      }
+
     return ScrollableParent(
         hasDrawer: false,
         title: "Pay In Store",
@@ -69,10 +90,23 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
               ),
               Container(
                   alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(left: 16, right: 16),
+                  child: Text("Select or type the items you are buying in store.",
+                                style: IjudiStyles.CARD_SHOP_DISCR),
+              ),
+              Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(top: 16, left: 16, bottom: 8),
+                  child: Wrap(
+                    children: tagsComponents,
+                  )
+              ),
+              Container(
+                  alignment: Alignment.topLeft,
                   child: IjudiForm(
                       child: Column(
                     children: <Widget>[
-                      IjudiInputField(
+                      viewModel.itemsSelected()? Container() : IjudiInputField(
                         hint: "Item Name",
                         autofillHints: [AutofillHints.name],
                         text: viewModel.itemName,

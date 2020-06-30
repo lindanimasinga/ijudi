@@ -119,7 +119,7 @@ class NotificationService {
         body = "Please confirm the order :)";
       break;
       case MessageType.NEW_ORDER_UPDATE:
-        title = "New Order Recieved";
+        title = "Order Status Update";
         body = remoteMessage.messageContent;
       break;
       case MessageType.PAYMENT:
