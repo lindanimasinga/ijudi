@@ -71,9 +71,10 @@ class WalletCard extends StatelessWidget {
                   children: <Widget>[
                     IconButton(
                         iconSize: 32,
-                        icon: Icon(Icons.money_off, color: IjudiColors.color2),
+                        icon: Icon(Icons.monetization_on,
+                            color: IjudiColors.color3),
                         onPressed: null),
-                    Text("Withdraw", style: IjudiStyles.CARD_ICON_BUTTON)
+                    Text("Deposit", style: IjudiStyles.CARD_ICON_BUTTON)
                   ],
                 ),
                 Padding(padding: EdgeInsets.only(left: 8)),
@@ -82,10 +83,9 @@ class WalletCard extends StatelessWidget {
                   children: <Widget>[
                     IconButton(
                         iconSize: 32,
-                        icon: Icon(Icons.monetization_on,
-                            color: IjudiColors.color3),
+                        icon: Icon(Icons.money_off, color: IjudiColors.color2),
                         onPressed: null),
-                    Text("Deposit", style: IjudiStyles.CARD_ICON_BUTTON)
+                    Text("Withdraw", style: IjudiStyles.CARD_ICON_BUTTON)
                   ],
                 ),
                 Padding(padding: EdgeInsets.only(left: 8)),

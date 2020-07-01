@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context)  {
     return MaterialApp(
       title: 'iJudi',
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: true,
       theme: JudiTheme().theme,
       darkTheme: JudiTheme().dark,
       initialRoute: IntroductionView.ROUTE_NAME,
