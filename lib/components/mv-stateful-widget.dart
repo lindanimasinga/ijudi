@@ -23,7 +23,9 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget 
   }
 
   void showMessageDialog(BuildContext context, {
-      String title, Widget child, String actionName, Function action, Function() cancel}) {
+      String title, Widget child, String actionName, Function action, Function cancel}) {
+    if(cancel == null) cancel = () => {};
+        
     showDialog(
       barrierDismissible: false,
       context: context,

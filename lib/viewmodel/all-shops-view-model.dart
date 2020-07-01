@@ -1,8 +1,9 @@
+import 'dart:async';
 import 'dart:collection';
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/advert.dart';
@@ -25,22 +26,43 @@ class AllShopsViewModel extends BaseViewModel {
     '1500km': 10.0
   };
 
+  var geolocator = Geolocator();
+  StreamSubscription locationStream;
+
+
   final ApiService apiService;
 
   AllShopsViewModel({@required this.apiService});
 
   @override
   void initialize() {
-    loadData(radiusText);
+    var locationOptions = LocationOptions(
+        accuracy: LocationAccuracy.high, 
+        distanceFilter: 10);
+    //use last known location
+    //listen for location changes  
+    locationStream = geolocator.getLastKnownPosition().asStream()
+    .map((position) => loadData(radiusText))
+        .asyncExpand((event) => geolocator.getPositionStream(locationOptions))
+        .listen((position) => loadData(radiusText)
+        , onDone: () {}, 
+        onError: (e) {
+          log(e.toString());
+          if(e is PlatformException) {
+            loadData(radiusText);
+            return;
+          }
+          hasError = true;
+          errorMessage = e.toString();
+        });
   }
 
   void loadData(String radius) {
     var range = rangeMap[radiusText];
     log("fetching location ");
-    Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .asStream()
-        .asyncExpand((position) {
+    var lastPositionStream = geolocator.getLastKnownPosition();
+    lastPositionStream.asStream()
+    .asyncExpand((position) {
           log("location is ${position.latitude} ${position.longitude}");
           return Rx.merge([
             apiService
@@ -57,7 +79,7 @@ class AllShopsViewModel extends BaseViewModel {
           ]);
     }).listen((resp) {
       }, onDone: () {}, onError: (e) {
-      log(e);
+      log(e.toString());
       hasError = true;
       errorMessage = e.toString();
     });
@@ -112,5 +134,11 @@ class AllShopsViewModel extends BaseViewModel {
   void addFilter(String filterName) {
     filters.add(filterName);
     notifyChanged();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    locationStream.cancel();
   }
 }

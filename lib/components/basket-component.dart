@@ -44,7 +44,7 @@ class BasketComponent extends StatelessWidget {
               child: Text("${item.quantity}  x  ${item.name}", style: Forms.INPUT_TEXT_STYLE,)
             ),
             Container(
-              child: Text("R${(Utils.formatToCurrency(item.price) * item.quantity)}", style: Forms.INPUT_TEXT_STYLE,)
+              child: Text("R${(Utils.formatToCurrency(item.price * item.quantity))}", style: Forms.INPUT_TEXT_STYLE,)
             ),
             Container(
               child: FlatButton(
@@ -73,11 +73,11 @@ basketWidget.add(Container(
             ),
             Container(
               width: 60,
-              child: Text("${(basket.getBasketTotalItems())} items", style: IjudiStyles.HEADER_TEXT,)
+              child: Text("R${Utils.formatToCurrency(basket.getBasketTotalAmount())}", style: IjudiStyles.HEADER_TEXT,)
             ),
             Container(
               width: 70,
-              child: Text("R${Utils.formatToCurrency(basket.getBasketTotalAmount())}", style: IjudiStyles.HEADER_TEXT,)
+              child: Text("${(basket.getBasketTotalItems())} item(s)", style: IjudiStyles.HEADER_TEXT,)
             ),
           ],
         ),

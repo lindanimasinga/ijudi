@@ -99,7 +99,7 @@ class LoginViewModel extends BaseViewModel with TickerProviderStateMixin{
     notifyChanged();
   }
 
-  bool get hasBioMetric => _availableBiometrics.isNotEmpty && storage.mobileNumber != null;
+  bool get hasBioMetric => _availableBiometrics.isNotEmpty && storage.mobileNumber != null && storage.mobileNumber.isNotEmpty;
 
   get bioMetricName => _availableBiometrics.contains(BiometricType.fingerprint)? 
     "fingerprint" : "face ID";

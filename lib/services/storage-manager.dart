@@ -18,7 +18,7 @@ abstract class StorageManager {
   ProfileRoles get profileRole;
   set profileRole(ProfileRoles value);
 
-  get mobileNumber;
+  String get mobileNumber;
   set mobileNumber(String value);
 
   get password;
