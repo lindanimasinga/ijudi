@@ -19,7 +19,9 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
   Widget build(BuildContext context) {
 
     var colorPickCount = 0;
+    var formKey = GlobalKey();
     List<Widget> tagsComponents = [];
+    Future.delayed(Duration(seconds: 2)).then((value) => Scrollable.ensureVisible(formKey.currentContext));
 
     for (var filterName in viewModel.shop.tags) {
         var color = BreadCrumb.statusColors[colorPickCount++];
@@ -37,74 +39,77 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
         if (colorPickCount > 3) colorPickCount = 0;
       }
 
-    return ScrollableParent(
-        hasDrawer: false,
-        title: "Pay In Store",
-        appBarColor: IjudiColors.color1,
-        child: Stack(children: <Widget>[
-          Headers.getHeader(context),
-          Column(
-            children: [
-              Padding(padding: EdgeInsets.only(top: 16)),
-              WalletCard(
-                wallet: viewModel.wallet,
-                onTopUp: () => _showLowBalanceMessage(context)),
-              Container(
-                  margin: EdgeInsets.only(top: 32, left: 16, right: 16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(viewModel.shop.name,
-                                style: IjudiStyles.CARD_SHOP_HEADER),
-                            Text("${viewModel.shop.role}",
-                                style: IjudiStyles.CARD_SHOP_DISCR),
-                            Text("Account: ${viewModel.shop.bank.accountId}",
-                                style: IjudiStyles.CARD_SHOP_DISCR),
-                            Text("Phone: ${viewModel.shop.mobileNumber}",
-                                style: IjudiStyles.CARD_SHOP_DISCR)
-                          ]),
-                      Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(61),
-                            color: Colors.white,
-                            border: Border.all(
-                              color: IjudiColors.color3,
-                              width: 3,
-                            ),
-                            image: DecorationImage(
-                              image: NetworkImage(viewModel.shop.imageUrl),
-                              fit: BoxFit.cover,
-                            ),
-                          )),
-                    ],
-                  )),
-              Container(
-                  alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(top: 16, left: 16, bottom: 8),
-                  child: Text("Payment Details", style: IjudiStyles.CARD_HEADER)
-              ),
-              Container(
-                  alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(left: 16, right: 16),
-                  child: Text("Select or type the items you are buying in store.",
-                                style: IjudiStyles.CARD_SHOP_DISCR),
-              ),
-              Container(
-                  alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(top: 16, left: 16, bottom: 8),
-                  child: Wrap(
-                    children: tagsComponents,
-                  )
-              ),
-              Container(
-                  alignment: Alignment.topLeft,
-                  child: IjudiForm(
-                      child: Column(
+    
+        return ScrollableParent(
+            hasDrawer: false,
+            title: "Pay In Store",
+            appBarColor: IjudiColors.color1,
+            appBarPinned: true,
+            child: Stack(children: <Widget>[
+              Headers.getHeader(context),
+              Column(
+                children: [
+                  Padding(padding: EdgeInsets.only(top: 16)),
+                  WalletCard(
+                    wallet: viewModel.wallet,
+                    onTopUp: () => _showLowBalanceMessage(context)),
+                  Container(
+                      margin: EdgeInsets.only(top: 32, left: 16, right: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(viewModel.shop.name,
+                                    style: IjudiStyles.CARD_SHOP_HEADER),
+                                Text("${viewModel.shop.role}",
+                                    style: IjudiStyles.CARD_SHOP_DISCR),
+                                Text("Account: ${viewModel.shop.bank.accountId}",
+                                    style: IjudiStyles.CARD_SHOP_DISCR),
+                                Text("Phone: ${viewModel.shop.mobileNumber}",
+                                    style: IjudiStyles.CARD_SHOP_DISCR)
+                              ]),
+                          Container(
+                              width: 100,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(61),
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: IjudiColors.color3,
+                                  width: 3,
+                                ),
+                                image: DecorationImage(
+                                  image: NetworkImage(viewModel.shop.imageUrl),
+                                  fit: BoxFit.cover,
+                                ),
+                              )),
+                        ],
+                      )),
+                  Container(
+                      alignment: Alignment.topLeft,
+                      margin: EdgeInsets.only(top: 16, left: 16, bottom: 8),
+                      child: Text("Payment Details", style: IjudiStyles.CARD_HEADER)
+                  ),
+                  Container(
+                      alignment: Alignment.topLeft,
+                      margin: EdgeInsets.only(left: 16, right: 16),
+                      child: Text("Select or type the items you are buying in store.",
+                                    style: IjudiStyles.CARD_SHOP_DISCR),
+                  ),
+                  Container(
+                      alignment: Alignment.topLeft,
+                      margin: EdgeInsets.only(top: 16, left: 16, bottom: 8),
+                      child: Wrap(
+                        children: tagsComponents,
+                      )
+                  ),
+                  Container(
+                      alignment: Alignment.topLeft,
+                      child: IjudiForm(
+                          child: Column(
+                            key: formKey,
                     children: <Widget>[
                       viewModel.itemsSelected()? Container() : IjudiInputField(
                         hint: "Item Name",
@@ -164,7 +169,7 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
                     Image.asset("assets/images/uKhese-logo.png", width: 90),
                     Text("Please enter your topup amount.", style: Forms.INPUT_TEXT_STYLE),
                     Padding(padding: EdgeInsets.only(top: 8)),
-                    Text("A fee of 2% will be added for card topups", style: Forms.INPUT_TEXT_STYLE),
+                    Text("A fee of 2.5% will be added for card topups", style: Forms.INPUT_TEXT_STYLE),
                   ],
                 )),
               IjudiInputField(

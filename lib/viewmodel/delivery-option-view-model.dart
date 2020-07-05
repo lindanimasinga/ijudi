@@ -1,30 +1,33 @@
-
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/model/business-hours.dart';
 import 'package:ijudi/model/day.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/userProfile.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/payment-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:ijudi/api/ukheshe/model/customer-info-response.dart';
 
 class DeliveryOptionsViewModel extends BaseViewModel {
-
   Order order;
   final UkhesheService ukhesheService;
   final ApiService apiService;
-  
-  DeliveryOptionsViewModel({@required this.ukhesheService, 
-    @required this.order,
-    @required this.apiService});
+
+  DeliveryOptionsViewModel(
+      {@required this.ukhesheService,
+      @required this.order,
+      @required this.apiService});
 
   List<UserProfile> _messangers = [];
 
   List<UserProfile> get messangers => _messangers;
+
+  get allowedOrder => messangers.length > 0 || order.shippingData.type == ShippingType.COLLECTION;
 
   set messangers(List<UserProfile> messangers) {
     _messangers = messangers;
@@ -34,6 +37,10 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   ShippingType get shippingType => order.shippingData.type;
   set shippingType(ShippingType delivery) {
     order.shippingData.type = delivery;
+    if(!allowedOrder) {
+      errorMessage = "No drivers available on your area. Only collections are allowed";
+      hasError = true;
+    }
     notifyChanged();
   }
 
@@ -46,18 +53,23 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   get isDelivery => shippingType == ShippingType.DELIVERY;
 
   get businessHours {
-      var hours = order.shop.businessHours;
-      if(hours != null) return hours;
+    var hours = order.shop.businessHours;
+    if (hours != null) return hours;
 
-      hours = [
-        BusinessHours(Day.MONDAY, TimeOfDay(hour: 8, minute: 0), TimeOfDay(hour: 17, minute: 0)),
-        BusinessHours(Day.TUESDAY, TimeOfDay(hour: 8, minute: 0), TimeOfDay(hour: 17, minute: 0)),
-        BusinessHours(Day.WEDNESDAY, TimeOfDay(hour: 8, minute: 0), TimeOfDay(hour: 17, minute: 0)),
-        BusinessHours(Day.THURSDAY, TimeOfDay(hour: 8, minute: 0), TimeOfDay(hour: 17, minute: 0)),
-        BusinessHours(Day.FRIDAY, TimeOfDay(hour: 8, minute: 0), TimeOfDay(hour: 17, minute: 0)),
-      ];
-      return hours;
-    }
+    hours = [
+      BusinessHours(Day.MONDAY, TimeOfDay(hour: 8, minute: 0),
+          TimeOfDay(hour: 17, minute: 0)),
+      BusinessHours(Day.TUESDAY, TimeOfDay(hour: 8, minute: 0),
+          TimeOfDay(hour: 17, minute: 0)),
+      BusinessHours(Day.WEDNESDAY, TimeOfDay(hour: 8, minute: 0),
+          TimeOfDay(hour: 17, minute: 0)),
+      BusinessHours(Day.THURSDAY, TimeOfDay(hour: 8, minute: 0),
+          TimeOfDay(hour: 17, minute: 0)),
+      BusinessHours(Day.FRIDAY, TimeOfDay(hour: 8, minute: 0),
+          TimeOfDay(hour: 17, minute: 0)),
+    ];
+    return hours;
+  }
 
   TimeOfDay get arrivalTime => order.shippingData.pickUpTime;
 
@@ -69,53 +81,64 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   @override
   void initialize() {
     //shipping
-    apiService.findNearbyMessangers("")
-      .asStream()
-      .listen((messa) { 
-        messangers = messa;
-        order.shippingData.messenger = messangers[0];
-      });
-    order.shippingData.toAddress= order.customer.address;
+    Geolocator()
+        .placemarkFromAddress(order.customer.address)
+        .asStream()
+        .map((data) => data[0].position)
+        .asyncExpand((position) => apiService
+            .findNearbyMessangers(
+                position.latitude, position.longitude, Utils.rangeMap["15km"])
+            .asStream())
+        .listen((messa) {
+          messangers = messa;
+        });
+    order.shippingData.toAddress = order.customer.address;
     order.shippingData.type = ShippingType.COLLECTION;
     order.shippingData.fromAddress = order.shop.name;
     order.shippingData.fee = 0;
   }
 
   startOrder() {
+    if(!allowedOrder) {
+      errorMessage = "No drivers available on your area. Only collections are allowed";
+      hasError = true;
+      return;
+    }
     progressMv.isBusy = true;
-    apiService.startOrder(order)
-      .asStream()
-      .map((resp) {
-        order.id = resp.id;
-        order.date = resp.date;
-        order.hasVat = resp.hasVat;
-        order.serviceFee = resp.serviceFee;
-        order.shippingData.fee = resp.shippingData.fee;
-        order.description = "Payment from ${order.customer.mobileNumber}: order ${order.id}";
-      })
-      .asyncExpand((element) => ukhesheService.getAccountInformation().asStream())
-      .listen((customerResponse) {
-        availableBalance = customerResponse;
+    if(order.shippingData.type == ShippingType.DELIVERY) {
+      order.shippingData.messenger = messangers[0];
+    }
+    apiService
+        .startOrder(order)
+        .asStream()
+        .map((resp) {
+          order.id = resp.id;
+          order.date = resp.date;
+          order.hasVat = resp.hasVat;
+          order.serviceFee = resp.serviceFee;
+          order.shippingData.fee = resp.shippingData.fee;
+          order.description =
+              "Payment from ${order.customer.mobileNumber}: order ${order.id}";
+        })
+        .asyncExpand(
+            (element) => ukhesheService.getAccountInformation().asStream())
+        .listen((customerResponse) {
+          availableBalance = customerResponse;
 
-        BaseViewModel.analytics
-          .logEvent(
-            name: "order-init",
-            parameters: {
-              "shop" : order.shop.name,
-              "Delivery" : order.shippingData.type
-            })
-          .then((value) => {});
+          BaseViewModel.analytics.logEvent(name: "order-init", parameters: {
+            "shop": order.shop.name,
+            "Delivery": order.shippingData.type
+          }).then((value) => {});
 
-        Navigator.pushNamed(context, PaymentView.ROUTE_NAME, arguments: order);
-      }, 
-      onError: (handleError) {
-        hasError = true;
-        errorMessage = handleError.toString();
-        log("handleError", error: handleError);
-      },
-      onDone: () {
-        progressMv.isBusy = false;
-    });
+          Navigator.pushNamed(context, PaymentView.ROUTE_NAME,
+              arguments: order);
+        }, onError: (handleError) {
+          hasError = true;
+          errorMessage = handleError.toString();
+          log("handleError", error: handleError);
+        }, onDone: () {
+          progressMv.isBusy = false;
+        });
   }
 
   set availableBalance(CustomerInfoResponse value) {
@@ -123,10 +146,13 @@ class DeliveryOptionsViewModel extends BaseViewModel {
     print(order.customer.bank);
     print(order.customer.bank.currentBalance);
     order.customer.bank.currentBalance =
-      order.customer.bank.currentBalance == null? 0 : order.customer.bank.currentBalance;
+        order.customer.bank.currentBalance == null
+            ? 0
+            : order.customer.bank.currentBalance;
     order.customer.bank.availableBalance =
-      order.customer.bank.availableBalance == null? 0 : order.customer.bank.availableBalance;
+        order.customer.bank.availableBalance == null
+            ? 0
+            : order.customer.bank.availableBalance;
     notifyChanged();
   }
-  
 }

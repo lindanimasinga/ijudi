@@ -8,6 +8,7 @@ import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/all-components.dart';
 import 'package:ijudi/view/all-shops-view.dart';
 import 'package:ijudi/view/login-view.dart';
+import 'package:ijudi/view/messenger-orders.dart';
 import 'package:ijudi/view/my-shops.dart';
 import 'package:ijudi/view/order-history-view.dart';
 import 'package:ijudi/view/profile-view.dart';
@@ -24,6 +25,7 @@ class _MenuComponentState extends State<MenuComponent> with AutomaticKeepAliveCl
   
   StorageManager _storageManager;
   ProfileRoles _profileRole = ProfileRoles.CUSTOMER;
+  String _userId;
 
   @override
   bool get wantKeepAlive => true;
@@ -35,6 +37,7 @@ class _MenuComponentState extends State<MenuComponent> with AutomaticKeepAliveCl
     .then((value) {
       _storageManager = value;
       profileRole = _storageManager.profileRole;
+      _userId = _storageManager.getIjudiUserId();
     });
   }
 
@@ -58,27 +61,32 @@ class _MenuComponentState extends State<MenuComponent> with AutomaticKeepAliveCl
                             text : "Shop",
                             height: buttonHeight,
                             action : () => Navigator.pushNamedAndRemoveUntil(context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false)),
-                          Buttons.menuItem(
-                            text: "Profile",
+                          profileRole != ProfileRoles.MESSENGER ? Container() : Buttons.menuItem(
+                            text: "Collections",
                             height: buttonHeight,
-                            action : () => Navigator.pushNamedAndRemoveUntil(context, ProfileView.ROUTE_NAME, (Route<dynamic> route) => false)),
-                          profileRole != ProfileRoles.STORE_ADMIN ? Container() : Buttons.menuItem(
-                            text: "My Shop",
-                            height: buttonHeight,
-                            action : () => Navigator.pushNamedAndRemoveUntil(context, MyShopsView.ROUTE_NAME, (Route<dynamic> route) => false)),
+                            action : () => Navigator.pushNamedAndRemoveUntil(context, 
+                              MessengerOrdersView.ROUTE_NAME, (Route<dynamic> route) => false, arguments: _userId)),
                           Buttons.menuItem(
                             text: "Wallet",
                             height: buttonHeight,
-                          action : () => Navigator.pushNamedAndRemoveUntil(context, WalletView.ROUTE_NAME, (Route<dynamic> route) => false)),
+                            action : () => Navigator.pushNamedAndRemoveUntil(context, WalletView.ROUTE_NAME, (Route<dynamic> route) => false)),
                           Buttons.menuItem(
                             text: "Orders",
                             height: buttonHeight,
                             action : () => Navigator.pushNamedAndRemoveUntil(context, OrderHistoryView.ROUTE_NAME, (Route<dynamic> route) => false)),
+                          profileRole != ProfileRoles.STORE_ADMIN ? Container() : Buttons.menuItem(
+                            text: "My Shop & Orders",
+                            height: buttonHeight,
+                            action : () => Navigator.pushNamedAndRemoveUntil(context, MyShopsView.ROUTE_NAME, (Route<dynamic> route) => false)),
                           Buttons.menuItem(
+                            text: "Profile",
+                            height: buttonHeight,
+                            action : () => Navigator.pushNamedAndRemoveUntil(context, ProfileView.ROUTE_NAME, (Route<dynamic> route) => false)),
+                       /*  Buttons.menuItem(
                             text: "Settings",
                             height: buttonHeight,
                             action : () => Navigator.pushNamedAndRemoveUntil(context, AllComponentsView.ROUTE_NAME, (Route<dynamic> route) => false))
-                        ]
+                        */]
                       ),      
                 Buttons.accountFlat(text: "Logout", action: () {
                   SecureStorageManager.singleton()

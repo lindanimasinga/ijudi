@@ -10,10 +10,10 @@ class ForgotPasswordViewModel extends BaseViewModel {
   final UkhesheService ukhesheService;
   final StorageManager storageManager;
 
-  String mobileNumber;
-  String password;
-  String passwordConfirm;
-  String otpCode;
+  String mobileNumber = "";
+  String password  = "";
+  String passwordConfirm = "";
+  String otpCode = "";
   bool _otpVerified = false;
   bool _changeSucessful = false;
 

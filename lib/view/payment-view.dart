@@ -81,7 +81,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("A fee of 2% will be added for card topups", style: Forms.INPUT_TEXT_STYLE),
+                      Text("A fee of 2.5% will be added for card topups", style: Forms.INPUT_TEXT_STYLE),
                       Padding(padding: EdgeInsets.only(top: 8)),
                       Text("Your order costs R${viewModel.order.totalAmount}",
                           style: Forms.INPUT_TEXT_STYLE),

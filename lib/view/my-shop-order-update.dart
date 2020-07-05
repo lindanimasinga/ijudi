@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-form.dart';
@@ -49,13 +50,13 @@ class MyShopOrderUpdateView
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 8, left: 16),
                         child: Text(
-                            "Paid with : ${viewModel.order.paymentType}",
+                            "Paid with ${describeEnum(viewModel.order.paymentType)}",
                             style: IjudiStyles.HEADER_TEXT)),
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 32, left: 16),
                         child: Text(
-                            "Order is a: ${viewModel.order.shippingData.type}",
+                            "Order is a ${describeEnum(viewModel.order.shippingData.type)}",
                             style: IjudiStyles.HEADER_TEXT)),
                     Container(
                         margin: EdgeInsets.only(right: 16),

@@ -11,6 +11,8 @@ import 'package:ijudi/view/final-order-view.dart';
 import 'package:ijudi/view/forgot-password-view.dart';
 import 'package:ijudi/view/introduction-view.dart';
 import 'package:ijudi/view/login-view.dart';
+import 'package:ijudi/view/messenger-order-update.dart';
+import 'package:ijudi/view/messenger-orders.dart';
 import 'package:ijudi/view/my-shop-order-update.dart';
 import 'package:ijudi/view/my-shop-orders.dart';
 import 'package:ijudi/view/my-shops.dart';
@@ -32,6 +34,8 @@ import 'package:ijudi/viewmodel/delivery-option-view-model.dart';
 import 'package:ijudi/viewmodel/final-order-view-model.dart';
 import 'package:ijudi/viewmodel/forgot-password-view-model.dart';
 import 'package:ijudi/viewmodel/login-view-model.dart';
+import 'package:ijudi/viewmodel/messenger-order-update-view-model.dart';
+import 'package:ijudi/viewmodel/messenger-orders-view-model.dart';
 import 'package:ijudi/viewmodel/my-shop-order-update-view-model.dart';
 import 'package:ijudi/viewmodel/my-shops-view-model.dart';
 import 'package:ijudi/viewmodel/myshop-orders-view-model.dart';
@@ -171,12 +175,24 @@ class NavigatorService {
           shopId: args
         );
         return MaterialPageRoute(builder: (context) => MyShopOrdersView(viewModel: viewmodel));          
+      case MessengerOrdersView.ROUTE_NAME:
+        viewmodel = MessengerOrdersViewModel(
+          apiService: apiService,
+          messengerId: args
+        );
+        return MaterialPageRoute(builder: (context) => MessengerOrdersView(viewModel: viewmodel));          
       case MyShopOrderUpdateView.ROUTE_NAME:
         viewmodel = MyShopOrderUpdateViewModel(
           apiService: apiService,
           order: args
         );
         return MaterialPageRoute(builder: (context) => MyShopOrderUpdateView(viewModel: viewmodel));          
+      case MessengerOrderUpdateView.ROUTE_NAME:
+        viewmodel = MessengerOrderUpdateViewModel(
+          apiService: apiService,
+          order: args
+        );
+        return MaterialPageRoute(builder: (context) => MessengerOrderUpdateView(viewModel: viewmodel));          
       case WalletView.ROUTE_NAME:
         viewmodel = WalletViewModel(
           apiService: apiService,

@@ -8,6 +8,7 @@ import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/shop-component.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/all-shops-view-model.dart';
 
 class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
@@ -106,12 +107,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                                 ),
                                 onChanged: (String newValue) =>
                                     viewModel.radiusText = newValue,
-                                items: <String>[
-                                  '10km',
-                                  '15km',
-                                  '30km',
-                                  '1500km'
-                                ]
+                                items: Utils.rangeMap.keys
                                     .map((String value) =>
                                         DropdownMenuItem<String>(
                                           value: value,

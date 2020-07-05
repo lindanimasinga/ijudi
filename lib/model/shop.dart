@@ -25,6 +25,8 @@ class Shop extends Profile {
   bool featured;
   @JsonKey(fromJson: Utils.dateFromJson, toJson: Utils.dateToJson)
   DateTime featuredExpiry;
+  double latitude;
+  double longitude;
 
   Shop(
       {@required String id,

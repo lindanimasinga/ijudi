@@ -9,6 +9,13 @@ import 'package:intl/intl.dart';
 
 class Utils {
 
+  static final rangeMap = {
+    '10km' : 0.0666,
+    '15km' : 0.1,
+    '30km' : 0.2, 
+    '16500km': 110.0
+  };
+
   static final currencyFormatter = NumberFormat("#,##0.00");
 
   static double generateWaveNumber(int max) {

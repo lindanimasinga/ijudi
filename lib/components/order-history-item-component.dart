@@ -29,7 +29,7 @@ class OrderHistoryItemComponent extends StatelessWidget {
     OrderStage.STAGE_0_CUSTOMER_NOT_PAID: "Not Paid",
     OrderStage.STAGE_1_WAITING_STORE_CONFIRM: "Waiting Confirmation",
     OrderStage.STAGE_2_STORE_PROCESSING: "Processing",
-    OrderStage.STAGE_3_READY_FOR_COLLECTION: "Ready",
+    OrderStage.STAGE_3_READY_FOR_COLLECTION: "Ready For Collection",
     OrderStage.STAGE_4_ON_THE_ROAD: "Arriving",
     OrderStage.STAGE_5_ARRIVED: "Arrived",
     OrderStage.STAGE_6_WITH_CUSTOMER: "Delivered",

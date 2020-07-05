@@ -22,17 +22,25 @@ CustomerInfoResponse _$CustomerInfoResponseFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$CustomerInfoResponseToJson(
-        CustomerInfoResponse instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'phone': instance.phone,
-      'accountId': instance.accountId,
-      'customerId': instance.customerId,
-      'type': instance.type,
-      'currentBalance': instance.currentBalance,
-      'availableBalance': instance.availableBalance,
-      'email': instance.email,
-      'username': instance.username,
-      'idNumber': instance.idNumber,
-      'merchant': instance.merchant,
-    };
+    CustomerInfoResponse instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('phone', instance.phone);
+  writeNotNull('accountId', instance.accountId);
+  writeNotNull('customerId', instance.customerId);
+  writeNotNull('type', instance.type);
+  writeNotNull('currentBalance', instance.currentBalance);
+  writeNotNull('availableBalance', instance.availableBalance);
+  val['email'] = instance.email;
+  val['username'] = instance.username;
+  val['idNumber'] = instance.idNumber;
+  val['merchant'] = instance.merchant;
+  return val;
+}

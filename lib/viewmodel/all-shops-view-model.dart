@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/model/shop.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -17,14 +18,7 @@ class AllShopsViewModel extends BaseViewModel {
   List<Advert> _ads = [];
   Set<String> filters = HashSet();
   String _search = "";
-  var _radiusText = '1500km';
-
-  var rangeMap = {
-    '10km' : 0.0666,
-    '15km' : 0.1,
-    '30km' : 0.2, 
-    '1500km': 10.0
-  };
+  var _radiusText = '16500km';
 
   var geolocator = Geolocator();
   StreamSubscription locationStream;
@@ -58,7 +52,7 @@ class AllShopsViewModel extends BaseViewModel {
   }
 
   void loadData(String radius) {
-    var range = rangeMap[radiusText];
+    var range = Utils.rangeMap[radiusText];
     log("fetching location ");
     var lastPositionStream = geolocator.getLastKnownPosition();
     lastPositionStream.asStream()

@@ -9,12 +9,14 @@ class ScrollableParent extends StatelessWidget {
   final String title;
   final Color appBarColor;
   final bool hasDrawer;
+  final appBarPinned;
 
   ProfileRoles role;
 
   ScrollableParent({
       @required this.title,
       this.appBarColor,
+      this.appBarPinned = false,
       @required this.hasDrawer,
       @required this.child});
   
@@ -33,6 +35,8 @@ class ScrollableParent extends StatelessWidget {
             CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
+                    floating: true,
+                    pinned: appBarPinned,
                     iconTheme: IconThemeData(color: !isLight || appBarColor is Color ? Colors.white : Colors.black),
                     backgroundColor: appBarColor is Color  ? appBarColor : null,
                     title: Text(title, style: TextStyle(

@@ -18,7 +18,10 @@ class IJudiCard extends StatelessWidget {
       child: Card(
       color: color,
       elevation: elevation,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(25),
+        side: color == null ? BorderSide.none : BorderSide(color: color, width: 10)
+        ),
       child: Container(width: width, height: null, child: child),
     ));
   }

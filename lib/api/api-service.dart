@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'dart:developer' as logger;
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:ijudi/api/api-error-response.dart';
 import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/model/basket.dart';
 import 'package:ijudi/model/device.dart';
 import 'package:ijudi/model/order.dart';
+import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/stock.dart';
 import 'package:ijudi/model/userProfile.dart';
@@ -15,7 +17,7 @@ import 'package:ijudi/services/storage-manager.dart';
 
 class ApiService {
 
-  static const API_URL = "http://ec2co-ecsel-1b20jvvw3yfzt-2104564802.af-south-1.elb.amazonaws.com/";
+  static const API_URL = "http://192.168.1.205/";
   static const TIMEOUT_SEC = 20;
   final StorageManager storageManager;
 
@@ -72,7 +74,7 @@ class ApiService {
   Future<UserProfile> findUserByPhone(String phone) async {
 
     logger.log("finding user by phone $phone");
-    var event = await http.get('$API_URL/user?phone=$phone')
+    var event = await http.get('$API_URL/user/$phone')
             .timeout(Duration(seconds: TIMEOUT_SEC));
     if(event.statusCode != 200) {
       logger.log(event.statusCode.toString());
@@ -83,26 +85,27 @@ class ApiService {
     return UserProfile.fromJson(json.decode(event.body));
   }
 
-  Future<List<UserProfile>> findNearbyMessangers(String s) async {
-    var messagers = <UserProfile>[];
+  Future<UserProfile> findUserById(String id) async {
 
-    var messager1 = await findUserByPhone("0812815707");
-    messager1.name = "Sandile Ngema";
-    messager1.likes = 12;
-    messager1.responseTimeMinutes = 2 + Random().nextInt(13);
-    messager1.imageUrl =
-        "https://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/man-raising-hand-medium-dark-skin-tone.png";
-    messagers.add(messager1);
+    logger.log("finding user by id $id");
+    var event = await http.get('$API_URL/user/$id')
+            .timeout(Duration(seconds: TIMEOUT_SEC));
+    if(event.statusCode != 200) {
+      logger.log(event.statusCode.toString());
+      logger.log(event.body);
+      throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
+    }       
+    
+    return UserProfile.fromJson(json.decode(event.body));
+  }
 
-    var messager2 = await findUserByPhone("0812815707");
-    messager2.name = "Xolani Shezi";
-    messager2.likes = 12;
-    messager2.responseTimeMinutes = 2 + Random().nextInt(13);
-    messager2.imageUrl =
-        "https://i.pinimg.com/236x/5b/11/99/5b1199b7336b689439563863d8b911e1--black-fathers-father-christmas.jpg";
-    messagers.add(messager2);
-
-    return messagers;
+  Future<List<UserProfile>> findNearbyMessangers(double latitude, double longitude, double range) async {
+    var event = await http
+        .get('$API_URL/user?latitude=$latitude&longitude=$longitude&range=$range&role=${describeEnum(ProfileRoles.MESSENGER)}')
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
+    Iterable list = json.decode(event.body);
+    return list.map((f) => UserProfile.fromJson(f)).toList();
   }
 
   Future registerUser(UserProfile user) async {
@@ -281,5 +284,16 @@ class ApiService {
         .timeout(Duration(seconds: TIMEOUT_SEC));
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
     return event;
+  }
+
+  findOrdersByMessengerId(String messengerId) async {
+    logger.log("fetching all orders for messenger with id $messengerId");
+    var event = await http.get('$API_URL/order?messengerId=$messengerId')
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    logger.log(event.body);
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
+        
+    Iterable list = json.decode(event.body);
+    return list.map((f) => Order.fromJson(f)).toList();
   }
 }

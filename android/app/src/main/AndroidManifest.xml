@@ -25,6 +25,10 @@
         android:extractNativeLibs="false"
         android:label="iZinga"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBp-6oglDWlbTL1fomlsLVVIQnQsiL_JT8"/>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
