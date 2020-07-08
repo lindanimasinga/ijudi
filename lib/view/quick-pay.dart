@@ -186,10 +186,18 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
               ),
             ]), action: () {
       viewModel.topUp().onData((topUpData) {
-        showWebViewDialog(context,
-            header: Image.asset("assets/images/uKhese-logo.png", width: 100),
-            url: "${viewModel.baseUrl}${topUpData.completionUrl}",
-            doneAction: () => viewModel.fetchNewAccountBalances());
+        var subs = viewModel.checkTopUpSuccessul(topUpId: topUpData.topUpId, delay: 60);
+              subs.onDone(() {
+                Navigator.of(context).pop();
+                viewModel.fetchNewAccountBalances();
+               }); 
+              showWebViewDialog(context,
+               header: Image.asset("assets/images/uKhese-logo.png", width: 100),
+               url: "${viewModel.baseUrl}${topUpData.completionUrl}",
+               doneAction: () {
+                 viewModel.fetchNewAccountBalances();
+                 subs.cancel();
+               });
       });
     });
   }

@@ -197,6 +197,25 @@ class UkhesheService {
             InitTopUpResponse.fromJson(json.decode(response.body)) : throw(UkhesheErrorResponse.fromJson(json.decode(response.body)[0]).description);
   }
 
+  Future<InitTopUpResponse> getTopUp(int topupId) async {
+    
+    if(storageManager.hasTokenExpired) {
+      refreshToken();
+    }
+
+    Map<String, String> headers = {
+      "Content-type": "application/json",
+      "Authorization": storageManager.findUkhesheAccessToken()
+      };
+
+    var response = await http
+        .get('$apiUrl/topups/$topupId', headers: headers)
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+   
+    return response.statusCode == 200 ? 
+            InitTopUpResponse.fromJson(json.decode(response.body)) : throw(UkhesheErrorResponse.fromJson(json.decode(response.body)[0]).description);
+  }
+
   Future requestOpt(String mobileNumber) async {
 
     Map<String, String> headers = {

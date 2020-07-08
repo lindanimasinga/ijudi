@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:ijudi/util/topup-status-checker.dart';
 import 'package:ijudi/view/quick-payment-success.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
@@ -13,7 +14,7 @@ import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
-class QuickPayViewModel extends BaseViewModel {
+class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker{
   final ApiService apiService;
   final UkhesheService ukhesheService;
   final Shop shop;

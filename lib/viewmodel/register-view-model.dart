@@ -138,7 +138,7 @@ class RegisterViewModel extends BaseViewModel {
   }
 
   bool get allFieldsValid {
-    passwordValid = password != null && password.isNotEmpty && passwordConfirm == password;
+    passwordValid = password != null && password.isNotEmpty && (hasUkheshe || passwordConfirm == password);
     mobileNumberValid = mobileNumber != null && mobileNumber.isNotEmpty && Utils.validSANumber(mobileNumber);
     nameValid = name != null && name.isNotEmpty && name.length > 3;
     lastNameValid = lastname != null && lastname.isNotEmpty && lastname.length > 3;

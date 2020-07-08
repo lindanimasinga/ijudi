@@ -34,8 +34,9 @@ abstract class MvStatefulWidget<T extends BaseViewModel>
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          contentPadding: EdgeInsets.only(left: 0, top: 16),
+          contentPadding: EdgeInsets.only(left: 0, top: 0),
           titlePadding: EdgeInsets.only(left: 16, top: 16),
+          buttonPadding: EdgeInsets.only(top: 8, bottom: 16, right: 8),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),

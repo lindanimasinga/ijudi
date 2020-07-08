@@ -3,10 +3,11 @@ import 'dart:async';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/model/init-topup-response.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
+import 'package:ijudi/util/topup-status-checker.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:ijudi/model/profile.dart';
 
-class WalletViewModel extends BaseViewModel {
+class WalletViewModel extends BaseViewModel with TopTupStatusChecker{
 
   final ApiService apiService;
   final UkhesheService ukhesheService;
@@ -79,5 +80,4 @@ class WalletViewModel extends BaseViewModel {
        // progressMv.isBusy = false;
       });
   }
-
 }

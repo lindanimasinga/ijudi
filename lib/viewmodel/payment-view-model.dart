@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:ijudi/util/topup-status-checker.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
@@ -11,7 +12,7 @@ import 'package:ijudi/model/order.dart';
 import 'package:ijudi/view/final-order-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
-class PaymentViewModel extends BaseViewModel {
+class PaymentViewModel extends BaseViewModel with TopTupStatusChecker{
   
   final Order order;
   final ApiService apiService;
