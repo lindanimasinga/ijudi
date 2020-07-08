@@ -19,10 +19,11 @@ class AllShopsViewModel extends BaseViewModel {
   Set<String> filters = HashSet();
   String _search = "";
   var _radiusText = '16500km';
+  String locationDenied =
+      "Location Services is not enabled. Please enable location service in your device settings.";
 
   var geolocator = Geolocator();
   StreamSubscription locationStream;
-
 
   final ApiService apiService;
 
@@ -30,24 +31,28 @@ class AllShopsViewModel extends BaseViewModel {
 
   @override
   void initialize() {
-    var locationOptions = LocationOptions(
-        accuracy: LocationAccuracy.high, 
-        distanceFilter: 10);
+    var locationOptions =
+        LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
     //use last known location
-    //listen for location changes  
-    locationStream = geolocator.getLastKnownPosition().asStream()
-    .map((position) => loadData(radiusText))
+    //listen for location changes
+    locationStream = geolocator
+        .checkGeolocationPermissionStatus()
+        .asStream()
+        .map((status) {
+          if (status == GeolocationStatus.disabled ||
+              status == GeolocationStatus.denied) throw (locationDenied);
+        })
+        .asyncExpand((event) => geolocator.getLastKnownPosition().asStream())
+        .map((position) => loadData(radiusText))
         .asyncExpand((event) => geolocator.getPositionStream(locationOptions))
-        .listen((position) => loadData(radiusText)
-        , onDone: () {}, 
-        onError: (e) {
+        .listen((position) => loadData(radiusText), onDone: () {},
+            onError: (e) {
           log(e.toString());
-          if(e is PlatformException) {
+          if (e is PlatformException) {
             loadData(radiusText);
             return;
           }
-          hasError = true;
-          errorMessage = e.toString();
+          showError(messege: e.toString());
         });
   }
 
@@ -55,27 +60,32 @@ class AllShopsViewModel extends BaseViewModel {
     var range = Utils.rangeMap[radiusText];
     log("fetching location ");
     var lastPositionStream = geolocator.getLastKnownPosition();
-    lastPositionStream.asStream()
-    .asyncExpand((position) {
-          log("location is ${position.latitude} ${position.longitude}");
-          return Rx.merge([
-            apiService
-                .findFeaturedShopByLocation(position.latitude, position.longitude, range, 20)
-                .asStream()
-                .map((resp) => featuredShops = resp),
-            apiService
-                .findAllShopByLocation(position.latitude, position.longitude, range, 20)
-                .asStream()
-                .map((resp) => shops = resp),
-            apiService.findAllAdsByLocation(position.latitude, position.longitude, range, 20)
-                .asStream()
-                .map((resp) => ads = resp)
-          ]);
-    }).listen((resp) {
-      }, onDone: () {}, onError: (e) {
+    lastPositionStream.asStream().asyncExpand((position) {
+      log("location is ${position.latitude} ${position.longitude}");
+      return Rx.merge([
+        apiService
+            .findFeaturedShopByLocation(
+                position.latitude, position.longitude, range, 20)
+            .asStream()
+            .map((resp) => featuredShops = resp),
+        apiService
+            .findAllShopByLocation(
+                position.latitude, position.longitude, range, 20)
+            .asStream()
+            .map((resp) => shops = resp),
+        apiService
+            .findAllAdsByLocation(
+                position.latitude, position.longitude, range, 20)
+            .asStream()
+            .map((resp) => ads = resp)
+      ]);
+    }).listen((resp) {}, onDone: () {}, onError: (e) {
       log(e.toString());
-      hasError = true;
-      errorMessage = e.toString();
+      if (e is PlatformException) {
+        showError(messege: locationDenied);
+        return;
+      }
+      showError(messege: e.toString());
     });
   }
 

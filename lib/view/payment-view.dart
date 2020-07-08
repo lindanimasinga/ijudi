@@ -104,7 +104,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
             ]), action: () {
       viewModel.topUp().onData((topUpData) {
         showWebViewDialog(context,
-            header: Image.asset("assets/images/uKhese-logo.png", width: 20),
+            header: Image.asset("assets/images/uKhese-logo.png", width: 100),
             url: "${viewModel.baseUrl}${topUpData.completionUrl}",
             doneAction: () => viewModel.fetchNewAccountBalances());
       });

@@ -22,8 +22,10 @@ main() {
   .map((event) => sharedPref = event)
   .asyncExpand((event) => SecureStorageManager.singleton().asStream())
   .listen((storage)  {
-      var ukhesheService = UkhesheService(storage);
-      var apiService = ApiService(storage);
+      var ukhesheBaseURL = "https://ukheshe-sandbox.jini.rocks";
+      var iZingaApiUrl = "http://ec2co-ecsel-1b20jvvw3yfzt-2104564802.af-south-1.elb.amazonaws.com/";
+      var ukhesheService = UkhesheService(storageManager: storage, baseUrl: ukhesheBaseURL);
+      var apiService = ApiService(storageManager: storage, apiUrl: iZingaApiUrl);
       localNotifications = NotificationService(apiService: apiService);
       localNotifications.initialize().then((value) => print("notification initialized $value"));
       
@@ -48,7 +50,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context)  {
     return MaterialApp(
       title: 'iJudi',
-      debugShowCheckedModeBanner: true,
+      debugShowCheckedModeBanner: false,
       theme: JudiTheme().theme,
       darkTheme: JudiTheme().dark,
       initialRoute: IntroductionView.ROUTE_NAME,

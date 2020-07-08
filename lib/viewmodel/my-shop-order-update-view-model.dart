@@ -43,8 +43,7 @@ class MyShopOrderUpdateViewModel extends BaseViewModel {
             arguments: order.shopId);
       }
     }, onError: (e) {
-      hasError = true;
-      errorMessage = e.toString();
+      showError(messege: e.toString());
     }, onDone: () {
       progressMv.isBusy = false;
     });

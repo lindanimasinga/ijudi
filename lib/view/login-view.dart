@@ -136,7 +136,7 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                                     decoration: TextDecoration.underline,
                                     color: IjudiColors.color5))
                           ])),
-                          onTap: () => Utils.launchURL(context,
+                          onTap: () => Utils.launchURLInCustomeTab(context,
                               url:
                                   "https://www.iubenda.com/privacy-policy/83133872/legal")),
                     ),

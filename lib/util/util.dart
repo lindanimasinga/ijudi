@@ -70,7 +70,7 @@ class Utils {
     return pickupDate.toIso8601String();
   }
 
-  static void launchURL(BuildContext context, {String url}) async {
+  static void launchURLInCustomeTab(BuildContext context, {String url}) async {
     try {
       await launch(
         url,
@@ -94,6 +94,12 @@ class Utils {
     }
   }
 
+  static double availableHeight(BuildContext context) => (MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom);
+
+  static double calculationDialogMinHeight(BuildContext context) {
+    var height = availableHeight(context);
+    return height >= MediaQuery.of(context).size.height * 0.7 ? height * 0.7 : height;
+  }
   static bool isValidSAId(String id) {
     if (id == null) {
       return false;

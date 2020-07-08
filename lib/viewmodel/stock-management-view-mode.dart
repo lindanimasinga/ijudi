@@ -23,8 +23,7 @@ class StockManagementViewModel extends BaseViewModel {
     .listen((resp) {
         stocks = resp;
     }, onError: (e) {
-      hasError = true;
-      errorMessage = e.toString();
+      showError(messege: e.toString());
     }, onDone: () {
       
     });  
@@ -47,8 +46,7 @@ class StockManagementViewModel extends BaseViewModel {
           stocks.add(stock);
           notifyChanged();
         }, onError: (e) {
-          hasError = true;
-          errorMessage = e.toString();
+              showError(messege: e.toString());
         }, onDone: () {
           progressMv.isBusy = false;
         });

@@ -38,8 +38,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   set shippingType(ShippingType delivery) {
     order.shippingData.type = delivery;
     if(!allowedOrder) {
-      errorMessage = "No drivers available on your area. Only collections are allowed";
-      hasError = true;
+      showError(messege: "No drivers available on your area. Only collections are allowed");
     }
     notifyChanged();
   }
@@ -100,8 +99,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
 
   startOrder() {
     if(!allowedOrder) {
-      errorMessage = "No drivers available on your area. Only collections are allowed";
-      hasError = true;
+      showError(messege : "No drivers available on your area. Only collections are allowed");
       return;
     }
     progressMv.isBusy = true;
@@ -133,8 +131,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
           Navigator.pushNamed(context, PaymentView.ROUTE_NAME,
               arguments: order);
         }, onError: (handleError) {
-          hasError = true;
-          errorMessage = handleError.toString();
+          showError(messege : handleError.toString());
           log("handleError", error: handleError);
         }, onDone: () {
           progressMv.isBusy = false;

@@ -122,8 +122,7 @@ class LoginViewModel extends BaseViewModel with TickerProviderStateMixin{
         Navigator.pushNamedAndRemoveUntil(
             context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false);
     }, onError: (handleError) {
-      hasError = true;
-      errorMessage = handleError.toString();
+      showError(messege: handleError.toString());
       //log(handleError);
     }, onDone: () {
       progressMv.isBusy = false;

@@ -55,4 +55,9 @@ abstract class BaseViewModel extends State {
 
   notifyChanged() => setState(() {});
 
+  void showError({String messege}) {
+    errorMessage = messege;
+    hasError = true;
+  }
+
 }

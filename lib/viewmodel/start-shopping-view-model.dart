@@ -41,8 +41,7 @@ class StartShoppingViewModel extends BaseViewModel {
       .listen((resp) {
         stocks = resp;
       }, onError: (e) {
-        hasError = true;
-        errorMessage = e.toString(); 
+          showError(messege: e.toString()); 
       }, onDone: () {
 
       });
@@ -99,8 +98,7 @@ class StartShoppingViewModel extends BaseViewModel {
         arguments: order);
     },
     onError: (e) {
-      hasError = true;
-      errorMessage = e.toString();
+      showError(messege: e.toString());
     },
     onDone: () => progressMv.isBusy = false);
   }

@@ -11,17 +11,22 @@ import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/quick-pay-view-model.dart';
 
 class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
+  
   static const String ROUTE_NAME = "quick-pay";
+  final formKey = GlobalKey();
 
   QuickPayView({QuickPayViewModel viewModel}) : super(viewModel);
+
+  @override
+  void initialize() {
+    Future.delayed(Duration(seconds: 2)).then((value) => Scrollable.ensureVisible(formKey.currentContext));
+  }
 
   @override
   Widget build(BuildContext context) {
 
     var colorPickCount = 0;
-    var formKey = GlobalKey();
     List<Widget> tagsComponents = [];
-    Future.delayed(Duration(seconds: 2)).then((value) => Scrollable.ensureVisible(formKey.currentContext));
 
     for (var filterName in viewModel.shop.tags) {
         var color = BreadCrumb.statusColors[colorPickCount++];
@@ -121,7 +126,7 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
                         hint: "Amount",
                         autofillHints: [AutofillHints.transactionAmount],
                         text: "${viewModel.payAmount}",
-                        type: TextInputType.text,
+                        type: TextInputType.numberWithOptions(decimal: true),
                         onTap: (value) => viewModel.payAmount = double.parse(value),
                       ),
                       IjudiInputField(
@@ -182,7 +187,7 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
             ]), action: () {
       viewModel.topUp().onData((topUpData) {
         showWebViewDialog(context,
-            header: Image.asset("assets/images/uKhese-logo.png", width: 20),
+            header: Image.asset("assets/images/uKhese-logo.png", width: 100),
             url: "${viewModel.baseUrl}${topUpData.completionUrl}",
             doneAction: () => viewModel.fetchNewAccountBalances());
       });

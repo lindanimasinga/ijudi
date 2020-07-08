@@ -20,8 +20,7 @@ class MyShopsViewModel extends BaseViewModel {
         shops = shp;
       }
       ,onError: (e) {
-        hasError = true;
-        errorMessage = e.toString();
+          showError(messege: e.toString());
       });
   }
 

@@ -17,8 +17,7 @@ class MessengerOrdersViewModel extends BaseViewModel {
     .listen((respo) {
       orders = respo;
     }, onError: (e) {
-      hasError = true;
-      errorMessage = e.toString();
+      showError(messege: e.toString());
     }, onDone: () {
     });
   }

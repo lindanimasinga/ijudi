@@ -33,7 +33,7 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
                 children: [
                   WalletCard(
                     wallet: viewModel.wallet,
-                    onTopUp: () => _showLowBalanceMessage(context)),
+                    onTopUp: () => _showTopBalanceMessage(context)),
                   Container(
                     margin: EdgeInsets.only(top: 48, left: 16, right: 16),
                     alignment: Alignment.topLeft,
@@ -59,7 +59,7 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
                             ]
                           )
                         ),
-                        onTap: () => Utils.launchURL(context, url: viewModel.visitUrl)
+                        onTap: () => Utils.launchURLInCustomeTab(context, url: viewModel.visitUrl)
                       ),
                       Padding(padding: EdgeInsets.only(top: 8)),
                       InkWell(
@@ -70,7 +70,7 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
                             ]
                           )
                         ),
-                        onTap: () => Utils.launchURL(context, url: "https://www.ukheshe.co.za/terms-and-conditions")
+                        onTap: () => Utils.launchURLInCustomeTab(context, url: "https://www.ukheshe.co.za/terms-and-conditions")
                       ),
                     ],
                   )
@@ -84,7 +84,7 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
     );
   }
 
-  _showLowBalanceMessage(BuildContext context) {
+  _showTopBalanceMessage(BuildContext context) {
     showMessageDialog(
         context,
         title: "Account TopUp",
@@ -119,7 +119,7 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
             .onData((topUpData) {
               //_launchURL(context);
               showWebViewDialog(context,
-               header: Image.asset("assets/images/uKhese-logo.png", width: 20),
+               header: Image.asset("assets/images/uKhese-logo.png", width: 100),
                url: "${viewModel.baseUrl}${topUpData.completionUrl}",
                doneAction: () => viewModel.fetchNewAccountBalances());
             });

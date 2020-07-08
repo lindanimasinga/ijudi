@@ -49,8 +49,7 @@ class ForgotPasswordViewModel extends BaseViewModel {
 
   requestPasswordReset() {
     if(mobileNumber.length != 10) {
-      hasError = true;
-      errorMessage = "Mobile number is not valid.";
+      showError(messege: "Mobile number is not valid.");
       return;
     }
 
@@ -64,8 +63,7 @@ class ForgotPasswordViewModel extends BaseViewModel {
     .then((value) => null);
 
     }, onError: (e) {
-      hasError = true;
-      errorMessage = e.toString();
+      showError(messege: e.toString());
 
       BaseViewModel.analytics
       .logEvent(name: "forgot-password-error")
@@ -83,14 +81,12 @@ class ForgotPasswordViewModel extends BaseViewModel {
   void passwordReset() {
 
     if(mobileNumber.length != 10) {
-      hasError = true;
-      errorMessage = "Mobile number is not valid.";
+      showError(messege: "Mobile number is not valid.");
       return;
     }
 
     if(password != passwordConfirm) {
-      hasError = true;
-      errorMessage = "Your confirm password does not match";
+      showError(messege: "Your confirm password does not match");
     }
 
     progressMv.isBusy = true;
@@ -106,7 +102,7 @@ class ForgotPasswordViewModel extends BaseViewModel {
       Future.delayed(Duration(seconds: 2))
       .then((value) => Navigator.pop(context));
     }, onError: (e) {
-      errorMessage = e.toString();
+      showError(messege: e.toString());
       hasError = true;
     }, onDone:() {
       progressMv.isBusy = false;

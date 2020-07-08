@@ -21,8 +21,7 @@ class ProfileViewModel  extends BaseViewModel {
     .listen((wallet) { 
       userProfile.bank = wallet;
     }, onError: (e) {
-      hasError = true;
-      errorMessage = e.toString();
+      showError(messege: e.toString());
       });
   }
 

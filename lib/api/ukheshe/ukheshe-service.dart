@@ -16,13 +16,13 @@ import 'model/payment-response.dart';
 class UkhesheService {
   
   static const TIMEOUT_SEC = 20;
-  static String baseURL = "https://ukheshe-sandbox.jini.rocks";
-  static String apiUrl = "$baseURL/ukheshe-conductor/rest/v1";
+  final String baseUrl;
+  final String apiUrl;
   static Map<String, String> headers = {"Content-Type": "application/json"};
   
   final StorageManager storageManager;
 
-  UkhesheService(this.storageManager);
+  UkhesheService({this.storageManager, this.baseUrl}) : apiUrl = "$baseUrl/ukheshe-conductor/rest/v1";
 
   bool get isLoggedIn => storageManager.findUkhesheAccessToken() != null;
 

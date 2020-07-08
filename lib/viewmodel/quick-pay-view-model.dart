@@ -47,13 +47,12 @@ class QuickPayViewModel extends BaseViewModel {
           order.basket = Basket();
           order.description = "Payment from ${order.customer.mobileNumber}";
         }, onError: (e) {
-            hasError = true;
-            errorMessage = e.toString();
+                  showError(messege: e.toString());
         },
          onDone: () {});
   }
 
-  String get baseUrl => UkhesheService.baseURL;
+  String get baseUrl => ukhesheService.baseUrl;
   
   Bank get wallet => _wallet;
   set wallet(Bank wallet) {
@@ -88,8 +87,7 @@ class QuickPayViewModel extends BaseViewModel {
               arguments: order);
       }, onError: (e) {
         clearOrder();
-        hasError = true;
-        errorMessage = e.toString();
+          showError(messege: e.toString());
 
         BaseViewModel.analytics
           .logEvent(
@@ -149,7 +147,7 @@ class QuickPayViewModel extends BaseViewModel {
       }).listen(null);
 
     subscr.onError((error) {
-      errorMessage = error.toString();
+      showError(messege: error.toString());
       clearOrder();
       hasError = true;
     });

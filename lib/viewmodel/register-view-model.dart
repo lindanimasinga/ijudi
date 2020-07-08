@@ -78,8 +78,7 @@ class RegisterViewModel extends BaseViewModel {
       Navigator.pushNamedAndRemoveUntil(
           context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false);
     }, onError: (e) {
-      hasError = true;
-      errorMessage = e.toString();
+      showError(messege: e.toString());
     }, onDone: () {
       progressMv.isBusy = false;
     });
@@ -114,8 +113,7 @@ class RegisterViewModel extends BaseViewModel {
       Navigator.pushNamedAndRemoveUntil(
           context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false);
     }, onError: (e) {
-      hasError = true;
-      errorMessage = e.toString();
+      showError(messege: e.toString());
 
       BaseViewModel.analytics.logEvent(name: "signup-error", parameters: {
         "error": e.toString(),
@@ -130,8 +128,7 @@ class RegisterViewModel extends BaseViewModel {
     progressMv.isBusy = true;
     ukhesheService.requestOpt(mobileNumber).asStream().listen((event) {},
         onError: (e) {
-          hasError = true;
-          errorMessage = e.toString();
+              showError(messege: e.toString());
         },
         onDone: () => progressMv.isBusy = false);
   }

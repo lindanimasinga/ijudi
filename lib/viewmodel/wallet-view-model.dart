@@ -31,8 +31,7 @@ class WalletViewModel extends BaseViewModel {
       .listen((data) {
         this.wallet = data;
       },onError: (e) {
-      hasError = true;
-      errorMessage = e.toString();
+      showError(messege: e.toString());
       });
   }
 
@@ -43,7 +42,7 @@ class WalletViewModel extends BaseViewModel {
     notifyChanged();
   }
 
-  String get baseUrl => UkhesheService.baseURL;
+  String get baseUrl => ukhesheService.baseUrl;
 
   StreamSubscription<InitTopUpResponse> topUp() {
     //progressMv.isBusy = true;
@@ -56,8 +55,7 @@ class WalletViewModel extends BaseViewModel {
     });
 
     sub.onError((e) {
-      hasError = true;
-      errorMessage = e.toString();
+      showError(messege: e.toString());
       
       BaseViewModel.analytics
       .logEvent(name: "ukheshe-topup-loading-webview-error")
@@ -75,8 +73,7 @@ class WalletViewModel extends BaseViewModel {
       .listen((resp) {
         wallet = resp;
       },onError: (e) {
-      hasError = true;
-      errorMessage = e.toString();
+      showError(messege: e.toString());
       },
       onDone: () {
        // progressMv.isBusy = false;

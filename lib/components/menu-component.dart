@@ -57,15 +57,15 @@ class _MenuComponentState extends State<MenuComponent> with AutomaticKeepAliveCl
                 children: <Widget>[
                   Buttons.menu(
                         children: <Widget> [
-                          Buttons.menuItem(
-                            text : "Shop",
-                            height: buttonHeight,
-                            action : () => Navigator.pushNamedAndRemoveUntil(context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false)),
                           profileRole != ProfileRoles.MESSENGER ? Container() : Buttons.menuItem(
                             text: "Collections",
                             height: buttonHeight,
                             action : () => Navigator.pushNamedAndRemoveUntil(context, 
                               MessengerOrdersView.ROUTE_NAME, (Route<dynamic> route) => false, arguments: _userId)),
+                          Buttons.menuItem(
+                            text : "Shop",
+                            height: buttonHeight,
+                            action : () => Navigator.pushNamedAndRemoveUntil(context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false)),
                           Buttons.menuItem(
                             text: "Wallet",
                             height: buttonHeight,

@@ -39,7 +39,7 @@ class PaymentViewModel extends BaseViewModel {
 
   bool get isBalanceLow => order.customer.bank.availableBalance < order.totalAmount;
 
-  String get baseUrl => UkhesheService.baseURL;
+  String get baseUrl => ukhesheService.baseUrl;
 
   String get collectionInstructions => "Please produce your order number ${order.id} when collecting your order at ${order.shop.name}. Contact Number : ${order.shop.mobileNumber}";
 
@@ -106,8 +106,7 @@ class PaymentViewModel extends BaseViewModel {
             (Route<dynamic> route) => false,
             arguments: order);
       }, onError: (e) {
-        hasError = true;
-        errorMessage = e.toString();
+          showError(messege: e.toString());
 
         BaseViewModel.analytics
         .logEvent(

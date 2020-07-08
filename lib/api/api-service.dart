@@ -17,11 +17,11 @@ import 'package:ijudi/services/storage-manager.dart';
 
 class ApiService {
 
-  static const API_URL = "http://192.168.1.205/";
+  final apiUrl;
   static const TIMEOUT_SEC = 20;
   final StorageManager storageManager;
 
-  ApiService(this.storageManager);
+  ApiService({this.storageManager, this.apiUrl});
 
   get currentUserPhone => storageManager.mobileNumber;
 
@@ -29,7 +29,7 @@ class ApiService {
   
   Future<List<Shop>> findAllShopByLocation(double latitude, double longitude, double rage, int size) async {
     logger.log("fetching all shops");
-    var event = await http.get('$API_URL/store?latitude=$latitude&longitude=$longitude&range=$rage&size=$size')
+    var event = await http.get('$apiUrl/store?latitude=$latitude&longitude=$longitude&range=$rage&size=$size')
         .timeout(Duration(seconds: TIMEOUT_SEC));
 
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
@@ -40,7 +40,7 @@ class ApiService {
 
     Future<List<Shop>> findFeaturedShopByLocation(double latitude, double longitude, double rage, int size) async {
       logger.log("fetching fetured shops");
-      var event = await http.get('$API_URL/store?featured=true&latitude=$latitude&longitude=$longitude&range=$rage&size=$size')
+      var event = await http.get('$apiUrl/store?featured=true&latitude=$latitude&longitude=$longitude&range=$rage&size=$size')
           .timeout(Duration(seconds: TIMEOUT_SEC));
 
       if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
@@ -52,7 +52,7 @@ class ApiService {
   Future<List<Stock>> findAllStockByShopId(String id) async {
 
     logger.log("fetching stock shops");
-      var event = await http.get('$API_URL/store/$id/stock')
+      var event = await http.get('$apiUrl/store/$id/stock')
           .timeout(Duration(seconds: TIMEOUT_SEC));
 
       if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
@@ -63,7 +63,7 @@ class ApiService {
 
   Future<Shop> findShopById(String id) async {
     logger.log("fetching fetured shops");
-    var event = await http.get('$API_URL/store/$id')
+    var event = await http.get('$apiUrl/store/$id')
           .timeout(Duration(seconds: TIMEOUT_SEC));
           
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
@@ -74,7 +74,7 @@ class ApiService {
   Future<UserProfile> findUserByPhone(String phone) async {
 
     logger.log("finding user by phone $phone");
-    var event = await http.get('$API_URL/user/$phone')
+    var event = await http.get('$apiUrl/user/$phone')
             .timeout(Duration(seconds: TIMEOUT_SEC));
     if(event.statusCode != 200) {
       logger.log(event.statusCode.toString());
@@ -88,7 +88,7 @@ class ApiService {
   Future<UserProfile> findUserById(String id) async {
 
     logger.log("finding user by id $id");
-    var event = await http.get('$API_URL/user/$id')
+    var event = await http.get('$apiUrl/user/$id')
             .timeout(Duration(seconds: TIMEOUT_SEC));
     if(event.statusCode != 200) {
       logger.log(event.statusCode.toString());
@@ -101,7 +101,7 @@ class ApiService {
 
   Future<List<UserProfile>> findNearbyMessangers(double latitude, double longitude, double range) async {
     var event = await http
-        .get('$API_URL/user?latitude=$latitude&longitude=$longitude&range=$range&role=${describeEnum(ProfileRoles.MESSENGER)}')
+        .get('$apiUrl/user?latitude=$latitude&longitude=$longitude&range=$range&role=${describeEnum(ProfileRoles.MESSENGER)}')
         .timeout(Duration(seconds: TIMEOUT_SEC));
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
     Iterable list = json.decode(event.body);
@@ -116,7 +116,7 @@ class ApiService {
     var request = json.encode(user);
     logger.log(request);
     var event = await http
-        .post('$API_URL/user', headers: headers, body: request)
+        .post('$apiUrl/user', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
     user = UserProfile.fromJson(json.decode(event.body));
@@ -131,7 +131,7 @@ class ApiService {
   Future<List<Advert>> findAllAdsByLocation(double latitude, double longitude, double rage, int size) async {
       
       logger.log("fetching fetured Ads");
-      var event = await http.get('$API_URL/promotion')
+      var event = await http.get('$apiUrl/promotion')
           .timeout(Duration(seconds: TIMEOUT_SEC));
 
       if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
@@ -148,7 +148,7 @@ class ApiService {
     var request = json.encode(shop);
     logger.log(request);
     var event = await http
-        .patch('$API_URL/store/${shop.id}', headers: headers, body: request)
+        .patch('$apiUrl/store/${shop.id}', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
     return event.body;
@@ -163,7 +163,7 @@ class ApiService {
 
     var request = json.encode(stock);
     print(request);
-    var event = await http.patch('$API_URL/store/$id/stock', headers: headers, body: request, )
+    var event = await http.patch('$apiUrl/store/$id/stock', headers: headers, body: request, )
         .timeout(Duration(seconds: TIMEOUT_SEC));
 
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
@@ -180,7 +180,7 @@ class ApiService {
     var request = json.encode(order);
     print(request);
     var event = await http
-        .post('$API_URL/order', headers: headers, body: request)
+        .post('$apiUrl/order', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
     logger.log(event.body);
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
@@ -197,7 +197,7 @@ class ApiService {
     logger.log("Try 1");
     await Future.delayed(Duration(seconds: 3));
     var event = await http
-        .patch('$API_URL/order/${order.id}', headers: headers, body: request)
+        .patch('$apiUrl/order/${order.id}', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
     logger.log(event.body);
 
@@ -206,7 +206,7 @@ class ApiService {
     if(event.statusCode != 200){
        logger.log("Try 2");
        event = await http
-        .patch('$API_URL/order/${order.id}', headers: headers, body: request)
+        .patch('$apiUrl/order/${order.id}', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
       logger.log(event.body);
     }
@@ -217,7 +217,7 @@ class ApiService {
 
   Future<List<Order>> findOrdersByPhoneNumber(String phone) async {
     logger.log("fetching all orders for customer phone number $phone");
-    var event = await http.get('$API_URL/order?phone=$phone')
+    var event = await http.get('$apiUrl/order?phone=$phone')
         .timeout(Duration(seconds: TIMEOUT_SEC));
     logger.log(event.body);
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
@@ -228,7 +228,7 @@ class ApiService {
 
   Future<List<Shop>> findShopByOwnerId(String ownerId) async {
         logger.log("fetching owner shops");
-    var event = await http.get('$API_URL/store?ownerId=$ownerId')
+    var event = await http.get('$apiUrl/store?ownerId=$ownerId')
           .timeout(Duration(seconds: TIMEOUT_SEC));
           
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
@@ -239,7 +239,7 @@ class ApiService {
 
   Future<List<Order>> findOrdersByShopId(String id) async {
     logger.log("fetching all orders for shope with id $id");
-    var event = await http.get('$API_URL/order?storeId=$id')
+    var event = await http.get('$apiUrl/order?storeId=$id')
         .timeout(Duration(seconds: TIMEOUT_SEC));
     logger.log(event.body);
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
@@ -249,7 +249,7 @@ class ApiService {
   }
 
   Future<Order> progressOrderNextStage(String id) async {
-    var event = await http.get('$API_URL/order/$id/nextstage')
+    var event = await http.get('$apiUrl/order/$id/nextstage')
         .timeout(Duration(seconds: TIMEOUT_SEC));
     logger.log(event.body);
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
@@ -264,7 +264,7 @@ class ApiService {
     var request = json.encode(device);
     logger.log(request);
     var event = await http
-        .post('$API_URL/device', headers: headers, body: request)
+        .post('$apiUrl/device', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
     device = Device.fromJson(json.decode(event.body));
@@ -280,7 +280,7 @@ class ApiService {
     var request = json.encode(device);
     logger.log(request);
     var event = await http
-        .patch('$API_URL/device/${device.id}', headers: headers, body: request)
+        .patch('$apiUrl/device/${device.id}', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);
     return event;
@@ -288,7 +288,7 @@ class ApiService {
 
   findOrdersByMessengerId(String messengerId) async {
     logger.log("fetching all orders for messenger with id $messengerId");
-    var event = await http.get('$API_URL/order?messengerId=$messengerId')
+    var event = await http.get('$apiUrl/order?messengerId=$messengerId')
         .timeout(Duration(seconds: TIMEOUT_SEC));
     logger.log(event.body);
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     

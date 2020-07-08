@@ -227,7 +227,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                                     decoration: TextDecoration.underline,
                                     color: Colors.blue))
                           ])),
-                          onTap: () => Utils.launchURL(context,
+                          onTap: () => Utils.launchURLInCustomeTab(context,
                               url:
                                   "https://www.iubenda.com/privacy-policy/83133872/legal")),
                     ),
@@ -242,7 +242,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                                     decoration: TextDecoration.underline,
                                     color: Colors.blue))
                           ])),
-                          onTap: () => Utils.launchURL(context,
+                          onTap: () => Utils.launchURLInCustomeTab(context,
                               url:
                                   "https://www.ukheshe.co.za/terms-and-conditions")),
                     ),
