@@ -27,7 +27,7 @@ class FinalOrderViewModel extends BaseViewModel {
       .asStream()
       .listen((shp) => shop = shp
       ,onError: (e) {
-          showError(messege: e.toString());
+          showError(error: e);
       });
 
     if(order.shop != null) {

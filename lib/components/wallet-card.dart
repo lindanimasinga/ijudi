@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/ijudi-card.dart';
+import 'package:ijudi/config.dart';
 import 'package:ijudi/model/profile.dart';
+import 'package:ijudi/util/message-dialogs.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/tranasction-history-view.dart';
 
-class WalletCard extends StatelessWidget {
+class WalletCard extends StatelessWidget with MessageDialogs {
   final Bank wallet;
   final Function onTopUp;
+
+  final String depositMessage = "";
 
   const WalletCard({@required this.wallet, this.onTopUp});
 
   @override
   Widget build(BuildContext context) {
+    var config = Config.currentConfig;
     return IJudiCard(
         child: Container(
       margin: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 16),
@@ -60,8 +65,7 @@ class WalletCard extends StatelessWidget {
                     IconButton(
                         iconSize: 32,
                         icon: Icon(Icons.add_circle, color: IjudiColors.color4),
-                        onPressed: () => onTopUp()
-                    ),
+                        onPressed: () => onTopUp()),
                     Text("TopUp", style: IjudiStyles.CARD_ICON_BUTTON)
                   ],
                 ),
@@ -73,7 +77,11 @@ class WalletCard extends StatelessWidget {
                         iconSize: 32,
                         icon: Icon(Icons.monetization_on,
                             color: IjudiColors.color3),
-                        onPressed: null),
+                        onPressed: () => onDeposit(context,
+                            nedbankAccount:
+                                config.depositingNedBankAccountNumber,
+                            fnbAccount: config.depositingFnbBankAccountNumber,
+                            ukhesheAccount: wallet.accountId)),
                     Text("Deposit", style: IjudiStyles.CARD_ICON_BUTTON)
                   ],
                 ),
@@ -84,7 +92,7 @@ class WalletCard extends StatelessWidget {
                     IconButton(
                         iconSize: 32,
                         icon: Icon(Icons.money_off, color: IjudiColors.color2),
-                        onPressed: null),
+                        onPressed: () => onWithdraw()),
                     Text("Withdraw", style: IjudiStyles.CARD_ICON_BUTTON)
                   ],
                 ),
@@ -94,9 +102,10 @@ class WalletCard extends StatelessWidget {
                   children: <Widget>[
                     IconButton(
                         iconSize: 32,
-                        icon: Icon(Icons.list,
-                            color: IjudiColors.color1),
-                        onPressed: () => Navigator.pushNamed(context, TransactionHistoryView.ROUTE_NAME, arguments: wallet)),
+                        icon: Icon(Icons.list, color: IjudiColors.color1),
+                        onPressed: () => Navigator.pushNamed(
+                            context, TransactionHistoryView.ROUTE_NAME,
+                            arguments: wallet)),
                     Text("Transactions", style: IjudiStyles.CARD_ICON_BUTTON)
                   ],
                 )
@@ -105,4 +114,52 @@ class WalletCard extends StatelessWidget {
           ]),
     ));
   }
+
+  onDeposit(BuildContext context,
+      {@required String nedbankAccount,
+      @required String fnbAccount,
+      @required String ukhesheAccount}) {
+    final Brightness brightnessValue =
+        MediaQuery.of(context).platformBrightness;
+    bool isLight = brightnessValue == Brightness.light;
+    var style = isLight ? IjudiStyles.DIALOG_DARK : IjudiStyles.DIALOG_WHITE;
+    var styleBold =
+        isLight ? IjudiStyles.DIALOG_DARK_BOLD : IjudiStyles.DIALOG_WHITE_BOLD;
+    var importantText = IjudiStyles.DIALOG_IMPORTANT_TEXT;
+    showMessageDialog(context,
+        child: Container(
+            margin: EdgeInsets.only(left: 16, right: 16, top: 16),
+            child: RichText(
+                strutStyle: StrutStyle.fromTextStyle(style),
+                text: TextSpan(children: [
+                  TextSpan(text: "Deposit cash at the ", style: style),
+                  TextSpan(
+                      text: "Nedbank ATM into account number ",
+                      style: styleBold),
+                  TextSpan(
+                    text: "$nedbankAccount",
+                    style: importantText,
+                  ),
+                  TextSpan(
+                      text:
+                          " or deposit cash at the",
+                      style: style),
+                  TextSpan(
+                      text:
+                          " FNB ATM into account number ",
+                      style: styleBold),    
+                  TextSpan(text: "$fnbAccount", style: importantText),
+                  TextSpan(text: ". Use", style: style),
+                  TextSpan(text: " $ukhesheAccount", style: importantText),
+                  TextSpan(text: " as your reference.", style: styleBold),
+                  TextSpan(
+                      text:
+                          "\n\nMake sure the reference number entered is correct for the funds to reflect immediately on your account.",
+                      style: style),
+                ]))),
+        title: "Deposit",
+        cancel: () => {});
+  }
+
+  onWithdraw() {}
 }

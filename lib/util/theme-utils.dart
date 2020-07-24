@@ -394,6 +394,39 @@ class IjudiStyles {
     color: IjudiColors.color5
   );
 
+  static const DIALOG_WHITE = TextStyle(
+    fontSize: 16,
+    fontFamily: "Roboto",
+    color: Colors.white
+  );
+
+    static const DIALOG_WHITE_BOLD = TextStyle(
+    fontSize: 16,
+    fontFamily: "Roboto",
+    fontWeight: FontWeight.w500,
+    color: Colors.white
+  );
+
+  static const DIALOG_IMPORTANT_TEXT = TextStyle(
+        fontSize: 16,
+    fontFamily: "Roboto",
+    fontWeight: FontWeight.w500,
+    color: IjudiColors.color2
+  );
+
+    static const DIALOG_DARK_BOLD = TextStyle(
+        fontSize: 16,
+    fontFamily: "Roboto",
+    fontWeight: FontWeight.w500,
+    color: IjudiColors.color5
+  );
+
+  static const DIALOG_DARK = TextStyle(
+        fontSize: 16,
+    fontFamily: "Roboto",
+    color: IjudiColors.color5
+  );
+
   static const CARD_DISCR_ITAL = TextStyle(
     fontSize: 16,
     fontFamily: "Roboto",

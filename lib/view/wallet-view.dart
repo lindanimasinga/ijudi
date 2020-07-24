@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
+import 'package:ijudi/api/ukheshe/model/init-topup-response.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
@@ -110,7 +114,7 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
                   autofillHints: [AutofillHints.transactionAmount],
                   type: TextInputType.numberWithOptions(decimal: true),
                   text: viewModel.topupAmount,
-                  onTap: (value) => viewModel.topupAmount = value,
+                  onChanged: (value) => viewModel.topupAmount = value,
               ),
             ]
           ),
@@ -118,6 +122,7 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
           viewModel.topUp()
             .onData((topUpData) {
               //check payment successful
+              log(topUpData.type);
               var subs = viewModel.checkTopUpSuccessul(topUpId: topUpData.topUpId, delay: 60);
               subs.onDone(() {
                 Navigator.of(context).pop();

@@ -107,15 +107,11 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                                 width: 52,
                                 margin: EdgeInsets.only(
                                     left: 16, right: 16, bottom: 8, top: 16),
-                                child: AnimatedSize(
-                                    vsync: viewModel,
-                                    duration: Duration(milliseconds: 1000),
-                                    curve: Curves.bounceInOut,
-                                    child: Icon(
+                                child: Icon(
                                       Icons.fingerprint,
                                       color: IjudiColors.color1,
                                       size: viewModel.fingerPrintIconSise,
-                                    )))),
+                                    ))),
                     !viewModel.hasBioMetric
                         ? Container()
                         : Padding(

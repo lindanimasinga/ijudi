@@ -13,6 +13,8 @@ class MyShopOrderUpdateViewModel extends BaseViewModel {
   MyShopOrderUpdateViewModel({@required Order order, @required this.apiService})
       : this._order = order;
 
+  get orderReady => order.stage == OrderStage.STAGE_3_READY_FOR_COLLECTION;
+
   rejectOrder() {
     if (order.stage == OrderStage.STAGE_1_WAITING_STORE_CONFIRM) {
       //reject order
@@ -37,13 +39,13 @@ class MyShopOrderUpdateViewModel extends BaseViewModel {
         })
       .then((value) => {});
 
-      if (order.stage == OrderStage.STAGE_6_WITH_CUSTOMER) {
+      if (order.stage == OrderStage.STAGE_3_READY_FOR_COLLECTION) {
         Navigator.pop(context);
         Navigator.popAndPushNamed(context, MyShopOrdersView.ROUTE_NAME,
             arguments: order.shopId);
       }
     }, onError: (e) {
-      showError(messege: e.toString());
+      showError(error: e);
     }, onDone: () {
       progressMv.isBusy = false;
     });

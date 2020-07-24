@@ -66,22 +66,16 @@ class RegisterViewModel extends BaseViewModel {
       : "Registering with Ijudi will automatically create you an Ukheshe account. " +
           _aboutUkheshe;
 
-  _registerBank() {
+  Stream _registerBank() {
     _bank.name = name;
     _bank.phone = mobileNumber;
     _bank.type = "wallet";
-    progressMv.isBusy = true;
-    ukhesheService
+    if(otp == null || otp.isEmpty) {
+      Stream.error("Please try again and enter otp received via SMS.");
+    }
+    return ukhesheService
         .registerUkhesheAccount(_bank, otp, password)
-        .asStream()
-        .listen((event) {
-      Navigator.pushNamedAndRemoveUntil(
-          context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false);
-    }, onError: (e) {
-      showError(messege: e.toString());
-    }, onDone: () {
-      progressMv.isBusy = false;
-    });
+        .asStream();
   }
 
   registerUser() {
@@ -103,22 +97,21 @@ class RegisterViewModel extends BaseViewModel {
         bank: _bank);
 
     progressMv.isBusy = true;
-    apiService.registerUser(user).asStream().listen((event) {
+    Stream stream = !hasUkheshe? _registerBank() : Stream.value(0);
+    stream.asyncExpand((event) => apiService.registerUser(user).asStream())
+    .listen((event) {
       print("successful registration");
       BaseViewModel.analytics.logSignUp(signUpMethod: "cellphone");
-      if (!hasUkheshe) {
-        _registerBank();
-        return;
-      }
       Navigator.pushNamedAndRemoveUntil(
           context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false);
     }, onError: (e) {
-      showError(messege: e.toString());
+      showError(error: e);
 
       BaseViewModel.analytics.logEvent(name: "signup-error", parameters: {
         "error": e.toString(),
         "cellNumber": mobileNumber
       }).then((value) => {});
+
     }, onDone: () {
       progressMv.isBusy = false;
     });
@@ -128,7 +121,7 @@ class RegisterViewModel extends BaseViewModel {
     progressMv.isBusy = true;
     ukhesheService.requestOpt(mobileNumber).asStream().listen((event) {},
         onError: (e) {
-              showError(messege: e.toString());
+              showError(error: e);
         },
         onDone: () => progressMv.isBusy = false);
   }

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:ijudi/components/ijudi-login-field.dart';
+import 'package:ijudi/util/message-dialogs.dart';
 import 'package:ijudi/util/theme-utils.dart';
-import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 abstract class MvStatefulWidget<T extends BaseViewModel>
-    extends StatefulWidget {
+    extends StatefulWidget with MessageDialogs {
   final T viewModel;
 
   MvStatefulWidget(T viewModel) : this.viewModel = viewModel {
     this.viewModel.buildFunction = build;
     this.viewModel.initWidgetFunction = initialize;
-    this.viewModel.errorBuildFunction = showErrorDialog;
+    this.viewModel.errorBuildFunction = showError;
+    this.viewModel.loginBuildFunction = showLogin;
   }
 
   @override
@@ -21,93 +22,7 @@ abstract class MvStatefulWidget<T extends BaseViewModel>
 
   void initialize() {}
 
-  void showMessageDialog(BuildContext context,
-      {String title,
-      Widget child,
-      String actionName,
-      Function action,
-      Function cancel}) {
-    if (cancel == null) cancel = () => {};
-
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          contentPadding: EdgeInsets.only(left: 0, top: 0),
-          titlePadding: EdgeInsets.only(left: 16, top: 16),
-          buttonPadding: EdgeInsets.only(top: 8, bottom: 16, right: 8),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-          title: Text(title),
-          content: child,
-          actions: <Widget>[
-            FlatButton(
-              child: Text("Cancel", style: Forms.INPUT_TEXT_STYLE),
-              onPressed: () {
-                cancel();
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: Text(actionName, style: Forms.INPUT_TEXT_STYLE),
-              onPressed: () {
-                Navigator.of(context).pop();
-                action();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void showWebViewDialog(BuildContext context,
-      {Widget header, String url, Function doneAction}) {
-    print(url);
-    showDialog(
-      barrierDismissible: false,
-      useSafeArea: true,
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-            insetPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25),
-            ),
-            child: Container(
-              height:  Utils.calculationDialogMinHeight(context),
-              padding: EdgeInsets.only(top: 8),
-              child: Column(
-                children: [
-                  header,
-                  Expanded(
-                      child: WebView(
-                          initialUrl: url,
-                          onPageFinished: (url) {
-                            if (url == "http:/localhost") {}
-                          },
-                          javascriptMode: JavascriptMode.unrestricted)),
-                  Container(
-                      alignment: Alignment.bottomRight,
-                      margin: EdgeInsets.symmetric(horizontal: 12),
-                      child: FlatButton(
-                        padding: EdgeInsets.symmetric(vertical: 0),
-                        child: Text("Close"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          doneAction();
-                        },
-                      ))
-                ],
-              ),
-            ));
-      },
-    );
-  }
-
-  void showErrorDialog(BuildContext context, String errorMessage) {
+  void showError(BuildContext context, String errorMessage) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -130,6 +45,35 @@ abstract class MvStatefulWidget<T extends BaseViewModel>
           ],
         );
       },
+    );
+  }
+
+  void showLogin(BuildContext context) {
+    showMessageDialog(
+      context,
+      title: "Login",
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+         Padding(padding: EdgeInsets.only(top: 16)), 
+        IjudiLoginField(
+          hint: "Cell Number",
+          autofillHints: [AutofillHints.username],
+          type: TextInputType.number,
+          color: IjudiColors.color5,
+          icon: Icon(Icons.phone_android, size: 22, color: Colors.white),
+          onTap: (value) => viewModel.username = value,
+        ),
+        IjudiLoginField(
+          hint: "Password",
+          autofillHints: [AutofillHints.password],
+          color: IjudiColors.color5,
+          icon: Icon(Icons.lock, size: 22, color: Colors.white),
+          onTap: (value) => viewModel.password = value,
+        ),
+      ]),
+      actionName: "Login",
+      action: () => viewModel.login()
     );
   }
 }

@@ -60,9 +60,11 @@ class MyShopOrderUpdateView
                             style: IjudiStyles.HEADER_TEXT)),
                     Container(
                         margin: EdgeInsets.only(right: 16),
-                        child: OrderReviewComponent(order: viewModel.order)
+                        child: OrderReviewComponent(
+                          order: viewModel.order,
+                          includeFees: false)
                     ),
-                    Row(
+                    viewModel.orderReady? Container() : Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                       Container(

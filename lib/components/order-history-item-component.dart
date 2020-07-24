@@ -65,11 +65,14 @@ class OrderHistoryItemComponent extends StatelessWidget {
                                 Text("Order Number: ${order.id}",
                                     style: IjudiStyles.CARD_SHOP_DISCR),
                                 Padding(padding: EdgeInsets.only(top: 8)),
-                                Text(
+                                order.shippingData.type == ShippingType.DELIVERY? Text(
                                     "Ordered On: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.date)}",
+                                    style: IjudiStyles.CARD_SHOP_DISCR) :
+                                Text(
+                                    "Collection At: ${DateFormat("dd MMM yy 'at' HH:mm").format(Utils.timeOfDayAsDateTime(order.shippingData.pickUpTime))}",
                                     style: IjudiStyles.CARD_SHOP_DISCR),
                                 Padding(padding: EdgeInsets.only(top: 8)),
-                                Text("Total Amount: R${Utils.formatToCurrency(order.totalAmount)}")
+                                Text("Total Amount: R${Utils.formatToCurrency(order.basket.getBasketTotalAmount())}")
                               ],
                             )),
                         Container(

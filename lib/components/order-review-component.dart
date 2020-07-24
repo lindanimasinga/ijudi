@@ -4,9 +4,11 @@ import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 
 class OrderReviewComponent extends StatelessWidget {
+  
   final Order order;
+  final includeFees;
 
-  const OrderReviewComponent({this.order});
+  const OrderReviewComponent({this.order, this.includeFees = true});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,8 @@ class OrderReviewComponent extends StatelessWidget {
       ));
     });
 
-    basketWidget.add(Container(
+    if(includeFees) {
+      basketWidget.add(Container(
       height: 52,
       padding: EdgeInsets.only(left: 16),
       decoration: BoxDecoration(
@@ -66,8 +69,9 @@ class OrderReviewComponent extends StatelessWidget {
         ],
       ),
     ));
+    }
 
-    if (order.shippingData.fee > 0) {
+    if (includeFees && order.shippingData.fee > 0) {
       basketWidget.add(Container(
         height: 52,
         padding: EdgeInsets.only(left: 16),
@@ -116,7 +120,8 @@ class OrderReviewComponent extends StatelessWidget {
           Container(
               width: 70,
               child: Text(
-                "R${Utils.formatToCurrency(order.totalAmount)}",
+                includeFees ? "R${Utils.formatToCurrency(order.totalAmount)}" : 
+                "R${Utils.formatToCurrency(order.basket.getBasketTotalAmount())}",
                 style: IjudiStyles.HEADER_TEXT,
               )),
         ],

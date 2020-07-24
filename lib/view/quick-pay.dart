@@ -120,20 +120,20 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
                         hint: "Item Name",
                         autofillHints: [AutofillHints.name],
                         text: viewModel.itemName,
-                        onTap: (value) => viewModel.itemName = value,
+                        onChanged: (value) => viewModel.itemName = value,
                       ),
                       IjudiInputField(
                         hint: "Amount",
                         autofillHints: [AutofillHints.transactionAmount],
                         text: "${viewModel.payAmount}",
                         type: TextInputType.numberWithOptions(decimal: true),
-                        onTap: (value) => viewModel.payAmount = double.parse(value),
+                        onChanged: (value) => viewModel.payAmount = double.parse(value),
                       ),
                       IjudiInputField(
                         hint: "Quantity",
                         autofillHints: [AutofillHints.name],
                         text: "${viewModel.quantity}",
-                        onTap: (value) => viewModel.quantity = int.parse(value),
+                        onChanged: (value) => viewModel.quantity = int.parse(value),
                       )
                     ],
                   ))),
@@ -182,7 +182,7 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
                 autofillHints: [AutofillHints.transactionAmount],
                 type: TextInputType.text,
                 text: "${viewModel.topupAmount}",
-                onTap: (value) => viewModel.topupAmount = value,
+                onChanged: (value) => viewModel.topupAmount = value,
               ),
             ]), action: () {
       viewModel.topUp().onData((topUpData) {

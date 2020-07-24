@@ -142,4 +142,9 @@ class Utils {
   static String formatToCurrency(double value) {
     return currencyFormatter.format(value);
   }
+
+  static DateTime timeOfDayAsDateTime(TimeOfDay timeOfDay) {
+    var today = DateTime.now();
+    return DateTime(today.year, today.month, today.day, timeOfDay.hour, timeOfDay.minute);
+  }
 }

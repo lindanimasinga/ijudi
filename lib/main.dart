@@ -9,6 +9,8 @@ import 'package:ijudi/util/navigator-service.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/introduction-view.dart';
 
+import 'config.dart';
+
 main() {
   print("starting application");
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,37 +19,41 @@ main() {
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
   var localNotifications;
   SharedPrefStorageManager sharedPref;
-  
-  SharedPrefStorageManager.singleton().asStream()
-  .map((event) => sharedPref = event)
-  .asyncExpand((event) => SecureStorageManager.singleton().asStream())
-  .listen((storage)  {
-      var ukhesheBaseURL = "https://ukheshe-sandbox.jini.rocks";
-      var iZingaApiUrl = "http://ec2co-ecsel-1b20jvvw3yfzt-2104564802.af-south-1.elb.amazonaws.com/";
-      var ukhesheService = UkhesheService(storageManager: storage, baseUrl: ukhesheBaseURL);
-      var apiService = ApiService(storageManager: storage, apiUrl: iZingaApiUrl);
-      localNotifications = NotificationService(apiService: apiService);
-      localNotifications.initialize().then((value) => print("notification initialized $value"));
-      
-      var navigation = NavigatorService(
-        sharedPrefStorageManager : sharedPref,
-        storageManager: storage, 
+  Config config = Config.getUATConfig();
+
+  SharedPrefStorageManager.singleton()
+      .asStream()
+      .map((event) => sharedPref = event)
+      .asyncExpand((event) => SecureStorageManager.singleton().asStream())
+      .listen((storage) {
+    var ukhesheBaseURL = config.ukhesheBaseURL;
+    var iZingaApiUrl = config.iZingaApiUrl;
+    var ukhesheService =
+        UkhesheService(storageManager: storage, baseUrl: ukhesheBaseURL);
+    var apiService = ApiService(storageManager: storage, apiUrl: iZingaApiUrl);
+    localNotifications = NotificationService(apiService: apiService);
+    localNotifications
+        .initialize()
+        .then((value) => print("notification initialized $value"));
+
+    var navigation = NavigatorService(
+        sharedPrefStorageManager: sharedPref,
+        storageManager: storage,
         apiService: apiService,
         ukhesheService: ukhesheService,
         localNotificationService: localNotifications);
-      runApp(MyApp(navigation: navigation));
+    runApp(MyApp(navigation: navigation));
   });
 }
 
 class MyApp extends StatelessWidget {
-
   final NavigatorService navigation;
 
   MyApp({Key key, this.navigation}) : super(key: key);
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context)  {
+  Widget build(BuildContext context) {
     return MaterialApp(
       title: 'iJudi',
       debugShowCheckedModeBanner: false,

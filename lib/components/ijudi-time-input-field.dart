@@ -6,7 +6,7 @@ class IjudiTimeInput extends StatelessWidget {
   final Color color;
   final TextInputType type;
   final String text;
-  final Function onTap;
+  final Function onChanged;
   final bool enabled;
   Iterable<String> autofillHints;
 
@@ -17,7 +17,7 @@ class IjudiTimeInput extends StatelessWidget {
       this.color = IjudiColors.color5,
       this.type,
       this.text = "",
-      this.onTap});
+      this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -53,12 +53,12 @@ class IjudiTimeInput extends StatelessWidget {
                 onTap: () => timeIput(context)
                               .then((value) {
                                 if(value != null)
-                                onTap(value);
+                                onChanged(value);
                               }),
                 autofillHints: autofillHints,
                 enabled: enabled,
                 readOnly: true,
-                onChanged: (value) => onTap(value),
+                onChanged: (value) => onChanged(value),
                 decoration: InputDecoration(
                     hintText: hint,
                     enabledBorder: UnderlineInputBorder(
@@ -72,10 +72,10 @@ class IjudiTimeInput extends StatelessWidget {
   Future<TimeOfDay> timeIput(BuildContext context) {
    return showTimePicker(
       context: context,
-      initialTime: TimeOfDay(hour: 10, minute: 47),
+      initialTime: TimeOfDay(hour: 12, minute: 00),
       builder: (BuildContext context, Widget child) {
         return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
           child: child,
         );
       },

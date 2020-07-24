@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/order.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class MyShopOrdersViewModel extends BaseViewModel {
@@ -17,7 +18,7 @@ class MyShopOrdersViewModel extends BaseViewModel {
     .listen((respo) {
       orders = respo;
     }, onError: (e) {
-      showError(messege: e.toString());
+      showError(error: e);
     }, onDone: () {
     });
   }
@@ -27,5 +28,11 @@ class MyShopOrdersViewModel extends BaseViewModel {
   set orders(List<Order> orders) {
     _orders = orders;
     notifyChanged();
+  }
+
+  bool pickUpTimeWithInAnHour(TimeOfDay pickUpTime) {
+    var pickUpDateTime = Utils.timeOfDayAsDateTime(pickUpTime);
+    var anHourAgo = DateTime.now().subtract(Duration(hours: 1));
+    return pickUpDateTime.isAtSameMomentAs(anHourAgo) || pickUpDateTime.isBefore(anHourAgo);
   }
 }

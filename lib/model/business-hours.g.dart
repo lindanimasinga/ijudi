@@ -10,7 +10,7 @@ BusinessHours _$BusinessHoursFromJson(Map<String, dynamic> json) {
   return BusinessHours(
     _$enumDecodeNullable(_$DayEnumMap, json['day']),
     Utils.timeOfDayFromJson(json['open'] as String),
-    BusinessHours.dateFromJson(json['close'] as String),
+    Utils.timeOfDayFromJson(json['close'] as String),
   );
 }
 
@@ -18,7 +18,7 @@ Map<String, dynamic> _$BusinessHoursToJson(BusinessHours instance) =>
     <String, dynamic>{
       'day': _$DayEnumMap[instance.day],
       'open': Utils.timeOfDayToJson(instance.open),
-      'close': BusinessHours.dateToJson(instance.close),
+      'close': Utils.timeOfDayToJson(instance.close),
     };
 
 T _$enumDecode<T>(

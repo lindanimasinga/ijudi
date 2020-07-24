@@ -18,6 +18,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
 
   @override
   Widget build(BuildContext context) {
+    //viewModel.progressMv.isBusy = false;
     return ScrollableParent(
         hasDrawer: false,
         appBarColor: IjudiColors.color1,
@@ -72,19 +73,19 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                             ],
                             text: viewModel.mobileNumber,
                             error: () => viewModel.mobileNumberValid ? "" : "Invalid SA mobile number",
-                            onTap: (number) => viewModel.mobileNumber = number,
+                            onChanged: (number) => viewModel.mobileNumber = number,
                             type: TextInputType.phone,
                           ),
                           IjudiInputField(
                               text: viewModel.name,
-                              onTap: (name) => viewModel.name = name,
+                              onChanged: (name) => viewModel.name = name,
                               autofillHints: [AutofillHints.name],
                               hint: 'Name',
                               error: () => viewModel.nameValid ? "" : "Invalid name",
                               type: TextInputType.text),
                           IjudiInputField(
                               text: viewModel.lastname,
-                              onTap: (lastname) =>
+                              onChanged: (lastname) =>
                                   viewModel.lastname = lastname,
                               hint: 'Surname',
                               error: () => viewModel.lastNameValid ? "" : "Invalid surname",
@@ -98,7 +99,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               type: TextInputType.text),*/
                           IjudiInputField(
                               text: viewModel.email,
-                              onTap: (email) => viewModel.email = email,
+                              onChanged: (email) => viewModel.email = email,
                               hint: 'Email Address',
                               autofillHints: [AutofillHints.email],
                               type: TextInputType.emailAddress),
@@ -152,7 +153,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               children: <Widget>[
                                 IjudiInputField(
                                     text: viewModel.bankAccountNumber,
-                                    onTap: (bank) =>
+                                    onChanged: (bank) =>
                                         viewModel.bankAccountNumber = bank,
                                     hint: 'Card Number',
                                     autofillHints: [
@@ -160,8 +161,8 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                                     ],
                                     type: TextInputType.number),
                                 IjudiInputField(
-                                    text: viewModel.bankCellNumber,
-                                    onTap: (phone) =>
+                                    text: viewModel.mobileNumber,
+                                    onChanged: (phone) =>
                                         viewModel.mobileNumber = phone,
                                     hint: 'Cell Number',
                                     autofillHints: [
@@ -261,7 +262,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                                     autofillHints: [AutofillHints.oneTimeCode],
                                     type: TextInputType.number,
                                     color: IjudiColors.color5,
-                                    onTap: (value) => viewModel.otp = value,
+                                    onChanged: (value) => viewModel.otp = value,
                                   ),
                                   actionName: "Proceed",
                                   action: () => viewModel.registerUser());

@@ -17,7 +17,7 @@ import 'package:ijudi/view/register-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:local_auth/local_auth.dart';
 
-class LoginViewModel extends BaseViewModel with TickerProviderStateMixin{
+class LoginViewModel extends BaseViewModel {
   
   final StorageManager storage;
   final UkhesheService ukhesheService;
@@ -122,7 +122,7 @@ class LoginViewModel extends BaseViewModel with TickerProviderStateMixin{
         Navigator.pushNamedAndRemoveUntil(
             context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false);
     }, onError: (handleError) {
-      showError(messege: handleError.toString());
+      showError(error: handleError);
       //log(handleError);
     }, onDone: () {
       progressMv.isBusy = false;

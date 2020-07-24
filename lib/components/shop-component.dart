@@ -28,10 +28,15 @@ class ShopComponent extends StatelessWidget {
         HapticFeedback.lightImpact();
         Navigator.pushNamed(context, QuickPayView.ROUTE_NAME, arguments: shop);
       },
-      child: Container(
-          child: IJudiCard(
+      child:
+      Container(
+          child:  IJudiCard(
         width: deviceWidth >= 360 ? 157 : 127,
-        child: Column(
+        child: Banner(
+        message: shop.stockList == null || shop.stockList.isEmpty ? "In Store" : "Delivers",
+        location: BannerLocation.topStart,
+        color: shop.stockList == null || shop.stockList.isEmpty ? IjudiColors.color2 : IjudiColors.color1,
+      child: Column(
           children: <Widget>[
             Container(
               width: deviceWidth >= 360 ? 187 : 157,
@@ -70,7 +75,7 @@ class ShopComponent extends StatelessWidget {
                   ],
                 ))
           ],
-        ),
+        )),
       )),
     );
   }

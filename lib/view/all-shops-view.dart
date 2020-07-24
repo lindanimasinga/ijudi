@@ -134,7 +134,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: filterComponents)),
-            Container(
+            featuredShopComponents.isEmpty?  Container() : Container(
               alignment: Alignment.topLeft,
               padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
               child: Text("Featured", style: IjudiStyles.HEADER_2),

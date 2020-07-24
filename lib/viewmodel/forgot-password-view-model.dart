@@ -19,7 +19,8 @@ class ForgotPasswordViewModel extends BaseViewModel {
 
   String _message = "Please enter your mobile number. We will send you a One Time Pin to reset your password";
 
-  ForgotPasswordViewModel({@required this.storageManager, @required this.apiService, @required this.ukhesheService});
+  ForgotPasswordViewModel({@required this.storageManager,
+   @required this.apiService, @required this.ukhesheService});
 
   @override
   initialize() {
@@ -49,7 +50,7 @@ class ForgotPasswordViewModel extends BaseViewModel {
 
   requestPasswordReset() {
     if(mobileNumber.length != 10) {
-      showError(messege: "Mobile number is not valid.");
+      showError(error: "Mobile number is not valid.");
       return;
     }
 
@@ -63,7 +64,7 @@ class ForgotPasswordViewModel extends BaseViewModel {
     .then((value) => null);
 
     }, onError: (e) {
-      showError(messege: e.toString());
+      showError(error: e.toString());
 
       BaseViewModel.analytics
       .logEvent(name: "forgot-password-error")
@@ -81,12 +82,12 @@ class ForgotPasswordViewModel extends BaseViewModel {
   void passwordReset() {
 
     if(mobileNumber.length != 10) {
-      showError(messege: "Mobile number is not valid.");
+      showError(error: "Mobile number is not valid.");
       return;
     }
 
     if(password != passwordConfirm) {
-      showError(messege: "Your confirm password does not match");
+      showError(error: "Your confirm password does not match");
     }
 
     progressMv.isBusy = true;
@@ -102,7 +103,7 @@ class ForgotPasswordViewModel extends BaseViewModel {
       Future.delayed(Duration(seconds: 2))
       .then((value) => Navigator.pop(context));
     }, onError: (e) {
-      showError(messege: e.toString());
+      showError(error: e);
       hasError = true;
     }, onDone:() {
       progressMv.isBusy = false;

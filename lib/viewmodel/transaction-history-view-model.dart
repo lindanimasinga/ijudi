@@ -21,7 +21,7 @@ class TransactionHistoryViewModel extends BaseViewModel {
       filteredTransactions = trans;
       transacions = trans;
     }, onError: (e) {
-      showError(messege: e.toString());
+      showError(error: e);
     });
   }
 

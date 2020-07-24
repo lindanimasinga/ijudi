@@ -21,7 +21,8 @@ class PaymentViewModel extends BaseViewModel with TopTupStatusChecker{
   bool paymentSuccessful = false;
 
   PaymentViewModel({@required this.apiService, 
-    @required this.order, @required this.ukhesheService});
+    @required this.order, 
+    @required this.ukhesheService});
 
   @override
   void initialize() {
@@ -107,7 +108,7 @@ class PaymentViewModel extends BaseViewModel with TopTupStatusChecker{
             (Route<dynamic> route) => false,
             arguments: order);
       }, onError: (e) {
-          showError(messege: e.toString());
+          showError(error: e.toString());
 
         BaseViewModel.analytics
         .logEvent(

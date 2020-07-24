@@ -99,7 +99,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                 autofillHints: [AutofillHints.transactionAmount],
                 type: TextInputType.numberWithOptions(decimal: true),
                 text: viewModel.topupAmount,
-                onTap: (value) => viewModel.topupAmount = value,
+                onChanged: (value) => viewModel.topupAmount = value,
               ),
             ]), action: () {
       viewModel.topUp().onData((topUpData) {

@@ -107,7 +107,7 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
       Padding(padding: EdgeInsets.only(top: 16)),
       Padding(
           padding: EdgeInsets.only(left: 16, bottom: 16),
-          child: Text("Messangers Available", style: IjudiStyles.SUBTITLE_2)),
+          child: Text("Messengers Available", style: IjudiStyles.SUBTITLE_2)),
       Container(
           margin: EdgeInsets.only(bottom: 16, right: 16),
           child: Column(
@@ -148,7 +148,7 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
                 child: IjudiTimeInput(
               hint: "Pick Up Time",
               text: "${viewModel.arrivalTime.format(context)}",
-              onTap: (time) => viewModel.arrivalTime = time,
+              onChanged: (time) => viewModel.arrivalTime = time,
             )),
             Padding(padding: EdgeInsets.only(top: 16)),
           ],

@@ -7,7 +7,7 @@ import 'package:ijudi/util/topup-status-checker.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:ijudi/model/profile.dart';
 
-class WalletViewModel extends BaseViewModel with TopTupStatusChecker{
+class WalletViewModel extends BaseViewModel with TopTupStatusChecker {
 
   final ApiService apiService;
   final UkhesheService ukhesheService;
@@ -32,7 +32,7 @@ class WalletViewModel extends BaseViewModel with TopTupStatusChecker{
       .listen((data) {
         this.wallet = data;
       },onError: (e) {
-      showError(messege: e.toString());
+      showError(error: e);
       });
   }
 
@@ -56,7 +56,7 @@ class WalletViewModel extends BaseViewModel with TopTupStatusChecker{
     });
 
     sub.onError((e) {
-      showError(messege: e.toString());
+      showError(error: e);
       
       BaseViewModel.analytics
       .logEvent(name: "ukheshe-topup-loading-webview-error")
@@ -74,7 +74,7 @@ class WalletViewModel extends BaseViewModel with TopTupStatusChecker{
       .listen((resp) {
         wallet = resp;
       },onError: (e) {
-      showError(messege: e.toString());
+      showError(error: e);
       },
       onDone: () {
        // progressMv.isBusy = false;

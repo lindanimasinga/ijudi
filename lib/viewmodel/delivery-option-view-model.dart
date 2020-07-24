@@ -17,6 +17,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   Order order;
   final UkhesheService ukhesheService;
   final ApiService apiService;
+  bool fetchingMessangers = false;
 
   DeliveryOptionsViewModel(
       {@required this.ukhesheService,
@@ -27,7 +28,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
 
   List<UserProfile> get messangers => _messangers;
 
-  get allowedOrder => messangers.length > 0 || order.shippingData.type == ShippingType.COLLECTION;
+  get allowedOrder => fetchingMessangers || messangers.length > 0 || order.shippingData.type == ShippingType.COLLECTION;
 
   set messangers(List<UserProfile> messangers) {
     _messangers = messangers;
@@ -38,7 +39,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   set shippingType(ShippingType delivery) {
     order.shippingData.type = delivery;
     if(!allowedOrder) {
-      showError(messege: "No drivers available on your area. Only collections are allowed");
+      showError(error: "No drivers available on your area. Only collections are allowed");
     }
     notifyChanged();
   }
@@ -46,12 +47,13 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   get deliveryAddress => order.shippingData.toAddress;
   set deliveryAddress(deliveryAddress) {
     order.shippingData.toAddress = deliveryAddress;
+    findMessengers();
     notifyChanged();
   }
 
   get isDelivery => shippingType == ShippingType.DELIVERY;
 
-  get businessHours {
+  List<BusinessHours> get businessHours {
     var hours = order.shop.businessHours;
     if (hours != null) return hours;
 
@@ -72,36 +74,43 @@ class DeliveryOptionsViewModel extends BaseViewModel {
 
   TimeOfDay get arrivalTime => order.shippingData.pickUpTime;
 
+  bool get isValidCollectionTime {
+    var pickUpDateTime = Utils.timeOfDayAsDateTime(order.shippingData.pickUpTime);
+    var closingTime = Utils.timeOfDayAsDateTime(businessHours[0].close);
+    var openTime = Utils.timeOfDayAsDateTime(businessHours[0].open);
+
+    return openTime.isBefore(pickUpDateTime) && closingTime.isAfter(pickUpDateTime);
+  }
+
   set arrivalTime(TimeOfDay arrivalTime) {
     order.shippingData.pickUpTime = arrivalTime;
+    if(!isValidCollectionTime) {
+      showError(error: "Your pick up time should be within the collection times indicated.");
+    }
     notifyChanged();
   }
 
   @override
   void initialize() {
     //shipping
-    Geolocator()
-        .placemarkFromAddress(order.customer.address)
-        .asStream()
-        .map((data) => data[0].position)
-        .asyncExpand((position) => apiService
-            .findNearbyMessangers(
-                position.latitude, position.longitude, Utils.rangeMap["15km"])
-            .asStream())
-        .listen((messa) {
-          messangers = messa;
-        });
     order.shippingData.toAddress = order.customer.address;
     order.shippingData.type = ShippingType.COLLECTION;
     order.shippingData.fromAddress = order.shop.name;
     order.shippingData.fee = 0;
+    findMessengers();
   }
 
   startOrder() {
     if(!allowedOrder) {
-      showError(messege : "No drivers available on your area. Only collections are allowed");
+      showError(error : "No drivers available on your area. Only collections are allowed");
       return;
     }
+
+    if(order.shippingData.type == ShippingType.COLLECTION && !isValidCollectionTime) {
+      showError(error: "Your pick up time should be within the collection times indicated.");
+      return;
+    }
+    
     progressMv.isBusy = true;
     if(order.shippingData.type == ShippingType.DELIVERY) {
       order.shippingData.messenger = messangers[0];
@@ -131,7 +140,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
           Navigator.pushNamed(context, PaymentView.ROUTE_NAME,
               arguments: order);
         }, onError: (handleError) {
-          showError(messege : handleError.toString());
+          showError(error : handleError);
           log("handleError", error: handleError);
         }, onDone: () {
           progressMv.isBusy = false;
@@ -151,5 +160,23 @@ class DeliveryOptionsViewModel extends BaseViewModel {
             ? 0
             : order.customer.bank.availableBalance;
     notifyChanged();
+  }
+
+  findMessengers() {
+        log("searching for messegers");
+        fetchingMessangers = true;
+        Geolocator()
+        .placemarkFromAddress(order.shippingData.toAddress)
+        .asStream()
+        .map((data) => data[0].position)
+        .asyncExpand((position) => apiService
+            .findNearbyMessangers(
+                position.latitude, position.longitude, Utils.rangeMap["15km"])
+            .asStream())
+        .listen((messa) {
+          messangers = messa;
+        }, onDone: () {
+          fetchingMessangers = false;
+        });
   }
 }

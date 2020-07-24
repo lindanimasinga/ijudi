@@ -48,7 +48,7 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker{
           order.basket = Basket();
           order.description = "Payment from ${order.customer.mobileNumber}";
         }, onError: (e) {
-                  showError(messege: e.toString());
+                  showError(error: e);
         },
          onDone: () {});
   }
@@ -88,7 +88,7 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker{
               arguments: order);
       }, onError: (e) {
         clearOrder();
-          showError(messege: e.toString());
+          showError(error: e);
 
         BaseViewModel.analytics
           .logEvent(
@@ -148,7 +148,7 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker{
       }).listen(null);
 
     subscr.onError((error) {
-      showError(messege: error.toString());
+      showError(error: error);
       clearOrder();
       hasError = true;
     });

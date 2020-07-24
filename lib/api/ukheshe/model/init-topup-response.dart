@@ -41,4 +41,6 @@ class InitTopUpResponse {
  
  factory InitTopUpResponse.fromJson(Map<String, dynamic> json) => _$InitTopUpResponseFromJson(json);
 
+ Map<String, dynamic> toJson() => _$InitTopUpResponseToJson(this); 
+
 }

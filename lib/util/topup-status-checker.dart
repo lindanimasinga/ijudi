@@ -3,9 +3,12 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/ukheshe/model/init-topup-response.dart';
+import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 mixin TopTupStatusChecker {
+
+    UkhesheService get ukhesheService;
 
     StreamSubscription checkTopUpSuccessul({
     @required int topUpId, int delay = 3}) {
@@ -19,7 +22,7 @@ mixin TopTupStatusChecker {
     });
 
     subsc.onError((e) {
-      showError(messege: e.toString());
+      showError(error: e);
       BaseViewModel.analytics
       .logEvent(name: "ukheshe-topup-loading-webview-error")
       .then((value) => {});
@@ -43,7 +46,5 @@ mixin TopTupStatusChecker {
     });
   }
 
-  get ukhesheService;
-
-  showError({String messege});
+  showError({dynamic error});
 }

@@ -36,6 +36,20 @@ body {
 
 }
 
+.float-right {
+	position: absolute !important;
+	top: 90%;
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	z-index: 2;
+	right: 0px;
+}
+
+@media(min-height: 1201px) {
+	.float-right {
+		top: 50%;
+	}
+}
+
 *, *::after, *::before {
 	-webkit-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -470,7 +484,7 @@ section {
     -moz-border-radius: 25px;
     border-radius: 25px;
 	margin-right: 0.8em;
-	background: linear-gradient(to right, #d69447 0%, #d69447 50%, #6B2686 100%);
+	background: linear-gradient(to right, #d69447 0%, #d69447 50%, #10A59F 100%);
 	background-clip: padding-box;
 	-webkit-text-fill-color: #FFFFFF;
 }
@@ -601,7 +615,7 @@ section {
 
 .stats {
 	font-size: 3.4em;
-	background: linear-gradient(to right, #6B2686 0%, #d69447 98%, #d69447 100%);
+	background: linear-gradient(to right, #10A59F 0%, #d69447 98%, #d69447 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	margin: 0;
@@ -1176,12 +1190,12 @@ span.img-text:hover {
 }
 
 .bg-pro {
-    background-color: #6B2686;
+    background-color: #10A59F;
 	padding: 12px 25px !important;
 }
 
 .text-primary {
-    color: #6B2686!important;
+    color: #10A59F!important;
 	padding: 10% 0 0 0 !important;
 }
 
@@ -1194,16 +1208,16 @@ h1.text-lite span {
 h1.text-pro span {
 	font-size: 0.8em;
 	font-weight: 400;
-    color: #6B2686;
+    color: #10A59F;
 }
 
 h1 span {
 	font-size: 0.8em;
-	color: #6B2686;
+	color: #10A59F;
 }
 
 .text-muted {
-    color: #6B2686 !important;
+    color: #10A59F !important;
 	font-size: 0.3em;
 	font-weight: 400;
 }
@@ -1245,7 +1259,7 @@ h1 span {
     -moz-border-radius: 25px;
     border-radius: 25px;
 	margin-right: 0;
-	background: linear-gradient(to right, #6B2686 0%, #d69447 50%, #d69447 100%);
+	background: linear-gradient(to right, #10A59F 0%, #d69447 50%, #d69447 100%);
 	background-clip: padding-box;
 	-webkit-text-fill-color: #FFFFFF;
     -moz-transition: all .4s ease-in-out;
@@ -1271,7 +1285,7 @@ h1 span {
     -moz-border-radius: 25px;
     border-radius: 25px;
     margin-right: 0;
-    background-image: linear-gradient(to right, #d69447 0%, #d69447 50%, #6B2686 100%);
+    background-image: linear-gradient(to right, #d69447 0%, #d69447 50%, #10A59F 100%);
     background-clip: padding-box;
     -webkit-text-fill-color: #FFFFFF;
 	text-decoration: none;
@@ -1426,20 +1440,20 @@ h1 span {
 	color: #ffffff;
 	font-size: 1.12rem;
 	font-weight: 400;
-	border-bottom: 1px solid #6B2686;
+	border-bottom: 1px solid #10A59F;
 }
 
 .faq-link:hover, .faq-link:focus {
 	padding: 1rem 3rem 1rem 1rem;
 	cursor: pointer;
 	color: #d69447 !important;
-	border-bottom: 1px solid #6B2686;
+	border-bottom: 1px solid #10A59F;
 }
 
 a.faq-link[aria-expanded=true] {
 	padding: 1rem 3rem 1rem 1rem;
 	color: #d69447;
-	border-bottom: 1px solid #6B2686;
+	border-bottom: 1px solid #10A59F;
 }
 
 .card-faq {

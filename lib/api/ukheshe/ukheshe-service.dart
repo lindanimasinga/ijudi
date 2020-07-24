@@ -143,7 +143,7 @@ class UkhesheService {
         .timeout(Duration(seconds: TIMEOUT_SEC));
     log(response.body);
     return response.statusCode == 200? 
-            CustomerInfoResponse.fromJson(json.decode(response.body)) : throw(UkhesheErrorResponse.fromJson(json.decode(response.body)[0]).description);
+            CustomerInfoResponse.fromJson(json.decode(response.body)) : throw(UkhesheErrorResponse.fromJson(json.decode(response.body)[0]));
   }
 
 

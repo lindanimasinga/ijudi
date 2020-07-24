@@ -19,7 +19,7 @@ class ReceiptViewModel extends BaseViewModel {
       .listen((data) { 
         shop = data;
       }, onError: (e) {
-          showError(messege: e.toString());
+          showError(error: e);
       });
       return;
     }

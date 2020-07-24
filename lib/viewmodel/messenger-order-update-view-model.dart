@@ -85,7 +85,7 @@ class MessengerOrderUpdateViewModel extends BaseViewModel {
             arguments: order.shippingData.messenger.id);
       }
     }, onError: (e) {
-      showError(messege: e.toString());
+      showError(error: e);
     }, onDone: () {
       progressMv.isBusy = false;
     });

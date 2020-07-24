@@ -52,7 +52,7 @@ class AllShopsViewModel extends BaseViewModel {
             loadData(radiusText);
             return;
           }
-          showError(messege: e.toString());
+          showError(error: e);
         });
   }
 
@@ -82,10 +82,10 @@ class AllShopsViewModel extends BaseViewModel {
     }).listen((resp) {}, onDone: () {}, onError: (e) {
       log(e.toString());
       if (e is PlatformException) {
-        showError(messege: locationDenied);
+        showError(error: locationDenied);
         return;
       }
-      showError(messege: e.toString());
+      showError(error: e);
     });
   }
 
