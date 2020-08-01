@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-error-response.dart';
@@ -76,6 +78,7 @@ abstract class BaseViewModel extends State {
   notifyChanged() => setState(() {});
 
   void showError({dynamic error}) {
+    log(error.toString());
     var errorCode;
     if (error is ApiErrorResponse) {
       errorMessege = error.message.toString();

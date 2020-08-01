@@ -1,0 +1,42 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+import 'package:ijudi/components/stacked-thumbnails.dart';
+import 'package:ijudi/components/stock-item-component.dart';
+import 'package:ijudi/model/stock.dart';
+import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
+
+class StocksWithImageComponent extends StatelessWidget {
+  final Function addAction;
+  final List<Stock> stocks;
+
+  StocksWithImageComponent({@required this.stocks, @required this.addAction});
+
+  @override
+  Widget build(BuildContext context) {
+    if (stocks == null || stocks.isEmpty)
+      return Card(
+          margin: EdgeInsets.only(left: 0),
+          child: Container(
+            height: 52,
+            padding: EdgeInsets.only(left: 16),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              border: Border.all(color: IjudiColors.color5, width: 0.05),
+            ),
+            child: Text("Stock empty"),
+          ));
+
+    List<Widget> stockWidget = <Widget>[];
+    stocks.forEach((item) {
+      stockWidget.add(StockItemComponent(item: item, addAction: addAction));
+    });
+
+    return Card(
+        margin: EdgeInsets.only(left: 0),
+        child: Column(
+          children: stockWidget,
+        ));
+  }
+}

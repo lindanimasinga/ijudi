@@ -5,6 +5,7 @@ import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/profile-header-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/stocks-component.dart';
+import 'package:ijudi/components/stocks-with-image-component.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/viewmodel/start-shopping-view-model.dart';
 
@@ -71,7 +72,7 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                     Padding(
                         padding:
                             EdgeInsets.only(left: 0, right: 16, bottom: 16),
-                        child: StocksComponent(
+                        child: StocksWithImageComponent(
                                 stocks: viewModel.matchedStocks,
                                 addAction: (basketItem) => viewModel.add(basketItem)
                               )

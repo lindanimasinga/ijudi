@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:ijudi/model/basket.dart';
 import 'package:ijudi/model/shop.dart';
@@ -30,9 +29,11 @@ class Order {
 
   Order();
 
-  double get totalAmount => serviceFee + basket.getBasketTotalAmount() + shippingData.fee;
+  double get totalAmount =>
+      serviceFee + basket.getBasketTotalAmount() + shippingData.fee;
 
-  String get totalAmountFomarted => Utils.formatToCurrency(serviceFee + basket.getBasketTotalAmount() + shippingData.fee);
+  String get totalAmountFomarted => Utils.formatToCurrency(
+      serviceFee + basket.getBasketTotalAmount() + shippingData.fee);
 
   @JsonKey(ignore: true)
   Shop get shop => _shop;
@@ -63,13 +64,18 @@ class Order {
 
 enum ShippingType { COLLECTION, DELIVERY }
 
+enum BuildingType { HOUSE, OFFICE, APARTMENT }
+
 enum PaymentType { UKHESHE, CASH }
 
-enum OrderType { ONLINE, INSTORE}
+enum OrderType { ONLINE, INSTORE }
 
 @JsonSerializable(includeIfNull: false)
 class Shipping {
   String fromAddress;
+  BuildingType buildingType;
+  String unitNumber;
+  String buildingName;
   String toAddress;
   String additionalInstructions;
   ShippingType type;
@@ -86,15 +92,13 @@ class Shipping {
   Map<String, dynamic> toJson() => _$ShippingToJson(this);
 }
 
-
 enum OrderStage {
-
-    STAGE_0_CUSTOMER_NOT_PAID,
-    STAGE_1_WAITING_STORE_CONFIRM,
-    STAGE_2_STORE_PROCESSING,
-    STAGE_3_READY_FOR_COLLECTION,
-    STAGE_4_ON_THE_ROAD,
-    STAGE_5_ARRIVED,
-    STAGE_6_WITH_CUSTOMER,
-    STAGE_7_PAID_SHOP
+  STAGE_0_CUSTOMER_NOT_PAID,
+  STAGE_1_WAITING_STORE_CONFIRM,
+  STAGE_2_STORE_PROCESSING,
+  STAGE_3_READY_FOR_COLLECTION,
+  STAGE_4_ON_THE_ROAD,
+  STAGE_5_ARRIVED,
+  STAGE_6_WITH_CUSTOMER,
+  STAGE_7_ALL_PAID
 }

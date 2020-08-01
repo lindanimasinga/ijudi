@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/components/basket-view-only-component.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-address-input-field.dart';
+import 'package:ijudi/components/ijudi-dropdown-field.dart';
 import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/ijudi-time-input-field.dart';
@@ -96,8 +97,26 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
               enabled: false,
               text: viewModel.order.shop.name,
               color: IjudiColors.color5),
+          IjudiDropDownField(
+              hint: "Buidling Type",
+              enabled: true,
+              options: BuildingType.values,
+              color: IjudiColors.color5,
+              onSelected: (value) => viewModel.buildingType = value),
+          !viewModel.isBuildingInfoRequired ? Container() : IjudiInputField(
+              hint: "Unit Number",
+              enabled: true,
+              text: viewModel.unitNumner,
+              color: IjudiColors.color5,
+              onChanged: (value) => viewModel.unitNumner = value),
+              !viewModel.isBuildingInfoRequired ? Container() : IjudiInputField(
+              hint: "Building Name",
+              enabled: true,
+              text: viewModel.buildingName,
+              color: IjudiColors.color5,
+              onChanged: (value) => viewModel.buildingName = value),
           IjudiAddressInputField(
-              hint: "To Address",
+              hint: "Street Address",
               enabled: true,
               text: viewModel.deliveryAddress,
               color: IjudiColors.color5,

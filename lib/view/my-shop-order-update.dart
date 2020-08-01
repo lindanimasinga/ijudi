@@ -22,7 +22,7 @@ class MyShopOrderUpdateView
     OrderStage.STAGE_4_ON_THE_ROAD: "Has the driver arrived at the Customer?",
     OrderStage.STAGE_5_ARRIVED: "Is the order delivered?",
     OrderStage.STAGE_6_WITH_CUSTOMER: "The order delivered",
-    OrderStage.STAGE_7_PAID_SHOP: "Completed"
+    OrderStage.STAGE_7_ALL_PAID: "Completed"
   };
 
   MyShopOrderUpdateView({MyShopOrderUpdateViewModel viewModel})
@@ -61,38 +61,44 @@ class MyShopOrderUpdateView
                     Container(
                         margin: EdgeInsets.only(right: 16),
                         child: OrderReviewComponent(
-                          order: viewModel.order,
-                          includeFees: false)
-                    ),
-                    viewModel.orderReady? Container() : Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                      Container(
-                          alignment: Alignment.topLeft,
-                          padding: EdgeInsets.only(top: 76, right: 16),
-                          child: IjudiForm(
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  height: 140,
-                                  child: Text(statusText[viewModel.order.stage],
-                                      style: IjudiStyles.HEADER_2,
-                                      textAlign: TextAlign.center)))),
-                      Container(margin: EdgeInsets.only(top: 32)),
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Buttons.iconButton(Icon(Icons.close),
-                                color: IjudiColors.color2,
-                                onPressed: () => viewModel.rejectOrder()),
-                            Padding(padding: EdgeInsets.only(top: 16)),
-                            FloatingActionButtonWithProgress(
-                                viewModel: viewModel.progressMv,
-                                child: Icon(Icons.check),
-                                color: IjudiColors.color1,
-                                onPressed: () => viewModel.progressNextStage()),
-                            Padding(padding: EdgeInsets.only(top: 8)),
-                          ])
-                    ])
+                            order: viewModel.order, includeFees: false)),
+                    viewModel.orderReady
+                        ? Container()
+                        : Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                                Container(
+                                    alignment: Alignment.topLeft,
+                                    padding:
+                                        EdgeInsets.only(top: 76, right: 16),
+                                    child: IjudiForm(
+                                        child: Container(
+                                            alignment: Alignment.center,
+                                            height: 140,
+                                            child: Text(
+                                                statusText[
+                                                    viewModel.order.stage],
+                                                style: IjudiStyles.HEADER_2,
+                                                textAlign: TextAlign.center)))),
+                                Container(margin: EdgeInsets.only(top: 32)),
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Buttons.iconButton(Icon(Icons.close),
+                                          color: IjudiColors.color2,
+                                          onPressed: () =>
+                                              viewModel.rejectOrder()),
+                                      Padding(
+                                          padding: EdgeInsets.only(top: 16)),
+                                      FloatingActionButtonWithProgress(
+                                          viewModel: viewModel.progressMv,
+                                          child: Icon(Icons.check),
+                                          color: IjudiColors.color1,
+                                          onPressed: () =>
+                                              viewModel.progressNextStage()),
+                                      Padding(padding: EdgeInsets.only(top: 8)),
+                                    ])
+                              ])
                   ]))
         ]));
   }

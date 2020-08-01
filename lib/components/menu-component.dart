@@ -5,7 +5,6 @@ import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/services/impl/secure-storage-manager.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/util/theme-utils.dart';
-import 'package:ijudi/view/all-components.dart';
 import 'package:ijudi/view/all-shops-view.dart';
 import 'package:ijudi/view/login-view.dart';
 import 'package:ijudi/view/messenger-orders.dart';

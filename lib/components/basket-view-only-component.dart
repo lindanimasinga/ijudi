@@ -40,7 +40,7 @@ class _BasketViewOnlyComponentState extends State<BasketViewOnlyComponent> {
       basketWidget.add(
         Container(
         height: 52,
-        padding: EdgeInsets.only(left: 16),
+        padding: EdgeInsets.only(left: 0),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           border: Border.all(color: IjudiColors.color5, width: 0.05),
@@ -73,7 +73,7 @@ basketWidget.add(Container(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left:16),
+              margin: EdgeInsets.only(left:0),
               width: 145,
               child: Text("Total", style: IjudiStyles.HEADER_TEXT,)
             ),

@@ -18,7 +18,7 @@ class BasketComponent extends StatelessWidget {
             margin: EdgeInsets.only(left: 0),
             child: Container(
               height: 52,
-              alignment: Alignment.center,
+              alignment: Alignment.centerLeft,
               padding: EdgeInsets.only(left: 16),
               decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
@@ -31,7 +31,7 @@ class BasketComponent extends StatelessWidget {
     basket.items.forEach((item) {
       basketWidget.add(Container(
         height: 52,
-        padding: EdgeInsets.only(left: 16),
+        padding: EdgeInsets.only(left: 0),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           border: Border.all(color: IjudiColors.color5, width: 0.05),
@@ -59,7 +59,7 @@ class BasketComponent extends StatelessWidget {
 
 basketWidget.add(Container(
         height: 52,
-        padding: EdgeInsets.only(left: 16),
+        padding: EdgeInsets.only(left: 0),
         decoration: BoxDecoration(
           color: IjudiColors.color2,
           border: Border.all(color: IjudiColors.color5, width: 0.05),

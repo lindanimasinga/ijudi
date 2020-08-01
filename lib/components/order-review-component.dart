@@ -25,7 +25,7 @@ class OrderReviewComponent extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
-                margin: EdgeInsets.only(left: 16),
+                margin: EdgeInsets.only(left: 0),
                 width: 145,
                 child: Text(
                   "${item.quantity}  x  ${item.name}",
@@ -54,7 +54,7 @@ class OrderReviewComponent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
-              margin: EdgeInsets.only(left: 16),
+              margin: EdgeInsets.only(left: 0),
               width: 145,
               child: Text(
                 "Service Fee",
@@ -83,7 +83,7 @@ class OrderReviewComponent extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
-                margin: EdgeInsets.only(left: 16),
+                margin: EdgeInsets.only(left: 0),
                 width: 145,
                 child: Text(
                   "Delivery Fee",
@@ -111,7 +111,7 @@ class OrderReviewComponent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
-              margin: EdgeInsets.only(left: 16),
+              margin: EdgeInsets.only(left: 0),
               width: 145,
               child: Text(
                 order.hasVat ? "Total(incl VAT)" : "Total(excl VAT)",

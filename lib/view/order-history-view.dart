@@ -29,31 +29,31 @@ class OrderHistoryView extends MvStatefulWidget<OrderHistoryViewModel> {
     ];
 
     viewModel.orders
-        .where((order) => order.stage != OrderStage.STAGE_7_PAID_SHOP)
-        .forEach((order) => pendingOrderItemsComponents
-            .add(OrderHistoryItemComponent(
-              order: order,
-              onTap: () {
-                if (order.orderType == OrderType.ONLINE) {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      FinalOrderView.ROUTE_NAME,
-                      (Route<dynamic> route) => false,
-                      arguments: order);
-                } else {
-                  Navigator.pushNamed(context, ReceiptView.ROUTE_NAME,
-                      arguments: order);
-                }
-              })));
+        .where((order) => order.stage != OrderStage.STAGE_7_ALL_PAID)
+        .forEach((order) =>
+            pendingOrderItemsComponents.add(OrderHistoryItemComponent(
+                order: order,
+                onTap: () {
+                  if (order.orderType == OrderType.ONLINE) {
+                    Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        FinalOrderView.ROUTE_NAME,
+                        (Route<dynamic> route) => false,
+                        arguments: order);
+                  } else {
+                    Navigator.pushNamed(context, ReceiptView.ROUTE_NAME,
+                        arguments: order);
+                  }
+                })));
 
     viewModel.orders
-        .where((order) => order.stage == OrderStage.STAGE_7_PAID_SHOP)
+        .where((order) => order.stage == OrderStage.STAGE_7_ALL_PAID)
         .forEach((order) =>
             finishedOrderItemsComponents.add(OrderHistoryItemComponent(
               order: order,
               onTap: () {
-                  Navigator.pushNamed(context, ReceiptView.ROUTE_NAME,
-                      arguments: order);
+                Navigator.pushNamed(context, ReceiptView.ROUTE_NAME,
+                    arguments: order);
               },
             )));
 

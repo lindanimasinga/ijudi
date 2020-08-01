@@ -28,19 +28,20 @@ class MessengerOrdersView extends MvStatefulWidget<MessengerOrdersViewModel> {
     ];
 
     viewModel.orders
-        .where((order) => order.stage != OrderStage.STAGE_7_PAID_SHOP)
+        .where((order) => order.stage != OrderStage.STAGE_7_ALL_PAID)
         .forEach((order) =>
             pendingOrderItemsComponents.add(OrderHistoryItemComponent(
                 order: order,
                 onTap: () {
-                  if(viewModel.isStoreDone(order)){
-                    Navigator.pushNamed(context, MessengerOrderUpdateView.ROUTE_NAME,
+                  if (viewModel.isStoreDone(order)) {
+                    Navigator.pushNamed(
+                        context, MessengerOrderUpdateView.ROUTE_NAME,
                         arguments: order);
                   }
                 })));
 
     viewModel.orders
-        .where((order) => order.stage == OrderStage.STAGE_7_PAID_SHOP)
+        .where((order) => order.stage == OrderStage.STAGE_7_ALL_PAID)
         .forEach((order) =>
             finishedOrderItemsComponents.add(OrderHistoryItemComponent(
                 order: order,

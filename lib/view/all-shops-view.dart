@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/ads-card-component.dart';
 import 'package:ijudi/components/bread-crumb.dart';
@@ -87,7 +88,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 : Container(
                     alignment: Alignment.topLeft,
                     padding:
-                        EdgeInsets.only(left: 16, top: 8, bottom: 8, right: 16),
+                        EdgeInsets.only(left: 16, top: 0, bottom: 8, right: 16),
                     child: viewModel.search.isNotEmpty ||
                             adsComponets.length == 0
                         ? Container()
@@ -120,11 +121,24 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             viewModel.search.isNotEmpty || adsComponets.length == 0
                 ? Container()
                 : Container(
-                    height: MediaQuery.of(context).size.height * 0.35,
-                    child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: adsComponets)),
-            Padding(padding: EdgeInsets.only(top: 8, bottom: 8)),
+                    child: CarouselSlider(
+                        items: adsComponets,
+                        options: CarouselOptions(
+                          aspectRatio: 4 / 3,
+                          viewportFraction: 0.65,
+                          height: MediaQuery.of(context).size.height * 0.30,
+                          initialPage: 0,
+                          enableInfiniteScroll: true,
+                          autoPlay: true,
+                          reverse: false,
+                          autoPlayInterval: Duration(seconds: 10),
+                          autoPlayAnimationDuration: Duration(seconds: 2),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: false,
+                          disableCenter: true,
+                          scrollDirection: Axis.horizontal,
+                        ))),
+            Padding(padding: EdgeInsets.only(top: 0, bottom: 8)),
             Forms.searchField(context,
                 hint: "shop name, burger, usu",
                 onChanged: (value) => viewModel.search = value),
@@ -134,11 +148,13 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: filterComponents)),
-            featuredShopComponents.isEmpty?  Container() : Container(
-              alignment: Alignment.topLeft,
-              padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
-              child: Text("Featured", style: IjudiStyles.HEADER_2),
-            ),
+            featuredShopComponents.isEmpty
+                ? Container()
+                : Container(
+                    alignment: Alignment.topLeft,
+                    padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
+                    child: Text("Featured", style: IjudiStyles.HEADER_2),
+                  ),
             Column(children: featuredShopComponents),
             shopComponets.isEmpty
                 ? Container()

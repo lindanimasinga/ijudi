@@ -27,47 +27,29 @@ class FinalOrderView extends MvStatefulWidget<FinalOrderViewModel> {
                   Padding(padding: EdgeInsets.only(bottom: 16)),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
-                          orderViewModel: viewModel,
-                          stage: OrderStage.STAGE_1_WAITING_STORE_CONFIRM, 
-                          countMinutes: 1),
-                      label: "Order Number ${viewModel.order.id}",
-                      text:
-                          "Waiting for shop ${viewModel.shop.name} to accept your order. This may take a few minutes."),
+                          order: viewModel.order,
+                          stage: OrderStage.STAGE_1_WAITING_STORE_CONFIRM,
+                      label: "Order Number ${viewModel.order.id}")),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
-                          orderViewModel: viewModel, 
-                          stage: OrderStage.STAGE_2_STORE_PROCESSING, 
-                          countMinutes: 2),
-                      text:
-                          "${viewModel.shop.name} is now processing your order"),
+                          order: viewModel.order,
+                          stage: OrderStage.STAGE_2_STORE_PROCESSING)),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
-                          orderViewModel: viewModel, 
-                          stage: OrderStage.STAGE_3_READY_FOR_COLLECTION, 
-                          countMinutes: 1),
-                      text:
-                          "The driver is now collecting your. Brace yourself.."),
+                          order: viewModel.order,
+                          stage: OrderStage.STAGE_3_READY_FOR_COLLECTION)),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
-                          orderViewModel: viewModel, 
-                          stage: OrderStage.STAGE_4_ON_THE_ROAD, 
-                          countMinutes: 1),
-                      text:
-                          "The driver is on his way"),
+                          order: viewModel.order,
+                          stage: OrderStage.STAGE_4_ON_THE_ROAD)),
                                    OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
-                          orderViewModel: viewModel, 
-                          stage: OrderStage.STAGE_5_ARRIVED, 
-                          countMinutes: 1),
-                      text:
-                          "The driver has arrived. Please come collect."),
+                          order: viewModel.order,
+                          stage: OrderStage.STAGE_5_ARRIVED)),
                                             OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
-                          orderViewModel: viewModel, 
-                          stage: OrderStage.STAGE_6_WITH_CUSTOMER, 
-                          countMinutes: 1),
-                      text:
-                          "The driver you have received your order, Give us a review."),
+                          order: viewModel.order,
+                          stage: OrderStage.STAGE_6_WITH_CUSTOMER)),
                       
                 ],
               ))

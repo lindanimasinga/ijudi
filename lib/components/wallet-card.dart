@@ -82,7 +82,7 @@ class WalletCard extends StatelessWidget with MessageDialogs {
                                 config.depositingNedBankAccountNumber,
                             fnbAccount: config.depositingFnbBankAccountNumber,
                             ukhesheAccount: wallet.accountId)),
-                    Text("Deposit", style: IjudiStyles.CARD_ICON_BUTTON)
+                    Text("Cash Deposit", style: IjudiStyles.CARD_ICON_BUTTON)
                   ],
                 ),
                 Padding(padding: EdgeInsets.only(left: 8)),

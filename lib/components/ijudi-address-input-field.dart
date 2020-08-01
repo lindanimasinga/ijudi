@@ -64,8 +64,9 @@ class IjudiAddressInputField extends StatelessWidget {
         height: 104,
         alignment: Alignment.centerLeft,
         child: Padding(
-            padding: EdgeInsets.only(left: 32),
+            padding: EdgeInsets.only(left: 16, right: 4),
             child: Text(hint,
+                maxLines: 2,
                 style: Forms.INPUT_LABEL_STYLE,
                 overflow: TextOverflow.ellipsis)),
       ),

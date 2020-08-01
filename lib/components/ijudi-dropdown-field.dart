@@ -1,72 +1,68 @@
-import 'dart:developer';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 
-class IjudiInputField extends StatefulWidget {
+class IjudiDropDownField<T> extends StatefulWidget {
   final String hint;
   final Color color;
   final TextInputType type;
-  final String text;
-  final Function onChanged;
+  final List options;
+  final Function onSelected;
   final bool enabled;
   final Function error;
-  Iterable<String> autofillHints;
+  final Iterable<String> autofillHints;
 
-  IjudiInputField(
+  IjudiDropDownField(
       {@required this.hint,
       this.autofillHints,
       this.enabled,
       this.color = IjudiColors.color5,
       this.type,
-      this.text = "",
+      this.options = const [],
       this.error,
-      this.onChanged});
+      this.onSelected});
 
   @override
-  _IjudiInputFieldState createState() => _IjudiInputFieldState(
+  _IjudiDropDownFieldState createState() => _IjudiDropDownFieldState(
       hint: hint,
       enabled: enabled,
       color: color,
       autofillHints: autofillHints,
-      onChanged: onChanged,
+      onSelected: onSelected,
       type: type,
       error: error,
-      text: text);
+      options: options);
 }
 
-class _IjudiInputFieldState extends State<IjudiInputField> {
+class _IjudiDropDownFieldState<T> extends State<IjudiDropDownField> {
   final String hint;
   Color color;
   final TextInputType type;
-  String text;
-  Function onChanged;
+  List<T> options;
+  Function onSelected;
   bool enabled;
   Function error;
   String errorText = "";
   Iterable<String> autofillHints;
+  T _selected;
 
-  _IjudiInputFieldState(
+  _IjudiDropDownFieldState(
       {@required this.hint,
       this.autofillHints,
       this.enabled,
       this.color = IjudiColors.color5,
       this.type,
-      this.text = "",
+      this.options = const [],
       this.error,
-      this.onChanged});
+      this.onSelected}) {
+    if (selected == null) {
+      _selected = options[0];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    errorText = errorText.isEmpty && error != null ? error() : errorText;
-    var controller = text == null
-        ? null
-        : TextEditingController.fromValue(TextEditingValue(
-            text: text,
-            selection:
-                TextSelection.fromPosition(TextPosition(offset: text.length))));
-
     double width = MediaQuery.of(context).size.width > 360 ? 166 : 126;
     double width2 = MediaQuery.of(context).size.width > 360 ? 114 : 114;
 
@@ -90,33 +86,33 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
           height: 52,
           child: Padding(
               padding: EdgeInsets.only(left: 8, top: 4, bottom: 0),
-              child: Stack(children: [
-                TextField(
-                  controller: controller,
-                  keyboardType: type,
-                  autofillHints: autofillHints,
-                  enabled: enabled,
-                  onChanged: (value) {
-                    text = value;
-                    validate(value);
-                    onChanged(value);
-                  },
-                  decoration: InputDecoration(
-                      hintText: hint,
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                        width: 0.01,
-                      ))),
+              child: DropdownButton<T>(
+                value: selected,
+                icon: Icon(Icons.arrow_downward),
+                iconSize: 24,
+                elevation: 16,
+                style: IjudiStyles.SUBTITLE_2,
+                underline: Container(
+                  height: 1,
+                  color: IjudiColors.color6,
                 ),
-                Container(
-                    alignment: Alignment.bottomLeft,
-                    child: Text(errorText, style: IjudiStyles.FORM_ERROR))
-              ])))
+                onChanged: (T newValue) {
+                  selected = newValue;
+                  print(newValue);
+                  onSelected(newValue);
+                },
+                items: options
+                    .map((value) => DropdownMenuItem<T>(
+                          value: value,
+                          child: Text(describeEnum(value)),
+                        ))
+                    .toList(),
+              )))
     ]);
   }
 
   void validate(String value) {
-    if(autofillHints == null) return;
+    if (autofillHints == null) return;
 
     if (autofillHints.contains(AutofillHints.telephoneNumber)) {
       errorText = value.length < 10 || Utils.validSANumber(value)
@@ -141,5 +137,11 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
       setState(() {});
       return;
     }
+  }
+
+  T get selected => _selected;
+  set selected(T selected) {
+    _selected = selected;
+    setState(() {});
   }
 }

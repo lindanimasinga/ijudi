@@ -4,8 +4,7 @@ import 'package:ijudi/util/util.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 mixin MessageDialogs {
-
-    void showMessageDialog(BuildContext context,
+  void showMessageDialog(BuildContext context,
       {String title,
       Widget child,
       String actionName,
@@ -34,20 +33,22 @@ mixin MessageDialogs {
                 Navigator.of(context).pop();
               },
             ),
-            action is Function ? FlatButton(
-              child: Text(actionName, style: Forms.INPUT_TEXT_STYLE),
-              onPressed: () {
-                Navigator.of(context).pop();
-                action();
-              },
-            ) : Container(),
+            action is Function
+                ? FlatButton(
+                    child: Text(actionName, style: Forms.INPUT_TEXT_STYLE),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      action();
+                    },
+                  )
+                : Container(),
           ],
         );
       },
     );
   }
 
-    void showWebViewDialog(BuildContext context,
+  void showWebViewDialog(BuildContext context,
       {Widget header, String url, Function doneAction}) {
     print(url);
     showDialog(
@@ -90,5 +91,4 @@ mixin MessageDialogs {
       },
     );
   }
-
 }

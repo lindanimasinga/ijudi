@@ -14,7 +14,7 @@ class OrderHistoryItemComponent extends StatelessWidget {
     OrderStage.STAGE_4_ON_THE_ROAD: IjudiColors.color1,
     OrderStage.STAGE_5_ARRIVED: IjudiColors.color5,
     OrderStage.STAGE_6_WITH_CUSTOMER: IjudiColors.color6,
-    OrderStage.STAGE_7_PAID_SHOP: IjudiColors.color4
+    OrderStage.STAGE_7_ALL_PAID: IjudiColors.color4
   };
 
   static const LOTTIE_BY_STAGE = {
@@ -33,7 +33,7 @@ class OrderHistoryItemComponent extends StatelessWidget {
     OrderStage.STAGE_4_ON_THE_ROAD: "Arriving",
     OrderStage.STAGE_5_ARRIVED: "Arrived",
     OrderStage.STAGE_6_WITH_CUSTOMER: "Delivered",
-    OrderStage.STAGE_7_PAID_SHOP: "Completed"
+    OrderStage.STAGE_7_ALL_PAID: "Completed"
   };
 
   final Order order;

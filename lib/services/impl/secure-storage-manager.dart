@@ -142,9 +142,7 @@ class SecureStorageManager extends StorageManager {
 
   @override
   ProfileRoles get profileRole {
-    print(ProfileRoles.values);
     var stringEnum = _storeMap[StorageManager.PROFILE_ROLE];
-    print(stringEnum);
     return ProfileRoles.values.singleWhere((item) => item.toString() == stringEnum);
   }
 

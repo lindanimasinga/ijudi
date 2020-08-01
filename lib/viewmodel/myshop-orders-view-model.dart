@@ -13,14 +13,11 @@ class MyShopOrdersViewModel extends BaseViewModel {
 
   @override
   void initialize() {
-    apiService.findOrdersByShopId(shopId)
-    .asStream()
-    .listen((respo) {
+    apiService.findOrdersByShopId(shopId).asStream().listen((respo) {
       orders = respo;
     }, onError: (e) {
       showError(error: e);
-    }, onDone: () {
-    });
+    }, onDone: () {});
   }
 
   List<Order> get orders => _orders;
@@ -30,9 +27,13 @@ class MyShopOrdersViewModel extends BaseViewModel {
     notifyChanged();
   }
 
-  bool pickUpTimeWithInAnHour(TimeOfDay pickUpTime) {
-    var pickUpDateTime = Utils.timeOfDayAsDateTime(pickUpTime);
+  bool isCurrentOrder(Order order) {
+    if (order.shippingData.type == ShippingType.DELIVERY) {
+      return true;
+    }
+    var pickUpDateTime = Utils.timeOfDayAsDateTime(order.shippingData.pickUpTime);
     var anHourAgo = DateTime.now().subtract(Duration(hours: 1));
-    return pickUpDateTime.isAtSameMomentAs(anHourAgo) || pickUpDateTime.isBefore(anHourAgo);
+    return pickUpDateTime.isAtSameMomentAs(anHourAgo) ||
+        pickUpDateTime.isAfter(anHourAgo);
   }
 }

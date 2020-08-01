@@ -68,10 +68,6 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
                               children: <Widget>[
                                 Text(viewModel.shop.name,
                                     style: IjudiStyles.CARD_SHOP_HEADER),
-                                Text("${viewModel.shop.role}",
-                                    style: IjudiStyles.CARD_SHOP_DISCR),
-                                Text("Account: ${viewModel.shop.bank.accountId}",
-                                    style: IjudiStyles.CARD_SHOP_DISCR),
                                 Text("Phone: ${viewModel.shop.mobileNumber}",
                                     style: IjudiStyles.CARD_SHOP_DISCR)
                               ]),

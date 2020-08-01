@@ -10,7 +10,8 @@ class Stock {
   int quantity;
   double price;
   double discountPerc;
-
+  List<String> images;
+  
   Stock({name: String, quantity: int, price: double, discountPerc = 0.0}) {
     this.name = name;
     this.quantity = quantity;
@@ -21,6 +22,8 @@ class Stock {
   get itemsAvailable {
     return quantity;
   }
+
+  bool get hasImages => images != null && images.length > 0;
 
   BasketItem take(int quantity) {
     if (quantity > this.quantity) {
@@ -41,5 +44,5 @@ class Stock {
 
   factory Stock.fromJson(Map<String, dynamic> json) => _$StockFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StockToJson(this); 
+  Map<String, dynamic> toJson() => _$StockToJson(this);
 }

@@ -38,7 +38,7 @@ class IjudiTimeInput extends StatelessWidget {
         height: 52,
         alignment: Alignment.centerLeft,
         child: Padding(
-            padding: EdgeInsets.only(left: 32),
+            padding: EdgeInsets.only(left: 16, right: 4),
             child: Text(hint,
                 style: Forms.INPUT_LABEL_STYLE,
                 overflow: TextOverflow.ellipsis)),

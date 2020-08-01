@@ -19,16 +19,45 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   final ApiService apiService;
   bool fetchingMessangers = false;
 
+  BuildingType _buildingType = BuildingType.HOUSE;
+  String _buildingName = "";
+  String _unitNumner = "";
+  List<UserProfile> _messangers = [];
+
   DeliveryOptionsViewModel(
       {@required this.ukhesheService,
       @required this.order,
       @required this.apiService});
 
-  List<UserProfile> _messangers = [];
-
   List<UserProfile> get messangers => _messangers;
 
-  get allowedOrder => fetchingMessangers || messangers.length > 0 || order.shippingData.type == ShippingType.COLLECTION;
+  String get buildingName => _buildingName;
+  set buildingName(String buildingName) {
+    _buildingName = buildingName;
+    order.shippingData.buildingName = buildingName;
+  }
+
+  String get unitNumner => _unitNumner;
+  set unitNumner(String unitNumner) {
+    _unitNumner = unitNumner;
+    order.shippingData.unitNumber = unitNumner;
+  }
+
+  BuildingType get buildingType => _buildingType;
+  set buildingType(BuildingType buildingType) {
+    _buildingType = buildingType;
+    order.shippingData.buildingType = _buildingType;
+    notifyChanged();
+  }
+
+  get isBuildingInfoRequired =>
+      order.shippingData.buildingType == BuildingType.APARTMENT ||
+      order.shippingData.buildingType == BuildingType.OFFICE;
+
+  get allowedOrder =>
+      fetchingMessangers ||
+      messangers.length > 0 ||
+      order.shippingData.type == ShippingType.COLLECTION;
 
   set messangers(List<UserProfile> messangers) {
     _messangers = messangers;
@@ -38,8 +67,14 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   ShippingType get shippingType => order.shippingData.type;
   set shippingType(ShippingType delivery) {
     order.shippingData.type = delivery;
-    if(!allowedOrder) {
-      showError(error: "No drivers available on your area. Only collections are allowed");
+    if (!allowedOrder) {
+      showError(
+          error:
+              "No drivers available on your area. Only collections are allowed");
+      return;
+    }
+    if (order.shippingData.type == ShippingType.DELIVERY && order.shippingData.buildingType == null) {
+      order.shippingData.buildingType = BuildingType.HOUSE;
     }
     notifyChanged();
   }
@@ -75,17 +110,21 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   TimeOfDay get arrivalTime => order.shippingData.pickUpTime;
 
   bool get isValidCollectionTime {
-    var pickUpDateTime = Utils.timeOfDayAsDateTime(order.shippingData.pickUpTime);
+    var pickUpDateTime =
+        Utils.timeOfDayAsDateTime(order.shippingData.pickUpTime);
     var closingTime = Utils.timeOfDayAsDateTime(businessHours[0].close);
     var openTime = Utils.timeOfDayAsDateTime(businessHours[0].open);
 
-    return openTime.isBefore(pickUpDateTime) && closingTime.isAfter(pickUpDateTime);
+    return openTime.isBefore(pickUpDateTime) &&
+        closingTime.isAfter(pickUpDateTime);
   }
 
   set arrivalTime(TimeOfDay arrivalTime) {
     order.shippingData.pickUpTime = arrivalTime;
-    if(!isValidCollectionTime) {
-      showError(error: "Your pick up time should be within the collection times indicated.");
+    if (!isValidCollectionTime) {
+      showError(
+          error:
+              "Your pick up time should be within the collection times indicated.");
     }
     notifyChanged();
   }
@@ -101,20 +140,26 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   }
 
   startOrder() {
-    if(!allowedOrder) {
-      showError(error : "No drivers available on your area. Only collections are allowed");
+    if (!allowedOrder) {
+      showError(
+          error:
+              "No drivers available on your area. Only collections are allowed");
       return;
     }
 
-    if(order.shippingData.type == ShippingType.COLLECTION && !isValidCollectionTime) {
-      showError(error: "Your pick up time should be within the collection times indicated.");
+    if (order.shippingData.type == ShippingType.COLLECTION &&
+        !isValidCollectionTime) {
+      showError(
+          error:
+              "Your pick up time should be within the collection times indicated.");
       return;
     }
-    
+
     progressMv.isBusy = true;
-    if(order.shippingData.type == ShippingType.DELIVERY) {
+    if (order.shippingData.type == ShippingType.DELIVERY) {
       order.shippingData.messenger = messangers[0];
     }
+    
     apiService
         .startOrder(order)
         .asStream()
@@ -140,7 +185,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
           Navigator.pushNamed(context, PaymentView.ROUTE_NAME,
               arguments: order);
         }, onError: (handleError) {
-          showError(error : handleError);
+          showError(error: handleError);
           log("handleError", error: handleError);
         }, onDone: () {
           progressMv.isBusy = false;
@@ -163,9 +208,9 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   }
 
   findMessengers() {
-        log("searching for messegers");
-        fetchingMessangers = true;
-        Geolocator()
+    log("searching for messegers");
+    fetchingMessangers = true;
+    Geolocator()
         .placemarkFromAddress(order.shippingData.toAddress)
         .asStream()
         .map((data) => data[0].position)
@@ -174,9 +219,9 @@ class DeliveryOptionsViewModel extends BaseViewModel {
                 position.latitude, position.longitude, Utils.rangeMap["15km"])
             .asStream())
         .listen((messa) {
-          messangers = messa;
-        }, onDone: () {
-          fetchingMessangers = false;
-        });
+      messangers = messa;
+    }, onDone: () {
+      fetchingMessangers = false;
+    });
   }
 }

@@ -1,56 +1,58 @@
-import 'dart:async';
-
 import 'package:ijudi/model/order.dart';
+import 'package:ijudi/model/shop.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:ijudi/viewmodel/final-order-view-model.dart';
 
 class OrderProgressViewModel extends BaseViewModel {
-
-  final FinalOrderViewModel orderViewModel;
+  final Order order;
   final OrderStage stage;
-  Timer _timer;
-  int _startAt;
+  final String label;
 
-  OrderProgressViewModel({this.orderViewModel, this.stage, int countMinutes = 0}) {
-    this._startAt = countMinutes * 60;
-  }
+  final LOTTIE_BY_STAGE = {
+    OrderStage.STAGE_0_CUSTOMER_NOT_PAID: "assets/lottie/loading.json",
+    OrderStage.STAGE_1_WAITING_STORE_CONFIRM: "assets/lottie/loading.json",
+    OrderStage.STAGE_2_STORE_PROCESSING: "assets/lottie/packing.json",
+    OrderStage.STAGE_3_READY_FOR_COLLECTION: "assets/lottie/food.json",
+    OrderStage.STAGE_4_ON_THE_ROAD: "assets/lottie/delivery.json",
+    OrderStage.STAGE_5_ARRIVED: "assets/lottie/loading.json",
+    OrderStage.STAGE_6_WITH_CUSTOMER: "assets/lottie/food.json"
+  };
 
-  String get countDownSeconds {
-    int remainingSec = _startAt % 60;
-    return remainingSec > 10 ? "$remainingSec" : "0$remainingSec";
-  }
+  final onlineDeliveryStages = {
+    OrderStage.STAGE_0_CUSTOMER_NOT_PAID: 0,
+    OrderStage.STAGE_1_WAITING_STORE_CONFIRM: 1,
+    OrderStage.STAGE_2_STORE_PROCESSING: 2,
+    OrderStage.STAGE_3_READY_FOR_COLLECTION: 3,
+    OrderStage.STAGE_4_ON_THE_ROAD: 4,
+    OrderStage.STAGE_5_ARRIVED: 5,
+    OrderStage.STAGE_6_WITH_CUSTOMER: 6,
+    OrderStage.STAGE_7_ALL_PAID: 7
+  };
 
-  int get countDownMinutes => _startAt ~/ 60;
+  get messageMap => {
+        OrderStage.STAGE_0_CUSTOMER_NOT_PAID: "assets/lottie/loading.json",
+        OrderStage.STAGE_1_WAITING_STORE_CONFIRM:
+            "Waiting for shop ${shop.name} to accept your order. This may take a few minutes.",
+        OrderStage.STAGE_2_STORE_PROCESSING:
+            "${shop.name} is now processing your order",
+        OrderStage.STAGE_3_READY_FOR_COLLECTION:
+            "The driver is now collecting your. Brace yourself..",
+        OrderStage.STAGE_4_ON_THE_ROAD: "The driver is on his way",
+        OrderStage.STAGE_5_ARRIVED:
+            "The driver has arrived. Please come collect.",
+        OrderStage.STAGE_6_WITH_CUSTOMER:
+            "You have received your order, Give us a review."
+      };
 
-  @override
-  void dispose() {
-    _disposeTimer();
-    super.dispose();
-  }
+  OrderProgressViewModel({this.order, this.stage, this.label = ""});
 
-  void _disposeTimer() {
-    if(_timer != null){
-      _timer.cancel();
-      _timer = null;
-    }
-  }
+  get isCurrentStage => order.stage == stage;
 
-  startCounting() {
-    _timer = new Timer.periodic(new Duration(seconds: 1), (time) {
-      if(_startAt < 1) {
-        orderViewModel.moveNextStage();
-         _disposeTimer();
-      } else {
-        _startAt = _startAt - 1;
-        notifyChanged();
-      }
-    });
-  }
+  OrderStage get currentStage => order.stage;
 
-  bool get shouldStartCounting => !timerStarted && orderViewModel.stage == stage;
+  Shop get shop => order.shop == null ? Utils.createPlaceHolder() : order.shop;
 
-  bool get timerStarted => _timer != null;
-
-  OrderStage get currentStage => orderViewModel.stage;
-
+  bool get isCompleted =>
+      onlineDeliveryStages[stage] < onlineDeliveryStages[currentStage];
 }
