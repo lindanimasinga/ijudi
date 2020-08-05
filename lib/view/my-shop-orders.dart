@@ -34,8 +34,7 @@ class MyShopOrdersView extends MvStatefulWidget<MyShopOrdersViewModel> {
 
     viewModel.orders
         .where((order) => order.stage != OrderStage.STAGE_7_ALL_PAID)
-        .where((order) =>
-            viewModel.isCurrentOrder(order))
+        .where((order) => viewModel.isCurrentOrder(order))
         .forEach((order) =>
             pendingOrderItemsComponents.add(OrderHistoryItemComponent(
                 order: order,

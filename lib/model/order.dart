@@ -10,7 +10,7 @@ part 'order.g.dart';
 @JsonSerializable(includeIfNull: false)
 class Order {
   String id;
-  Shipping shippingData = Shipping();
+  Shipping shippingData;
   PaymentType paymentType = PaymentType.UKHESHE;
   OrderType orderType = OrderType.ONLINE;
   bool hasVat;
@@ -30,13 +30,15 @@ class Order {
   Order();
 
   double get totalAmount =>
-      serviceFee + basket.getBasketTotalAmount() + shippingData.fee;
+      serviceFee + basket.getBasketTotalAmount() + shippingFee;
 
   String get totalAmountFomarted => Utils.formatToCurrency(
       serviceFee + basket.getBasketTotalAmount() + shippingData.fee);
 
   @JsonKey(ignore: true)
   Shop get shop => _shop;
+
+  get shippingFee => shippingData != null ? shippingData.fee : 0;
 
   @JsonKey(ignore: true)
   set shop(Shop shop) {
@@ -83,6 +85,8 @@ class Shipping {
   UserProfile messenger;
   @JsonKey(fromJson: Utils.timeOfDayFromJson, toJson: Utils.timeOfDayToJson)
   TimeOfDay pickUpTime = TimeOfDay(hour: 0, minute: 0);
+
+  var messengerId;
 
   Shipping();
 

@@ -73,7 +73,8 @@ class DeliveryOptionsViewModel extends BaseViewModel {
               "No drivers available on your area. Only collections are allowed");
       return;
     }
-    if (order.shippingData.type == ShippingType.DELIVERY && order.shippingData.buildingType == null) {
+    if (order.shippingData.type == ShippingType.DELIVERY &&
+        order.shippingData.buildingType == null) {
       order.shippingData.buildingType = BuildingType.HOUSE;
     }
     notifyChanged();
@@ -132,6 +133,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   @override
   void initialize() {
     //shipping
+    order.shippingData = Shipping();
     order.shippingData.toAddress = order.customer.address;
     order.shippingData.type = ShippingType.COLLECTION;
     order.shippingData.fromAddress = order.shop.name;
@@ -158,8 +160,9 @@ class DeliveryOptionsViewModel extends BaseViewModel {
     progressMv.isBusy = true;
     if (order.shippingData.type == ShippingType.DELIVERY) {
       order.shippingData.messenger = messangers[0];
+      order.shippingData.messengerId = messangers[0].id;
     }
-    
+
     apiService
         .startOrder(order)
         .asStream()

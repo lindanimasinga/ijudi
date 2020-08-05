@@ -72,8 +72,11 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               AutofillHints.telephoneNumberLocal
                             ],
                             text: viewModel.mobileNumber,
-                            error: () => viewModel.mobileNumberValid ? "" : "Invalid SA mobile number",
-                            onChanged: (number) => viewModel.mobileNumber = number,
+                            error: () => viewModel.mobileNumberValid
+                                ? ""
+                                : "Invalid SA mobile number",
+                            onChanged: (number) =>
+                                viewModel.mobileNumber = number,
                             type: TextInputType.phone,
                           ),
                           IjudiInputField(
@@ -81,17 +84,20 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               onChanged: (name) => viewModel.name = name,
                               autofillHints: [AutofillHints.name],
                               hint: 'Name',
-                              error: () => viewModel.nameValid ? "" : "Invalid name",
+                              error: () =>
+                                  viewModel.nameValid ? "" : "Invalid name",
                               type: TextInputType.text),
                           IjudiInputField(
                               text: viewModel.lastname,
                               onChanged: (lastname) =>
                                   viewModel.lastname = lastname,
                               hint: 'Surname',
-                              error: () => viewModel.lastNameValid ? "" : "Invalid surname",
+                              error: () => viewModel.lastNameValid
+                                  ? ""
+                                  : "Invalid surname",
                               autofillHints: [AutofillHints.familyName],
                               type: TextInputType.text),
-                         /* IjudiInputField(
+                          /* IjudiInputField(
                               text: viewModel.idNumber,
                               onTap: (id) => viewModel.idNumber = id,
                               hint: 'Id Number',
@@ -142,70 +148,73 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                             child: Image.asset("assets/images/uKhese-logo.png",
                                 width: 90),
                           ),
-                    viewModel.hasUkheshe? Padding(
-                            padding:
-                                EdgeInsets.only(left: 16, bottom: 4),
-                            child: Text("Please register with your Ukheshe details")) : Container(),      
+                    viewModel.hasUkheshe
+                        ? Padding(
+                            padding: EdgeInsets.only(left: 16, bottom: 4),
+                            child: Text(
+                                "Please register with your Ukheshe details"))
+                        : Container(),
                     !viewModel.hasUkheshe
                         ? Container()
                         : IjudiForm(
                             child: Column(
                               children: <Widget>[
                                 IjudiInputField(
-                                    text: viewModel.bankAccountNumber,
-                                    onChanged: (bank) =>
-                                        viewModel.bankAccountNumber = bank,
-                                    hint: 'Card Number',
-                                    autofillHints: [
-                                      AutofillHints.creditCardNumber
-                                    ],
-                                    type: TextInputType.number),
-                                IjudiInputField(
                                     text: viewModel.mobileNumber,
                                     onChanged: (phone) =>
                                         viewModel.mobileNumber = phone,
-                                    hint: 'Cell Number',
+                                    hint: 'SA Mobile Number',
                                     autofillHints: [
                                       AutofillHints.telephoneNumber
                                     ],
                                     type: TextInputType.phone),
-                                !viewModel.hasUkheshe? Container() : IjudiLoginField(
-                                    onTap: (pass) => viewModel.password = pass,
-                                    hint: 'Password',
-                                    icon: Icon(
-                                      Icons.lock,
-                                      size: 22,
-                                      color: Colors.white,
-                                    ),
-                                    autofillHints: [AutofillHints.password],
-                                    type: TextInputType.text)
+                                !viewModel.hasUkheshe
+                                    ? Container()
+                                    : IjudiLoginField(
+                                        onTap: (pass) =>
+                                            viewModel.password = pass,
+                                        hint: 'Password',
+                                        icon: Icon(
+                                          Icons.lock,
+                                          size: 22,
+                                          color: Colors.white,
+                                        ),
+                                        autofillHints: [AutofillHints.password],
+                                        type: TextInputType.text)
                               ],
                             ),
                           ),
                     IjudiForm(
                       child: Column(
                         children: <Widget>[
-                          viewModel.hasUkheshe? Container() : IjudiLoginField(
-                              onTap: (pass) => viewModel.password = pass,
-                              hint: 'Password',
-                              icon: Icon(
-                                Icons.lock,
-                                size: 22,
-                                color: Colors.white,
-                              ),
-                              autofillHints: [AutofillHints.newPassword],
-                              type: TextInputType.text),
-                          viewModel.hasUkheshe? Container() : IjudiLoginField(
-                              onTap: (pass) => viewModel.passwordConfirm = pass,
-                              hint: 'Confirm Password',
-                              error: () => viewModel.passwordValid ? "" : "passwords not match",
-                              icon: Icon(
-                                Icons.lock,
-                                size: 22,
-                                color: Colors.white,
-                              ),
-                              autofillHints: [AutofillHints.newPassword],
-                              type: TextInputType.text)
+                          viewModel.hasUkheshe
+                              ? Container()
+                              : IjudiLoginField(
+                                  onTap: (pass) => viewModel.password = pass,
+                                  hint: 'Password',
+                                  icon: Icon(
+                                    Icons.lock,
+                                    size: 22,
+                                    color: Colors.white,
+                                  ),
+                                  autofillHints: [AutofillHints.newPassword],
+                                  type: TextInputType.text),
+                          viewModel.hasUkheshe
+                              ? Container()
+                              : IjudiLoginField(
+                                  onTap: (pass) =>
+                                      viewModel.passwordConfirm = pass,
+                                  hint: 'Confirm Password',
+                                  error: () => viewModel.passwordValid
+                                      ? ""
+                                      : "passwords not match",
+                                  icon: Icon(
+                                    Icons.lock,
+                                    size: 22,
+                                    color: Colors.white,
+                                  ),
+                                  autofillHints: [AutofillHints.newPassword],
+                                  type: TextInputType.text)
                         ],
                       ),
                     ),
@@ -250,31 +259,37 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                     Container(
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(top: 16, bottom: 16),
-                        child: Builder(builder: (context) => FloatingActionButtonWithProgress(
-                          viewModel: viewModel.progressMv,
-                          onPressed: () {
-                            if (viewModel.allFieldsValid) {
-                              viewModel.startRegistration();
-                              showMessageDialog(context,
-                                  title: "Confirm Code",
-                                  child: IjudiInputField(
-                                    hint: "OTP",
-                                    autofillHints: [AutofillHints.oneTimeCode],
-                                    type: TextInputType.number,
-                                    color: IjudiColors.color5,
-                                    onChanged: (value) => viewModel.otp = value,
-                                  ),
-                                  actionName: "Proceed",
-                                  action: () => viewModel.registerUser());
-                            } else {
-                              Scaffold.of(context).showSnackBar(SnackBar(
-                                  backgroundColor: IjudiColors.color2,
-                                  content: Text(
-                                      'Some fields are missing or invalid.')));
-                            }
-                          },
-                          child: Icon(Icons.check),
-                        )))
+                        child: Builder(
+                            builder: (context) =>
+                                FloatingActionButtonWithProgress(
+                                  viewModel: viewModel.progressMv,
+                                  onPressed: () {
+                                    if (viewModel.allFieldsValid) {
+                                      viewModel.startRegistration();
+                                      showMessageDialog(context,
+                                          title: "Confirm Code",
+                                          child: IjudiInputField(
+                                            hint: "OTP",
+                                            autofillHints: [
+                                              AutofillHints.oneTimeCode
+                                            ],
+                                            type: TextInputType.number,
+                                            color: IjudiColors.color5,
+                                            onChanged: (value) =>
+                                                viewModel.otp = value,
+                                          ),
+                                          actionName: "Proceed",
+                                          action: () =>
+                                              viewModel.registerUser());
+                                    } else {
+                                      Scaffold.of(context).showSnackBar(SnackBar(
+                                          backgroundColor: IjudiColors.color2,
+                                          content: Text(
+                                              'Some fields are missing or invalid.')));
+                                    }
+                                  },
+                                  child: Icon(Icons.check),
+                                )))
                   ],
                 ))
           ],

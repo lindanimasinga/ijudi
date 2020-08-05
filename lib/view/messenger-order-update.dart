@@ -31,7 +31,7 @@ class MessengerOrderUpdateView
     OrderStage.STAGE_7_ALL_PAID: "Completed"
   };
 
-  Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController _controller;
 
   MessengerOrderUpdateView({MessengerOrderUpdateViewModel viewModel})
       : super(viewModel);
@@ -58,6 +58,12 @@ class MessengerOrderUpdateView
                 position: LatLng(
                     viewModel.customerLatitude, viewModel.customerLongitude))
           ];
+
+    var bounds = LatLngBounds(
+        southwest: LatLng(viewModel.latBounds[0], viewModel.lngBounds[0]),
+        northeast: LatLng(viewModel.latBounds[2], viewModel.lngBounds[2]));
+
+    _controller?.moveCamera(CameraUpdate.newLatLngBounds(bounds, 40));
 
     return ScrollableParent(
         title: "Order Status",
@@ -126,6 +132,26 @@ class MessengerOrderUpdateView
                             enabled: false,
                             text: viewModel.order.shippingData.fromAddress,
                             color: IjudiColors.color5),
+                        IjudiInputField(
+                            hint: "Buidling Type",
+                            enabled: false,
+                            text: describeEnum(
+                                viewModel.order.shippingData.buildingType),
+                            color: IjudiColors.color5),
+                        viewModel.order.shippingData.unitNumber == null
+                            ? Container()
+                            : IjudiInputField(
+                                hint: "Unit Number",
+                                enabled: false,
+                                text: viewModel.order.shippingData.unitNumber,
+                                color: IjudiColors.color5),
+                        viewModel.order.shippingData.buildingName == null
+                            ? Container()
+                            : IjudiInputField(
+                                hint: "Building Name",
+                                enabled: false,
+                                text: viewModel.order.shippingData.buildingName,
+                                color: IjudiColors.color5),
                         IjudiAddressInputField(
                             hint: "To Address",
                             enabled: false,
@@ -148,19 +174,18 @@ class MessengerOrderUpdateView
                                 margin: EdgeInsets.all(10),
                                 height: MediaQuery.of(context).size.height / 2,
                                 child: GoogleMap(
-                                  mapType: MapType.normal,
-                                  myLocationEnabled: true,
-                                  compassEnabled: true,
-                                  zoomGesturesEnabled: true,
-                                  scrollGesturesEnabled: true,
-                                  zoomControlsEnabled: true,
-                                  markers: markers.toSet(),
-                                  initialCameraPosition: _kGooglePlex,
-                                  onMapCreated:
-                                      (GoogleMapController controller) {
-                                    _controller.complete(controller);
-                                  },
-                                ))))
+                                    mapType: MapType.normal,
+                                    trafficEnabled: true,
+                                    myLocationEnabled: true,
+                                    compassEnabled: true,
+                                    zoomGesturesEnabled: true,
+                                    scrollGesturesEnabled: true,
+                                    zoomControlsEnabled: true,
+                                    markers: markers.toSet(),
+                                    initialCameraPosition: _kGooglePlex,
+                                    onMapCreated:
+                                        (GoogleMapController controller) =>
+                                            _controller = controller))))
                   ]))
         ]));
   }

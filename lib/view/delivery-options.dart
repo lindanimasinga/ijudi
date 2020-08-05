@@ -109,7 +109,7 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
               text: viewModel.unitNumner,
               color: IjudiColors.color5,
               onChanged: (value) => viewModel.unitNumner = value),
-              !viewModel.isBuildingInfoRequired ? Container() : IjudiInputField(
+          !viewModel.isBuildingInfoRequired ? Container() : IjudiInputField(
               hint: "Building Name",
               enabled: true,
               text: viewModel.buildingName,

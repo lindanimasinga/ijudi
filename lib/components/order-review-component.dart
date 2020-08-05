@@ -71,7 +71,7 @@ class OrderReviewComponent extends StatelessWidget {
     ));
     }
 
-    if (includeFees && order.shippingData.fee > 0) {
+    if (includeFees && order.shippingFee > 0) {
       basketWidget.add(Container(
         height: 52,
         padding: EdgeInsets.only(left: 16),

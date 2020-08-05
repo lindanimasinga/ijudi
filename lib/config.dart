@@ -37,8 +37,8 @@ abstract class Config {
 class ProdConfig extends Config {
   final String depositingFnbBankAccountNumber = "62544036850";
   final String depositingNedBankAccountNumber = "1196782040";
-  final String ukhesheBaseURL = "https://ukheshe-sandbox.jini.rocks";
-  final String iZingaApiUrl = "http://localhost/";
+  final String ukhesheBaseURL = "https://api2.ukheshe.co.za";
+  final String iZingaApiUrl = "http://ec2co-ecsel-1b20jvvw3yfzt-2104564802.af-south-1.elb.amazonaws.com/";
 }
 
 class UATConfig extends Config {

@@ -40,11 +40,7 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker{
           order.customer = cust;
           cust.bank = wallet;
           order.shop = shop;
-          order.shippingData = Shipping();
-          order.shippingData.type = ShippingType.COLLECTION;
           order.orderType = OrderType.INSTORE;
-          order.shippingData.pickUpTime = TimeOfDay.now();
-          order.shippingData.fromAddress = shop.name;
           order.basket = Basket();
           order.description = "Payment from ${order.customer.mobileNumber}";
         }, onError: (e) {
@@ -142,7 +138,6 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker{
         order.date = newOrder.date;
         order.paymentType = PaymentType.UKHESHE;
         order.hasVat = newOrder.hasVat;
-        order.shippingData.fee = newOrder.shippingData.fee;
         order.serviceFee = newOrder.serviceFee;
         order.description = "Payment from ${order.customer.mobileNumber} order ${order.id}";
       }).listen(null);

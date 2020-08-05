@@ -13,7 +13,6 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MessengerOrderUpdateViewModel extends BaseViewModel {
-  
   Order _order;
   Shop _shop;
   UserProfile customer;
@@ -25,35 +24,48 @@ class MessengerOrderUpdateViewModel extends BaseViewModel {
   double _customerLatitude = -29.7380334;
   double _customerLongitude = 30.9553061;
 
-  MessengerOrderUpdateViewModel({@required Order order, @required this.apiService})
+  double _shopLatitude = -29.7380334;
+  double _shopLongitude = 30.9553061;
+
+  MessengerOrderUpdateViewModel(
+      {@required Order order, @required this.apiService})
       : this._order = order;
+
+  List<double> get latBounds =>
+      [_customerLatitude, _currentLatitude, shopLatitude]..sort();
+
+  List<double> get lngBounds =>
+      [_customerLongitude, _currentLongitude, shopLongitude]..sort();
 
   @override
   initialize() {
     Rx.merge([
-      this.apiService.findShopById(order.shopId).asStream()
-      .map((resp) {
+      this.apiService.findShopById(order.shopId).asStream().map((resp) {
         shop = resp;
+        shopLatitude = shop.latitude;
+        shopLongitude = shop.longitude;
       }),
-      this.apiService.findUserById(order.customerId).asStream()
-      .map((resp) {
+      this.apiService.findUserById(order.customerId).asStream().map((resp) {
         customer = resp;
       }),
-      Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high).asStream()
-      .map((position) {
+      Geolocator()
+          .getLastKnownPosition(desiredAccuracy: LocationAccuracy.high)
+          .asStream()
+          .map((position) {
         currentLatitude = position.latitude;
         currentLongitude = position.longitude;
       }),
-      Geolocator().placemarkFromAddress(order.shippingData.toAddress).asStream()
-      .map((placeMark) {
+      Geolocator()
+          .placemarkFromAddress(order.shippingData.toAddress)
+          .asStream()
+          .map((placeMark) {
         customerLatitude = placeMark[0].position.latitude;
         customerLongitude = placeMark[0].position.longitude;
       })
     ]).listen((event) {
       log("all location data fetched");
     });
-
-  }    
+  }
 
   rejectOrder() {
     if (order.stage == OrderStage.STAGE_1_WAITING_STORE_CONFIRM) {
@@ -68,27 +80,35 @@ class MessengerOrderUpdateViewModel extends BaseViewModel {
     apiService.progressOrderNextStage(order.id).asStream().listen((data) {
       order = data;
 
-      BaseViewModel.analytics
-      .logEvent(
-        name: "store-view-order",
-        parameters: {
-          "shop" : order.shopId,
-          "orderId" : order.id,
-          "Delivery" : order.shippingData.type,
-          "stage" : order.shippingData.type
-        })
-      .then((value) => {});
+      BaseViewModel.analytics.logEvent(name: "store-view-order", parameters: {
+        "shop": order.shopId,
+        "orderId": order.id,
+        "Delivery": order.shippingData.type,
+        "stage": order.shippingData.type
+      }).then((value) => {});
 
       if (order.stage == OrderStage.STAGE_6_WITH_CUSTOMER) {
         Navigator.pop(context);
         Navigator.popAndPushNamed(context, MessengerOrdersView.ROUTE_NAME,
-            arguments: order.shippingData.messenger.id);
+            arguments: order.shippingData.messengerId);
       }
     }, onError: (e) {
       showError(error: e);
     }, onDone: () {
       progressMv.isBusy = false;
     });
+  }
+
+  double get shopLatitude => _shopLatitude;
+  set shopLatitude(double shopLatitude) {
+    _shopLatitude = shopLatitude;
+    notifyChanged();
+  }
+
+  double get shopLongitude => _shopLongitude;
+  set shopLongitude(double shopLongitude) {
+    _shopLongitude = shopLongitude;
+    notifyChanged();
   }
 
   Order get order => _order;

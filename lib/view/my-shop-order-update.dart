@@ -7,23 +7,12 @@ import 'package:ijudi/components/order-review-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/my-shop-order-update-view-model.dart';
 
 class MyShopOrderUpdateView
     extends MvStatefulWidget<MyShopOrderUpdateViewModel> {
   static const String ROUTE_NAME = "shop-order-update";
-
-  static const statusText = {
-    OrderStage.STAGE_0_CUSTOMER_NOT_PAID: "Not Paid",
-    OrderStage.STAGE_1_WAITING_STORE_CONFIRM: "Please confirm the order",
-    OrderStage.STAGE_2_STORE_PROCESSING: "Is the order ready?",
-    OrderStage.STAGE_3_READY_FOR_COLLECTION:
-        "Has the order been collected by the driver?",
-    OrderStage.STAGE_4_ON_THE_ROAD: "Has the driver arrived at the Customer?",
-    OrderStage.STAGE_5_ARRIVED: "Is the order delivered?",
-    OrderStage.STAGE_6_WITH_CUSTOMER: "The order delivered",
-    OrderStage.STAGE_7_ALL_PAID: "Completed"
-  };
 
   MyShopOrderUpdateView({MyShopOrderUpdateViewModel viewModel})
       : super(viewModel);
@@ -55,14 +44,13 @@ class MyShopOrderUpdateView
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 32, left: 16),
-                        child: Text(
-                            "Order is a ${describeEnum(viewModel.order.shippingData.type)}",
+                        child: Text("Order is a ${viewModel.orderType}",
                             style: IjudiStyles.HEADER_TEXT)),
                     Container(
                         margin: EdgeInsets.only(right: 16),
                         child: OrderReviewComponent(
                             order: viewModel.order, includeFees: false)),
-                    viewModel.orderReady
+                    viewModel.orderReadyForCollection || viewModel.isInstoreOrder
                         ? Container()
                         : Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -76,7 +64,7 @@ class MyShopOrderUpdateView
                                             alignment: Alignment.center,
                                             height: 140,
                                             child: Text(
-                                                statusText[
+                                                Utils.statusText[
                                                     viewModel.order.stage],
                                                 style: IjudiStyles.HEADER_2,
                                                 textAlign: TextAlign.center)))),
