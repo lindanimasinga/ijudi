@@ -1,15 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/services/local-notification-service.dart';
+import 'package:ijudi/util/order-status-checker.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
-class FinalOrderViewModel extends BaseViewModel {
-  final Order order;
-  final Shop shopPlaceHolder = Utils.createPlaceHolder();
+class FinalOrderViewModel extends BaseViewModel with OrderStatusChecker {
+  Order order;
 
+  final Shop shopPlaceHolder = Utils.createPlaceHolder();
   final ApiService apiService;
   final NotificationService localNotificationService;
 
@@ -44,6 +47,8 @@ class FinalOrderViewModel extends BaseViewModel {
         showError(error: e);
       });
     }
+
+    startOrderStatusCheck();
   }
 
   Shop get shop => order.shop == null ? shopPlaceHolder : order.shop;
@@ -52,9 +57,17 @@ class FinalOrderViewModel extends BaseViewModel {
     notifyChanged();
   }
 
-  void moveNextStage() {
+  OrderStage get currentStage => order.stage;
+  set currentStage(OrderStage stage) {
+    order.stage = stage;
     notifyChanged();
   }
 
   OrderStage get stage => order.stage;
+
+  @override
+  void dispose() {
+    super.dispose();
+    super.destroy();
+  }
 }

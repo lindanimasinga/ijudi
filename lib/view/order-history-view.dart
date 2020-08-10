@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ijudi/components/ijudi-card.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/order-history-item-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';

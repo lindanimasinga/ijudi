@@ -7,6 +7,7 @@ import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/ijudi-login-field.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
+import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/register-view-model.dart';
@@ -59,7 +60,50 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                             ))),
                     Padding(
                       padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
-                      child: Text("Personal", style: IjudiStyles.HEADER_TEXT),
+                      child: Text("What is your interest onto iZinga?", style: IjudiStyles.HEADER_TEXT),
+                    ),
+                    IjudiForm(
+                        child: Column(children: [
+                      Row(
+                        children: <Widget>[
+                          Radio(
+                            value: ProfileRoles.CUSTOMER,
+                            groupValue: viewModel.interests,
+                            onChanged: (selection) =>
+                                viewModel.interests = selection,
+                          ),
+                          Text('I want buy my favourite food',
+                              style: Forms.INPUT_TEXT_STYLE),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Radio(
+                            value: ProfileRoles.STORE,
+                            groupValue: viewModel.interests,
+                            onChanged: (selection) =>
+                                viewModel.interests = selection,
+                          ),
+                          Text('I want to sell food online',
+                              style: Forms.INPUT_TEXT_STYLE),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Radio(
+                            value: ProfileRoles.MESSENGER,
+                            groupValue: viewModel.interests,
+                            onChanged: (selection) =>
+                                viewModel.interests = selection,
+                          ),
+                          Text('I want to deliver food',
+                              style: Forms.INPUT_TEXT_STYLE),
+                        ],
+                      )
+                    ])),        
+                    Padding(
+                      padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
+                      child: Text("Personal Information"),
                     ),
                     IjudiForm(
                       child: AutofillGroup(

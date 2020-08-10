@@ -21,10 +21,8 @@ class RegisterViewModel extends BaseViewModel {
   bool nameValid = true;
   bool lastNameValid = true;
   var idNumberValid = true;
-
-  RegisterViewModel({this.ukhesheService, @required this.apiService});
-
-  String idNumber = "";
+  ProfileRoles _interests = ProfileRoles.CUSTOMER;
+    String idNumber = "";
   String name = "";
   String lastname = "";
   String description = "";
@@ -42,6 +40,8 @@ class RegisterViewModel extends BaseViewModel {
   String passwordConfirm;
   bool _hasUkheshe = false;
 
+  RegisterViewModel({this.ukhesheService, @required this.apiService});
+
   bool get hasUkheshe => _hasUkheshe;
   set hasUkheshe(bool hasUkheshe) {
     _hasUkheshe = hasUkheshe;
@@ -51,6 +51,13 @@ class RegisterViewModel extends BaseViewModel {
   String get address => _address;
   set address(String address) {
     _address = address;
+    notifyChanged();
+  }
+
+    ProfileRoles get interests => _interests;
+
+  set interests(ProfileRoles interests) {
+    _interests = interests;
     notifyChanged();
   }
 
@@ -70,7 +77,7 @@ class RegisterViewModel extends BaseViewModel {
     _bank.name = name;
     _bank.phone = mobileNumber;
     _bank.type = "wallet";
-    if(otp == null || otp.isEmpty) {
+    if (otp == null || otp.isEmpty) {
       Stream.error("Please try again and enter otp received via SMS.");
     }
     return ukhesheService
@@ -97,9 +104,10 @@ class RegisterViewModel extends BaseViewModel {
         bank: _bank);
 
     progressMv.isBusy = true;
-    Stream stream = !hasUkheshe? _registerBank() : Stream.value(0);
-    stream.asyncExpand((event) => apiService.registerUser(user).asStream())
-    .listen((event) {
+    Stream stream = !hasUkheshe ? _registerBank() : Stream.value(0);
+    stream
+        .asyncExpand((event) => apiService.registerUser(user).asStream())
+        .listen((event) {
       print("successful registration");
       BaseViewModel.analytics.logSignUp(signUpMethod: "cellphone");
       Navigator.pushNamedAndRemoveUntil(
@@ -111,7 +119,6 @@ class RegisterViewModel extends BaseViewModel {
         "error": e.toString(),
         "cellNumber": mobileNumber
       }).then((value) => {});
-
     }, onDone: () {
       progressMv.isBusy = false;
     });
@@ -121,7 +128,7 @@ class RegisterViewModel extends BaseViewModel {
     progressMv.isBusy = true;
     ukhesheService.requestOpt(mobileNumber).asStream().listen((event) {},
         onError: (e) {
-              showError(error: e);
+          showError(error: e);
         },
         onDone: () => progressMv.isBusy = false);
   }
@@ -131,10 +138,15 @@ class RegisterViewModel extends BaseViewModel {
   }
 
   bool get allFieldsValid {
-    passwordValid = password != null && password.isNotEmpty && (hasUkheshe || passwordConfirm == password);
-    mobileNumberValid = mobileNumber != null && mobileNumber.isNotEmpty && Utils.validSANumber(mobileNumber);
+    passwordValid = password != null &&
+        password.isNotEmpty &&
+        (hasUkheshe || passwordConfirm == password);
+    mobileNumberValid = mobileNumber != null &&
+        mobileNumber.isNotEmpty &&
+        Utils.validSANumber(mobileNumber);
     nameValid = name != null && name.isNotEmpty && name.length > 3;
-    lastNameValid = lastname != null && lastname.isNotEmpty && lastname.length > 3;
+    lastNameValid =
+        lastname != null && lastname.isNotEmpty && lastname.length > 3;
     notifyChanged();
     return passwordValid && mobileNumberValid && nameValid && lastNameValid;
   }

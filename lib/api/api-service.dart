@@ -286,7 +286,7 @@ class ApiService {
     return event;
   }
 
-  findOrdersByMessengerId(String messengerId) async {
+  Future<List<Order>> findOrdersByMessengerId(String messengerId) async {
     logger.log("fetching all orders for messenger with id $messengerId");
     var event = await http.get('$apiUrl/order?messengerId=$messengerId')
         .timeout(Duration(seconds: TIMEOUT_SEC));
@@ -295,5 +295,13 @@ class ApiService {
         
     Iterable list = json.decode(event.body);
     return list.map((f) => Order.fromJson(f)).toList();
+  }
+
+  Future<Order> findOrderById(String id) async {
+    var event = await http.get('$apiUrl/order/$id')
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    logger.log(event.body);
+    if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
+    return Order.fromJson(json.decode(event.body));
   }
 }

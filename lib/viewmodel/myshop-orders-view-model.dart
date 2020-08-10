@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/order.dart';
+import 'package:ijudi/util/order-status-checker.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
-class MyShopOrdersViewModel extends BaseViewModel {
+class MyShopOrdersViewModel extends BaseViewModel with OrderStatusChecker {
   List<Order> _orders = [];
   final ApiService apiService;
   final String shopId;
@@ -18,6 +19,8 @@ class MyShopOrdersViewModel extends BaseViewModel {
     }, onError: (e) {
       showError(error: e);
     }, onDone: () {});
+
+    startOrdersStatusCheck(storeId: shopId);
   }
 
   List<Order> get orders => _orders;
@@ -31,9 +34,16 @@ class MyShopOrdersViewModel extends BaseViewModel {
     if (order.shippingData.type == ShippingType.DELIVERY) {
       return true;
     }
-    var pickUpDateTime = Utils.timeOfDayAsDateTime(order.shippingData.pickUpTime);
+    var pickUpDateTime =
+        Utils.timeOfDayAsDateTime(order.shippingData.pickUpTime);
     var anHourAgo = DateTime.now().subtract(Duration(hours: 1));
     return pickUpDateTime.isAtSameMomentAs(anHourAgo) ||
         pickUpDateTime.isAfter(anHourAgo);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    super.destroy();
   }
 }

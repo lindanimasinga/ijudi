@@ -9,10 +9,9 @@ import 'package:ijudi/viewmodel/receipt-view-model.dart';
 import 'package:intl/intl.dart';
 
 class ReceiptView extends MvStatefulWidget<ReceiptViewModel> {
-
   static const String ROUTE_NAME = "receipt";
 
-  ReceiptView({ReceiptViewModel viewModel}): super(viewModel);
+  ReceiptView({ReceiptViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -32,43 +31,63 @@ class ReceiptView extends MvStatefulWidget<ReceiptViewModel> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                    Container(
-                          width: 70,
-                          height: 70,
-                          margin: EdgeInsets.only(bottom: 8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(61),
-                            color: Colors.white,
-                            border: Border.all(
-                              color: IjudiColors.color1,
-                              width: 2,
-                            ),
-                            image: DecorationImage(
-                              image: NetworkImage(viewModel.shop.imageUrl),
-                              fit: BoxFit.cover,
-                            ),
-                          )),
-                          Text("Tax Invoice  #${viewModel.order.id}", style: IjudiStyles.CARD_SHOP_DISCR,),
-                      ]
-                    ),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                              width: 70,
+                              height: 70,
+                              margin: EdgeInsets.only(bottom: 8),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(61),
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: IjudiColors.color1,
+                                  width: 2,
+                                ),
+                                image: DecorationImage(
+                                  image: NetworkImage(viewModel.shop.imageUrl),
+                                  fit: BoxFit.cover,
+                                ),
+                              )),
+                          Text(
+                            "Tax Invoice  #${viewModel.order.id}",
+                            style: IjudiStyles.CARD_SHOP_DISCR,
+                          ),
+                        ]),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("${viewModel.shop.name}", style: IjudiStyles.CARD_SHOP_HEADER),
-                        Text("Date: ${DateFormat("dd MMM yy 'at' HH:mm").format(viewModel.order.date)}", style: IjudiStyles.CARD_SHOP_DISCR,)
+                        Container(
+                          width: 160,
+                          child: Text(
+                            "${viewModel.shop.name}",
+                            style: IjudiStyles.CARD_SHOP_HEADER,
+                            maxLines: 2,
+                          ),
+                        ),
+                        Text(
+                          "Date: ${DateFormat("dd MMM yy 'at' HH:mm").format(viewModel.order.date)}",
+                          style: IjudiStyles.CARD_SHOP_DISCR,
+                        )
                       ],
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 8)),
-                    Text("*${describeEnum(viewModel.order.orderType)}", style: IjudiStyles.CARD_SHOP_DISCR,),
+                    Text(
+                      "*${describeEnum(viewModel.order.orderType)}",
+                      style: IjudiStyles.CARD_SHOP_DISCR,
+                    ),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
                     OrderReviewComponent(order: viewModel.order),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
-                    Text("Contact:  ${viewModel.shop.mobileNumber}", style: IjudiStyles.CARD_SHOP_DISCR,),
+                    Text(
+                      "Contact:  ${viewModel.shop.mobileNumber}",
+                      style: IjudiStyles.CARD_SHOP_DISCR,
+                    ),
                     Padding(padding: EdgeInsets.only(bottom: 16)),
-                     Text("Thank you for your support", style: IjudiStyles.CARD_SHOP_DISCR,),
-
+                    Text(
+                      "Thank you for your support",
+                      style: IjudiStyles.CARD_SHOP_DISCR,
+                    ),
                   ],
                 ),
               )))
