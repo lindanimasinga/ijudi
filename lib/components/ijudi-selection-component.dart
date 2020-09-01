@@ -38,7 +38,7 @@ class _IjudiSelectionComponent extends State<IjudiSelectionComponent> {
             onChanged: (selection) => selected = selection,
           ),
           Container( 
-            width: 83,
+            width: 93,
             child:Text(value, style: Forms.INPUT_TEXT_STYLE, maxLines: 2)),
         ],
       ));
@@ -46,11 +46,11 @@ class _IjudiSelectionComponent extends State<IjudiSelectionComponent> {
 
     return Container(
         margin: EdgeInsets.only(bottom: 8),
-        child: Table(children: [
-          TableRow(
-            children: [Text(option.name), Text("R ${Utils.formatToCurrency(option.price)}")],
-          ),
-          TableRow(children: [Column(children: choices), Container()])
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          Text(option.name),
+          Row(children: [Column(children: choices), Container()])
         ]));
   }
 

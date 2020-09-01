@@ -14,8 +14,8 @@ class Stock {
 
   double discountPerc;
   List<String> images;
-  List<SelectionOption> mandatorySelection;
-  List<SelectionOption> optionalSelection;
+  List<SelectionOption> mandatorySelection = [];
+  List<SelectionOption> optionalSelection = [];
 
   Stock(
       {this.name,
@@ -35,6 +35,9 @@ class Stock {
               .map((value) => value.price)
               .reduce((value, element) => value + element)
           : 0);
+
+  get shouldSelectOptions => mandatorySelection != null && mandatorySelection.isNotEmpty;
+  
   set price(double price) {
     _price = price;
   }
@@ -56,7 +59,7 @@ class Stock {
         quantity: quantity,
         price: price,
         discountPerc: discountPerc)
-      ..options = mandatorySelection
+      ..options = mandatorySelection == null ? [] : mandatorySelection
           .map((e) => SelectionOption()
             ..name = e.name
             ..price = e.price

@@ -61,9 +61,8 @@ class _StockItemComponentState extends State<StockItemComponent>
       )),
       Container(
           child: FlatButton(
-              onPressed: item.itemsAvailable > 0
-                  ? () => addAction(item.take(1))
-                  : null,
+              onPressed: item.itemsAvailable <= 0 ? null
+                  : item.shouldSelectOptions ? () => openSeletionDialog() : () => addAction(item.take(1)),
               child: Text("ADD")))
     ]);
 
