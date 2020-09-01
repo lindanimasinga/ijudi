@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:ijudi/components/ijudi-selection-component.dart';
 import 'package:ijudi/components/stacked-thumbnails.dart';
 import 'package:ijudi/model/stock.dart';
+import 'package:ijudi/util/message-dialogs.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 
@@ -16,7 +18,8 @@ class StockItemComponent extends StatefulWidget {
       _StockItemComponentState(item, addAction);
 }
 
-class _StockItemComponentState extends State<StockItemComponent> {
+class _StockItemComponentState extends State<StockItemComponent>
+    with MessageDialogs {
   final Stock item;
   final Function addAction;
   bool _expanded = false;
@@ -36,21 +39,21 @@ class _StockItemComponentState extends State<StockItemComponent> {
     widgets.addAll([
       Container(
           width: 130,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Container(
-              width: !item.hasImages? 130 : 90,
-              child:Text(
-            "${item.name}",
-            style: Forms.INPUT_TEXT_STYLE,
-            )),
-           !item.hasImages ? Container() : Container(
-        margin: EdgeInsets.only(right: 8),
-        child: StackedThumbnails(urls: item.images),
-      ) 
-          ]
-        )),
+                width: !item.hasImages ? 130 : 90,
+                child: Text(
+                  "${item.name}",
+                  style: Forms.INPUT_TEXT_STYLE,
+                )),
+            !item.hasImages
+                ? Container()
+                : Container(
+                    margin: EdgeInsets.only(right: 8),
+                    child: StackedThumbnails(urls: item.images),
+                  )
+          ])),
       Container(
           child: Text(
         "R${Utils.formatToCurrency(item.price)}",
@@ -65,7 +68,7 @@ class _StockItemComponentState extends State<StockItemComponent> {
     ]);
 
     return GestureDetector(
-        onTap: () => expanded = !expanded && item.hasImages,
+        onTap: () => openSeletionDialog(),
         child: Container(
             //height: 62,
             padding: EdgeInsets.only(left: 16, top: 4, bottom: 4),
@@ -73,47 +76,92 @@ class _StockItemComponentState extends State<StockItemComponent> {
               color: Theme.of(context).cardColor,
               border: Border.all(color: IjudiColors.color5, width: 0.05),
             ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: widgets,
-                ),
-                !expanded
-                    ? Container()
-                    : Container(
-                        margin: EdgeInsets.only(top: 8, bottom: 8),
-                        child: CarouselSlider(
-                            items: item.images
-                                .map((url) => Container(
-                                        decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(25),
-                                      color: Colors.white,
-                                      border: Border.all(
-                                        color: IjudiColors.color3,
-                                        width: 10,
-                                      ),
-                                      image: DecorationImage(
-                                        image: NetworkImage(url),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )))
-                                .toList(),
-                            options: CarouselOptions(
-                              aspectRatio: 16 / 9,
-                              viewportFraction: 0.8,
-                              initialPage: 0,
-                              enableInfiniteScroll: false,
-                              autoPlay: true,
-                              autoPlayInterval: Duration(seconds: 4),
-                              autoPlayAnimationDuration:
-                                  Duration(milliseconds: 800),
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              enlargeCenterPage: true,
-                              scrollDirection: Axis.horizontal,
-                            )),
-                      )
-              ],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: widgets,
             )));
+  }
+
+  openSeletionDialog() {
+    List<Widget> mandatorySelection = [];
+    item.mandatorySelection?.forEach((option) {
+      mandatorySelection.add(IjudiSelectionComponent(option: option));
+    });
+
+    showMessageDialog(context,
+        title: item.name,
+        child: Container(
+            width: MediaQuery.of(context).size.width,
+            child: ListView(children: [
+              item.images == null
+                  ? Container(
+                      margin: EdgeInsets.only(top: 16),
+                    )
+                  : Container(
+                      margin: EdgeInsets.only(top: 16, bottom: 16),
+                      child: Container(
+                          height: 150,
+                          child: CarouselSlider(
+                              items: item.images
+                                  .map((url) => Container(
+                                          decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(25),
+                                        color: Colors.white,
+                                        border: Border.all(
+                                          color: IjudiColors.color3,
+                                          width: 10,
+                                        ),
+                                        image: DecorationImage(
+                                          image: NetworkImage(url),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )))
+                                  .toList(),
+                              options: CarouselOptions(
+                                aspectRatio: 16 / 9,
+                                viewportFraction: 0.8,
+                                initialPage: 0,
+                                enableInfiniteScroll: false,
+                                autoPlay: true,
+                                autoPlayInterval: Duration(seconds: 4),
+                                autoPlayAnimationDuration:
+                                    Duration(milliseconds: 800),
+                                autoPlayCurve: Curves.fastOutSlowIn,
+                                enlargeCenterPage: true,
+                                scrollDirection: Axis.horizontal,
+                              ))),
+                    ),
+              Container(
+                  margin: EdgeInsets.all(16),
+                  child: Table(children: [
+                    TableRow(
+                      children: [
+                        Text("Price"),
+                        Text("R ${Utils.formatToCurrency(item.price)}")
+                      ],
+                    ),
+                    item.description == null || item.description.isEmpty
+                        ? TableRow(children: [Container(), Container()])
+                        : TableRow(
+                            children: [
+                              Text("Description"),
+                              Text("${item.description}")
+                            ],
+                          )
+                  ])),
+              item.mandatorySelection == null
+                  ? Container()
+                  : Container(
+                      margin: EdgeInsets.all(16),
+                      child: Text(
+                        "Choices",
+                        style: IjudiStyles.HEADER_2,
+                      )),
+              Container(
+                  margin: EdgeInsets.all(16),
+                  child: Column(children: mandatorySelection))
+            ])),
+        actionName: "Add",
+        action: () => addAction(item.take(1)));
   }
 }

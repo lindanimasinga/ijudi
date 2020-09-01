@@ -4,10 +4,13 @@ import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 
 class StocksComponent extends StatelessWidget {
-  final Function addAction;
+  
+  final Function action;
   final List<Stock> stocks;
+  final String actionName;
+  final bool enabledAction;
 
-  StocksComponent({@required this.stocks, @required this.addAction});
+  StocksComponent({@required this.stocks, @required this.action, this.actionName, this.enabledAction = true});
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +52,8 @@ class StocksComponent extends StatelessWidget {
             ),
             Container(
               child: FlatButton(
-                onPressed: item.itemsAvailable > 0 ? ()=> addAction(item.take(1)) : null, 
-                child: Text("ADD")
+                onPressed: enabledAction ? ()=> action(item.take(1)) : null, 
+                child: Text(actionName)
               ) 
             )
           ],

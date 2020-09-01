@@ -115,7 +115,7 @@ class RegisterViewModel extends BaseViewModel {
     }, onError: (e) {
       showError(error: e);
 
-      BaseViewModel.analytics.logEvent(name: "signup-error", parameters: {
+      BaseViewModel.analytics.logEvent(name: "error.signup", parameters: {
         "error": e.toString(),
         "cellNumber": mobileNumber
       }).then((value) => {});

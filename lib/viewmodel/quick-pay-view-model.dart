@@ -14,7 +14,7 @@ import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
-class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker{
+class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker {
   final ApiService apiService;
   final UkhesheService ukhesheService;
   final Shop shop;
@@ -25,6 +25,7 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker{
   double topupAmount = 0;
   Order order = Order();
   int quantity = 1;
+  bool paymentSuccessful;
 
   QuickPayViewModel({this.apiService, this.ukhesheService, this.shop});
 
@@ -37,20 +38,19 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker{
         .map((resp) => wallet = resp)
         .asyncExpand((wallet) => apiService.findUserByPhone(userId).asStream())
         .listen((cust) {
-          order.customer = cust;
-          cust.bank = wallet;
-          order.shop = shop;
-          order.orderType = OrderType.INSTORE;
-          order.basket = Basket();
-          order.description = "Payment from ${order.customer.mobileNumber}";
-        }, onError: (e) {
-                  showError(error: e);
-        },
-         onDone: () {});
+      order.customer = cust;
+      cust.bank = wallet;
+      order.shop = shop;
+      order.orderType = OrderType.INSTORE;
+      order.basket = Basket();
+      order.description = "Payment from ${order.customer.mobileNumber}";
+    }, onError: (e) {
+      showError(error: e);
+    }, onDone: () {});
   }
 
   String get baseUrl => ukhesheService.baseUrl;
-  
+
   Bank get wallet => _wallet;
   set wallet(Bank wallet) {
     _wallet = wallet;
@@ -65,50 +65,49 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker{
 
   pay() {
     progressMv.isBusy = true;
-    ukhesheService.paymentForOrder(order).asStream()
-      .asyncExpand((event) {
-        HapticFeedback.vibrate();
-        return apiService.completeOrderPayment(order).asStream();
-      })
-      .listen((data) {
-        BaseViewModel.analytics
-        .logEcommercePurchase(
-          transactionId: order.id,
-          value: order.totalAmount,
-          currency: "ZAR"
-        ).then((value) => {});
-        
-        Navigator.popAndPushNamed (
-              context,
-              ReceiptView.ROUTE_NAME,
-              arguments: order);
-      }, onError: (e) {
-        clearOrder();
-          showError(error: e);
-
-        BaseViewModel.analytics
-          .logEvent(
-            name: "order-purchase-failed",
-            parameters: {
-              "shop" : order.shop.name,
-              "error" : e.toString()
-            })
+    ukhesheService.paymentForOrder(order).asStream().asyncExpand((event) {
+      HapticFeedback.vibrate();
+      paymentSuccessful = true;
+      return apiService.completeOrderPayment(order).asStream();
+    }).listen((data) {
+      BaseViewModel.analytics
+          .logEcommercePurchase(
+              transactionId: order.id,
+              value: order.totalAmount,
+              currency: "ZAR")
           .then((value) => {});
-      }, onDone: () {
+
+      Navigator.popAndPushNamed(context, ReceiptView.ROUTE_NAME,
+          arguments: order);
+    }, onError: (e) {
+      clearOrder();
+      showError(error: e);
+
+      var failedPaymentLeg = paymentSuccessful
+          ? "error.order.purchase.leg.1"
+          : "error.order.payment.verify";
+      BaseViewModel.analytics.logEvent(
+          name: failedPaymentLeg,
+          parameters: {
+            "shop": order.shop.name,
+            "order": order.id,
+            "error": e.toString()
+          }).then((value) => {});
+    }, onDone: () {
       progressMv.isBusy = false;
     });
   }
 
   StreamSubscription<InitTopUpResponse> topUp() {
     //progressMv.isBusy = true;
-    var sub  = ukhesheService
+    var sub = ukhesheService
         .initiateTopUp(wallet.customerId, topupAmount, null)
         .asStream()
         .listen(null);
     sub.onDone(() {
       //progressMv.isBusy = false;
     });
-    return sub;    
+    return sub;
   }
 
   fetchNewAccountBalances() {
@@ -120,8 +119,8 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker{
         .map((resp) => wallet = resp)
         .asyncExpand((wallet) => apiService.findUserByPhone(userId).asStream())
         .listen((cust) {
-          cust.bank = wallet;
-        }, onDone: () => progressMv.isBusy = false);
+      cust.bank = wallet;
+    }, onDone: () => progressMv.isBusy = false);
   }
 
   bool get isBalanceLow {
@@ -130,17 +129,18 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker{
 
   StreamSubscription startOrder() {
     progressMv.isBusy = true;
-    var basketItem = BasketItem(name: itemName, quantity: quantity, price: payAmount);
+    var basketItem =
+        BasketItem(name: itemName, quantity: quantity, price: payAmount);
     order.basket.addItem(basketItem);
-    var subscr = apiService.startOrder(order).asStream()
-      .map((newOrder) {
-        order.id = newOrder.id;
-        order.date = newOrder.date;
-        order.paymentType = PaymentType.UKHESHE;
-        order.hasVat = newOrder.hasVat;
-        order.serviceFee = newOrder.serviceFee;
-        order.description = "Payment from ${order.customer.mobileNumber} order ${order.id}";
-      }).listen(null);
+    var subscr = apiService.startOrder(order).asStream().map((newOrder) {
+      order.id = newOrder.id;
+      order.date = newOrder.date;
+      order.paymentType = PaymentType.UKHESHE;
+      order.hasVat = newOrder.hasVat;
+      order.serviceFee = newOrder.serviceFee;
+      order.description =
+          "Payment from ${order.customer.mobileNumber} order ${order.id}";
+    }).listen(null);
 
     subscr.onError((error) {
       showError(error: error);
@@ -149,7 +149,7 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker{
     });
 
     subscr.onDone(() => progressMv.isBusy = false);
-    return subscr;  
+    return subscr;
   }
 
   clearOrder() {

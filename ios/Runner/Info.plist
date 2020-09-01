@@ -22,6 +22,8 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>MGLMapboxAccessToken</key>
+	<string>pk.eyJ1IjoibGluZGFuaW1hc2luZ2EiLCJhIjoiY2tkcjhhaHN2MGZhbTJ3bGl4cDJjbjlrOCJ9.lnr0cIUxe24icF1WbqY3Zg</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Secure sign in with touch ID?</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -32,6 +34,7 @@
 	<string>This app needs access to location when open.</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>

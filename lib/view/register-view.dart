@@ -235,7 +235,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               ? Container()
                               : IjudiLoginField(
                                   onTap: (pass) => viewModel.password = pass,
-                                  hint: 'Password',
+                                  hint: 'Create Password',
                                   icon: Icon(
                                     Icons.lock,
                                     size: 22,

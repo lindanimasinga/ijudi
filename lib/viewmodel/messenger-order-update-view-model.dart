@@ -80,7 +80,7 @@ class MessengerOrderUpdateViewModel extends BaseViewModel {
     apiService.progressOrderNextStage(order.id).asStream().listen((data) {
       order = data;
 
-      BaseViewModel.analytics.logEvent(name: "store-view-order", parameters: {
+      BaseViewModel.analytics.logEvent(name: "order.status.changed", parameters: {
         "shop": order.shopId,
         "orderId": order.id,
         "Delivery": order.shippingData.type,

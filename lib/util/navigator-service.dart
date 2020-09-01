@@ -25,6 +25,7 @@ import 'package:ijudi/view/quick-payment-success.dart';
 import 'package:ijudi/view/register-view.dart';
 import 'package:ijudi/view/shop-profile-view.dart';
 import 'package:ijudi/view/start-shopping.dart';
+import 'package:ijudi/view/stock-add-new.dart';
 import 'package:ijudi/view/stock-view.dart';
 import 'package:ijudi/view/tranasction-history-view.dart';
 import 'package:ijudi/view/wallet-view.dart';
@@ -47,6 +48,7 @@ import 'package:ijudi/viewmodel/receipt-view-model.dart';
 import 'package:ijudi/viewmodel/register-view-model.dart';
 import 'package:ijudi/viewmodel/shop-profile-view-model.dart';
 import 'package:ijudi/viewmodel/start-shopping-view-model.dart';
+import 'package:ijudi/viewmodel/stock-add-new-view-model.dart';
 import 'package:ijudi/viewmodel/stock-management-view-mode.dart';
 import 'package:ijudi/viewmodel/transaction-history-view-model.dart';
 import 'package:ijudi/viewmodel/wallet-view-model.dart';
@@ -153,7 +155,7 @@ class NavigatorService {
         return MaterialPageRoute(builder: (context) => PaymentView(viewModel: viewmodel)); 
       case FinalOrderView.ROUTE_NAME:
         viewmodel = FinalOrderViewModel(
-          order: args,
+          currentOrder: args,
           apiService: apiService,
           localNotificationService: localNotificationService
         );
@@ -164,6 +166,14 @@ class NavigatorService {
           apiService: apiService
         );
         return MaterialPageRoute(builder: (context) => StockManagementView(viewModel: viewmodel));  
+      case StockAddNewView.ROUTE_NAME:
+        viewmodel = StockAddNewViewModel(
+          shop: args,
+          apiService: apiService
+        );
+        return MaterialPageRoute(
+          builder: (context) => StockAddNewView(viewModel: viewmodel),
+          fullscreenDialog: true);  
       case OrderHistoryView.ROUTE_NAME:
         viewmodel = OrderHistoryViewModel(
           apiService: apiService

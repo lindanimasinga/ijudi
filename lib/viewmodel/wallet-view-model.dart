@@ -59,7 +59,11 @@ class WalletViewModel extends BaseViewModel with TopTupStatusChecker {
       showError(error: e);
       
       BaseViewModel.analytics
-      .logEvent(name: "ukheshe-topup-loading-webview-error")
+      .logEvent(name: "error.ukheshe.topup.loading.webview", 
+        parameters: {
+        "error" : e.toString()
+        }
+      )
       .then((value) => {});
 
     });

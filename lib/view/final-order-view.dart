@@ -27,28 +27,28 @@ class FinalOrderView extends MvStatefulWidget<FinalOrderViewModel> {
                   Padding(padding: EdgeInsets.only(bottom: 16)),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
-                          order: viewModel.order,
+                          order: viewModel.currentOrder,
                           stage: OrderStage.STAGE_1_WAITING_STORE_CONFIRM,
-                      label: "Order Number ${viewModel.order.id}")),
+                      label: "Order Number ${viewModel.currentOrder.id}")),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
-                          order: viewModel.order,
+                          order: viewModel.currentOrder,
                           stage: OrderStage.STAGE_2_STORE_PROCESSING)),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
-                          order: viewModel.order,
+                          order: viewModel.currentOrder,
                           stage: OrderStage.STAGE_3_READY_FOR_COLLECTION)),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
-                          order: viewModel.order,
+                          order: viewModel.currentOrder,
                           stage: OrderStage.STAGE_4_ON_THE_ROAD)),
                                    OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
-                          order: viewModel.order,
+                          order: viewModel.currentOrder,
                           stage: OrderStage.STAGE_5_ARRIVED)),
                                             OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
-                          order: viewModel.order,
+                          order: viewModel.currentOrder,
                           stage: OrderStage.STAGE_6_WITH_CUSTOMER)),
                       
                 ],

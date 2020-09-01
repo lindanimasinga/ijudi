@@ -54,7 +54,7 @@ class StartShoppingViewModel extends BaseViewModel {
     notifyChanged();
   }
 
-  get matchedStocks => _stocks
+  List<Stock> get matchedStocks => _stocks
     .where((element) => element.name.toLowerCase().contains(search.toLowerCase()))
     .toList();
 
@@ -79,7 +79,7 @@ class StartShoppingViewModel extends BaseViewModel {
     BaseViewModel.analytics
     .logAddToCart(
       itemCategory: shop.name,
-      itemId: "${basketItem.hashCode}",
+      itemId: basketItem.name,
       itemName: basketItem.name, 
       quantity: basketItem.quantity,
       price: basketItem.price)

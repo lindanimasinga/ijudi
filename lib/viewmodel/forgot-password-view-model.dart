@@ -25,7 +25,7 @@ class ForgotPasswordViewModel extends BaseViewModel {
   @override
   initialize() {
     BaseViewModel.analytics
-    .logEvent(name: "forgot-password")
+    .logEvent(name: "password.forgot")
     .then((value) => null);
   }
 
@@ -60,14 +60,14 @@ class ForgotPasswordViewModel extends BaseViewModel {
       otpRequestSent = true;
       
     BaseViewModel.analytics
-    .logEvent(name: "forgot-password-success")
+    .logEvent(name: "password.reset.requested")
     .then((value) => null);
 
     }, onError: (e) {
       showError(error: e.toString());
 
       BaseViewModel.analytics
-      .logEvent(name: "forgot-password-error")
+      .logEvent(name: "error.password.reset.requested")
       .then((value) => {
         {
           "error" : e.toString(),

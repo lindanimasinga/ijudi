@@ -4,7 +4,6 @@ import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 
 class OrderReviewComponent extends StatelessWidget {
-  
   final Order order;
   final includeFees;
 
@@ -15,8 +14,7 @@ class OrderReviewComponent extends StatelessWidget {
     List<Widget> basketWidget = <Widget>[];
     order.basket.items.forEach((item) {
       basketWidget.add(Container(
-        height: 52,
-        padding: EdgeInsets.only(left: 16),
+        padding: EdgeInsets.only(left: 16, top: 16, bottom: 8),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           border: Border.all(color: IjudiColors.color5, width: 0.05),
@@ -27,10 +25,24 @@ class OrderReviewComponent extends StatelessWidget {
             Container(
                 margin: EdgeInsets.only(left: 0),
                 width: 145,
-                child: Text(
-                  "${item.quantity}  x  ${item.name}",
-                  style: Forms.INPUT_TEXT_STYLE,
-                )),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "${item.quantity}  x  ${item.name}",
+                        style: Forms.INPUT_TEXT_STYLE,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: item.options == null
+                            ? []
+                            : item.options
+                                .map((choice) =>
+                                    Text("${choice.name}:  ${choice.selected}"))
+                                .toList(),
+                      )
+                    ])),
             Container(
                 width: 70,
                 child: Text(
@@ -42,39 +54,37 @@ class OrderReviewComponent extends StatelessWidget {
       ));
     });
 
-    if(includeFees) {
+    if (includeFees) {
       basketWidget.add(Container(
-      height: 52,
-      padding: EdgeInsets.only(left: 16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        border: Border.all(color: IjudiColors.color5, width: 0.05),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Container(
-              margin: EdgeInsets.only(left: 0),
-              width: 145,
-              child: Text(
-                "Service Fee",
-                style: Forms.INPUT_TEXT_STYLE,
-              )),
-          Container(
-              width: 70,
-              child: Text(
-                "R${Utils.formatToCurrency(order.serviceFee)}",
-                style: Forms.INPUT_TEXT_STYLE,
-              ))
-        ],
-      ),
-    ));
+        padding: EdgeInsets.only(left: 16, top: 16, bottom: 8),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          border: Border.all(color: IjudiColors.color5, width: 0.05),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+                margin: EdgeInsets.only(left: 0),
+                width: 145,
+                child: Text(
+                  "Service Fee",
+                  style: Forms.INPUT_TEXT_STYLE,
+                )),
+            Container(
+                width: 70,
+                child: Text(
+                  "R${Utils.formatToCurrency(order.serviceFee)}",
+                  style: Forms.INPUT_TEXT_STYLE,
+                ))
+          ],
+        ),
+      ));
     }
 
     if (includeFees && order.shippingFee > 0) {
       basketWidget.add(Container(
-        height: 52,
-        padding: EdgeInsets.only(left: 16),
+        padding: EdgeInsets.only(left: 16, top: 16, bottom: 8),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           border: Border.all(color: IjudiColors.color5, width: 0.05),
@@ -101,8 +111,7 @@ class OrderReviewComponent extends StatelessWidget {
     }
 
     basketWidget.add(Container(
-      height: 52,
-      padding: EdgeInsets.only(left: 16),
+      padding: EdgeInsets.only(left: 16, top: 16, bottom: 8),
       decoration: BoxDecoration(
         color: IjudiColors.color5,
         border: Border.all(color: IjudiColors.color5, width: 0.25),
@@ -120,8 +129,9 @@ class OrderReviewComponent extends StatelessWidget {
           Container(
               width: 70,
               child: Text(
-                includeFees ? "R${Utils.formatToCurrency(order.totalAmount)}" : 
-                "R${Utils.formatToCurrency(order.basket.getBasketTotalAmount())}",
+                includeFees
+                    ? "R${Utils.formatToCurrency(order.totalAmount)}"
+                    : "R${Utils.formatToCurrency(order.basket.getBasketTotalAmount())}",
                 style: IjudiStyles.HEADER_TEXT,
               )),
         ],

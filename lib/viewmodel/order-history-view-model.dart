@@ -22,7 +22,7 @@ class OrderHistoryViewModel extends BaseViewModel {
     });
 
     BaseViewModel.analytics
-    .logEvent(name: "customer-view-order")
+    .logEvent(name: "order.history.check")
     .then((value) => {});
   }
 

@@ -180,9 +180,11 @@ class DeliveryOptionsViewModel extends BaseViewModel {
         .listen((customerResponse) {
           availableBalance = customerResponse;
 
-          BaseViewModel.analytics.logEvent(name: "order-init", parameters: {
+          BaseViewModel.analytics.logEvent(name: "order.start", parameters: {
             "shop": order.shop.name,
-            "Delivery": order.shippingData.type
+            "Order Id" : order.id,
+            "Delivery": order.shippingData.type,
+            "Total Amount": order.totalAmount
           }).then((value) => {});
 
           Navigator.pushNamed(context, PaymentView.ROUTE_NAME,
@@ -211,7 +213,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   }
 
   findMessengers() {
-    log("searching for messegers");
+    log("searching for messengers");
     fetchingMessangers = true;
     Geolocator()
         .placemarkFromAddress(order.shippingData.toAddress)

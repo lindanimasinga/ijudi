@@ -24,7 +24,11 @@ mixin TopTupStatusChecker {
     subsc.onError((e) {
       showError(error: e);
       BaseViewModel.analytics
-      .logEvent(name: "ukheshe-topup-loading-webview-error")
+      .logEvent(name: "error.ukheshe.topup.loading.webview", 
+        parameters: {
+        "error" : e.toString()
+        }
+      )
       .then((value) => {});
     });
     return subsc;

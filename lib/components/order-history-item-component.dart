@@ -46,7 +46,7 @@ class OrderHistoryItemComponent extends StatelessWidget {
                                             "Collection At: ${DateFormat("dd MMM yy 'at' HH:mm").format(Utils.timeOfDayAsDateTime(order.shippingData.pickUpTime))}",
                                             style: IjudiStyles.CARD_SHOP_DISCR)
                                         : Text(
-                                            "In store purchuse: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.date)}",
+                                            "In store: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.date)}",
                                             style: IjudiStyles.CARD_SHOP_DISCR),
                                 Padding(padding: EdgeInsets.only(top: 8)),
                                 Text(

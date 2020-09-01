@@ -39,8 +39,7 @@ class _BasketViewOnlyComponentState extends State<BasketViewOnlyComponent> {
     basket.items.forEach((item) {
       basketWidget.add(
         Container(
-        height: 52,
-        padding: EdgeInsets.only(left: 0),
+        padding: EdgeInsets.only(left: 16, top: 16, bottom: 8),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           border: Border.all(color: IjudiColors.color5, width: 0.05),
@@ -51,7 +50,24 @@ class _BasketViewOnlyComponentState extends State<BasketViewOnlyComponent> {
             Container(
               margin: EdgeInsets.only(left:16),
               width: 145,
-              child: Text("${item.quantity}  x  ${item.name}", style: Forms.INPUT_TEXT_STYLE,)
+              child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "${item.quantity}  x  ${item.name}",
+                        style: Forms.INPUT_TEXT_STYLE,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: item.options == null
+                            ? []
+                            : item.options
+                                .map((choice) =>
+                                    Text("${choice.name}:  ${choice.selected}"))
+                                .toList(),
+                      )
+                    ])
             ),
             Container(
               width: 70,

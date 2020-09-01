@@ -40,7 +40,7 @@ class MessengerOrdersViewModel extends BaseViewModel with OrderStatusChecker {
 
   @override
   void dispose() {
-    super.dispose();
     super.destroy();
+    super.dispose();
   }
 }

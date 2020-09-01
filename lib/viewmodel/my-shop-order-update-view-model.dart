@@ -36,7 +36,7 @@ class MyShopOrderUpdateViewModel extends BaseViewModel {
 
       BaseViewModel.analytics
       .logEvent(
-        name: "store-view-order",
+        name: "order.status.changed",
         parameters: {
           "shop" : order.shopId,
           "orderId" : order.id,

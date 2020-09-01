@@ -8,11 +8,12 @@ import 'package:ijudi/util/util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'business-hours.dart';
+import 'geo-location.dart';
 
 part 'shop.g.dart';
 
 @JsonSerializable(includeIfNull: false)
-class Shop extends Profile {
+class Shop extends Profile with GeoLocation{
   
   String registrationNumber;
   @JsonKey(ignore: false, toJson: businessHoursToJson)

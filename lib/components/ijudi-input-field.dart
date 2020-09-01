@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:ijudi/util/theme-utils.dart';
@@ -13,6 +12,7 @@ class IjudiInputField extends StatefulWidget {
   final bool enabled;
   final Function error;
   Iterable<String> autofillHints;
+  final int lines;
 
   IjudiInputField(
       {@required this.hint,
@@ -22,12 +22,14 @@ class IjudiInputField extends StatefulWidget {
       this.type,
       this.text = "",
       this.error,
-      this.onChanged});
+      this.onChanged,
+      this.lines = 1});
 
   @override
   _IjudiInputFieldState createState() => _IjudiInputFieldState(
       hint: hint,
       enabled: enabled,
+      lines: lines,
       color: color,
       autofillHints: autofillHints,
       onChanged: onChanged,
@@ -40,6 +42,7 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
   final String hint;
   Color color;
   final TextInputType type;
+  final int lines;
   String text;
   Function onChanged;
   bool enabled;
@@ -51,6 +54,7 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
       {@required this.hint,
       this.autofillHints,
       this.enabled,
+      this.lines,
       this.color = IjudiColors.color5,
       this.type,
       this.text = "",
@@ -70,13 +74,14 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
     double width = MediaQuery.of(context).size.width > 360 ? 166 : 126;
     double width2 = MediaQuery.of(context).size.width > 360 ? 114 : 114;
 
-    return Row(children: <Widget>[
+    return Row(
+      children: <Widget>[
       Container(
         color: errorText is String && errorText.isNotEmpty
             ? IjudiColors.color2
             : color,
         width: width2,
-        height: 52,
+        height: 52.0 * lines,
         alignment: Alignment.centerLeft,
         child: Padding(
             padding: EdgeInsets.only(left: 16, right: 4),
@@ -87,11 +92,11 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
       ),
       Container(
           width: width,
-          height: 52,
           child: Padding(
               padding: EdgeInsets.only(left: 8, top: 4, bottom: 0),
               child: Stack(children: [
                 TextField(
+                  maxLines: lines,
                   controller: controller,
                   keyboardType: type,
                   autofillHints: autofillHints,
@@ -116,7 +121,7 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
   }
 
   void validate(String value) {
-    if(autofillHints == null) return;
+    if (autofillHints == null) return;
 
     if (autofillHints.contains(AutofillHints.telephoneNumber)) {
       errorText = value.length < 10 || Utils.validSANumber(value)

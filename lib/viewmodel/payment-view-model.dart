@@ -12,38 +12,43 @@ import 'package:ijudi/model/order.dart';
 import 'package:ijudi/view/final-order-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
-class PaymentViewModel extends BaseViewModel with TopTupStatusChecker{
-  
+class PaymentViewModel extends BaseViewModel with TopTupStatusChecker {
   final Order order;
   final ApiService apiService;
   final UkhesheService ukhesheService;
   String topupAmount;
   bool paymentSuccessful = false;
 
-  PaymentViewModel({@required this.apiService, 
-    @required this.order, 
-    @required this.ukhesheService});
+  PaymentViewModel(
+      {@required this.apiService,
+      @required this.order,
+      @required this.ukhesheService});
 
   @override
-  void initialize() {
-  }
+  void initialize() {}
 
   set availableBalance(CustomerInfoResponse value) {
     order.customer.bank = value;
     print(order.customer.bank);
     print(order.customer.bank.currentBalance);
     order.customer.bank.currentBalance =
-      order.customer.bank.currentBalance == null? 0 : order.customer.bank.currentBalance;
+        order.customer.bank.currentBalance == null
+            ? 0
+            : order.customer.bank.currentBalance;
     order.customer.bank.availableBalance =
-      order.customer.bank.availableBalance == null? 0 : order.customer.bank.availableBalance;
+        order.customer.bank.availableBalance == null
+            ? 0
+            : order.customer.bank.availableBalance;
     notifyChanged();
   }
 
-  bool get isBalanceLow => order.customer.bank.availableBalance < order.totalAmount;
+  bool get isBalanceLow =>
+      order.customer.bank.availableBalance < order.totalAmount;
 
   String get baseUrl => ukhesheService.baseUrl;
 
-  String get collectionInstructions => "Please produce your order number ${order.id} when collecting your order at ${order.shop.name}. Contact Number : ${order.shop.mobileNumber}";
+  String get collectionInstructions =>
+      "Please produce your order number ${order.id} when collecting your order at ${order.shop.name}. Contact Number : ${order.shop.mobileNumber}";
 
   String get deliveryHeader => isDelivery ? "Delivery By" : "Collection";
 
@@ -58,83 +63,84 @@ class PaymentViewModel extends BaseViewModel with TopTupStatusChecker{
 
   StreamSubscription<InitTopUpResponse> topUp() {
     progressMv.isBusy = true;
-    var sub  = ukhesheService
-        .initiateTopUp(order.customer.bank.customerId, double.parse(topupAmount), order.id)
+    var sub = ukhesheService
+        .initiateTopUp(
+            order.customer.bank.customerId, double.parse(topupAmount), order.id)
         .asStream()
         .listen(null);
     sub.onDone(() {
       progressMv.isBusy = false;
     });
-    return sub;    
+    return sub;
   }
 
   fetchNewAccountBalances() {
     progressMv.isBusy = true;
-    ukhesheService.getAccountInformation()
-      .asStream()
-      .listen((resp) {
-        availableBalance = resp;
-      },
-      onDone: () {
-        progressMv.isBusy = false;
-      });
+    ukhesheService.getAccountInformation().asStream().listen((resp) {
+      availableBalance = resp;
+    }, onDone: () {
+      progressMv.isBusy = false;
+    });
   }
 
-    processPayment() {
+  processPayment() {
     progressMv.isBusy = true;
-    var stream = paymentSuccessful? Stream.value(0) : ukhesheService.paymentForOrder(order).asStream();
+    var stream = paymentSuccessful
+        ? Stream.value(0)
+        : ukhesheService.paymentForOrder(order).asStream();
     stream.asyncExpand((event) {
       HapticFeedback.vibrate();
       return Future.delayed(Duration(seconds: 2)).asStream();
-      })
-      .asyncExpand((event) {
-        order.paymentType = PaymentType.UKHESHE;
-        paymentSuccessful = true;
-        return  apiService.completeOrderPayment(order).asStream();
-      })
-      .listen((data) {
-        order.stage = data.stage;
+    }).asyncExpand((event) {
+      order.paymentType = PaymentType.UKHESHE;
+      paymentSuccessful = true;
+      return apiService.completeOrderPayment(order).asStream();
+    }).listen((data) {
+      order.stage = data.stage;
 
-        BaseViewModel.analytics
-        .logEcommercePurchase(
-          transactionId: order.id,
-          value: order.totalAmount,
-          currency: "ZAR"
-        ).then((value) => {});
+      BaseViewModel.analytics
+          .logEcommercePurchase(
+              transactionId: order.id,
+              value: order.totalAmount,
+              currency: "ZAR")
+          .then((value) => {});
 
-        Navigator.pushNamedAndRemoveUntil(
-            context,
-            FinalOrderView.ROUTE_NAME,
-            (Route<dynamic> route) => false,
-            arguments: order);
-      }, onError: (e) {
-          showError(error: e.toString());
+      BaseViewModel.analytics.logEvent(
+        name: "order.purchase.leg.1", 
+        parameters: {
+        "shop": order.shop.name,
+        "Order Id": order.id,
+        "Delivery": order.shippingData.type,
+        "Total Amount": order.totalAmount
+      }).then((value) => {});
 
-        BaseViewModel.analytics
-        .logEvent(
-          name: "order-purchase-failed",
-          parameters: {
-            "shop" : order.shop.name,
-            "error" : e.toString()
-          })
-        .then((value) => {});
-      }
-    ,onDone: () {
+      Navigator.pushNamedAndRemoveUntil(
+          context, FinalOrderView.ROUTE_NAME, (Route<dynamic> route) => false,
+          arguments: order);
+    }, onError: (e) {
+      showError(error: e.toString());
+
+      var failedPaymentLeg = paymentSuccessful
+          ? "error.order.purchase.leg.1"
+          : "error.order.payment.verify";
+      BaseViewModel.analytics.logEvent(name: failedPaymentLeg, parameters: {
+        "shop": order.shop.name,
+        "order": order.id,
+        "error": e.toString()
+      }).then((value) => {});
+    }, onDone: () {
       progressMv.isBusy = false;
     });
   }
 
   processCashPayment() {
     progressMv.isBusy = true;
-    var subscr = apiService.completeOrderPayment(order).asStream()
-      .listen(null);
-    
+    var subscr = apiService.completeOrderPayment(order).asStream().listen(null);
+
     subscr.onData((data) {
       Navigator.pushNamedAndRemoveUntil(
-            context,
-            FinalOrderView.ROUTE_NAME,
-            (Route<dynamic> route) => false,
-            arguments: order);
+          context, FinalOrderView.ROUTE_NAME, (Route<dynamic> route) => false,
+          arguments: order);
     });
 
     subscr.onDone(() {

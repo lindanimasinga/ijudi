@@ -13,39 +13,43 @@ mixin MessageDialogs {
     if (cancel == null) cancel = () => {};
 
     showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          contentPadding: EdgeInsets.only(left: 0, top: 0),
-          titlePadding: EdgeInsets.only(left: 16, top: 16),
-          buttonPadding: EdgeInsets.only(top: 8, bottom: 16, right: 8),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-          ),
-          title: Text(title),
-          content: child,
-          actions: <Widget>[
-            FlatButton(
-              child: Text("Cancel", style: Forms.INPUT_TEXT_STYLE),
-              onPressed: () {
-                cancel();
-                Navigator.of(context).pop();
-              },
-            ),
-            action is Function
-                ? FlatButton(
-                    child: Text(actionName, style: Forms.INPUT_TEXT_STYLE),
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (context, setState) {
+              return AlertDialog(
+                contentPadding: EdgeInsets.only(left: 0, top: 0),
+                titlePadding: EdgeInsets.only(left: 16, top: 16),
+                buttonPadding: EdgeInsets.only(top: 8, bottom: 16, right: 8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                title: Text(title),
+                content: child,
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Cancel", style: Forms.INPUT_TEXT_STYLE),
                     onPressed: () {
+                      cancel();
                       Navigator.of(context).pop();
-                      action();
                     },
-                  )
-                : Container(),
-          ],
-        );
-      },
-    );
+                  ),
+                  action is Function
+                      ? FlatButton(
+                          child:
+                              Text(actionName, style: Forms.INPUT_TEXT_STYLE),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            action();
+                          },
+                        )
+                      : Container(),
+                ],
+              );
+            },
+          );
+        });
   }
 
   void showWebViewDialog(BuildContext context,

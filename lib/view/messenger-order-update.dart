@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mapbox_navigation/library.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-address-input-field.dart';
@@ -32,6 +33,7 @@ class MessengerOrderUpdateView
   };
 
   GoogleMapController _controller;
+  MapboxNavigation _mapNavigation;
 
   MessengerOrderUpdateView({MessengerOrderUpdateViewModel viewModel})
       : super(viewModel);
@@ -166,27 +168,74 @@ class MessengerOrderUpdateView
                     ),
                     Container(
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(top: 8),
+                        margin: EdgeInsets.only(top: 8, bottom: 16),
                         height: MediaQuery.of(context).size.height / 2,
-                        child: IJudiCard(
-                            color: IjudiColors.color5,
-                            child: Container(
-                                margin: EdgeInsets.all(10),
-                                height: MediaQuery.of(context).size.height / 2,
-                                child: GoogleMap(
-                                    mapType: MapType.normal,
-                                    trafficEnabled: true,
-                                    myLocationEnabled: true,
-                                    compassEnabled: true,
-                                    zoomGesturesEnabled: true,
-                                    scrollGesturesEnabled: true,
-                                    zoomControlsEnabled: true,
-                                    markers: markers.toSet(),
-                                    initialCameraPosition: _kGooglePlex,
-                                    onMapCreated:
-                                        (GoogleMapController controller) =>
-                                            _controller = controller))))
+                        child: Stack(children: [
+                          IJudiCard(
+                              color: IjudiColors.color5,
+                              child: Container(
+                                  margin: EdgeInsets.all(10),
+                                  height:
+                                      MediaQuery.of(context).size.height / 2,
+                                  child: GoogleMap(
+                                      mapType: MapType.normal,
+                                      trafficEnabled: true,
+                                      myLocationEnabled: true,
+                                      compassEnabled: true,
+                                      zoomGesturesEnabled: true,
+                                      scrollGesturesEnabled: true,
+                                      zoomControlsEnabled: true,
+                                      markers: markers.toSet(),
+                                      initialCameraPosition: _kGooglePlex,
+                                      onMapCreated:
+                                          (GoogleMapController controller) =>
+                                              _controller = controller))),
+                          Container(
+                              alignment: Alignment.bottomLeft,
+                              margin: EdgeInsets.only(bottom: 40, left: 26),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Buttons.mapsNavigate(
+                                      label: Icons.store,
+                                      color: IjudiColors.color2,
+                                      action: () => startNavigation(true)),
+                                  Padding(padding: EdgeInsets.only(right: 8)),
+                                  Buttons.mapsNavigate(
+                                      label: Icons.person_pin,
+                                      color: IjudiColors.color4,
+                                      action: () => startNavigation(false))
+                                ],
+                              ))
+                        ])),
                   ]))
         ]));
+  }
+
+  startNavigation(bool toShop) async {
+    _mapNavigation = MapboxNavigation(
+      onRouteProgress: (arrived) async {
+      
+      });
+
+    var fromPoint = WayPoint(
+          name: "Me", latitude: viewModel.currentLatitude, longitude: viewModel.currentLongitude);
+    var toPoint = WayPoint(
+          name: viewModel.shop.name,
+          latitude: viewModel.customerLatitude,
+          longitude: viewModel.customerLongitude);
+
+    if (toShop) {
+       fromPoint = WayPoint(
+          name: "Me", latitude: viewModel.currentLatitude, longitude: viewModel.currentLongitude);
+        toPoint = WayPoint(
+          name: viewModel.customer.name,
+          latitude: viewModel.shopLatitude,
+          longitude: viewModel.shopLongitude);
+    }
+    await _mapNavigation.startNavigation(
+        origin: fromPoint,
+        destination: toPoint,
+        mode: MapBoxNavigationMode.drivingWithTraffic);
   }
 }

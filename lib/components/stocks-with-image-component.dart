@@ -1,10 +1,7 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:ijudi/components/stacked-thumbnails.dart';
 import 'package:ijudi/components/stock-item-component.dart';
 import 'package:ijudi/model/stock.dart';
 import 'package:ijudi/util/theme-utils.dart';
-import 'package:ijudi/util/util.dart';
 
 class StocksWithImageComponent extends StatelessWidget {
   final Function addAction;
@@ -34,7 +31,6 @@ class StocksWithImageComponent extends StatelessWidget {
     });
 
     return Card(
-        margin: EdgeInsets.only(left: 0),
         child: Column(
           children: stockWidget,
         ));

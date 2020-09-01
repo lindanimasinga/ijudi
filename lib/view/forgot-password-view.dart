@@ -64,7 +64,7 @@ class ForgotPasswordView extends MvStatefulWidget<ForgotPasswordViewModel> {
                                 color: IjudiColors.color5,
                               ),
                               !viewModel.otpRequestSent ? Container() : IjudiLoginField(
-                                hint: "Password",
+                                hint: "Create Password",
                                 text: () => viewModel.password,
                                 icon: Icon(
                                   Icons.lock,

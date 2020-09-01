@@ -10,38 +10,38 @@ import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class FinalOrderViewModel extends BaseViewModel with OrderStatusChecker {
-  Order order;
+  Order currentOrder;
 
   final Shop shopPlaceHolder = Utils.createPlaceHolder();
   final ApiService apiService;
   final NotificationService localNotificationService;
 
   FinalOrderViewModel(
-      {@required this.order,
+      {@required this.currentOrder,
       @required this.apiService,
       @required this.localNotificationService});
 
   @override
   void initialize() {
-    if (order.shop != null) {
+    if (currentOrder.shop != null) {
       var dateTime = DateTime.now().add(Duration(minutes: 10));
       localNotificationService
-          .scheduleLocalMessage(dateTime, "${order.shop.name}",
+          .scheduleLocalMessage(dateTime, "${currentOrder.shop.name}",
               "Dont forget about your order. Please check progress in the app.")
           .asStream()
           .listen((event) {});
 
       dateTime = DateTime.now().add(Duration(minutes: 20));
       localNotificationService
-          .scheduleLocalMessage(dateTime, "${order.shop.name}",
+          .scheduleLocalMessage(dateTime, "${currentOrder.shop.name}",
               "Dont forget about your order. Please check progress in the app.")
           .asStream()
           .listen((event) {});
     }
 
-    if (order.shop == null) {
+    if (currentOrder.shop == null) {
       apiService
-          .findShopById(order.shopId)
+          .findShopById(currentOrder.shopId)
           .asStream()
           .listen((shp) => shop = shp, onError: (e) {
         showError(error: e);
@@ -51,19 +51,19 @@ class FinalOrderViewModel extends BaseViewModel with OrderStatusChecker {
     startOrderStatusCheck();
   }
 
-  Shop get shop => order.shop == null ? shopPlaceHolder : order.shop;
+  Shop get shop => currentOrder.shop == null ? shopPlaceHolder : currentOrder.shop;
   set shop(Shop shop) {
-    order.shop = shop;
+    currentOrder.shop = shop;
     notifyChanged();
   }
 
-  OrderStage get currentStage => order.stage;
+  OrderStage get currentStage => currentOrder.stage;
   set currentStage(OrderStage stage) {
-    order.stage = stage;
+    currentOrder.stage = stage;
     notifyChanged();
   }
 
-  OrderStage get stage => order.stage;
+  OrderStage get stage => currentOrder.stage;
 
   @override
   void dispose() {

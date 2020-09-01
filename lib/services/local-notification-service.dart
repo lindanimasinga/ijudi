@@ -104,7 +104,7 @@ class NotificationService {
 
     BaseViewModel.analytics
           .logEvent(
-            name: "push-notification",
+            name: "notifications.push.type",
             parameters: {
               "type" : remoteMessage.messageType,
             })

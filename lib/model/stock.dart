@@ -1,3 +1,4 @@
+import 'package:ijudi/model/selection-option.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'basket-item.dart';
@@ -7,16 +8,35 @@ part 'stock.g.dart';
 @JsonSerializable(includeIfNull: false)
 class Stock {
   String name;
+  String description;
   int quantity;
-  double price;
+  double _price;
+
   double discountPerc;
   List<String> images;
-  
-  Stock({name: String, quantity: int, price: double, discountPerc = 0.0}) {
+  List<SelectionOption> mandatorySelection;
+  List<SelectionOption> optionalSelection;
+
+  Stock(
+      {this.name,
+      this.quantity = 0,
+      double price = 0,
+      this.discountPerc = 0.0}) {
     this.name = name;
     this.quantity = quantity;
     this.price = price;
     this.discountPerc = discountPerc;
+  }
+
+  double get price =>
+      _price +
+      (mandatorySelection != null && mandatorySelection.isNotEmpty
+          ? mandatorySelection
+              .map((value) => value.price)
+              .reduce((value, element) => value + element)
+          : 0);
+  set price(double price) {
+    _price = price;
   }
 
   get itemsAvailable {
@@ -35,7 +55,13 @@ class Stock {
         name: name,
         quantity: quantity,
         price: price,
-        discountPerc: discountPerc);
+        discountPerc: discountPerc)
+      ..options = mandatorySelection
+          .map((e) => SelectionOption()
+            ..name = e.name
+            ..price = e.price
+            ..selected = e.selected)
+          .toList();
   }
 
   put(int quantity) {

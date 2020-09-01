@@ -15,7 +15,7 @@ class Basket {
 
   addItem(BasketItem basketItem) {
     BasketItem item = items.firstWhere(
-        (element) => element.name == basketItem.name,
+        (element) => element == basketItem,
         orElse: () => null);
     if (item == null) {
       items.add(basketItem);
