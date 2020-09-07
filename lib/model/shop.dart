@@ -13,8 +13,8 @@ import 'geo-location.dart';
 part 'shop.g.dart';
 
 @JsonSerializable(includeIfNull: false)
-class Shop extends Profile with GeoLocation{
-  
+class Shop extends Profile with GeoLocation {
+  final String storeType = "FOOD";
   String registrationNumber;
   @JsonKey(ignore: false, toJson: businessHoursToJson)
   List<BusinessHours> businessHours;
@@ -68,34 +68,34 @@ class Shop extends Profile with GeoLocation{
 
   Map<String, dynamic> toJson() => _$ShopToJson(this);
 
-  static List<Map<String,dynamic>> listToJson(List<Stock> list) {
+  static List<Map<String, dynamic>> listToJson(List<Stock> list) {
     print("converting to json 1");
-    var jsonString = list.map((f) => f.toJson())
-      .toList();
+    var jsonString = list.map((f) => f.toJson()).toList();
     log(json.encode(jsonString[0]));
-    return jsonString;  
+    return jsonString;
   }
 
   static List<String> setToJson(Set<String> list) {
     print("converting to json 1");
-    var jsonString = list.map((f) => "Map()")
-      .toList();
+    var jsonString = list.map((f) => "Map()").toList();
     print(jsonString);
-    return jsonString;  
+    return jsonString;
   }
 
-  static List<Map<String,dynamic>> businessHoursToJson(List<BusinessHours> list) {
+  static List<Map<String, dynamic>> businessHoursToJson(
+      List<BusinessHours> list) {
     print("converting to json 2");
     var jsonString = list.map((f) => f.toJson()).toList();
     print("converting to json 2 passed");
     print(jsonString);
-    return jsonString;  
+    return jsonString;
   }
 
   bool containsStockItem(String search) {
     var list = stockList
-    .where((element) => element.name.toLowerCase().contains(search.toLowerCase()))
-    .toList();
+        .where((element) =>
+            element.name.toLowerCase().contains(search.toLowerCase()))
+        .toList();
     return list != null && list.length > 0;
   }
 }

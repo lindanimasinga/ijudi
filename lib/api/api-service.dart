@@ -29,7 +29,7 @@ class ApiService {
   
   Future<List<Shop>> findAllShopByLocation(double latitude, double longitude, double rage, int size) async {
     logger.log("fetching all shops");
-    var event = await http.get('$apiUrl/store?latitude=$latitude&longitude=$longitude&range=$rage&size=$size')
+    var event = await http.get('$apiUrl/store?latitude=$latitude&longitude=$longitude&range=$rage&size=$size&storeType=FOOD')
         .timeout(Duration(seconds: TIMEOUT_SEC));
 
     if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
@@ -40,7 +40,7 @@ class ApiService {
 
     Future<List<Shop>> findFeaturedShopByLocation(double latitude, double longitude, double rage, int size) async {
       logger.log("fetching fetured shops");
-      var event = await http.get('$apiUrl/store?featured=true&latitude=$latitude&longitude=$longitude&range=$rage&size=$size')
+      var event = await http.get('$apiUrl/store?featured=true&latitude=$latitude&longitude=$longitude&range=$rage&size=$size&storeType=FOOD')
           .timeout(Duration(seconds: TIMEOUT_SEC));
 
       if(event.statusCode != 200) throw(ApiErrorResponse.fromJson(json.decode(event.body)).message);     
