@@ -6,8 +6,7 @@ import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/userProfile.dart';
-import 'package:ijudi/util/util.dart';
-import 'package:ijudi/view/messenger-order-update.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:ijudi/view/messenger-orders.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:rxdart/rxdart.dart';
@@ -48,19 +47,17 @@ class MessengerOrderUpdateViewModel extends BaseViewModel {
       this.apiService.findUserById(order.customerId).asStream().map((resp) {
         customer = resp;
       }),
-      Geolocator()
-          .getLastKnownPosition(desiredAccuracy: LocationAccuracy.high)
+      getLastKnownPosition()
           .asStream()
           .map((position) {
         currentLatitude = position.latitude;
         currentLongitude = position.longitude;
       }),
-      Geolocator()
-          .placemarkFromAddress(order.shippingData.toAddress)
+      locationFromAddress(order.shippingData.toAddress)
           .asStream()
           .map((placeMark) {
-        customerLatitude = placeMark[0].position.latitude;
-        customerLongitude = placeMark[0].position.longitude;
+        customerLatitude = placeMark[0].latitude;
+        customerLongitude = placeMark[0].longitude;
       })
     ]).listen((event) {
       log("all location data fetched");

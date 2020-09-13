@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/model/business-hours.dart';
@@ -215,10 +215,9 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   findMessengers() {
     log("searching for messengers");
     fetchingMessangers = true;
-    Geolocator()
-        .placemarkFromAddress(order.shippingData.toAddress)
+    locationFromAddress(order.shippingData.toAddress)
         .asStream()
-        .map((data) => data[0].position)
+        .map((data) => data[0])
         .asyncExpand((position) => apiService
             .findNearbyMessangers(
                 position.latitude, position.longitude, Utils.rangeMap["15km"])

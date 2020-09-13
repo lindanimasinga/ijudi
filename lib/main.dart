@@ -19,7 +19,7 @@ main() {
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
   var localNotifications;
   SharedPrefStorageManager sharedPref;
-  Config config = Config.getUATConfig();
+  Config config = Config.getProConfig();
 
   SharedPrefStorageManager.singleton()
       .asStream()

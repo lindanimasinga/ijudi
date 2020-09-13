@@ -1,6 +1,15 @@
+import 'dart:developer';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:ijudi/api/ukheshe/model/withdrawal.dart';
+import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
+import 'package:ijudi/components/ijudi-input-field.dart';
+import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
+import 'package:ijudi/viewmodel/base-view-model.dart';
+import 'package:intl/intl.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 mixin MessageDialogs {
@@ -94,5 +103,122 @@ mixin MessageDialogs {
             ));
       },
     );
+  }
+
+  showWithdraw(BuildContext context,
+      {@required Bank wallet,
+      @required UkhesheService ukhesheService,
+      @required BaseViewModel viewModel}) {
+    int amount = 0;
+    Withdrawal pending;
+    final Brightness brightnessValue =
+        MediaQuery.of(context).platformBrightness;
+    bool isLight = brightnessValue == Brightness.light;
+    var style = isLight ? IjudiStyles.DIALOG_DARK : IjudiStyles.DIALOG_WHITE;
+    var styleBold =
+        isLight ? IjudiStyles.DIALOG_DARK_BOLD : IjudiStyles.DIALOG_WHITE_BOLD;
+    var importantText = IjudiStyles.DIALOG_IMPORTANT_TEXT;
+
+    if (wallet.availableBalance < 10) {
+      viewModel.showError(
+          error: "Insufficient Funds. Please topup your wallet");
+      return;
+    }
+
+    ukhesheService
+        .getWithdrawals(wallet.customerId)
+        .asStream()
+        .asyncExpand((withdrawals) => Stream.fromIterable(withdrawals))
+        .where((withdrawal) => withdrawal.status == WithdrawalStatus.PENDING)
+        .listen((value) => pending = value, onError: (e) => viewModel.showError(error: e))
+        .onDone(() {
+      if (pending != null) {
+        showMessageDialog(context,
+            title: "Pending Withdrawal",
+            actionName: "Done",
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Image.asset("assets/images/uKhese-logo.png",
+                                width: 90),
+                            RichText(
+                                strutStyle: StrutStyle.fromTextStyle(style),
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                      text: "You have a pending withdrawal of ",
+                                      style: style),
+                                  TextSpan(
+                                    text:
+                                        "R${Utils.formatToCurrency(pending.amount)} ",
+                                    style: importantText,
+                                  ),
+                                  TextSpan(
+                                      text: "Use the token: ", style: style),
+                                  TextSpan(
+                                    text: "${pending.token} ",
+                                    style: importantText,
+                                  ),
+                                  TextSpan(
+                                      text:
+                                          "to withdraw at any *Pick n Pay* store. The token expires on ",
+                                      style: style),
+                                  TextSpan(
+                                      text:
+                                          "${DateFormat("dd MMM yy 'at' HH:mm").format(pending.expires)}",
+                                      style: styleBold),
+                                ]))
+                          ]))
+                ]));
+      } else {
+        showMessageDialog(context,
+            title: "Cash Withdrawal",
+            actionName: "Get Token",
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Image.asset("assets/images/uKhese-logo.png",
+                              width: 90),
+                          Text("Please enter your widrawal amount.",
+                              style: Forms.INPUT_TEXT_STYLE),
+                          Padding(padding: EdgeInsets.only(top: 8)),
+                          Text(
+                              "We will send you a token to withdraw at any Pick n Pay stores",
+                              style: Forms.INPUT_TEXT_STYLE),
+                        ],
+                      )),
+                  IjudiInputField(
+                    hint: "Amount",
+                    autofillHints: [AutofillHints.transactionAmount],
+                    type: TextInputType.numberWithOptions(decimal: true),
+                    text: "$amount",
+                    onChanged: (value) => amount = int.parse(value),
+                  ),
+                ]), action: () {
+          ukhesheService
+              .initiateWithdrawal(wallet.customerId, amount.roundToDouble(),
+                  DateFormat("SSSmmHHyyddMMss").format(DateTime.now()))
+              .asStream()    
+              .listen((value) {
+            showWithdraw(context,
+                wallet: wallet,
+                ukhesheService: ukhesheService,
+                viewModel: viewModel);
+            viewModel.notifyChanged();
+          }, onError: (e) => viewModel.showError(error: e));
+        });
+      }
+    });
   }
 }

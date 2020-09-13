@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,7 @@ import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:app_settings/app_settings.dart';
 
 class AllShopsViewModel extends BaseViewModel {
   List<Shop> _shops = [];
@@ -22,7 +24,6 @@ class AllShopsViewModel extends BaseViewModel {
   String locationDenied =
       "Location Services is not enabled. Please enable location service in your device settings.";
 
-  var geolocator = Geolocator();
   StreamSubscription locationStream;
 
   final ApiService apiService;
@@ -31,20 +32,13 @@ class AllShopsViewModel extends BaseViewModel {
 
   @override
   void initialize() {
-    var locationOptions =
-        LocationOptions(accuracy: LocationAccuracy.high, distanceFilter: 10);
     //use last known location
     //listen for location changes
-    locationStream = geolocator
-        .checkGeolocationPermissionStatus()
+    locationStream = getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .asStream()
-        .map((status) {
-          if (status == GeolocationStatus.disabled ||
-              status == GeolocationStatus.denied) throw (locationDenied);
-        })
-        .asyncExpand((event) => geolocator.getLastKnownPosition().asStream())
+        .asyncExpand((event) => getLastKnownPosition().asStream())
         .map((position) => loadData(radiusText))
-        .asyncExpand((event) => geolocator.getPositionStream(locationOptions))
+        .asyncExpand((event) => getPositionStream(desiredAccuracy: LocationAccuracy.high, distanceFilter: 10))
         .listen((position) => loadData(radiusText), onDone: () {},
             onError: (e) {
           log(e.toString());
@@ -53,13 +47,14 @@ class AllShopsViewModel extends BaseViewModel {
             return;
           }
           showError(error: e);
+          openLocationSettings();
         });
   }
 
   void loadData(String radius) {
     var range = Utils.rangeMap[radiusText];
     log("fetching location ");
-    var lastPositionStream = geolocator.getLastKnownPosition();
+    var lastPositionStream = getLastKnownPosition();
     lastPositionStream.asStream().asyncExpand((position) {
       log("location is ${position.latitude} ${position.longitude}");
       return Rx.merge([
@@ -83,9 +78,11 @@ class AllShopsViewModel extends BaseViewModel {
       log(e.toString());
       if (e is PlatformException) {
         showError(error: locationDenied);
+        openLocationSettings();
         return;
       }
       showError(error: e);
+      openLocationSettings();
     });
   }
 
@@ -144,5 +141,10 @@ class AllShopsViewModel extends BaseViewModel {
   void dispose() {
     super.dispose();
     locationStream.cancel();
+  }
+
+  openLocationSettings() {
+    Future.delayed(Duration(seconds: 4))
+        .then((value) => AppSettings.openAppSettings());
   }
 }

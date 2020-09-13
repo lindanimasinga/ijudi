@@ -32,12 +32,11 @@ class WalletViewModel extends BaseViewModel with TopTupStatusChecker {
       .listen((data) {
         this.wallet = data;
       },onError: (e) {
-      showError(error: e);
+        showError(error: e);
       });
   }
 
   Bank get wallet => _wallet;
-
   set wallet(Bank wallet) {
     _wallet = wallet;
     notifyChanged();

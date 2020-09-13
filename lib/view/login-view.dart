@@ -18,8 +18,7 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
   LoginView({LoginViewModel viewModel}) : super(viewModel);
 
   @override
-  void initialize() {
-  }
+  void initialize() {}
 
   @override
   Widget build(BuildContext context) {
@@ -40,19 +39,21 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                         IjudiForm(
                           child: Column(
                             children: <Widget>[
-                              IjudiLoginField(
-                                  hint: "SA Mobile Number",
-                                  type: TextInputType.phone,
-                                  text: () => viewModel.username,
-                                  autofillHints: [
-                                    AutofillHints.telephoneNumber,
-                                    AutofillHints.telephoneNumberLocal
-                                  ],
-                                  icon: Icon(Icons.phone_android,
-                                      size: 22, color: Colors.white),
-                                  onTap: (number) =>
-                                      viewModel.username = number,
-                                  color: IjudiColors.color5),
+                              GestureDetector(
+                                  onTap: () => viewModel.switchEnvironement(),
+                                  child: IjudiLoginField(
+                                      hint: "SA Mobile Number",
+                                      type: TextInputType.phone,
+                                      text: () => viewModel.username,
+                                      autofillHints: [
+                                        AutofillHints.telephoneNumber,
+                                        AutofillHints.telephoneNumberLocal
+                                      ],
+                                      icon: Icon(Icons.phone_android,
+                                          size: 22, color: Colors.white),
+                                      onTap: (number) =>
+                                          viewModel.username = number,
+                                      color: IjudiColors.color5)),
                               IjudiLoginField(
                                 hint: "Password",
                                 text: () => viewModel.password,
@@ -76,14 +77,14 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                         )
                       ],
                     ),
+                    viewModel.isUAT ? Text("UAT Environment", style: IjudiStyles.HEADER_2) : Container(),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
                     Text("Having Trouble?"),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Buttons.iconButton(
-                            Icon(Icons.settings),
+                        Buttons.iconButton(Icon(Icons.settings),
                             color: IjudiColors.color4,
                             onPressed: () => viewModel.forgotPassword()),
                         Padding(padding: EdgeInsets.only(right: 16)),
@@ -108,10 +109,10 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                                 margin: EdgeInsets.only(
                                     left: 16, right: 16, bottom: 8, top: 16),
                                 child: Icon(
-                                      Icons.fingerprint,
-                                      color: IjudiColors.color1,
-                                      size: viewModel.fingerPrintIconSise,
-                                    ))),
+                                  Icons.fingerprint,
+                                  color: IjudiColors.color1,
+                                  size: viewModel.fingerPrintIconSise,
+                                ))),
                     !viewModel.hasBioMetric
                         ? Container()
                         : Padding(

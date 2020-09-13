@@ -10,10 +10,11 @@ import 'package:ijudi/view/tranasction-history-view.dart';
 class WalletCard extends StatelessWidget with MessageDialogs {
   final Bank wallet;
   final Function onTopUp;
+  final Function onWithdraw;
 
   final String depositMessage = "";
 
-  const WalletCard({@required this.wallet, this.onTopUp});
+  const WalletCard({@required this.wallet, @required this.onTopUp,  @required this.onWithdraw});
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +94,7 @@ class WalletCard extends StatelessWidget with MessageDialogs {
                         iconSize: 32,
                         icon: Icon(Icons.money_off, color: IjudiColors.color2),
                         onPressed: () => onWithdraw()),
-                    Text("Withdraw", style: IjudiStyles.CARD_ICON_BUTTON)
+                    Text("Cash Withdraw", style: IjudiStyles.CARD_ICON_BUTTON)
                   ],
                 ),
                 Padding(padding: EdgeInsets.only(left: 8)),
@@ -154,12 +155,12 @@ class WalletCard extends StatelessWidget with MessageDialogs {
                   TextSpan(text: " as your reference.", style: styleBold),
                   TextSpan(
                       text:
-                          "\n\nMake sure the reference number entered is correct for the funds to reflect immediately on your account.",
+                          "\n\nMake sure the reference number entered is correct for the funds to reflect immediately on your wallet.",
                       style: style),
                 ]))),
         title: "Deposit",
         cancel: () => {});
   }
 
-  onWithdraw() {}
+  
 }

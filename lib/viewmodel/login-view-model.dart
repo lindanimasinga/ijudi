@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/services.dart';
 import 'package:ijudi/api/api-service.dart';
+import 'package:ijudi/config.dart';
 import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/model/shop.dart';
 
@@ -18,7 +19,6 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:local_auth/local_auth.dart';
 
 class LoginViewModel extends BaseViewModel {
-  
   final StorageManager storage;
   final UkhesheService ukhesheService;
   final ApiService apiService;
@@ -30,47 +30,49 @@ class LoginViewModel extends BaseViewModel {
 
   String _username = "";
   String _password = "";
-
+  static int tapCount = 0;
 
   List<Shop> shops;
   List<Advert> ads;
   double _fingerPrintIconSise = 52;
 
-  LoginViewModel({
-    @required this.ukhesheService,
-    @required this.storage,
-    @required this.sharedPrefs,
-    @required this.apiService,
-    @required this.notificationService});
+  LoginViewModel(
+      {@required this.ukhesheService,
+      @required this.storage,
+      @required this.sharedPrefs,
+      @required this.apiService,
+      @required this.notificationService});
+
+  get isUAT => ukhesheService.baseUrl == Config.getUATConfig().ukhesheBaseURL;
 
   authenticate() {
-    Future.delayed(Duration(seconds: 1)).asStream()
-    .asyncExpand((event) => _checkBiometrics().asStream())
-    .asyncExpand((canBiometric) => !canBiometric ? Stream.value(false) : _authenticate().asStream())
-    .map((authenticated) {
-      if(authenticated) {
-        if(storage.isLoggedIn) {
-          BaseViewModel.analytics.logLogin(loginMethod: "cellnumber").then((value) => null);
-          Navigator.pushNamedAndRemoveUntil(
-            context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false);
+    Future.delayed(Duration(seconds: 1))
+        .asStream()
+        .asyncExpand((event) => _checkBiometrics().asStream())
+        .asyncExpand((canBiometric) =>
+            !canBiometric ? Stream.value(false) : _authenticate().asStream())
+        .map((authenticated) {
+      if (authenticated) {
+        if (storage.isLoggedIn) {
+          BaseViewModel.analytics
+              .logLogin(loginMethod: "cellnumber")
+              .then((value) => null);
+          Navigator.pushNamedAndRemoveUntil(context, AllShopsView.ROUTE_NAME,
+              (Route<dynamic> route) => false);
         } else {
           username = storage.mobileNumber;
           password = storage.password;
         }
       }
-    })
-    .listen((event) {
-      
-    }, onError: (e) {
+    }).listen((event) {}, onError: (e) {
       log("error");
     });
-  }  
+  }
 
   @override
   initialize() {
     authenticate();
-    _getAvailableBiometrics().asStream()
-    .listen((event) {
+    _getAvailableBiometrics().asStream().listen((event) {
       availableBiometrics = event;
     });
   }
@@ -99,35 +101,40 @@ class LoginViewModel extends BaseViewModel {
     notifyChanged();
   }
 
-  bool get hasBioMetric => _availableBiometrics.isNotEmpty && storage.mobileNumber != null && storage.mobileNumber.isNotEmpty;
+  bool get hasBioMetric =>
+      _availableBiometrics.isNotEmpty &&
+      storage.mobileNumber != null &&
+      storage.mobileNumber.isNotEmpty;
 
-  get bioMetricName => _availableBiometrics.contains(BiometricType.fingerprint)? 
-    "fingerprint" : "face ID";
+  get bioMetricName => _availableBiometrics.contains(BiometricType.fingerprint)
+      ? "fingerprint"
+      : "face ID";
 
   login() {
-    if(!allFieldsValid) return;
+    if (!allFieldsValid) return;
 
-    progressMv.isBusy = true;      
-    ukhesheService.authenticate(username, password).asStream()
-    .asyncExpand((res) => apiService.findUserByPhone(username).asStream())
-    .listen((data) {
-        progressMv.isBusy = false;
-        storage.mobileNumber = username;
-        storage.password = password;
-        storage.profileRole = data.role;
-        sharedPrefs.viewedIntro = true;
-        log("user Id is ${data.id}");
-        storage.saveIjudiUserId(data.id);
-        notificationService.updateDeviceUser();
-        Navigator.pushNamedAndRemoveUntil(
-            context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false);
+    progressMv.isBusy = true;
+    ukhesheService
+        .authenticate(username, password)
+        .asStream()
+        .asyncExpand((res) => apiService.findUserByPhone(username).asStream())
+        .listen((data) {
+      progressMv.isBusy = false;
+      storage.mobileNumber = username;
+      storage.password = password;
+      storage.profileRole = data.role;
+      sharedPrefs.viewedIntro = true;
+      log("user Id is ${data.id}");
+      storage.saveIjudiUserId(data.id);
+      notificationService.updateDeviceUser();
+      Navigator.pushNamedAndRemoveUntil(
+          context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false);
     }, onError: (handleError) {
       showError(error: handleError);
       //log(handleError);
     }, onDone: () {
       progressMv.isBusy = false;
     });
-
   }
 
   register() {
@@ -182,6 +189,22 @@ class LoginViewModel extends BaseViewModel {
   }
 
   get allFieldsValid {
-    return Utils.validSANumber(username) && password != null && password.isNotEmpty;
+    return Utils.validSANumber(username) &&
+        password != null &&
+        password.isNotEmpty;
+  }
+
+  switchEnvironement() {
+    ++tapCount;
+    if (tapCount % 5 == 0) {
+      if (ukhesheService.baseUrl != Config.getUATConfig().ukhesheBaseURL) {
+        ukhesheService.baseUrl = Config.getUATConfig().ukhesheBaseURL;
+        apiService.apiUrl = Config.getUATConfig().iZingaApiUrl;
+      } else {
+        ukhesheService.baseUrl = Config.getProConfig().ukhesheBaseURL;
+        apiService.apiUrl = Config.getProConfig().iZingaApiUrl;
+      }
+      notifyChanged();
+    }
   }
 }

@@ -38,7 +38,7 @@ class ProdConfig extends Config {
   final String depositingFnbBankAccountNumber = "62544036850";
   final String depositingNedBankAccountNumber = "1196782040";
   final String ukhesheBaseURL = "https://api2.ukheshe.co.za";
-  final String iZingaApiUrl = "http://ec2co-ecsel-1b20jvvw3yfzt-2104564802.af-south-1.elb.amazonaws.com/";
+  final String iZingaApiUrl = "https://api.izinga.co.za";
 }
 
 class UATConfig extends Config {
@@ -46,7 +46,7 @@ class UATConfig extends Config {
   final String depositingNedBankAccountNumber = "1196782040";
   final String ukhesheBaseURL = "https://ukheshe-sandbox.jini.rocks";
   final String iZingaApiUrl =
-      "http://ec2co-ecsel-1b20jvvw3yfzt-2104564802.af-south-1.elb.amazonaws.com/";
+      "http://izinga-env.eba-a3ratwag.af-south-1.elasticbeanstalk.com";
 }
 
 class DevConfig extends Config {

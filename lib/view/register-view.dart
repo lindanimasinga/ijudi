@@ -60,7 +60,8 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                             ))),
                     Padding(
                       padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
-                      child: Text("What is your interest onto iZinga?", style: IjudiStyles.HEADER_TEXT),
+                      child: Text("What is your interest onto iZinga?",
+                          style: IjudiStyles.HEADER_TEXT),
                     ),
                     IjudiForm(
                         child: Column(children: [
@@ -100,7 +101,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               style: Forms.INPUT_TEXT_STYLE),
                         ],
                       )
-                    ])),        
+                    ])),
                     Padding(
                       padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
                       child: Text("Personal Information"),
@@ -312,16 +313,23 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                                       viewModel.startRegistration();
                                       showMessageDialog(context,
                                           title: "Confirm Code",
-                                          child: IjudiInputField(
-                                            hint: "OTP",
-                                            autofillHints: [
-                                              AutofillHints.oneTimeCode
-                                            ],
-                                            type: TextInputType.number,
-                                            color: IjudiColors.color5,
-                                            onChanged: (value) =>
-                                                viewModel.otp = value,
-                                          ),
+                                          child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                Padding(padding: EdgeInsets.only(bottom: 16)),
+                                                IjudiInputField(
+                                                  hint: "OTP",
+                                                  autofillHints: [
+                                                    AutofillHints.oneTimeCode
+                                                  ],
+                                                  type: TextInputType.number,
+                                                  color: IjudiColors.color5,
+                                                  onChanged: (value) =>
+                                                      viewModel.otp = value,
+                                                )
+                                              ]),
                                           actionName: "Proceed",
                                           action: () =>
                                               viewModel.registerUser());

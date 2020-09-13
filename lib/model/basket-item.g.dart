@@ -30,8 +30,8 @@ Map<String, dynamic> _$BasketItemToJson(BasketItem instance) {
 
   writeNotNull('name', instance.name);
   writeNotNull('quantity', instance.quantity);
+  writeNotNull('price', instance.price);
   writeNotNull('discountPerc', instance.discountPerc);
   writeNotNull('options', instance.options);
-  writeNotNull('price', instance.price);
   return val;
 }

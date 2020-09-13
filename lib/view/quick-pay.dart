@@ -57,6 +57,10 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
                   Padding(padding: EdgeInsets.only(top: 16)),
                   WalletCard(
                     wallet: viewModel.wallet,
+                    onWithdraw: showWithdraw(context, 
+                      wallet: viewModel.wallet,
+                      viewModel: viewModel,
+                      ukhesheService: viewModel.ukhesheService),
                     onTopUp: () => _showLowBalanceMessage(context)),
                   Container(
                       margin: EdgeInsets.only(top: 32, left: 16, right: 16),
@@ -156,7 +160,7 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
 
     _showLowBalanceMessage(BuildContext context) {
     showMessageDialog(context,
-        title: "Account TopUp",
+        title: "Wallet TopUp",
         actionName: "Topup",
         child: Column(
             mainAxisSize: MainAxisSize.min,

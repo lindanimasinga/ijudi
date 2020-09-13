@@ -211,7 +211,7 @@ class Utils {
   }
 
   static String formatToCurrency(double value) {
-    return currencyFormatter.format(value);
+    return value == null ? "None" : currencyFormatter.format(value);
   }
 
   static DateTime timeOfDayAsDateTime(TimeOfDay timeOfDay) {
