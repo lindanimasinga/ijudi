@@ -10,14 +10,7 @@ import 'package:intl/intl.dart';
 
 class Utils {
 
-  static final rangeMap = {
-    '10km' : 0.0666,
-    '15km' : 0.1,
-    '30km' : 0.2, 
-    '16500km': 110.0
-  };
-
-    static const orderStatusColors = {
+  static const orderStatusColors = {
     OrderStage.STAGE_0_CUSTOMER_NOT_PAID: IjudiColors.color2,
     OrderStage.STAGE_1_WAITING_STORE_CONFIRM: IjudiColors.color2,
     OrderStage.STAGE_2_STORE_PROCESSING: IjudiColors.color3,
@@ -39,7 +32,7 @@ class Utils {
     OrderStage.STAGE_7_ALL_PAID: "Completed"
   };
 
-    static const LOTTIE_BY_STAGE = {
+  static const LOTTIE_BY_STAGE = {
     OrderStage.STAGE_0_CUSTOMER_NOT_PAID: "assets/lottie/loading.json",
     OrderStage.STAGE_1_WAITING_STORE_CONFIRM: "assets/lottie/loading.json",
     OrderStage.STAGE_2_STORE_PROCESSING: "assets/lottie/packing.json",
@@ -73,7 +66,7 @@ class Utils {
             "The driver has arrived. Please come collect.",
         OrderStage.STAGE_6_WITH_CUSTOMER:
             "You have received your order, Give us a review."
-  };
+      };
 
   static const shopStatusText = {
     OrderStage.STAGE_0_CUSTOMER_NOT_PAID: "Not Paid",
@@ -141,6 +134,26 @@ class Utils {
     return pickupDate.toIso8601String();
   }
 
+  static String pickUpDay(DateTime dateTime, BuildContext context) {
+    var isToday = DateTime.now().day == dateTime.day;
+    var isTomorrow = DateTime.now().day + 1 == dateTime.day;
+    var timeOfDay = TimeOfDay.fromDateTime(dateTime);
+    return isToday
+        ? "Today at ${timeOfDay.format(context)}"
+        : isTomorrow
+            ? "Tomorrow at ${timeOfDay.format(context)}"
+            : DateFormat("dd MMM yy 'at' HH:mm").format(dateTime);
+  }
+
+  static DateTime createPickUpDay(TimeOfDay time) {
+    var date = DateTime.now();
+    var pickupDate =
+        DateTime(date.year, date.month, date.day, time.hour, time.minute);
+    return pickupDate.isBefore(date)
+        ? DateTime(date.year, date.month, date.day + 1, time.hour, time.minute)
+        : pickupDate;
+  }
+
   static void launchURLInCustomeTab(BuildContext context, {String url}) async {
     try {
       await launch(
@@ -165,12 +178,17 @@ class Utils {
     }
   }
 
-  static double availableHeight(BuildContext context) => (MediaQuery.of(context).size.height - MediaQuery.of(context).viewInsets.bottom);
+  static double availableHeight(BuildContext context) =>
+      (MediaQuery.of(context).size.height -
+          MediaQuery.of(context).viewInsets.bottom);
 
   static double calculationDialogMinHeight(BuildContext context) {
     var height = availableHeight(context);
-    return height >= MediaQuery.of(context).size.height * 0.7 ? height * 0.7 : height;
+    return height >= MediaQuery.of(context).size.height * 0.7
+        ? height * 0.7
+        : height;
   }
+
   static bool isValidSAId(String id) {
     if (id == null) {
       return false;
@@ -202,7 +220,9 @@ class Utils {
 
   static bool validSANumber(String cellNumber) {
     RegExp reg = RegExp("((0))([0-9]{9})");
-    return cellNumber != null && cellNumber.length == 10 && reg.hasMatch(cellNumber);
+    return cellNumber != null &&
+        cellNumber.length == 10 &&
+        reg.hasMatch(cellNumber);
   }
 
   static bool isEmail(String name) {
@@ -216,6 +236,7 @@ class Utils {
 
   static DateTime timeOfDayAsDateTime(TimeOfDay timeOfDay) {
     var today = DateTime.now();
-    return DateTime(today.year, today.month, today.day, timeOfDay.hour, timeOfDay.minute);
+    return DateTime(
+        today.year, today.month, today.day, timeOfDay.hour, timeOfDay.minute);
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
+import 'package:ijudi/config.dart';
 import 'package:ijudi/model/business-hours.dart';
 import 'package:ijudi/model/day.dart';
 import 'package:ijudi/model/order.dart';
@@ -12,6 +13,7 @@ import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/payment-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:ijudi/api/ukheshe/model/customer-info-response.dart';
+import 'package:intl/date_time_patterns.dart';
 
 class DeliveryOptionsViewModel extends BaseViewModel {
   Order order;
@@ -108,19 +110,18 @@ class DeliveryOptionsViewModel extends BaseViewModel {
     return hours;
   }
 
-  TimeOfDay get arrivalTime => order.shippingData.pickUpTime;
+  DateTime get arrivalTime => order.shippingData.pickUpTime;
 
   bool get isValidCollectionTime {
-    var pickUpDateTime =
-        Utils.timeOfDayAsDateTime(order.shippingData.pickUpTime);
-    var closingTime = Utils.timeOfDayAsDateTime(businessHours[0].close);
-    var openTime = Utils.timeOfDayAsDateTime(businessHours[0].open);
-
-    return openTime.isBefore(pickUpDateTime) &&
-        closingTime.isAfter(pickUpDateTime);
+    
+    var pickUpDateTime = order.shippingData.pickUpTime;
+    return businessHours[0].open.hour <= pickUpDateTime.hour &&
+        businessHours[0].close.hour >= pickUpDateTime.hour &&
+        businessHours[0].open.minute <= pickUpDateTime.minute &&
+        businessHours[0].close.minute >= pickUpDateTime.minute;
   }
 
-  set arrivalTime(TimeOfDay arrivalTime) {
+  set arrivalTime(DateTime arrivalTime) {
     order.shippingData.pickUpTime = arrivalTime;
     if (!isValidCollectionTime) {
       showError(
@@ -182,7 +183,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
 
           BaseViewModel.analytics.logEvent(name: "order.start", parameters: {
             "shop": order.shop.name,
-            "Order Id" : order.id,
+            "Order Id": order.id,
             "Delivery": order.shippingData.type,
             "Total Amount": order.totalAmount
           }).then((value) => {});
@@ -220,7 +221,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
         .map((data) => data[0])
         .asyncExpand((position) => apiService
             .findNearbyMessangers(
-                position.latitude, position.longitude, Utils.rangeMap["15km"])
+                position.latitude, position.longitude, Config.currentConfig.rangeMap["6.5km"])
             .asStream())
         .listen((messa) {
       messangers = messa;

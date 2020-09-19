@@ -10,6 +10,7 @@ import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/ukheshe-payment-compoment.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/payment-view-model.dart';
 
 class PaymentView extends MvStatefulWidget<PaymentViewModel> {
@@ -56,7 +57,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                                     hint: "Pick Up Time",
                                     enabled: false,
                                     text:
-                                        "${viewModel.order.shippingData.pickUpTime.format(context)}"))),
+                                        "${Utils.pickUpDay(viewModel.order.shippingData.pickUpTime, context)}"))),
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 8, top: 16, left: 16),

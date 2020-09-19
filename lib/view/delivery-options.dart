@@ -12,6 +12,7 @@ import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/delivery-option-view-model.dart';
 
 class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
@@ -166,8 +167,8 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
             IjudiForm(
                 child: IjudiTimeInput(
               hint: "Pick Up Time",
-              text: "${viewModel.arrivalTime.format(context)}",
-              onChanged: (time) => viewModel.arrivalTime = time,
+              text: "${Utils.pickUpDay(viewModel.arrivalTime, context)}",
+              onChanged: (time) => viewModel.arrivalTime = Utils.createPickUpDay(time),
             )),
             Padding(padding: EdgeInsets.only(top: 16)),
           ],

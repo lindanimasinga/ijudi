@@ -83,8 +83,7 @@ class Shipping {
   ShippingType type;
   double fee = 0;
   UserProfile messenger;
-  @JsonKey(fromJson: Utils.timeOfDayFromJson, toJson: Utils.timeOfDayToJson)
-  TimeOfDay pickUpTime = TimeOfDay(hour: 0, minute: 0);
+  DateTime pickUpTime = DateTime.now();
 
   var messengerId;
 

@@ -12,6 +12,8 @@ import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/all-shops-view-model.dart';
 
+import '../config.dart';
+
 class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
   static const ROUTE_NAME = "shopping";
 
@@ -108,7 +110,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                                 ),
                                 onChanged: (String newValue) =>
                                     viewModel.radiusText = newValue,
-                                items: Utils.rangeMap.keys
+                                items: Config.currentConfig.rangeMap.keys
                                     .map((String value) =>
                                         DropdownMenuItem<String>(
                                           value: value,

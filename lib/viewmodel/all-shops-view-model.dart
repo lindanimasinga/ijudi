@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:ijudi/api/api-service.dart';
+import 'package:ijudi/config.dart';
 import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/util/util.dart';
@@ -20,7 +21,7 @@ class AllShopsViewModel extends BaseViewModel {
   List<Advert> _ads = [];
   Set<String> filters = HashSet();
   String _search = "";
-  var _radiusText = '16500km';
+  var _radiusText = '6.5km';
   String locationDenied =
       "Location Services is not enabled. Please enable location service in your device settings.";
 
@@ -52,7 +53,7 @@ class AllShopsViewModel extends BaseViewModel {
   }
 
   void loadData(String radius) {
-    var range = Utils.rangeMap[radiusText];
+    var range = Config.currentConfig.rangeMap[radiusText];
     log("fetching location ");
     var lastPositionStream = getLastKnownPosition();
     lastPositionStream.asStream().asyncExpand((position) {

@@ -34,8 +34,7 @@ class MyShopOrdersViewModel extends BaseViewModel with OrderStatusChecker {
     if (order.shippingData.type == ShippingType.DELIVERY) {
       return true;
     }
-    var pickUpDateTime =
-        Utils.timeOfDayAsDateTime(order.shippingData.pickUpTime);
+    var pickUpDateTime = order.shippingData.pickUpTime;
     var anHourAgo = DateTime.now().subtract(Duration(hours: 1));
     return pickUpDateTime.isAtSameMomentAs(anHourAgo) ||
         pickUpDateTime.isAfter(anHourAgo);

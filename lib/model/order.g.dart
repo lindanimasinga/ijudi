@@ -118,7 +118,9 @@ Shipping _$ShippingFromJson(Map<String, dynamic> json) {
     ..messenger = json['messenger'] == null
         ? null
         : UserProfile.fromJson(json['messenger'] as Map<String, dynamic>)
-    ..pickUpTime = Utils.timeOfDayFromJson(json['pickUpTime'] as String)
+    ..pickUpTime = json['pickUpTime'] == null
+        ? null
+        : DateTime.parse(json['pickUpTime'] as String)
     ..messengerId = json['messengerId'];
 }
 
@@ -140,7 +142,7 @@ Map<String, dynamic> _$ShippingToJson(Shipping instance) {
   writeNotNull('type', _$ShippingTypeEnumMap[instance.type]);
   writeNotNull('fee', instance.fee);
   writeNotNull('messenger', instance.messenger);
-  writeNotNull('pickUpTime', Utils.timeOfDayToJson(instance.pickUpTime));
+  writeNotNull('pickUpTime', instance.pickUpTime?.toIso8601String());
   writeNotNull('messengerId', instance.messengerId);
   return val;
 }

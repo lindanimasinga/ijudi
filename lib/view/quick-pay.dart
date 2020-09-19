@@ -43,7 +43,6 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
             }));
         if (colorPickCount > 3) colorPickCount = 0;
       }
-
     
         return ScrollableParent(
             hasDrawer: false,
@@ -57,7 +56,7 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
                   Padding(padding: EdgeInsets.only(top: 16)),
                   WalletCard(
                     wallet: viewModel.wallet,
-                    onWithdraw: showWithdraw(context, 
+                    onWithdraw: () => showWithdraw(context, 
                       wallet: viewModel.wallet,
                       viewModel: viewModel,
                       ukhesheService: viewModel.ukhesheService),

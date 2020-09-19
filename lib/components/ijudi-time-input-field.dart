@@ -50,11 +50,11 @@ class IjudiTimeInput extends StatelessWidget {
               child: TextField(
                 controller: controller,
                 keyboardType: type,
-                onTap: () => timeIput(context)
-                              .then((value) {
-                                if(value != null)
-                                onChanged(value);
-                              }),
+                onTap: () => timeIput(context).then((value) {
+                  if (value != null) {
+                    onChanged(value);
+                  }
+                }),
                 autofillHints: autofillHints,
                 enabled: enabled,
                 readOnly: true,
@@ -63,14 +63,14 @@ class IjudiTimeInput extends StatelessWidget {
                     hintText: hint,
                     enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
-                        width: 0.01,
+                      width: 0.01,
                     ))),
               )))
     ]);
   }
 
   Future<TimeOfDay> timeIput(BuildContext context) {
-   return showTimePicker(
+    return showTimePicker(
       context: context,
       initialTime: TimeOfDay(hour: 12, minute: 00),
       builder: (BuildContext context, Widget child) {

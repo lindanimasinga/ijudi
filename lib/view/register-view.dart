@@ -277,7 +277,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                           child: RichText(
                               text: TextSpan(children: [
                             TextSpan(
-                                text: "iJudi Food Market Terms and Conditions",
+                                text: "iZinga Food Market Terms and Conditions",
                                 style: TextStyle(
                                     decoration: TextDecoration.underline,
                                     color: Colors.blue))

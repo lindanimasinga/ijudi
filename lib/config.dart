@@ -7,6 +7,7 @@ abstract class Config {
   String get depositingNedBankAccountNumber;
   String get ukhesheBaseURL;
   String get iZingaApiUrl;
+  Map<String, double> get rangeMap;
 
   static Config get currentConfig => _prodConfig != null
       ? _prodConfig
@@ -16,6 +17,8 @@ abstract class Config {
     if (_prodConfig == null) {
       _prodConfig = ProdConfig();
     }
+    _uatConfig = null;
+    _devConfig = null;
     return _prodConfig;
   }
 
@@ -23,6 +26,8 @@ abstract class Config {
     if (_uatConfig == null) {
       _uatConfig = UATConfig();
     }
+    _prodConfig = null;
+    _devConfig = null;
     return _uatConfig;
   }
 
@@ -30,6 +35,8 @@ abstract class Config {
     if (_devConfig == null) {
       _devConfig = DevConfig();
     }
+    _uatConfig = null;
+    _prodConfig = null;
     return _devConfig;
   }
 }
@@ -39,6 +46,7 @@ class ProdConfig extends Config {
   final String depositingNedBankAccountNumber = "1196782040";
   final String ukhesheBaseURL = "https://api2.ukheshe.co.za";
   final String iZingaApiUrl = "https://api.izinga.co.za";
+  final rangeMap = {'6.5km': 0.043333};
 }
 
 class UATConfig extends Config {
@@ -47,6 +55,7 @@ class UATConfig extends Config {
   final String ukhesheBaseURL = "https://ukheshe-sandbox.jini.rocks";
   final String iZingaApiUrl =
       "http://izinga-env.eba-a3ratwag.af-south-1.elasticbeanstalk.com";
+  final rangeMap = {'6.5km': 0.043333, '16500km': 110.0};
 }
 
 class DevConfig extends Config {
@@ -54,4 +63,5 @@ class DevConfig extends Config {
   final String depositingNedBankAccountNumber = "1196782040";
   final String ukhesheBaseURL = "https://ukheshe-sandbox.jini.rocks";
   final String iZingaApiUrl = "http://localhost/";
+  final rangeMap = {'6.5km': 0.043333, '16500km': 110.0};
 }
