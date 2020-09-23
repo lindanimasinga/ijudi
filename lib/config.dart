@@ -55,7 +55,7 @@ class UATConfig extends Config {
   final String ukhesheBaseURL = "https://ukheshe-sandbox.jini.rocks";
   final String iZingaApiUrl =
       "http://izinga-env.eba-a3ratwag.af-south-1.elasticbeanstalk.com";
-  final rangeMap = {'6.5km': 0.043333, '16500km': 110.0};
+  final rangeMap = {'16500km': 110.0, '6.5km': 0.043333};
 }
 
 class DevConfig extends Config {

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,18 +9,18 @@ import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/config.dart';
 import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/model/shop.dart';
-import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:app_settings/app_settings.dart';
 
 class AllShopsViewModel extends BaseViewModel {
-  List<Shop> _shops = [];
+  List<Shop> _shops;
   List<Shop> _featuredShops = [];
   List<Advert> _ads = [];
   Set<String> filters = HashSet();
   String _search = "";
-  var _radiusText = '6.5km';
+  bool notAvailMessageShown = false;
+  var _radiusText;
   String locationDenied =
       "Location Services is not enabled. Please enable location service in your device settings.";
 
@@ -33,6 +32,7 @@ class AllShopsViewModel extends BaseViewModel {
 
   @override
   void initialize() {
+    _radiusText = Config.currentConfig.rangeMap.keys.first;
     //use last known location
     //listen for location changes
     locationStream = getCurrentPosition(desiredAccuracy: LocationAccuracy.high)

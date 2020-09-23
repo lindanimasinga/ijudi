@@ -10,6 +10,7 @@ import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/shop-component.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
+import 'package:ijudi/view/wallet-view.dart';
 import 'package:ijudi/viewmodel/all-shops-view-model.dart';
 
 import '../config.dart';
@@ -27,7 +28,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
     List<ShopComponent> shopComponets = [];
     List<Widget> filterComponents = [];
 
-    if (viewModel.shops.isNotEmpty) {
+    if (viewModel.shops != null && viewModel.shops.isNotEmpty) {
       var tags =
           viewModel.shops.map((shop) => shop.tags).reduce((current, next) {
         Set<String> tagsSet = HashSet();
@@ -70,15 +71,32 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
     });
 
     viewModel.shops
-        .where((shop) =>
+        ?.where((shop) =>
             (viewModel.search.isEmpty ||
                 shop.containsStockItem(viewModel.search) ||
                 shop.name.toLowerCase().contains(viewModel.search)) &&
             (viewModel.filters.isEmpty ||
                 viewModel.filters.intersection(shop.tags).length > 0))
-        .forEach((shop) {
+        ?.forEach((shop) {
       shopComponets.add(ShopComponent(shop: shop));
     });
+
+    if (viewModel.shops != null &&
+        viewModel.shops.isEmpty &&
+        !viewModel.notAvailMessageShown) {
+      Future.delayed(Duration(seconds: 1), () {
+        showMessageDialog(context,
+            title: "iZinga is not in your area yet",
+            child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Text(
+                    "Izinga is not available in your area yet. Please subscribe and mention your favourite shop")),
+            actionName: "Subscribe",
+            action: () => Utils.launchURLInCustomeTab(context,
+                url: "https://www.izinga.co.za#features"));
+        viewModel.notAvailMessageShown = true;
+      });
+    }
 
     return ScrollableParent(
         hasDrawer: true,

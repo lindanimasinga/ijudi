@@ -79,7 +79,7 @@ mixin MessageDialogs {
               padding: EdgeInsets.only(top: 8),
               child: Column(
                 children: [
-                  header,
+                  header != null ? header : Container(),
                   Expanded(
                       child: WebView(
                           initialUrl: url,

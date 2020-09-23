@@ -23,6 +23,15 @@
 
 
 /* --- 1. GENERAL (BODY, IMAGES & TEXT) --- */
+embed {
+    margin: 20px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #eaeaea;
+    border-radius: 10px;
+    width: 88%;
+    height: 4500px;
+}
 
 body {
 	background: #FFFFFF;
