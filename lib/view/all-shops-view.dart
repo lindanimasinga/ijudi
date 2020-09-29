@@ -10,7 +10,6 @@ import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/shop-component.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
-import 'package:ijudi/view/wallet-view.dart';
 import 'package:ijudi/viewmodel/all-shops-view-model.dart';
 
 import '../config.dart';
@@ -81,9 +80,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
       shopComponets.add(ShopComponent(shop: shop));
     });
 
-    if (viewModel.shops != null &&
-        viewModel.shops.isEmpty &&
-        !viewModel.notAvailMessageShown) {
+    if (viewModel.showNoShopsAvailable) {
       Future.delayed(Duration(seconds: 1), () {
         showMessageDialog(context,
             title: "iZinga is not in your area yet",
@@ -94,7 +91,6 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             actionName: "Subscribe",
             action: () => Utils.launchURLInCustomeTab(context,
                 url: "https://www.izinga.co.za#features"));
-        viewModel.notAvailMessageShown = true;
       });
     }
 
@@ -110,7 +106,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                     padding:
                         EdgeInsets.only(left: 16, top: 0, bottom: 8, right: 16),
                     child: viewModel.search.isNotEmpty ||
-                            adsComponets.length == 0
+                            adsComponets.length == 0 || shopComponets.isEmpty
                         ? Container()
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,8 +122,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                                   height: 2,
                                   color: IjudiColors.color5,
                                 ),
-                                onChanged: (String newValue) =>
-                                    viewModel.radiusText = newValue,
+                                onChanged: (String newValue) => viewModel.radiusText = newValue,
                                 items: Config.currentConfig.rangeMap.keys
                                     .map((String value) =>
                                         DropdownMenuItem<String>(
@@ -138,7 +133,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                               )
                             ],
                           )),
-            viewModel.search.isNotEmpty || adsComponets.length == 0
+            viewModel.search.isNotEmpty || adsComponets.length == 0 || shopComponets.isEmpty
                 ? Container()
                 : Container(
                     child: CarouselSlider(

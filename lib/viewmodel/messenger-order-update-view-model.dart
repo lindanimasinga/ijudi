@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:ijudi/api/api-service.dart';
+import 'package:ijudi/config.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/userProfile.dart';
@@ -15,16 +16,16 @@ class MessengerOrderUpdateViewModel extends BaseViewModel {
   Order _order;
   Shop _shop;
   UserProfile customer;
-  double _currentLatitude = -29.7380334;
-  double _currentLongitude = 30.9553061;
+  double _currentLatitude = Config.currentConfig.centreLatitude;
+  double _currentLongitude = Config.currentConfig.centrelongitude;
 
   final ApiService apiService;
 
-  double _customerLatitude = -29.7380334;
-  double _customerLongitude = 30.9553061;
+  double _customerLatitude = Config.currentConfig.centreLatitude;
+  double _customerLongitude = Config.currentConfig.centrelongitude;
 
-  double _shopLatitude = -29.7380334;
-  double _shopLongitude = 30.9553061;
+  double _shopLatitude = Config.currentConfig.centreLatitude;
+  double _shopLongitude = Config.currentConfig.centrelongitude;
 
   MessengerOrderUpdateViewModel(
       {@required Order order, @required this.apiService})

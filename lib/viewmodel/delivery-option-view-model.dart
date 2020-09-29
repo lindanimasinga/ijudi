@@ -9,11 +9,9 @@ import 'package:ijudi/model/business-hours.dart';
 import 'package:ijudi/model/day.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/userProfile.dart';
-import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/payment-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:ijudi/api/ukheshe/model/customer-info-response.dart';
-import 'package:intl/date_time_patterns.dart';
 
 class DeliveryOptionsViewModel extends BaseViewModel {
   Order order;

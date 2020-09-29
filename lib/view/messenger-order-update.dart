@@ -171,6 +171,9 @@ class MessengerOrderUpdateView
                         margin: EdgeInsets.only(top: 8, bottom: 16),
                         height: MediaQuery.of(context).size.height / 2,
                         child: Stack(children: [
+                          Container(
+                            alignment: Alignment.center,
+                            child: 
                           IJudiCard(
                               color: IjudiColors.color5,
                               child: Container(
@@ -189,7 +192,7 @@ class MessengerOrderUpdateView
                                       initialCameraPosition: _kGooglePlex,
                                       onMapCreated:
                                           (GoogleMapController controller) =>
-                                              _controller = controller))),
+                                              _controller = controller)))),
                           Container(
                               alignment: Alignment.bottomLeft,
                               margin: EdgeInsets.only(bottom: 40, left: 26),

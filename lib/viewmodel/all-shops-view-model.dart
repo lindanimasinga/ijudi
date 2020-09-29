@@ -3,7 +3,6 @@ import 'dart:collection';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/config.dart';
@@ -22,7 +21,7 @@ class AllShopsViewModel extends BaseViewModel {
   bool notAvailMessageShown = false;
   var _radiusText;
   String locationDenied =
-      "Location Services is not enabled. Please enable location service in your device settings.";
+      "Location Services is not enabled. Showing shops and resturants within Durban region.";
 
   StreamSubscription locationStream;
 
@@ -33,58 +32,57 @@ class AllShopsViewModel extends BaseViewModel {
   @override
   void initialize() {
     _radiusText = Config.currentConfig.rangeMap.keys.first;
-    //use last known location
-    //listen for location changes
     locationStream = getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .asStream()
-        .asyncExpand((event) => getLastKnownPosition().asStream())
-        .map((position) => loadData(radiusText))
-        .asyncExpand((event) => getPositionStream(desiredAccuracy: LocationAccuracy.high, distanceFilter: 10))
-        .listen((position) => loadData(radiusText), onDone: () {},
-            onError: (e) {
-          log(e.toString());
-          if (e is PlatformException) {
-            loadData(radiusText);
-            return;
-          }
-          showError(error: e);
-          openLocationSettings();
-        });
+        .map((position) => loadDataFromLastPosition(radiusText))
+        .asyncExpand((event) => getPositionStream(
+            desiredAccuracy: LocationAccuracy.high, distanceFilter: 10))
+        .listen((position) => loadDataFromLastPosition(radiusText),
+            onDone: () {}, onError: (e) {
+      log(e.toString());
+      if (e is PermissionDeniedException) {
+        showError(error: locationDenied);
+        loadDataFrom(
+            Config.currentConfig.rangeMap[radiusText],
+            Config.currentConfig.centreLatitude,
+            Config.currentConfig.centrelongitude)
+            .listen((event) { });
+        return;
+      }
+    });
   }
 
-  void loadData(String radius) {
+  void loadDataFromLastPosition(String radius) {
     var range = Config.currentConfig.rangeMap[radiusText];
     log("fetching location ");
     var lastPositionStream = getLastKnownPosition();
     lastPositionStream.asStream().asyncExpand((position) {
       log("location is ${position.latitude} ${position.longitude}");
-      return Rx.merge([
-        apiService
-            .findFeaturedShopByLocation(
-                position.latitude, position.longitude, range, 20)
-            .asStream()
-            .map((resp) => featuredShops = resp),
-        apiService
-            .findAllShopByLocation(
-                position.latitude, position.longitude, range, 20)
-            .asStream()
-            .map((resp) => shops = resp),
-        apiService
-            .findAllAdsByLocation(
-                position.latitude, position.longitude, range, 20)
-            .asStream()
-            .map((resp) => ads = resp)
-      ]);
+      return loadDataFrom(range, position.latitude, position.longitude);
     }).listen((resp) {}, onDone: () {}, onError: (e) {
       log(e.toString());
-      if (e is PlatformException) {
+      if (e is PermissionDeniedException) {
         showError(error: locationDenied);
-        openLocationSettings();
         return;
       }
-      showError(error: e);
-      openLocationSettings();
     });
+  }
+
+  Stream loadDataFrom(double range, double latitude, double longitude) {
+    return Rx.merge([
+      apiService
+          .findFeaturedShopByLocation(latitude, longitude, range, 20)
+          .asStream()
+          .map((resp) => featuredShops = resp),
+      apiService
+          .findAllShopByLocation(latitude, longitude, range, 20)
+          .asStream()
+          .map((resp) => shops = resp),
+      apiService
+          .findAllAdsByLocation(latitude, longitude, range, 20)
+          .asStream()
+          .map((resp) => ads = resp)
+    ]);
   }
 
   String get search => _search;
@@ -101,7 +99,7 @@ class AllShopsViewModel extends BaseViewModel {
   get radiusText => _radiusText;
   set radiusText(radiusText) {
     _radiusText = radiusText;
-    loadData(_radiusText);
+    loadDataFromLastPosition(_radiusText);
     notifyChanged();
   }
 
@@ -126,6 +124,12 @@ class AllShopsViewModel extends BaseViewModel {
   set shops(List<Shop> shops) {
     _shops = shops;
     notifyChanged();
+  }
+
+  bool get showNoShopsAvailable {
+    var show = shops != null && shops.isEmpty && !notAvailMessageShown;
+    notAvailMessageShown = show || notAvailMessageShown;
+    return show;
   }
 
   void removeFilter(String filterName) {
