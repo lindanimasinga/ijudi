@@ -1,19 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-login-field.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
+import 'package:ijudi/config.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/login-view-model.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlOutSide;
 
 class LoginView extends MvStatefulWidget<LoginViewModel> {
   static const String ROUTE_NAME = "/";
-
-  Timer _timer;
 
   LoginView({LoginViewModel viewModel}) : super(viewModel);
 
@@ -77,7 +78,9 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                         )
                       ],
                     ),
-                    viewModel.isUAT ? Text("UAT Environment", style: IjudiStyles.HEADER_2) : Container(),
+                    viewModel.isUAT
+                        ? Text("UAT Environment", style: IjudiStyles.HEADER_2)
+                        : Container(),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
                     Text("Having Trouble?"),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
@@ -85,11 +88,15 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Buttons.iconButton(Icon(Icons.settings),
+                            tag: "password-change",
                             color: IjudiColors.color4,
                             onPressed: () => viewModel.forgotPassword()),
                         Padding(padding: EdgeInsets.only(right: 16)),
-                        Buttons.iconButton(Icon(Icons.chat),
-                            color: IjudiColors.color2)
+                        FloatingActionButton(
+                          heroTag: "whatsapp",
+                          child: Image.asset("assets/images/whatsapp.png", width: 35),
+                            backgroundColor: IjudiColors.whatsappColor,
+                            onPressed: () => openWhatsapp(context))
                       ],
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
@@ -139,5 +146,9 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                     ),
                   ]))
         ]));
+  }
+
+  openWhatsapp(BuildContext context) {
+    UrlOutSide.launch(Config.currentConfig.supportPageUrl);
   }
 }

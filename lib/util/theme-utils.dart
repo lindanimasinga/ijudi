@@ -332,6 +332,7 @@ class IjudiColors {
   static const facebook = Color(0XFF1778f2);
   static const backgroud = Color(0XFFF8F7F7);
   static const clear = Color(0X00F8F7F7);
+  static const whatsappColor = Color(0XFF64B161);
 }
 
 class IjudiStyles {
@@ -445,6 +446,27 @@ class IjudiStyles {
   static const RATING_LABEL_DARK = TextStyle(
     fontSize: 12,
     fontFamily: "Roboto",
+  );
+
+    static const ITEM = TextStyle(
+    fontSize: 14,
+    fontFamily: "Roboto",
+    fontWeight: FontWeight.w500,
+    color: IjudiColors.color2
+
+  );
+
+  static const ITEM_EXCLUDED = TextStyle(
+    fontSize: 12,
+    fontFamily: "Roboto",
+    decoration: TextDecoration.lineThrough
+
+  );
+
+  static const ITEM_INCLUDED = TextStyle(
+    fontSize: 12,
+    fontFamily: "Roboto",
+    fontWeight: FontWeight.w500,
   );
 
   static const HEADER_TEXT =

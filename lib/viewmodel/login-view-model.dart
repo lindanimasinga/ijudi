@@ -198,9 +198,11 @@ class LoginViewModel extends BaseViewModel {
     ++tapCount;
     if (tapCount % 5 == 0) {
       if (ukhesheService.baseUrl != Config.getUATConfig().ukhesheBaseURL) {
+        Config.currentConfig = Config.getUATConfig();
         ukhesheService.baseUrl = Config.getUATConfig().ukhesheBaseURL;
         apiService.apiUrl = Config.getUATConfig().iZingaApiUrl;
       } else {
+        Config.currentConfig = Config.getProConfig();
         ukhesheService.baseUrl = Config.getProConfig().ukhesheBaseURL;
         apiService.apiUrl = Config.getProConfig().iZingaApiUrl;
       }

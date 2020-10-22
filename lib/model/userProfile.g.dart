@@ -10,6 +10,8 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) {
   return UserProfile(
     id: json['id'] as String,
     name: json['name'] as String,
+    signUpReason:
+        _$enumDecodeNullable(_$SignUpReasonEnumMap, json['signUpReason']),
     idNumber: json['idNumber'] as String,
     description: json['description'] as String,
     yearsInService: json['yearsInService'] as int,
@@ -51,6 +53,7 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) {
   writeNotNull('verificationCode', instance.verificationCode);
   writeNotNull('bank', instance.bank);
   writeNotNull('idNumber', instance.idNumber);
+  writeNotNull('signUpReason', _$SignUpReasonEnumMap[instance.signUpReason]);
   return val;
 }
 
@@ -85,6 +88,12 @@ T _$enumDecodeNullable<T>(
   }
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
+
+const _$SignUpReasonEnumMap = {
+  SignUpReason.DELIVERY_DRIVER: 'DELIVERY_DRIVER',
+  SignUpReason.SELL: 'SELL',
+  SignUpReason.BUY: 'BUY',
+};
 
 const _$ProfileRolesEnumMap = {
   ProfileRoles.CUSTOMER: 'CUSTOMER',

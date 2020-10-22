@@ -16,6 +16,14 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
 
   @override
   Widget build(BuildContext context) {
+    bool complianceChecksAllPassed = viewModel.wallet.status == null ||
+        viewModel.wallet.status.complianceChecksAllPassed;
+    if (!complianceChecksAllPassed && !viewModel.notFicadShown) {
+      Future.delayed(Duration(seconds: 2))
+          .then((value) => showFicaMessage(context));
+      viewModel.notFicadShown = true;
+    }
+
     return ScrollableParent(
         hasDrawer: true,
         appBarColor: IjudiColors.color3,
@@ -23,18 +31,21 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
         child: Stack(children: <Widget>[
           Headers.getShopHeader(context),
           Container(
-              margin: EdgeInsets.only(top: 16),
+              margin: EdgeInsets.only(top: 16, bottom: 16),
               width: MediaQuery.of(context).size.width,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   WalletCard(
                       wallet: viewModel.wallet,
-                      onTopUp: () => _showTopBalanceMessage(context),
-                      onWithdraw: () => showWithdraw(context, 
-                      wallet: viewModel.wallet,
-                      viewModel: viewModel,
-                      ukhesheService: viewModel.ukhesheService)),
+                      onTopUp: () =>
+                          viewModel.wallet.status.complianceChecksAllPassed
+                              ? _showTopBalanceMessage(context)
+                              : showFicaMessage(context),
+                      onWithdraw: () => showWithdraw(context,
+                          wallet: viewModel.wallet,
+                          viewModel: viewModel,
+                          ukhesheService: viewModel.ukhesheService)),
                   Container(
                       margin: EdgeInsets.only(top: 48, left: 16, right: 16),
                       alignment: Alignment.topLeft,

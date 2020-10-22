@@ -8,7 +8,7 @@ import 'package:ijudi/model/stock.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class StockAddNewViewModel extends BaseViewModel {
-  final Shop shop;
+  final StockAddNewInput inputData;
   final ApiService apiService;
 
   String newItemName;
@@ -18,22 +18,35 @@ class StockAddNewViewModel extends BaseViewModel {
 
   List<SelectionOption> options = [];
 
-  StockAddNewViewModel({this.shop, @required this.apiService});
+  StockAddNewViewModel({this.inputData, @required this.apiService});
 
   @override
-  initialize() {}
+  initialize() {
+    if (inputData.stock != null) {
+      newItemName = inputData.stock.name;
+      newItemPrice = inputData.stock.price;
+      newItemQuantity = inputData.stock.quantity;
+      newItemDescription = inputData.stock.description;
+      options = inputData.stock.mandatorySelection != null
+          ? inputData.stock.mandatorySelection
+          : [];
+    }
+  }
 
   addNewItem() {
     log("otions are ${options.map((e) => e.name).toList().toString()}");
     progressMv.isBusy = true;
     var stock = Stock(
-        name: newItemName,
-        price: newItemPrice,
-        quantity: newItemQuantity,)
-        ..mandatorySelection = options
-        ..description = newItemDescription;
+      name: newItemName,
+      price: newItemPrice,
+      quantity: newItemQuantity,
+    )
+      ..id = inputData.stock?.id
+      ..mandatorySelection = options
+      ..description = newItemDescription;
 
-    apiService.addStockItem(shop.id, stock).asStream().listen((newStock) {
+    apiService.addStockItem(inputData.shop.id, stock).asStream().listen(
+        (newStock) {
       Future.delayed(Duration(seconds: 1))
           .then((value) => Navigator.pop(context));
     }, onError: (e) {
@@ -58,4 +71,11 @@ class StockAddNewViewModel extends BaseViewModel {
     log(options.map((value) => value.name).toList().toString());
     notifyChanged();
   }
+}
+
+class StockAddNewInput {
+  final Shop shop;
+  final Stock stock;
+
+  StockAddNewInput(this.shop, this.stock);
 }

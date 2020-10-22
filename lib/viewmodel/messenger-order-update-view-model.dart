@@ -15,7 +15,6 @@ import 'package:rxdart/rxdart.dart';
 class MessengerOrderUpdateViewModel extends BaseViewModel {
   Order _order;
   Shop _shop;
-  UserProfile customer;
   double _currentLatitude = Config.currentConfig.centreLatitude;
   double _currentLongitude = Config.currentConfig.centrelongitude;
 
@@ -26,6 +25,8 @@ class MessengerOrderUpdateViewModel extends BaseViewModel {
 
   double _shopLatitude = Config.currentConfig.centreLatitude;
   double _shopLongitude = Config.currentConfig.centrelongitude;
+
+  UserProfile _customer;
 
   MessengerOrderUpdateViewModel(
       {@required Order order, @required this.apiService})
@@ -95,6 +96,13 @@ class MessengerOrderUpdateViewModel extends BaseViewModel {
     }, onDone: () {
       progressMv.isBusy = false;
     });
+  }
+
+  UserProfile get customer => _customer;
+
+  set customer(UserProfile customer) {
+    _customer = customer;
+    notifyChanged();
   }
 
   double get shopLatitude => _shopLatitude;

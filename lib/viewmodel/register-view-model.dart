@@ -21,15 +21,15 @@ class RegisterViewModel extends BaseViewModel {
   bool nameValid = true;
   bool lastNameValid = true;
   var idNumberValid = true;
-  ProfileRoles _interests = ProfileRoles.CUSTOMER;
-    String idNumber = "";
+  SignUpReason _interests = SignUpReason.BUY;
+  String idNumber = "";
   String name = "";
   String lastname = "";
   String description = "";
   int yearsInService = 0;
   String email;
   String _address = "";
-  String imageUrl = "https://pbs.twimg.com/media/C1OKE9QXgAAArDp.jpg";
+  String imageUrl = "https://izinga-aut.s3.af-south-1.amazonaws.com/images/user.png";
   int likes = 0;
   int servicesCompleted = 0;
   int badges = 0;
@@ -54,9 +54,9 @@ class RegisterViewModel extends BaseViewModel {
     notifyChanged();
   }
 
-    ProfileRoles get interests => _interests;
+    SignUpReason get interests => _interests;
 
-  set interests(ProfileRoles interests) {
+  set interests(SignUpReason interests) {
     _interests = interests;
     notifyChanged();
   }
@@ -94,6 +94,7 @@ class RegisterViewModel extends BaseViewModel {
 
     var user = UserProfile(
         id: idNumber,
+        signUpReason: interests,
         name: name,
         idNumber: idNumber,
         description: "customer",

@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/api/ukheshe/model/withdrawal.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
+import 'package:ijudi/config.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 mixin MessageDialogs {
@@ -130,7 +132,8 @@ mixin MessageDialogs {
         .asStream()
         .asyncExpand((withdrawals) => Stream.fromIterable(withdrawals))
         .where((withdrawal) => withdrawal.status == WithdrawalStatus.PENDING)
-        .listen((value) => pending = value, onError: (e) => viewModel.showError(error: e))
+        .listen((value) => pending = value,
+            onError: (e) => viewModel.showError(error: e))
         .onDone(() {
       if (pending != null) {
         showMessageDialog(context,
@@ -191,7 +194,7 @@ mixin MessageDialogs {
                         children: <Widget>[
                           Image.asset("assets/images/uKhese-logo.png",
                               width: 90),
-                          Container(margin: EdgeInsets.only(top: 8)),    
+                          Container(margin: EdgeInsets.only(top: 8)),
                           Text("Please enter your widrawal amount.",
                               style: Forms.INPUT_TEXT_STYLE),
                           Padding(padding: EdgeInsets.only(top: 8)),
@@ -211,7 +214,7 @@ mixin MessageDialogs {
           ukhesheService
               .initiateWithdrawal(wallet.customerId, amount.roundToDouble(),
                   DateFormat("SSSmmHHyyddMMss").format(DateTime.now()))
-              .asStream()    
+              .asStream()
               .listen((value) {
             showWithdraw(context,
                 wallet: wallet,
@@ -222,5 +225,48 @@ mixin MessageDialogs {
         });
       }
     });
+  }
+
+  showFicaMessage(BuildContext context) {
+    final Brightness brightnessValue =
+        MediaQuery.of(context).platformBrightness;
+    bool isLight = brightnessValue == Brightness.light;
+    var style = isLight ? IjudiStyles.DIALOG_DARK : IjudiStyles.DIALOG_WHITE;
+    var styleBold =
+        isLight ? IjudiStyles.DIALOG_DARK_BOLD : IjudiStyles.DIALOG_WHITE_BOLD;
+    var importantText = IjudiStyles.DIALOG_IMPORTANT_TEXT;
+    showMessageDialog(context,
+        title: "ID Photo Required",
+        actionName: "FICA Now",
+        action: () => launch(Config.currentConfig.ukhesheSupportUrl),
+        child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        RichText(
+                            strutStyle: StrutStyle.fromTextStyle(style),
+                            text: TextSpan(children: [
+                              TextSpan(
+                                  text:
+                                      "To get unlimited access and great benefits of your wallet, you will need to FICA. ",
+                                  style: style),
+                              TextSpan(
+                                  text:
+                                      "Please take a picture of your ID and a selfie of yourself ",
+                                  style: styleBold),
+                              TextSpan(
+                                  text: "and send it to us via ",
+                                  style: style),
+                              TextSpan(
+                                  text: "Whatsapp number 010 444 0040.",
+                                  style: styleBold),
+                            ]))
+                      ]))
+            ]));
   }
 }

@@ -99,19 +99,16 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
         title: "Shops",
         child: Column(
           children: <Widget>[
-            adsComponets.length == 0
-                ? Container()
-                : Container(
+            Container(
                     alignment: Alignment.topLeft,
                     padding:
                         EdgeInsets.only(left: 16, top: 0, bottom: 8, right: 16),
-                    child: viewModel.search.isNotEmpty ||
-                            adsComponets.length == 0 || shopComponets.isEmpty
-                        ? Container()
-                        : Row(
+                    child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Promotions", style: IjudiStyles.HEADER_2),
+                              viewModel.search.isNotEmpty ||
+                            adsComponets.length == 0 || shopComponets.isEmpty
+                        ? Container() : Text("Promotions", style: IjudiStyles.HEADER_2),
                               DropdownButton<String>(
                                 value: viewModel.radiusText,
                                 icon: Icon(Icons.arrow_downward),

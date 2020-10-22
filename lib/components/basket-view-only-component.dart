@@ -56,7 +56,7 @@ class _BasketViewOnlyComponentState extends State<BasketViewOnlyComponent> {
                     children: [
                       Text(
                         "${item.quantity}  x  ${item.name}",
-                        style: Forms.INPUT_TEXT_STYLE,
+                        style: IjudiStyles.ITEM,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +64,9 @@ class _BasketViewOnlyComponentState extends State<BasketViewOnlyComponent> {
                             ? []
                             : item.options
                                 .map((choice) =>
-                                    Text("${choice.name}:  ${choice.selected}"))
+                                    choice?.selected != "None" ?
+                                    Text("${choice.name}:  ${choice.selected}", style: IjudiStyles.ITEM_INCLUDED,) :
+                                    Text("${choice.name}:  ${choice.selected}", style: IjudiStyles.ITEM_EXCLUDED))
                                 .toList(),
                       )
                     ])

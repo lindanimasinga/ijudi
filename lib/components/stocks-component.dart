@@ -52,7 +52,7 @@ class StocksComponent extends StatelessWidget {
             ),
             Container(
               child: FlatButton(
-                onPressed: enabledAction ? ()=> action(item.take(1)) : null, 
+                onPressed: enabledAction ? ()=> action(item) : null, 
                 child: Text(actionName)
               ) 
             )

@@ -8,13 +8,16 @@ part of 'customer-info-response.dart';
 
 CustomerInfoResponse _$CustomerInfoResponseFromJson(Map<String, dynamic> json) {
   return CustomerInfoResponse(
-    customerId: json['customerId'],
-    accountId: json['accountId'],
-    name: json['name'],
+    customerId: json['customerId'] as int,
+    accountId: json['accountId'] as String,
+    name: json['name'] as String,
+    status: json['status'] == null
+        ? null
+        : CustomerStatus.fromJson(json['status'] as Map<String, dynamic>),
     email: json['email'] as String,
     username: json['username'] as String,
     idNumber: json['idNumber'] as String,
-    phone: json['phone'],
+    phone: json['phone'] as String,
     availableBalance: json['availableBalance'],
     currentBalance: json['currentBalance'],
     merchant: json['merchant'] as bool,
@@ -38,6 +41,7 @@ Map<String, dynamic> _$CustomerInfoResponseToJson(
   writeNotNull('type', instance.type);
   writeNotNull('currentBalance', instance.currentBalance);
   writeNotNull('availableBalance', instance.availableBalance);
+  writeNotNull('status', instance.status);
   val['email'] = instance.email;
   val['username'] = instance.username;
   val['idNumber'] = instance.idNumber;

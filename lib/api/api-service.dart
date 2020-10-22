@@ -28,7 +28,7 @@ class ApiService {
   get currentUserId => storageManager.getIjudiUserId();
   
   Future<List<Shop>> findAllShopByLocation(double latitude, double longitude, double rage, int size) async {
-    logger.log("fetching all shops");
+    logger.log("fetching all shops in range $rage");
     var event = await http.get('$apiUrl/store?latitude=$latitude&longitude=$longitude&range=$rage&size=$size&storeType=FOOD')
         .timeout(Duration(seconds: TIMEOUT_SEC));
 
@@ -39,7 +39,7 @@ class ApiService {
   }
 
     Future<List<Shop>> findFeaturedShopByLocation(double latitude, double longitude, double rage, int size) async {
-      logger.log("fetching fetured shops");
+      logger.log("fetching fetured shops in range $rage");
       var event = await http.get('$apiUrl/store?featured=true&latitude=$latitude&longitude=$longitude&range=$rage&size=$size&storeType=FOOD')
           .timeout(Duration(seconds: TIMEOUT_SEC));
 

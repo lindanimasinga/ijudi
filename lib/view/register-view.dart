@@ -8,6 +8,7 @@ import 'package:ijudi/components/ijudi-login-field.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/model/profile.dart';
+import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/register-view-model.dart';
@@ -19,7 +20,9 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    //viewModel.progressMv.isBusy = false;
+    final Brightness brightnessValue = MediaQuery.of(context).platformBrightness;
+    bool isLight = brightnessValue == Brightness.light;
+
     return ScrollableParent(
         hasDrawer: false,
         appBarColor: IjudiColors.color1,
@@ -41,14 +44,14 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                     FittedBox(
                         fit: BoxFit.contain,
                         child: Container(
-                            width: 150,
-                            height: 150,
+                            width: 130,
+                            height: 130,
                             margin: EdgeInsets.all(0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(75),
                                   bottomRight: Radius.circular(75)),
-                              color: Colors.white,
+                              color: isLight ? Colors.white : Theme.of(context).backgroundColor,
                               border: Border.all(
                                 color: IjudiColors.color1,
                                 width: 4,
@@ -60,7 +63,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                             ))),
                     Padding(
                       padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
-                      child: Text("What is your interest onto iZinga?",
+                      child: Text("What is your interest on iZinga?",
                           style: IjudiStyles.HEADER_TEXT),
                     ),
                     IjudiForm(
@@ -68,7 +71,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                       Row(
                         children: <Widget>[
                           Radio(
-                            value: ProfileRoles.CUSTOMER,
+                            value: SignUpReason.BUY,
                             groupValue: viewModel.interests,
                             onChanged: (selection) =>
                                 viewModel.interests = selection,
@@ -80,7 +83,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                       Row(
                         children: <Widget>[
                           Radio(
-                            value: ProfileRoles.STORE,
+                            value: SignUpReason.SELL,
                             groupValue: viewModel.interests,
                             onChanged: (selection) =>
                                 viewModel.interests = selection,
@@ -92,7 +95,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                       Row(
                         children: <Widget>[
                           Radio(
-                            value: ProfileRoles.MESSENGER,
+                            value: SignUpReason.DELIVERY_DRIVER,
                             groupValue: viewModel.interests,
                             onChanged: (selection) =>
                                 viewModel.interests = selection,

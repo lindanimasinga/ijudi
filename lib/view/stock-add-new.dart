@@ -17,19 +17,18 @@ class StockAddNewView extends MvStatefulWidget<StockAddNewViewModel> {
 
   @override
   Widget build(BuildContext context) {
-
-        Widget from1 = IjudiForm(
-          child: Column(
-            children: [
-              IjudiInputField(
-                hint: "Name",
-                text: viewModel.newItemName,
-                onChanged: (value) => viewModel.newItemName = value,
-              ),
-              IjudiInputField(
-                hint: "Description",
-                lines: 3,
-                text: viewModel.newItemDescription,
+    Widget from1 = IjudiForm(
+      child: Column(
+        children: [
+          IjudiInputField(
+            hint: "Name",
+            text: viewModel.newItemName,
+            onChanged: (value) => viewModel.newItemName = value,
+          ),
+          IjudiInputField(
+            hint: "Description",
+            lines: 3,
+            text: viewModel.newItemDescription,
             onChanged: (value) => viewModel.newItemDescription = value,
           ),
           IjudiInputField(
@@ -56,12 +55,11 @@ class StockAddNewView extends MvStatefulWidget<StockAddNewViewModel> {
           child: Container(
               margin: EdgeInsets.symmetric(horizontal: 16),
               child: IjudiChoicesInputField(
-                hint: "Sauce",
-                choicesHint: "BBQ, Hot, Lemon",
-                option: viewModel.options[count],
-                optionNumber: count,
-                onRemove: (value) => viewModel.removeOption(value)
-              ))));
+                  hint: "Sauce",
+                  choicesHint: "BBQ, Hot, Lemon",
+                  option: viewModel.options[count],
+                  optionNumber: count,
+                  onRemove: (value) => viewModel.removeOption(value)))));
     }
 
     return ScrollableParent(
@@ -74,7 +72,7 @@ class StockAddNewView extends MvStatefulWidget<StockAddNewViewModel> {
             Padding(
                 padding: EdgeInsets.only(left: 16, right: 16),
                 child: ProfileHeaderComponent(
-                    profile: viewModel.shop,
+                    profile: viewModel.inputData.shop,
                     profilePicBorder: IjudiColors.color3)),
             from1,
             Column(children: options),

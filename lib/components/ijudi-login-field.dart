@@ -62,19 +62,20 @@ class _IjudiLoginFieldState extends State<IjudiLoginField> {
 
   @override
   Widget build(BuildContext context) {
-    errorText = errorText.isEmpty && error != null ? error() : errorText; 
-    var controller = text == null
+    errorText = errorText.isEmpty && error != null ? error() : errorText;
+    var controller = (text == null || !(text() is String))
         ? null
         : TextEditingController.fromValue(TextEditingValue(
             text: text(),
-            selection:
-                TextSelection.fromPosition(TextPosition(offset: text().length))));
+            selection: TextSelection.fromPosition(
+                TextPosition(offset: text().length))));
     double width = MediaQuery.of(context).size.width > 360 ? 166 : 146;
     double width2 = MediaQuery.of(context).size.width > 360 ? 114 : 84;
     return Row(children: <Widget>[
       Container(
-          color:
-              errorText is String && errorText.isNotEmpty ? IjudiColors.color2 : color,
+          color: errorText is String && errorText.isNotEmpty
+              ? IjudiColors.color2
+              : color,
           width: width2,
           height: 52,
           alignment: Alignment.center,

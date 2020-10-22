@@ -9,6 +9,9 @@ part of 'profile.dart';
 Bank _$BankFromJson(Map<String, dynamic> json) {
   return Bank(
     name: json['name'] as String,
+    status: json['status'] == null
+        ? null
+        : CustomerStatus.fromJson(json['status'] as Map<String, dynamic>),
     accountId: json['accountId'] as String,
     type: json['type'] as String,
     currentBalance: (json['currentBalance'] as num)?.toDouble(),
@@ -34,5 +37,6 @@ Map<String, dynamic> _$BankToJson(Bank instance) {
   writeNotNull('type', instance.type);
   writeNotNull('currentBalance', instance.currentBalance);
   writeNotNull('availableBalance', instance.availableBalance);
+  writeNotNull('status', instance.status);
   return val;
 }

@@ -20,7 +20,8 @@ main() {
   var localNotifications;
   SharedPrefStorageManager sharedPref;
   Config config = Config.getProConfig();
-
+  Config.currentConfig = config;
+  
   SharedPrefStorageManager.singleton()
       .asStream()
       .map((event) => sharedPref = event)

@@ -6,6 +6,7 @@ import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/stocks-component.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/stock-add-new.dart';
+import 'package:ijudi/viewmodel/stock-add-new-view-model.dart';
 import 'package:ijudi/viewmodel/stock-management-view-mode.dart';
 
 class StockManagementView extends MvStatefulWidget<StockManagementViewModel> {
@@ -44,7 +45,7 @@ class StockManagementView extends MvStatefulWidget<StockManagementViewModel> {
                               viewModel: viewModel.progressMv,
                               onPressed: () => Navigator.pushNamed(
                                   context, StockAddNewView.ROUTE_NAME,
-                                  arguments: viewModel.shop),
+                                  arguments: StockAddNewInput(viewModel.shop, null)),
                               child: Icon(Icons.add),
                             ))
                       ])),
@@ -61,9 +62,9 @@ class StockManagementView extends MvStatefulWidget<StockManagementViewModel> {
                       stocks: viewModel.stocks,
                       actionName: "Edit",
                       enabledAction : true,
-                      action: (basketItem) => Navigator.pushNamed(
+                      action: (stockItem) => Navigator.pushNamed(
                                   context, StockAddNewView.ROUTE_NAME,
-                                  arguments: viewModel.shop)))
+                                  arguments: StockAddNewInput(viewModel.shop, stockItem))))
             ],
           )
         ]));

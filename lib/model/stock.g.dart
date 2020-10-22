@@ -13,6 +13,7 @@ Stock _$StockFromJson(Map<String, dynamic> json) {
     price: (json['price'] as num)?.toDouble(),
     discountPerc: (json['discountPerc'] as num)?.toDouble(),
   )
+    ..id = json['id'] as String
     ..description = json['description'] as String
     ..images = (json['images'] as List)?.map((e) => e as String)?.toList()
     ..mandatorySelection = (json['mandatorySelection'] as List)
@@ -36,6 +37,7 @@ Map<String, dynamic> _$StockToJson(Stock instance) {
     }
   }
 
+  writeNotNull('id', instance.id);
   writeNotNull('name', instance.name);
   writeNotNull('description', instance.description);
   writeNotNull('quantity', instance.quantity);

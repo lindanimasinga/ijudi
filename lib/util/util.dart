@@ -239,4 +239,6 @@ class Utils {
     return DateTime(
         today.year, today.month, today.day, timeOfDay.hour, timeOfDay.minute);
   }
+
+  static int hoursMinuteAsInt(TimeOfDay open) {}
 }

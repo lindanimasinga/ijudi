@@ -16,7 +16,7 @@ class SelectionOption {
     _values = values?.map((e) => e.trim())?.toList();
   }
 
-  String get selected => _selected != null ? _selected : values[0];
+  String get selected => _selected != null ? _selected : values != null ? values[0] : "None";
 
   set selected(String selected) {
     _selected = selected;

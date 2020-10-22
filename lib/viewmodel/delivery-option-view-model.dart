@@ -9,9 +9,11 @@ import 'package:ijudi/model/business-hours.dart';
 import 'package:ijudi/model/day.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/userProfile.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/payment-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:ijudi/api/ukheshe/model/customer-info-response.dart';
+import 'package:intl/intl.dart';
 
 class DeliveryOptionsViewModel extends BaseViewModel {
   Order order;
@@ -111,12 +113,13 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   DateTime get arrivalTime => order.shippingData.pickUpTime;
 
   bool get isValidCollectionTime {
-    
     var pickUpDateTime = order.shippingData.pickUpTime;
-    return businessHours[0].open.hour <= pickUpDateTime.hour &&
-        businessHours[0].close.hour >= pickUpDateTime.hour &&
-        businessHours[0].open.minute <= pickUpDateTime.minute &&
-        businessHours[0].close.minute >= pickUpDateTime.minute;
+    int openTime = int.parse(
+        "${DateFormat('HHmm').format(Utils.timeOfDayAsDateTime(businessHours[0].open))}");
+    int pickUpTime = int.parse("${DateFormat('HHmm').format(pickUpDateTime)}");
+    int closeTime = int.parse(
+        "${DateFormat('HHmm').format(Utils.timeOfDayAsDateTime(businessHours[0].close))}");
+    return openTime <= pickUpTime && closeTime >= pickUpTime;
   }
 
   set arrivalTime(DateTime arrivalTime) {
@@ -166,11 +169,11 @@ class DeliveryOptionsViewModel extends BaseViewModel {
         .startOrder(order)
         .asStream()
         .map((resp) {
-          order.id = resp.id;
-          order.date = resp.date;
-          order.hasVat = resp.hasVat;
-          order.serviceFee = resp.serviceFee;
-          order.shippingData.fee = resp.shippingData.fee;
+          var oldOrder = order;
+          order = resp;
+          order.customer = oldOrder.customer;
+          order.shop = oldOrder.shop;
+          order.shippingData.messenger = oldOrder.shippingData.messenger;
           order.description =
               "Payment from ${order.customer.mobileNumber}: order ${order.id}";
         })
@@ -218,8 +221,8 @@ class DeliveryOptionsViewModel extends BaseViewModel {
         .asStream()
         .map((data) => data[0])
         .asyncExpand((position) => apiService
-            .findNearbyMessangers(
-                position.latitude, position.longitude, Config.currentConfig.rangeMap["6.5km"])
+            .findNearbyMessangers(position.latitude, position.longitude,
+                Config.currentConfig.rangeMap["6.5km"])
             .asStream())
         .listen((messa) {
       messangers = messa;

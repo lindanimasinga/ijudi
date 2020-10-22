@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/topup-status-checker.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
@@ -56,6 +57,8 @@ class PaymentViewModel extends BaseViewModel with TopTupStatusChecker {
   bool get isDelivery => order.shippingData.type == ShippingType.DELIVERY;
 
   get paymentType => order.paymentType;
+
+  Bank get wallet => order.customer.bank;
 
   set paymentType(PaymentType paymentType) {
     order.paymentType = paymentType;

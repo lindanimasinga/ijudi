@@ -38,11 +38,11 @@ class _StockItemComponentState extends State<StockItemComponent>
 
     widgets.addAll([
       Container(
-          width: 130,
+          
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Container(
-                width: !item.hasImages ? 130 : 90,
+                width: !item.hasImages ? 146 : 90,
                 child: Text(
                   "${item.name}",
                   style: Forms.INPUT_TEXT_STYLE,
@@ -50,7 +50,7 @@ class _StockItemComponentState extends State<StockItemComponent>
             !item.hasImages
                 ? Container()
                 : Container(
-                    margin: EdgeInsets.only(right: 8),
+                    margin: EdgeInsets.only(right: 8, left: 16),
                     child: StackedThumbnails(urls: item.images),
                   )
           ])),
@@ -62,12 +62,12 @@ class _StockItemComponentState extends State<StockItemComponent>
       Container(
           child: FlatButton(
               onPressed: item.itemsAvailable <= 0 ? null
-                  : item.shouldSelectOptions ? () => openSeletionDialog() : () => addAction(item.take(1)),
+                  : item.shouldSelectOptions ? () => openSeletionDialog() : () => addAction(item),
               child: Text("ADD")))
     ]);
 
     return GestureDetector(
-        onTap: () => openSeletionDialog(),
+        onTap: () => item.itemsAvailable <= 0 ? null : openSeletionDialog(),
         child: Container(
             //height: 62,
             padding: EdgeInsets.only(left: 16, top: 4, bottom: 4),
@@ -99,7 +99,7 @@ class _StockItemComponentState extends State<StockItemComponent>
                   : Container(
                       margin: EdgeInsets.only(top: 16, bottom: 16),
                       child: Container(
-                          height: 150,
+                          height: 200,
                           child: CarouselSlider(
                               items: item.images
                                   .map((url) => Container(
@@ -108,7 +108,7 @@ class _StockItemComponentState extends State<StockItemComponent>
                                         color: Colors.white,
                                         border: Border.all(
                                           color: IjudiColors.color3,
-                                          width: 10,
+                                          width: 5,
                                         ),
                                         image: DecorationImage(
                                           image: NetworkImage(url),
@@ -161,6 +161,6 @@ class _StockItemComponentState extends State<StockItemComponent>
                   child: Column(children: mandatorySelection))
             ])),
         actionName: "Add",
-        action: () => addAction(item.take(1)));
+        action: () => addAction(item));
   }
 }

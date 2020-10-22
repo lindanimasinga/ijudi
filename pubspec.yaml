@@ -11,7 +11,7 @@ description: A cashless, cardless online food market.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.1+24
+version: 1.0.8+31
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -28,6 +28,7 @@ dependencies:
   shared_preferences: ^0.5.7+2
   intl: ^0.16.1
   webview_flutter: ^0.3.21+1
+  url_launcher: ^5.7.2
   flutter_slidable: ^0.5.4
   flutter_local_notifications: ^1.4.4+1
   firebase_messaging: ^6.0.16
@@ -77,6 +78,7 @@ flutter:
     - assets/images/orders.png
     - assets/images/quick-pay.png
     - assets/images/wallet-snap.png
+    - assets/images/whatsapp.png
     - assets/lottie/loading.json
     - assets/lottie/packing.json
     - assets/lottie/delivery.json

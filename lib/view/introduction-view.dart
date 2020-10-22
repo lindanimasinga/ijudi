@@ -85,7 +85,7 @@ class _IntroductionViewState extends State<IntroductionView> {
             index: 4,
             color: IjudiColors.color4,
             message: "Find your nearest shops you can order simply using your mobile number and a digital wallet.Keep your cash in a digital wallet you can use anywhere anytime.",
-            title: "Receive orders, manage your stock and understand your customers better using Analytics and A.I",
+            title: "Receive orders, manage your stock and understand your customers better with analytics",
             img: "assets/images/orders.png")
           )
         )
@@ -99,7 +99,7 @@ class _IntroductionViewState extends State<IntroductionView> {
     bool isLight = brightnessValue == Brightness.light;
     var background = isLight ? color : index % 2 == 0 ? Theme.of(context).scaffoldBackgroundColor : IjudiColors.color5;
     return Container(
-      padding: EdgeInsets.only(left: 16, right: 16, bottom: 32),
+      padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
       color: background,
       child: Stack(
         children: [
@@ -109,7 +109,7 @@ class _IntroductionViewState extends State<IntroductionView> {
           children: [
             Container(
               margin: EdgeInsets.only(top: 56),
-              child: Image.asset(img)
+              child: Image.asset(img, height: 350)
             ),
             Text(title, style: IjudiStyles.HEADER_1_MEDIUM, textAlign: TextAlign.center,),
             Text(message, style: IjudiStyles.HEADER_TEXT, textAlign: TextAlign.center,),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ijudi/api/ukheshe/model/customer-status.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'profile.g.dart';
@@ -46,9 +47,11 @@ class Bank {
   String type;
   double currentBalance = 0;
   double availableBalance = 0;
+  CustomerStatus status;
   
   Bank({
     this.name,
+    this.status,
     this.accountId = "- - -",
     this.type,
     this.currentBalance = 0, 
@@ -59,9 +62,6 @@ class Bank {
 
   factory Bank.fromJson(Map<String, dynamic> json) => _$BankFromJson(json);
 
-  /// `toJson` is the convention for a class to declare support for serialization
-  /// to JSON. The implementation simply calls the private, generated
-  /// helper method `_$UserToJson`.
   Map<String, dynamic> toJson() => _$BankToJson(this); 
 }
 

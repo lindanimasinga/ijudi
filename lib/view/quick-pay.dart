@@ -60,7 +60,10 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
                       wallet: viewModel.wallet,
                       viewModel: viewModel,
                       ukhesheService: viewModel.ukhesheService),
-                    onTopUp: () => _showLowBalanceMessage(context)),
+                    onTopUp: () =>
+                          viewModel.wallet.status.complianceChecksAllPassed
+                              ? _showLowBalanceMessage(context)
+                              : showFicaMessage(context)),
                   Container(
                       margin: EdgeInsets.only(top: 32, left: 16, right: 16),
                       child: Row(

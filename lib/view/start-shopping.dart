@@ -74,7 +74,7 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                             EdgeInsets.only(left: 0, right: 16, bottom: 16),
                         child: StocksWithImageComponent(
                                 stocks: viewModel.matchedStocks,
-                                addAction: (basketItem) => viewModel.add(basketItem)
+                                addAction: (stock) => viewModel.add(stock.take(1))
                               )
                     )
                   ],

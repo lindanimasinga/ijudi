@@ -6,23 +6,23 @@ import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
+import 'package:ijudi/view/quick-payment-success.dart';
 import 'package:ijudi/viewmodel/order-progress-view-model.dart';
 import 'package:lottie/lottie.dart';
 
 class OrderProgressStageComponent
     extends MvStatefulWidget<OrderProgressViewModel> {
-
-  OrderProgressStageComponent(
-      {@required OrderProgressViewModel viewModel}) : super(viewModel);
+  OrderProgressStageComponent({@required OrderProgressViewModel viewModel})
+      : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
-
-    int xValue = Utils.onlineDeliveryStages[viewModel.stage] - Utils.onlineDeliveryStages[viewModel.currentStage];      
-    double cardWidth = (-(44/3) * pow(xValue, 2)) + 352.0;
+    int xValue = Utils.onlineDeliveryStages[viewModel.stage] -
+        Utils.onlineDeliveryStages[viewModel.currentStage];
+    double cardWidth = (-(44 / 3) * pow(xValue, 2)) + 352.0;
     cardWidth = cardWidth < 180 ? 180 : cardWidth;
     double elevation = ((-0.5 * pow(xValue, 2)) + 5.0).abs();
-        
+
     return Column(
       children: <Widget>[
         Container(
@@ -32,8 +32,11 @@ class OrderProgressStageComponent
         ),
         IJudiCard(
             elevation: elevation,
-            color: viewModel.stage == viewModel.currentStage? null: 
-                        viewModel.isCompleted ? IjudiColors.color6 : IjudiColors.color6,
+            color: viewModel.stage == viewModel.currentStage
+                ? null
+                : viewModel.isCompleted
+                    ? IjudiColors.color6
+                    : IjudiColors.color6,
             width: cardWidth,
             child: Container(
                 height: 120,
@@ -41,12 +44,17 @@ class OrderProgressStageComponent
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    cardWidth <= 220 ? Container() : 
-                     Lottie.asset(Utils.LOTTIE_BY_STAGE[viewModel.stage],
-                        animate: viewModel.isCurrentStage,
-                        fit: BoxFit.fill, width: 90),
+                    cardWidth <= 220
+                        ? Container()
+                        : Lottie.asset(Utils.LOTTIE_BY_STAGE[viewModel.stage],
+                            animate: viewModel.isCurrentStage,
+                            fit: BoxFit.fill,
+                            width: 90),
                     Container(
-                      width: cardWidth * (viewModel.isCurrentStage || viewModel.isCompleted ? 0.4 : 0.5),
+                      width: cardWidth *
+                          (viewModel.isCurrentStage || viewModel.isCompleted
+                              ? 0.4
+                              : 0.5),
                       child: Text(
                         viewModel.messageMap[viewModel.stage],
                         style: IjudiStyles.CARD_SHOP_DISCR,
@@ -54,7 +62,19 @@ class OrderProgressStageComponent
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    viewModel.isCompleted ? Image.asset("assets/images/done.png", width: 50,):Container()
+                    viewModel.isCompleted
+                        ? Image.asset(
+                            "assets/images/done.png",
+                            width: 50,
+                          )
+                        : viewModel.stage == viewModel.currentStage
+                            ? FlatButton(
+                                child: Text("Invoice"),
+                                textColor: IjudiColors.color2,
+                                onPressed: () => Navigator.pushNamed(
+                                    context, ReceiptView.ROUTE_NAME,
+                                    arguments: viewModel.order))
+                            : Container()
                   ],
                 )))
       ],

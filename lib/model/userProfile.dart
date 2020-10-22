@@ -6,13 +6,13 @@ part 'userProfile.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class UserProfile extends Profile {
-  
   String idNumber;
+  SignUpReason signUpReason;
 
   UserProfile(
-      {
-      @required String id,
+      {@required String id,
       @required String name,
+      @required SignUpReason signUpReason,
       @required this.idNumber,
       @required String description,
       int yearsInService,
@@ -40,8 +40,10 @@ class UserProfile extends Profile {
             role: role,
             bank: bank);
 
-  factory UserProfile.fromJson(Map<String, dynamic> json) => _$UserProfileFromJson(json);
+  factory UserProfile.fromJson(Map<String, dynamic> json) =>
+      _$UserProfileFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UserProfileToJson(this); 
-
+  Map<String, dynamic> toJson() => _$UserProfileToJson(this);
 }
+
+enum SignUpReason { DELIVERY_DRIVER, SELL, BUY }

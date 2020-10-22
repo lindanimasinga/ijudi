@@ -168,7 +168,7 @@ class NavigatorService {
         return MaterialPageRoute(builder: (context) => StockManagementView(viewModel: viewmodel));  
       case StockAddNewView.ROUTE_NAME:
         viewmodel = StockAddNewViewModel(
-          shop: args,
+          inputData: args,
           apiService: apiService
         );
         return MaterialPageRoute(

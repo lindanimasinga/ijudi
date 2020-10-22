@@ -82,7 +82,8 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("A fee of 2.5% will be added for card topups", style: Forms.INPUT_TEXT_STYLE),
+                      Text("A fee of 2.5% will be added for card topups",
+                          style: Forms.INPUT_TEXT_STYLE),
                       Padding(padding: EdgeInsets.only(top: 8)),
                       Text("Your order costs R${viewModel.order.totalAmount}",
                           style: Forms.INPUT_TEXT_STYLE),
@@ -104,18 +105,19 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
               ),
             ]), action: () {
       viewModel.topUp().onData((topUpData) {
-        var subs = viewModel.checkTopUpSuccessul(topUpId: topUpData.topUpId, delay: 60);
-              subs.onDone(() {
-                Navigator.of(context).pop();
-                viewModel.fetchNewAccountBalances();
-               }); 
-              showWebViewDialog(context,
-               header: Image.asset("assets/images/uKhese-logo.png", width: 100),
-               url: "${viewModel.baseUrl}${topUpData.completionUrl}",
-               doneAction: () {
-                 viewModel.fetchNewAccountBalances();
-                 subs.cancel();
-               });    
+        var subs = viewModel.checkTopUpSuccessul(
+            topUpId: topUpData.topUpId, delay: 60);
+        subs.onDone(() {
+          Navigator.of(context).pop();
+          viewModel.fetchNewAccountBalances();
+        });
+        showWebViewDialog(context,
+            header: Image.asset("assets/images/uKhese-logo.png", width: 100),
+            url: "${viewModel.baseUrl}${topUpData.completionUrl}",
+            doneAction: () {
+          viewModel.fetchNewAccountBalances();
+          subs.cancel();
+        });
       });
     });
   }
@@ -132,7 +134,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
         action: () => viewModel.processPayment());
   }
 
-    showConfirmCashOrder(BuildContext context) {
+  showConfirmCashOrder(BuildContext context) {
     showMessageDialog(context,
         title: "Confirm Order",
         actionName: "Confirm",
@@ -156,7 +158,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
               onChanged: (selection) => viewModel.paymentType = selection,
             ),
             Image.asset("assets/images/uKhese-logo.png", width: 60),
-           /* Radio(
+            /* Radio(
               value: PaymentType.CASH,
               groupValue: viewModel.paymentType,
               onChanged: (selection) => viewModel.paymentType = selection,
@@ -186,15 +188,11 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                 child: FloatingActionButtonWithProgress(
                   viewModel: viewModel.progressMv,
                   onPressed: () {
-                    if(viewModel.paymentSuccessful) { 
-                      viewModel.processPayment();
-                    }
-                    else if (viewModel.isBalanceLow) {
-                      _showLowBalanceMessage(context);
+                    !viewModel.wallet.status.complianceChecksAllPassed? showFicaMessage(context):
+                    viewModel.paymentSuccessful ? viewModel.processPayment() :
+                    viewModel.isBalanceLow ? _showLowBalanceMessage(context)
+                          : showConfirmPayment(context);
                       return;
-                    } else {
-                      showConfirmPayment(context);
-                    }
                   },
                   child: Icon(Icons.arrow_forward),
                 )),

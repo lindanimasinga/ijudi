@@ -43,14 +43,24 @@ class MyShopOrderUpdateView
                             style: IjudiStyles.HEADER_TEXT)),
                     Container(
                         alignment: Alignment.topLeft,
-                        padding: EdgeInsets.only(bottom: 32, left: 16),
+                        padding: EdgeInsets.only(bottom: 8, left: 16),
                         child: Text("Order is a ${viewModel.orderType}",
                             style: IjudiStyles.HEADER_TEXT)),
+                    Container(
+                        alignment: Alignment.topLeft,
+                        padding: EdgeInsets.only(bottom: 8, left: 16),
+                        child: Text("Customer: ${viewModel?.customer?.name}",
+                            style: IjudiStyles.HEADER_TEXT)),
+                            Container(
+                        alignment: Alignment.topLeft,
+                        padding: EdgeInsets.only(bottom: 32, left: 16),
+                        child: Text("Phone Number: ${viewModel?.customer?.mobileNumber}",
+                            style: IjudiStyles.HEADER_TEXT)),        
                     Container(
                         margin: EdgeInsets.only(right: 16),
                         child: OrderReviewComponent(
                             order: viewModel.order, includeFees: false)),
-                    viewModel.orderReadyForCollection || viewModel.isInstoreOrder
+                    (viewModel.orderReadyForCollection && viewModel.isDelivery) || viewModel.isInstoreOrder
                         ? Container()
                         : Row(
                             crossAxisAlignment: CrossAxisAlignment.end,

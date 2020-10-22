@@ -7,6 +7,7 @@ part 'stock.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class Stock {
+  String id;
   String name;
   String description;
   int quantity;
@@ -32,12 +33,14 @@ class Stock {
       _price +
       (mandatorySelection != null && mandatorySelection.isNotEmpty
           ? mandatorySelection
-              .map((value) => value.price)
+              .map((value) =>
+                  "none" == value.selected?.toLowerCase() ? 0 : value.price)
               .reduce((value, element) => value + element)
           : 0);
 
-  get shouldSelectOptions => mandatorySelection != null && mandatorySelection.isNotEmpty;
-  
+  get shouldSelectOptions =>
+      mandatorySelection != null && mandatorySelection.isNotEmpty;
+
   set price(double price) {
     _price = price;
   }
@@ -59,12 +62,14 @@ class Stock {
         quantity: quantity,
         price: price,
         discountPerc: discountPerc)
-      ..options = mandatorySelection == null ? [] : mandatorySelection
-          .map((e) => SelectionOption()
-            ..name = e.name
-            ..price = e.price
-            ..selected = e.selected)
-          .toList();
+      ..options = mandatorySelection == null
+          ? []
+          : mandatorySelection
+              .map((e) => SelectionOption()
+                ..name = e.name
+                ..price = e.price
+                ..selected = e.selected)
+              .toList();
   }
 
   put(int quantity) {
