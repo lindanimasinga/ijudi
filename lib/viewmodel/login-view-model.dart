@@ -127,8 +127,7 @@ class LoginViewModel extends BaseViewModel {
       log("user Id is ${data.id}");
       storage.saveIjudiUserId(data.id);
       notificationService.updateDeviceUser();
-      Navigator.pushNamedAndRemoveUntil(
-          context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false);
+      Navigator.pop(context);
     }, onError: (handleError) {
       showError(error: handleError);
       //log(handleError);

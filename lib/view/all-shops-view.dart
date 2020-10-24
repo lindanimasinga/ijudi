@@ -77,7 +77,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             (viewModel.filters.isEmpty ||
                 viewModel.filters.intersection(shop.tags).length > 0))
         ?.forEach((shop) {
-      shopComponets.add(ShopComponent(shop: shop));
+      shopComponets.add(ShopComponent(shop: shop, isLoggedIn: () => viewModel.isLoggedIn,));
     });
 
     if (viewModel.showNoShopsAvailable) {

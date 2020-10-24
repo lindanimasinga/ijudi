@@ -74,7 +74,7 @@ class NavigatorService {
     var viewmodel;
     var routeName = settings.name;
     if(settings.name == IntroductionView.ROUTE_NAME && sharedPrefStorageManager.viewedIntro) {
-      routeName = LoginView.ROUTE_NAME;
+      routeName = AllShopsView.ROUTE_NAME;
     }
     
 
@@ -92,7 +92,9 @@ class NavigatorService {
           apiService: apiService,
           notificationService: localNotificationService
         );
-        return MaterialPageRoute(builder: (context) => LoginView(viewModel: viewmodel));
+        return MaterialPageRoute(
+          builder: (context) => LoginView(viewModel: viewmodel),
+          fullscreenDialog: true);
       case RegisterView.ROUTE_NAME:
         viewmodel = RegisterViewModel(
           ukhesheService : ukhesheService,
@@ -110,7 +112,8 @@ class NavigatorService {
           builder: (context) => ForgotPasswordView(viewModel: viewmodel));  
       case AllShopsView.ROUTE_NAME:
         viewmodel = AllShopsViewModel(
-          apiService: apiService
+          apiService: apiService,
+          storageManager: storageManager
         );
         return MaterialPageRoute(builder: (context) => AllShopsView(viewModel: viewmodel));
       case AllComponentsView.ROUTE_NAME:
@@ -137,7 +140,8 @@ class NavigatorService {
       case StartShoppingView.ROUTE_NAME:
         viewmodel = StartShoppingViewModel(
           shop: args,
-          apiService: apiService
+          apiService: apiService,
+          storageManager: storageManager
         );
         return MaterialPageRoute(builder: (context) => StartShoppingView(viewModel: viewmodel));
       case DeliveryOptionsView.ROUTE_NAME:

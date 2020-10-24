@@ -124,10 +124,6 @@ class ApiService {
     return event;
   }
 
-  Future<dynamic> verifyCanBuy(Basket basket) async {
-    return Future.delayed(Duration(seconds: 2)).asStream();
-  }
-
   Future<List<Advert>> findAllAdsByLocation(double latitude, double longitude, double rage, int size) async {
       
       logger.log("fetching fetured Ads");

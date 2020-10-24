@@ -8,9 +8,9 @@ import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/config.dart';
 import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/model/shop.dart';
+import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:app_settings/app_settings.dart';
 
 class AllShopsViewModel extends BaseViewModel {
   List<Shop> _shops;
@@ -23,30 +23,35 @@ class AllShopsViewModel extends BaseViewModel {
   String locationDenied =
       "Location Services is not enabled. Showing shops and resturants within Durban region.";
 
-  StreamSubscription locationStream;
+  StreamSubscription<Position> locationStream;
 
   final ApiService apiService;
+  final StorageManager storageManager;
 
-  AllShopsViewModel({@required this.apiService});
+  AllShopsViewModel({@required this.apiService, @required this.storageManager});
+
+  get isLoggedIn => storageManager.isLoggedIn;
 
   @override
   void initialize() {
     _radiusText = Config.currentConfig.rangeMap.keys.first;
-    locationStream = getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .asStream()
-        .map((position) => loadDataFromLastPosition(radiusText))
-        .asyncExpand((event) => getPositionStream(
-            desiredAccuracy: LocationAccuracy.high, distanceFilter: 10))
-        .listen((position) => loadDataFromLastPosition(radiusText),
-            onDone: () {}, onError: (e) {
+    log("showing all shops");
+    locationStream = Rx.merge([
+          getCurrentPosition(desiredAccuracy: LocationAccuracy.high).asStream(),
+          getPositionStream(
+            desiredAccuracy: LocationAccuracy.high, distanceFilter: 10)])
+        .listen(null);
+
+    locationStream.onData((position) => loadDataFromLastPosition(radiusText));
+    locationStream.onError((e) {
       log(e.toString());
       if (e is PermissionDeniedException) {
         showError(error: locationDenied);
         loadDataFrom(
-            Config.currentConfig.rangeMap[radiusText],
-            Config.currentConfig.centreLatitude,
-            Config.currentConfig.centrelongitude)
-            .listen((event) { });
+                Config.currentConfig.rangeMap[radiusText],
+                Config.currentConfig.centreLatitude,
+                Config.currentConfig.centrelongitude)
+            .listen((event) {});
         return;
       }
     });
@@ -146,10 +151,6 @@ class AllShopsViewModel extends BaseViewModel {
   void dispose() {
     super.dispose();
     locationStream.cancel();
-  }
-
-  openLocationSettings() {
-    Future.delayed(Duration(seconds: 4))
-        .then((value) => AppSettings.openAppSettings());
+    log("Location stream disposed");
   }
 }

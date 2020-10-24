@@ -9,6 +9,7 @@ import 'package:ijudi/config.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
+import 'package:ijudi/view/login-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -260,13 +261,36 @@ mixin MessageDialogs {
                                       "Please take a picture of your ID and a selfie of yourself ",
                                   style: styleBold),
                               TextSpan(
-                                  text: "and send it to us via ",
-                                  style: style),
+                                  text: "and send it to us via ", style: style),
                               TextSpan(
                                   text: "Whatsapp number 010 444 0040.",
                                   style: styleBold),
                             ]))
                       ]))
+            ]));
+  }
+
+  showLoginMessage(BuildContext context, {void Function() onLogin}) {
+    final Brightness brightnessValue =
+        MediaQuery.of(context).platformBrightness;
+    bool isLight = brightnessValue == Brightness.light;
+    var style = isLight ? IjudiStyles.DIALOG_DARK : IjudiStyles.DIALOG_WHITE;
+    showMessageDialog(context,
+        title: "Login/Register Required", actionName: "Continue", action: () {
+      if (onLogin != null) {
+        onLogin();
+      }
+      Navigator.pushNamed(context, LoginView.ROUTE_NAME);
+    },
+        child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Text(
+                      "To get unlimited access and great benefits of your iZinga, you will need to Login or register. Please click confinue to proceed.",
+                      style: style))
             ]));
   }
 }
