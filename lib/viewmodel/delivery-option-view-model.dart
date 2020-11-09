@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -73,7 +74,6 @@ class DeliveryOptionsViewModel extends BaseViewModel {
       showError(
           error:
               "No drivers available on your area. Only collections are allowed");
-      return;
     }
     if (order.shippingData.type == ShippingType.DELIVERY &&
         order.shippingData.buildingType == null) {
@@ -85,8 +85,8 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   get deliveryAddress => order.shippingData.toAddress;
   set deliveryAddress(deliveryAddress) {
     order.shippingData.toAddress = deliveryAddress;
-    findMessengers();
     notifyChanged();
+    findMessengers();
   }
 
   get isDelivery => shippingType == ShippingType.DELIVERY;
@@ -134,7 +134,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
 
   @override
   void initialize() {
-    //shipping
+    //
     order.shippingData = Shipping();
     order.shippingData.toAddress = order.customer.address;
     order.shippingData.type = ShippingType.COLLECTION;
@@ -165,6 +165,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
       order.shippingData.messengerId = messangers[0].id;
     }
 
+    order.description = "order from ${order.shop.name}";
     apiService
         .startOrder(order)
         .asStream()
@@ -175,17 +176,16 @@ class DeliveryOptionsViewModel extends BaseViewModel {
           order.shop = oldOrder.shop;
           order.shippingData.messenger = oldOrder.shippingData.messenger;
           order.description =
-              "Payment from ${order.customer.mobileNumber}: order ${order.id}";
+              "Payment from ${order.customer.mobileNumber}: order ${resp.id}";
         })
         .asyncExpand(
             (element) => ukhesheService.getAccountInformation().asStream())
         .listen((customerResponse) {
           availableBalance = customerResponse;
-
           BaseViewModel.analytics.logEvent(name: "order.start", parameters: {
             "shop": order.shop.name,
             "Order Id": order.id,
-            "Delivery": order.shippingData.type,
+            "Delivery": order.shippingData.type.toString(),
             "Total Amount": order.totalAmount
           }).then((value) => {});
 

@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/services.dart';
+import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/util/topup-status-checker.dart';
 import 'package:ijudi/view/quick-payment-success.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,7 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker {
   final ApiService apiService;
   final UkhesheService ukhesheService;
   final Shop shop;
+  UserProfile customer;
 
   Bank _wallet = Bank();
   double payAmount = 0;
@@ -38,12 +41,8 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker {
         .map((resp) => wallet = resp)
         .asyncExpand((wallet) => apiService.findUserByPhone(userId).asStream())
         .listen((cust) {
-      order.customer = cust;
+      customer = cust;
       cust.bank = wallet;
-      order.shop = shop;
-      order.orderType = OrderType.INSTORE;
-      order.basket = Basket();
-      order.description = "Payment from ${order.customer.mobileNumber}";
     }, onError: (e) {
       showError(error: e);
     }, onDone: () {});
@@ -86,28 +85,14 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker {
       var failedPaymentLeg = paymentSuccessful
           ? "error.order.purchase.leg.1"
           : "error.order.payment.verify";
-      BaseViewModel.analytics.logEvent(
-          name: failedPaymentLeg,
-          parameters: {
-            "shop": order.shop.name,
-            "order": order.id,
-            "error": e.toString()
-          }).then((value) => {});
+      BaseViewModel.analytics.logEvent(name: failedPaymentLeg, parameters: {
+        "shop": order.shop.name,
+        "order": order.id,
+        "error": e.toString()
+      }).then((value) => {});
     }, onDone: () {
       progressMv.isBusy = false;
     });
-  }
-
-  StreamSubscription<InitTopUpResponse> topUp() {
-    //progressMv.isBusy = true;
-    var sub = ukhesheService
-        .initiateTopUp(wallet.customerId, topupAmount, null)
-        .asStream()
-        .listen(null);
-    sub.onDone(() {
-      //progressMv.isBusy = false;
-    });
-    return sub;
   }
 
   fetchNewAccountBalances() {
@@ -129,17 +114,24 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker {
 
   StreamSubscription startOrder() {
     progressMv.isBusy = true;
+    order = new Order();
+    order.customer = customer;
+    order.shop = shop;
+    order.orderType = OrderType.INSTORE;
+    order.basket = Basket();
+    order.description = "Payment from ${order.customer.mobileNumber}";
+    order.basket.clear();
     var basketItem =
         BasketItem(name: itemName, quantity: quantity, price: payAmount);
     order.basket.addItem(basketItem);
     var subscr = apiService.startOrder(order).asStream().map((newOrder) {
-      order.id = newOrder.id;
-      order.date = newOrder.date;
-      order.paymentType = PaymentType.UKHESHE;
-      order.hasVat = newOrder.hasVat;
-      order.serviceFee = newOrder.serviceFee;
+      var oldOrder = order;
+      order = newOrder;
+      order.customer = oldOrder.customer;
+      order.shop = oldOrder.shop;
       order.description =
-          "Payment from ${order.customer.mobileNumber} order ${order.id}";
+          "Payment from ${order.customer.mobileNumber}: order ${order.id}";
+      log("reference is ${order.description}");
     }).listen(null);
 
     subscr.onError((error) {
@@ -150,6 +142,18 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker {
 
     subscr.onDone(() => progressMv.isBusy = false);
     return subscr;
+  }
+
+  StreamSubscription<InitTopUpResponse> topUp() {
+    //progressMv.isBusy = true;
+    var sub = ukhesheService
+        .initiateTopUp(wallet.customerId, topupAmount, null)
+        .asStream()
+        .listen(null);
+    sub.onDone(() {
+      //progressMv.isBusy = false;
+    });
+    return sub;
   }
 
   clearOrder() {

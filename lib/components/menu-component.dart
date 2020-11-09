@@ -122,8 +122,7 @@ class _MenuComponentState extends State<MenuComponent>
                           BaseViewModel.analytics
                               .logEvent(name: "logout")
                               .then((value) => {});
-                          Navigator.pop(context);
-                          Navigator.pushNamed(context, AllShopsView.ROUTE_NAME);
+                          Navigator.pushNamedAndRemoveUntil(context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false);
                         });
                       })
                   : Buttons.accountFlat(

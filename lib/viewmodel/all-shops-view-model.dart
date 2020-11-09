@@ -36,20 +36,28 @@ class AllShopsViewModel extends BaseViewModel {
   void initialize() {
     _radiusText = Config.currentConfig.rangeMap.keys.first;
     log("showing all shops");
-    locationStream = Rx.merge([
-          getCurrentPosition(desiredAccuracy: LocationAccuracy.high).asStream(),
-          getPositionStream(
-            desiredAccuracy: LocationAccuracy.high, distanceFilter: 10)])
-        .listen(null);
+    
+    getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .asStream()
+        .map((position) {
+      loadDataFromLastPosition(radiusText);
+      return position;
+    });
 
-    locationStream.onData((position) => loadDataFromLastPosition(radiusText));
+    locationStream = Rx.merge([
+      getPositionStream(
+          desiredAccuracy: LocationAccuracy.high, distanceFilter: 10)
+    ]).listen(null);
+
+    locationStream.onData((position) {
+      log("position is ${position.latitude}");
+      loadDataFromLastPosition(radiusText);
+    });
     locationStream.onError((e) {
       log(e.toString());
       if (e is PermissionDeniedException) {
         showError(error: locationDenied);
-        loadDataFrom(
-                Config.currentConfig.rangeMap[radiusText],
-                Config.currentConfig.centreLatitude,
+        loadDataFrom(110, Config.currentConfig.centreLatitude,
                 Config.currentConfig.centrelongitude)
             .listen((event) {});
         return;

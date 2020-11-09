@@ -88,6 +88,7 @@ T _$enumDecodeNullable<T>(
 const _$PaymentTypeEnumMap = {
   PaymentType.UKHESHE: 'UKHESHE',
   PaymentType.CASH: 'CASH',
+  PaymentType.OZOW: 'OZOW',
 };
 
 const _$OrderTypeEnumMap = {

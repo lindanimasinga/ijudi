@@ -4,14 +4,16 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:ijudi/components/ijudi-card.dart';
 import 'package:ijudi/components/shop-component.dart';
 import 'package:ijudi/model/shop.dart';
+import 'package:ijudi/util/message-dialogs.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/quick-pay.dart';
 import 'package:ijudi/view/start-shopping.dart';
 
-class FeaturedShop extends StatelessWidget {
+class FeaturedShop extends StatelessWidget with MessageDialogs {
   final Shop shop;
+  final Function isLoggedIn;
 
-  FeaturedShop({this.shop});
+  FeaturedShop({@required this.shop, @required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +30,10 @@ class FeaturedShop extends StatelessWidget {
                 arguments: shop),
             onLongPress: () {
               HapticFeedback.lightImpact();
-              Navigator.pushNamed(context, QuickPayView.ROUTE_NAME,
-                  arguments: shop);
+              !isLoggedIn()
+            ? showLoginMessage(context)
+            : Navigator.pushNamed(context, QuickPayView.ROUTE_NAME,
+                arguments: shop);
             },
             child: Container(
                 child: IJudiCard(
@@ -105,9 +109,10 @@ class FeaturedShop extends StatelessWidget {
                   ],
                 ),
                 color: IjudiColors.color2,
-                onPressed: () => Navigator.pushNamed(
-                    context, QuickPayView.ROUTE_NAME,
-                    arguments: shop),
+                onPressed: !isLoggedIn()
+            ? () => showLoginMessage(context)
+            : () => Navigator.pushNamed(context, QuickPayView.ROUTE_NAME,
+                arguments: shop),
               )),
         ]);
     ;

@@ -123,7 +123,6 @@ class LoginViewModel extends BaseViewModel {
       storage.mobileNumber = username;
       storage.password = password;
       storage.profileRole = data.role;
-      sharedPrefs.viewedIntro = true;
       log("user Id is ${data.id}");
       storage.saveIjudiUserId(data.id);
       notificationService.updateDeviceUser();

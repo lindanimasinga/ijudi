@@ -72,16 +72,16 @@ class Headers {
     return ClipPath(
         clipper: IjudyHeaderClipPath(
             part: Parts.FIRST,
-            waves: Utils.generateWaveNumber(2),
-            height: MediaQuery.of(context).size.height * 0.08),
+            waves: Utils.generateWaveNumber(1),
+            height: MediaQuery.of(context).size.height * 0.06),
         child: Container(
           color: IjudiColors.color1,
-          height: MediaQuery.of(context).size.height * 0.08,
+          height: MediaQuery.of(context).size.height * 0.06,
           width: MediaQuery.of(context).size.width,
           child: ClipPath(
             clipper: IjudyHeaderClipPath(
                 part: Parts.SECOND,
-                waves: Utils.generateWaveNumber(2),
+                waves: Utils.generateWaveNumber(1),
                 height: 65),
             child: Container(
               color: IjudiColors.color2,
@@ -90,7 +90,7 @@ class Headers {
               child: ClipPath(
                 clipper: IjudyHeaderClipPath(
                     part: Parts.THIRD,
-                    waves: Utils.generateWaveNumber(2),
+                    waves: Utils.generateWaveNumber(1),
                     height: 35),
                 child: Container(
                   color: IjudiColors.color3,
@@ -422,6 +422,9 @@ class IjudiStyles {
 
   static const CARD_DISCR_ITAL =
       TextStyle(fontSize: 16, fontFamily: "Roboto", color: IjudiColors.color4);
+
+    static const CARD_AMOUNT_DISCR =
+      TextStyle(fontSize: 26, fontFamily: "Roboto", fontWeight: FontWeight.w500, color: IjudiColors.color4);    
 
   static const RATING = TextStyle(
       fontSize: 19,
