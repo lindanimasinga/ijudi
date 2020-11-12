@@ -12,7 +12,6 @@ import 'package:ijudi/view/introduction-view.dart';
 import 'config.dart';
 
 main() {
-  print("starting application");
   WidgetsFlutterBinding.ensureInitialized();
   Crashlytics.instance.enableInDevMode = true;
   // Pass all uncaught errors from the framework to Crashlytics.
@@ -24,7 +23,11 @@ main() {
   
   SharedPrefStorageManager.singleton()
       .asStream()
-      .map((event) => sharedPref = event)
+      .map((event)  {
+        sharedPref = event;
+        config = sharedPref.testEnvironment ? Config.getUATConfig() : Config.getProConfig();
+        return sharedPref;
+      })
       .asyncExpand((event) => SecureStorageManager.singleton().asStream())
       .listen((storage) {
     var ukhesheBaseURL = config.ukhesheBaseURL;

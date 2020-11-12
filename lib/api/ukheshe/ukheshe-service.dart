@@ -100,7 +100,7 @@ class UkhesheService {
         .post('$_apiUrl/transfers',
             headers: headers, body: json.encode(request))
         .timeout(Duration(seconds: TIMEOUT_SEC));
-    print(response.body);
+    log(response.body);
     return response.statusCode == 200
         ? PaymentResponse.fromJson(json.decode(response.body))
         : throw (UkhesheErrorResponse.fromJson(json.decode(response.body)[0])

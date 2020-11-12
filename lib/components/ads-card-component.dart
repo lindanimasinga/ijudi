@@ -34,12 +34,11 @@ class AdsCardComponent extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.35,
           padding: EdgeInsets.all(10.0),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25)),
-          child: FittedBox(
-              fit: BoxFit.cover,
-              alignment: Alignment.center,
-              child: CachedNetworkImage(imageUrl: advert.imageUrl),
-            )),
-        ));
+            borderRadius: BorderRadius.circular(25),
+            image: DecorationImage(
+                        image: NetworkImage(advert.imageUrl),
+                        fit: BoxFit.cover,
+                      )),
+        )));
   }
 }

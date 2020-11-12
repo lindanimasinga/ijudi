@@ -43,7 +43,7 @@ class LoginViewModel extends BaseViewModel {
       @required this.apiService,
       @required this.notificationService});
 
-  get isUAT => ukhesheService.baseUrl == Config.getUATConfig().ukhesheBaseURL;
+  get isUAT => sharedPrefs.testEnvironment;
 
   authenticate() {
     Future.delayed(Duration(seconds: 1))
@@ -199,10 +199,12 @@ class LoginViewModel extends BaseViewModel {
         Config.currentConfig = Config.getUATConfig();
         ukhesheService.baseUrl = Config.getUATConfig().ukhesheBaseURL;
         apiService.apiUrl = Config.getUATConfig().iZingaApiUrl;
+        sharedPrefs.testEnvironment = true;
       } else {
         Config.currentConfig = Config.getProConfig();
         ukhesheService.baseUrl = Config.getProConfig().ukhesheBaseURL;
         apiService.apiUrl = Config.getProConfig().iZingaApiUrl;
+        sharedPrefs.testEnvironment = false;
       }
       notifyChanged();
     }

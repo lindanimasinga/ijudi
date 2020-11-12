@@ -56,7 +56,10 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
 
     List<AdsCardComponent> adsComponets = [];
     viewModel.ads.forEach((ad) => adsComponets
-        .add(AdsCardComponent(advert: ad, color: IjudiColors.color3)));
+        .add(AdsCardComponent(
+          advert: ad, 
+          color: IjudiColors.color3, 
+          shop: viewModel.shops.where((item) => item.id == ad.shopId)?.first,)));
 
     viewModel.featuredShops
         .where((shop) =>

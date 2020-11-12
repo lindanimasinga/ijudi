@@ -12,8 +12,10 @@ abstract class StorageManager {
   static const UKHESHE_PASSWORD = "djalske33bfsdw";
   static const PROFILE_ROLE = "laskdjhqywe738239h";
   static const FIRST_TIME = "wer45234hhjdf";
+  static const IS_TEST_ENV = "aksdhewewhkdfs";
 
   bool viewedIntro;
+  bool testEnvironment;
 
   ProfileRoles get profileRole;
   set profileRole(ProfileRoles value);

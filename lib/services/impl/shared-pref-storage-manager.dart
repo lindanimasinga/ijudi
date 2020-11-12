@@ -116,6 +116,17 @@ class SharedPrefStorageManager extends StorageManager {
   }
 
   @override
+  get testEnvironment {
+    var value = _prefs.getBool(StorageManager.IS_TEST_ENV);
+    return value != null && value;
+  }
+
+  @override
+  set testEnvironment(bool value) {
+    _prefs.setBool(StorageManager.IS_TEST_ENV, value);
+  }
+
+  @override
   String password;
 
   @override

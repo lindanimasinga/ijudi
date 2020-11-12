@@ -178,8 +178,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
           order.description =
               "Payment from ${order.customer.mobileNumber}: order ${resp.id}";
         })
-        .asyncExpand(
-            (element) => ukhesheService.getAccountInformation().asStream())
+        .asyncExpand((element) => ukhesheService.getAccountInformation().asStream())
         .listen((customerResponse) {
           availableBalance = customerResponse;
           BaseViewModel.analytics.logEvent(name: "order.start", parameters: {
@@ -189,7 +188,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
             "Total Amount": order.totalAmount
           }).then((value) => {});
 
-          Navigator.pushNamed(context, PaymentView.ROUTE_NAME,
+          Navigator.popAndPushNamed(context, PaymentView.ROUTE_NAME,
               arguments: order);
         }, onError: (handleError) {
           showError(error: handleError);

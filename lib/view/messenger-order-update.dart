@@ -33,7 +33,7 @@ class MessengerOrderUpdateView
   };
 
   GoogleMapController _controller;
-  MapboxNavigation _mapNavigation;
+  MapBoxNavigation _mapNavigation;
 
   MessengerOrderUpdateView({MessengerOrderUpdateViewModel viewModel})
       : super(viewModel);
@@ -140,7 +140,6 @@ class MessengerOrderUpdateView
                       children: <Widget>[
                         IjudiInputField(
                             hint: "From Shop",
-                            autofillHints: [AutofillHints.fullStreetAddress],
                             enabled: false,
                             text: viewModel.order.shippingData.fromAddress,
                             color: IjudiColors.color5),
@@ -226,8 +225,8 @@ class MessengerOrderUpdateView
   }
 
   startNavigation(bool toShop) async {
-    _mapNavigation = MapboxNavigation(
-      onRouteProgress: (arrived) async {
+    _mapNavigation = MapBoxNavigation(
+      onRouteEvent: (arrived) async {
       
       });
 
@@ -246,9 +245,15 @@ class MessengerOrderUpdateView
           latitude: viewModel.shopLatitude,
           longitude: viewModel.shopLongitude);
     }
+
+    var wayPoints = List<WayPoint>();
+    wayPoints.add(fromPoint);
+    wayPoints.add(toPoint);
+
+    var options = MapBoxOptions(mode: MapBoxNavigationMode.drivingWithTraffic);
+    
     await _mapNavigation.startNavigation(
-        origin: fromPoint,
-        destination: toPoint,
-        mode: MapBoxNavigationMode.drivingWithTraffic);
+        wayPoints: wayPoints,
+        options: options);
   }
 }
