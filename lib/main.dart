@@ -1,4 +1,5 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
@@ -13,40 +14,43 @@ import 'config.dart';
 
 main() {
   WidgetsFlutterBinding.ensureInitialized();
-  Crashlytics.instance.enableInDevMode = true;
-  // Pass all uncaught errors from the framework to Crashlytics.
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
   var localNotifications;
   SharedPrefStorageManager sharedPref;
   Config config = Config.getProConfig();
   Config.currentConfig = config;
   
-  SharedPrefStorageManager.singleton()
-      .asStream()
-      .map((event)  {
+  Firebase.initializeApp()
+    .asStream()
+    .map((event) {
+      // Pass all uncaught errors from the framework to Crashlytics.
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    });
+
+  SharedPrefStorageManager.singleton().asStream()
+    .map((event)  {
         sharedPref = event;
         config = sharedPref.testEnvironment ? Config.getUATConfig() : Config.getProConfig();
         return sharedPref;
-      })
-      .asyncExpand((event) => SecureStorageManager.singleton().asStream())
-      .listen((storage) {
-    var ukhesheBaseURL = config.ukhesheBaseURL;
-    var iZingaApiUrl = config.iZingaApiUrl;
-    var ukhesheService =
-        UkhesheService(storageManager: storage, baseUrl: ukhesheBaseURL);
-    var apiService = ApiService(storageManager: storage, apiUrl: iZingaApiUrl);
-    localNotifications = NotificationService(apiService: apiService);
-    localNotifications
-        .initialize()
-        .then((value) => print("notification initialized $value"));
+    })
+    .asyncExpand((event) => SecureStorageManager.singleton().asStream())
+    .listen((storage) {
+        var ukhesheBaseURL = config.ukhesheBaseURL;
+        var iZingaApiUrl = config.iZingaApiUrl;
+        var ukhesheService =
+            UkhesheService(storageManager: storage, baseUrl: ukhesheBaseURL);
+        var apiService = ApiService(storageManager: storage, apiUrl: iZingaApiUrl);
+        localNotifications = NotificationService(apiService: apiService);
+        localNotifications
+            .initialize()
+            .then((value) => print("notification initialized $value"));
 
-    var navigation = NavigatorService(
-        sharedPrefStorageManager: sharedPref,
-        storageManager: storage,
-        apiService: apiService,
-        ukhesheService: ukhesheService,
-        localNotificationService: localNotifications);
-    runApp(MyApp(navigation: navigation));
+        var navigation = NavigatorService(
+            sharedPrefStorageManager: sharedPref,
+            storageManager: storage,
+            apiService: apiService,
+            ukhesheService: ukhesheService,
+            localNotificationService: localNotifications);
+        runApp(MyApp(navigation: navigation));
   });
 }
 

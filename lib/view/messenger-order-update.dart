@@ -250,7 +250,10 @@ class MessengerOrderUpdateView
     wayPoints.add(fromPoint);
     wayPoints.add(toPoint);
 
-    var options = MapBoxOptions(mode: MapBoxNavigationMode.drivingWithTraffic);
+    var options = MapBoxOptions(
+      mode: MapBoxNavigationMode.drivingWithTraffic,
+      voiceInstructionsEnabled: false
+    );
     
     await _mapNavigation.startNavigation(
         wayPoints: wayPoints,
