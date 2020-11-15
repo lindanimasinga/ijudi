@@ -17,7 +17,7 @@ class IjudiInputField extends StatefulWidget {
   IjudiInputField(
       {@required this.hint,
       this.autofillHints,
-      this.enabled,
+      this.enabled = true,
       this.color = IjudiColors.color5,
       this.type,
       this.text = "",
@@ -53,7 +53,7 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
   _IjudiInputFieldState(
       {@required this.hint,
       this.autofillHints,
-      this.enabled,
+      this.enabled = true,
       this.lines,
       this.color = IjudiColors.color5,
       this.type,
@@ -99,7 +99,7 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
                   maxLines: lines,
                   controller: controller,
                   keyboardType: type,
-                  autofillHints: autofillHints,
+                  autofillHints: enabled? autofillHints : null,
                   enabled: enabled,
                   onChanged: (value) {
                     text = value;

@@ -207,6 +207,7 @@ class LoginViewModel extends BaseViewModel {
         sharedPrefs.testEnvironment = false;
       }
       notifyChanged();
+      tapCount = 0;
     }
   }
 }

@@ -14,6 +14,9 @@ import 'package:ijudi/view/order-history-view.dart';
 import 'package:ijudi/view/profile-view.dart';
 import 'package:ijudi/view/wallet-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../config.dart';
 
 class MenuComponent extends StatefulWidget {
   @override
@@ -50,7 +53,7 @@ class _MenuComponentState extends State<MenuComponent>
         color: Theme.of(context).scaffoldBackgroundColor,
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Buttons.menu(children: <Widget>[
                 profileRole != ProfileRoles.MESSENGER
@@ -63,6 +66,15 @@ class _MenuComponentState extends State<MenuComponent>
                             MessengerOrdersView.ROUTE_NAME,
                             (Route<dynamic> route) => false,
                             arguments: _userId)),
+                profileRole != ProfileRoles.STORE_ADMIN
+                    ? Container()
+                    : Buttons.menuItem(
+                        text: "My Shops",
+                        height: buttonHeight,
+                        action: () => Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            MyShopsView.ROUTE_NAME,
+                            (Route<dynamic> route) => false)),
                 Buttons.menuItem(
                     text: "Shopping",
                     height: buttonHeight,
@@ -89,15 +101,6 @@ class _MenuComponentState extends State<MenuComponent>
                             context,
                             OrderHistoryView.ROUTE_NAME,
                             (Route<dynamic> route) => false)),
-                profileRole != ProfileRoles.STORE_ADMIN
-                    ? Container()
-                    : Buttons.menuItem(
-                        text: "My Shop",
-                        height: buttonHeight,
-                        action: () => Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            MyShopsView.ROUTE_NAME,
-                            (Route<dynamic> route) => false)),
                 !isLoggedIn
                     ? Container()
                     : Buttons.menuItem(
@@ -107,11 +110,10 @@ class _MenuComponentState extends State<MenuComponent>
                             context,
                             ProfileView.ROUTE_NAME,
                             (Route<dynamic> route) => false)),
-                /*  Buttons.menuItem(
-                                                    text: "Settings",
-                                                    height: buttonHeight,
-                                                    action : () => Navigator.pushNamedAndRemoveUntil(context, AllComponentsView.ROUTE_NAME, (Route<dynamic> route) => false))
-                                                */
+                Buttons.menuItem(
+                    text: "Help",
+                    height: buttonHeight,
+                    action: () => launch(Config.currentConfig.supportPageUrl))
               ]),
               isLoggedIn
                   ? Buttons.accountFlat(
@@ -122,7 +124,10 @@ class _MenuComponentState extends State<MenuComponent>
                           BaseViewModel.analytics
                               .logEvent(name: "logout")
                               .then((value) => {});
-                          Navigator.pushNamedAndRemoveUntil(context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false);
+                          Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              AllShopsView.ROUTE_NAME,
+                              (Route<dynamic> route) => false);
                         });
                       })
                   : Buttons.accountFlat(
@@ -135,9 +140,8 @@ class _MenuComponentState extends State<MenuComponent>
       ),
       Container(
           alignment: Alignment.topCenter,
-          margin: EdgeInsets.only(top: deviceWidth > 360 ? 70 : 50),
-          child: Image.asset("assets/images/izinga-logo.png", width: 100)),
-      Headers.getMenuHeader(context),
+          margin: EdgeInsets.only(top: 32),
+          child: Image.asset("assets/images/izinga-logo.png", width: 100))
     ]);
   }
 

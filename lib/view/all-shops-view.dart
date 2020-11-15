@@ -59,7 +59,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
         .add(AdsCardComponent(
           advert: ad, 
           color: IjudiColors.color3, 
-          shop: viewModel.shops.firstWhere((item) => item.id == ad.shopId, orElse: () => null))));
+          shop: viewModel.shops?.firstWhere((item) => item.id == ad.shopId, orElse: () => null))));
 
     viewModel.featuredShops
         .where((shop) =>

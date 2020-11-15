@@ -13,7 +13,7 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AllShopsViewModel extends BaseViewModel {
-  List<Shop> _shops = [];
+  List<Shop> _shops;
   List<Shop> _featuredShops = [];
   List<Advert> _ads = [];
   Set<String> filters = HashSet();

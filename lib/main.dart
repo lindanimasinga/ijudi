@@ -24,12 +24,12 @@ main() {
     .map((event) {
       // Pass all uncaught errors from the framework to Crashlytics.
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-    });
-
-  SharedPrefStorageManager.singleton().asStream()
+    })
+    .asyncExpand((event) => SharedPrefStorageManager.singleton().asStream())
     .map((event)  {
         sharedPref = event;
-        config = sharedPref.testEnvironment ? Config.getUATConfig() : Config.getProConfig();
+        //config = sharedPref.testEnvironment ? Config.getUATConfig() : Config.getProConfig();
+        sharedPref.testEnvironment = false;
         return sharedPref;
     })
     .asyncExpand((event) => SecureStorageManager.singleton().asStream())

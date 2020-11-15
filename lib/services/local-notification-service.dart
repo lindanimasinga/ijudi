@@ -27,6 +27,8 @@ class NotificationService {
     _firebaseMessaging.requestNotificationPermissions();
     _firebaseMessaging.configure(
         onResume: _onBackgroundPushMessageHandler,
+        onLaunch: _onBackgroundPushMessageHandler,
+        onMessage: _onBackgroundPushMessageHandler,
         onBackgroundMessage: _onBackgroundPushMessageHandler);
     _firebaseMessaging.getToken()
         .then((value) {
@@ -144,7 +146,7 @@ class NotificationService {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'your channel id', 'your channel name', 'your channel description',
         importance: Importance.Max, priority: Priority.High);
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails(presentAlert: true, presentSound: true);
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
         
