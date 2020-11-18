@@ -24,7 +24,8 @@ class UserProfile extends Profile {
       String verificationCode,
       @required String mobileNumber,
       @required ProfileRoles role,
-      @required Bank bank})
+      @required Bank bank,
+      String surname})
       : super(
             id: id,
             name: name,

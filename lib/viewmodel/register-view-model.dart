@@ -96,6 +96,7 @@ class RegisterViewModel extends BaseViewModel {
         id: idNumber,
         signUpReason: interests,
         name: name,
+        surname: lastname,
         idNumber: idNumber,
         description: "customer",
         imageUrl: imageUrl,

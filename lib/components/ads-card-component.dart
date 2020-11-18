@@ -28,7 +28,7 @@ class AdsCardComponent extends StatelessWidget {
         color: color,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
-            side: BorderSide(color: color, width: 10)),
+            side: BorderSide(color: color, width: 5)),
         child: Container(
           width: MediaQuery.of(context).size.height * 0.35,
           height: MediaQuery.of(context).size.height * 0.35,
