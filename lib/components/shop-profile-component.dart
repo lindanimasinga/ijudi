@@ -72,7 +72,7 @@ class ShopProfileComponent extends StatelessWidget {
                                     IconButton(
                                         iconSize: 32,
                                         icon: Icon(Icons.info,
-                                            color: IjudiColors.color3),
+                                            color: IjudiColors.color1),
                                         onPressed: () => Navigator.pushNamed(
                                             context,
                                             ShopProfileView.ROUTE_NAME,

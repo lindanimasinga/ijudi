@@ -63,7 +63,7 @@ enum ShippingType { COLLECTION, DELIVERY }
 
 enum BuildingType { HOUSE, OFFICE, APARTMENT }
 
-enum PaymentType { UKHESHE, CASH, OZOW }
+enum PaymentType { UKHESHE, CASH, OZOW, PAYFAST }
 
 enum OrderType { ONLINE, INSTORE }
 
