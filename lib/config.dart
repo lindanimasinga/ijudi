@@ -48,7 +48,7 @@ class ProdConfig extends Config {
   final String supportPageUrl =
       "https://api.whatsapp.com/send?phone=27812815707";
   final String ukhesheSupportUrl =
-      "https://api.whatsapp.com/send?phone=27104440040&text=VI";
+      "https://api.whatsapp.com/send?phone=270684835566&text=Hello";
 }
 
 class UATConfig extends Config {
@@ -62,7 +62,7 @@ class UATConfig extends Config {
   final String supportPageUrl =
       "https://api.whatsapp.com/send?phone=27812815707";
   final String ukhesheSupportUrl =
-      "https://api.whatsapp.com/send?phone=27104440040&text=VI";
+      "https://api.whatsapp.com/send?phone=270684835566&text=Hello";
 }
 
 class DevConfig extends Config {
@@ -76,5 +76,5 @@ class DevConfig extends Config {
   final String supportPageUrl =
       "https://api.whatsapp.com/send?phone=27812815707";
   final String ukhesheSupportUrl =
-      "https://api.whatsapp.com/send?phone=27104440040&text=VI";
+      "https://api.whatsapp.com/send?phone=270684835566&text=Hello";
 }

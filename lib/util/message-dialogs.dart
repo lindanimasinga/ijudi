@@ -263,7 +263,7 @@ mixin MessageDialogs {
                               TextSpan(
                                   text: "and send it to us via ", style: style),
                               TextSpan(
-                                  text: "Whatsapp number 010 444 0040.",
+                                  text: "Whatsapp number 068 483 5566.",
                                   style: styleBold),
                             ]))
                       ]))
