@@ -188,22 +188,17 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
                 onChanged: (value) => viewModel.topupAmount = value,
               ),
             ]), action: () {
-      viewModel.topUp().onData((topUpData) {
-        var subs = viewModel.checkTopUpSuccessul(
-            topUpId: topUpData.topUpId, delay: 60);
-        subs.onDone(() {
-          Navigator.of(context).pop();
-          viewModel.fetchNewAccountBalances();
-        });
-        showWebViewDialog(context,
-            header: Image.asset("assets/images/uKhese-logo.png", width: 100),
-            url: "${viewModel.baseUrl}${topUpData.completionUrl}",
-            doneAction: () {
-          viewModel.fetchNewAccountBalances();
-          subs.cancel();
-        });
-      });
-    });
+                viewModel.hasCards
+                    ? showWebViewDialog(context,
+                        header: Image.asset("assets/images/uKhese-logo.png", width: 100),
+                        url: "${viewModel.cardlinkingResponse.completionUrl}",
+                        doneAction: () {
+                          viewModel.fetchPaymentCards().onData((data) {
+                            topup(context);
+                          });
+                        })
+                : topup(context);
+           });
   }
 
   showConfirmPayment(BuildContext context) {
@@ -217,5 +212,25 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
                 "Please click pay to confirm your order of R${Utils.formatToCurrency(viewModel.order.totalAmount)}.\n\nA service fee of R${Utils.formatToCurrency(viewModel.order.serviceFee)} is already included.",
                 style: Forms.INPUT_TEXT_STYLE)),
         action: () => viewModel.pay());
+  }
+
+
+  topup(BuildContext context) {
+    viewModel.topUp().onData((topUpData) {
+      //check payment successful
+      var subs =
+          viewModel.checkTopUpSuccessul(topUpId: topUpData.topUpId, delay: 60);
+      subs.onDone(() {
+        Navigator.of(context).pop();
+        viewModel.fetchNewAccountBalances();
+      });
+      showWebViewDialog(context,
+          header: Image.asset("assets/images/uKhese-logo.png", width: 100),
+          url: "${topUpData.completionUrl}", 
+          doneAction: () {
+            viewModel.fetchNewAccountBalances();
+            subs.cancel();
+          });
+    });
   }
 }

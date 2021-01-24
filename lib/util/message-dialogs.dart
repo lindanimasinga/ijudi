@@ -87,7 +87,11 @@ mixin MessageDialogs {
                       child: WebView(
                           initialUrl: url,
                           onPageFinished: (url) {
-                            if (url == "http:/localhost") {}
+                            if (url == "about:blank") {
+                              print("completed");
+                              Navigator.of(context).pop();
+                              doneAction();
+                            }
                           },
                           javascriptMode: JavascriptMode.unrestricted)),
                   Container(

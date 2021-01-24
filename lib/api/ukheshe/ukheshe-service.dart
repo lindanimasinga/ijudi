@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import 'package:ijudi/api/ukheshe/model/cards-on-file.dart';
 import 'package:ijudi/api/ukheshe/model/customer-info-response.dart';
 import 'package:ijudi/api/ukheshe/model/error-response.dart';
 import 'package:ijudi/api/ukheshe/model/init-topup-response.dart';
@@ -179,7 +180,7 @@ class UkhesheService {
   }
 
   Future<InitTopUpResponse> initiateTopUp(
-      int customerId, double amount, String uniqueId) async {
+      int customerId, double amount, String uniqueId, CardsOnFile first) async {
     if (storageManager.hasTokenExpired) {
       refreshToken();
     }
@@ -192,6 +193,8 @@ class UkhesheService {
     var request = {
       "customerId": customerId,
       "amount": amount,
+      "type": "QRCode",
+      "token": first.tokenKey,
     };
 
     print(headers);
@@ -220,6 +223,55 @@ class UkhesheService {
     var response = await http
         .get('$_apiUrl/topups/$topupId', headers: headers)
         .timeout(Duration(seconds: TIMEOUT_SEC));
+
+    return response.statusCode == 200
+        ? InitTopUpResponse.fromJson(json.decode(response.body))
+        : throw (UkhesheErrorResponse.fromJson(json.decode(response.body)[0])
+            .description);
+  }
+
+  Future<List<CardsOnFile>> fetchCardsOnFile(int customerId) async {
+    if (storageManager.hasTokenExpired) {
+      refreshToken();
+    }
+
+    Map<String, String> headers = {
+      "Content-type": "application/json",
+      "Authorization": storageManager.findUkhesheAccessToken()
+    };
+
+    var response = await http
+        .get('$_apiUrl/customers/$customerId/cards-on-file', headers: headers)
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+
+    if (response.statusCode != 200) {
+      throw (UkhesheErrorResponse.fromJson(json.decode(response.body)[0])
+          .description);
+    }
+    Iterable list = json.decode(response.body);
+    return list.map((f) => CardsOnFile.fromJson(f)).toList();
+  }
+
+  Future<InitTopUpResponse> addCardsOnFile(int customerId) async {
+    if (storageManager.hasTokenExpired) {
+      refreshToken();
+    }
+
+    Map<String, String> headers = {
+      "Content-type": "application/json",
+      "Authorization": storageManager.findUkhesheAccessToken()
+    };
+
+    var request = {"alias": "iZinga Mobile App"};
+
+    var response = await http
+        .post('$_apiUrl/customers/$customerId/cards-on-file',body: json.encode(request),  headers: headers)
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+
+    if (response.statusCode != 200) {
+      throw (UkhesheErrorResponse.fromJson(json.decode(response.body)[0])
+          .description);
+    }
 
     return response.statusCode == 200
         ? InitTopUpResponse.fromJson(json.decode(response.body))

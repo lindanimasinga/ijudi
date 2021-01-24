@@ -22,10 +22,9 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker {
   final Shop shop;
   UserProfile customer;
 
-  Bank _wallet = Bank();
-  double payAmount = 0;
+  double _payAmount = 0;
+
   String _itemName = "";
-  double topupAmount = 0;
   Order order = Order();
   int quantity = 1;
   bool paymentSuccessful;
@@ -41,8 +40,12 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker {
         .map((resp) => wallet = resp)
         .asyncExpand((wallet) => apiService.findUserByPhone(userId).asStream())
         .listen((cust) {
-      customer = cust;
-      cust.bank = wallet;
+            customer = cust;
+            cust.bank = wallet;
+            fetchPaymentCards().onData((data) {
+              this.paymentCards = data;
+            });
+            generateAddPaymentCardUrl();
     }, onError: (e) {
       showError(error: e);
     }, onDone: () {});
@@ -50,16 +53,16 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker {
 
   String get baseUrl => ukhesheService.baseUrl;
 
-  Bank get wallet => _wallet;
-  set wallet(Bank wallet) {
-    _wallet = wallet;
-    notifyChanged();
-  }
-
   String get itemName => _itemName;
   set itemName(String itemName) {
     _itemName = itemName;
     notifyChanged();
+  }
+
+  double get payAmount => _payAmount;
+  set payAmount(double payAmount) {
+    _payAmount = payAmount;
+    topupAmount = "$payAmount";
   }
 
   pay() {
@@ -93,19 +96,6 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker {
     }, onDone: () {
       progressMv.isBusy = false;
     });
-  }
-
-  fetchNewAccountBalances() {
-    var userId = apiService.currentUserPhone;
-    progressMv.isBusy = true;
-    ukhesheService
-        .getAccountInformation()
-        .asStream()
-        .map((resp) => wallet = resp)
-        .asyncExpand((wallet) => apiService.findUserByPhone(userId).asStream())
-        .listen((cust) {
-      cust.bank = wallet;
-    }, onDone: () => progressMv.isBusy = false);
   }
 
   bool get isBalanceLow {
@@ -142,18 +132,6 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker {
 
     subscr.onDone(() => progressMv.isBusy = false);
     return subscr;
-  }
-
-  StreamSubscription<InitTopUpResponse> topUp() {
-    //progressMv.isBusy = true;
-    var sub = ukhesheService
-        .initiateTopUp(wallet.customerId, topupAmount, null)
-        .asStream()
-        .listen(null);
-    sub.onDone(() {
-      //progressMv.isBusy = false;
-    });
-    return sub;
   }
 
   clearOrder() {

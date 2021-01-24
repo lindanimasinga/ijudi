@@ -40,9 +40,9 @@ abstract class Config {
 class ProdConfig extends Config {
   final String depositingFnbBankAccountNumber = "62544036850";
   final String depositingNedBankAccountNumber = "1196782040";
-  final String ukhesheBaseURL = "https://api2.ukheshe.co.za";
+  final String ukhesheBaseURL = "https://api.ukheshe.co.za";
   final String iZingaApiUrl = "https://api.izinga.co.za";
-  final rangeMap = {'6.5km': 0.043333};
+  final rangeMap = {'10km': 0.066666};
   final double centreLatitude = -29.991591;
   final double centrelongitude = 30.885905;
   final String supportPageUrl =
@@ -54,9 +54,9 @@ class ProdConfig extends Config {
 class UATConfig extends Config {
   final String depositingFnbBankAccountNumber = "62544036850";
   final String depositingNedBankAccountNumber = "1196782040";
-  final String ukhesheBaseURL = "https://ukheshe-sandbox.jini.rocks";
+  final String ukhesheBaseURL = "https://api.ukheshe.co.za";
   final String iZingaApiUrl = "https://api-uat.izinga.co.za";
-  final rangeMap = {'16500km': 110.0, '6.5km': 0.043333};
+  final rangeMap = {'16500km': 110.0, '10km': 0.066666};
   final double centreLatitude = -29.991591;
   final double centrelongitude = 30.885905;
   final String supportPageUrl =
@@ -70,7 +70,7 @@ class DevConfig extends Config {
   final String depositingNedBankAccountNumber = "1196782040";
   final String ukhesheBaseURL = "https://ukheshe-sandbox.jini.rocks";
   final String iZingaApiUrl = "http://localhost/";
-  final rangeMap = {'6.5km': 0.043333, '16500km': 110.0};
+  final rangeMap = {'10km': 0.066666, '16500km': 110.0};
   final double centreLatitude = -29.991591;
   final double centrelongitude = 30.885905;
   final String supportPageUrl =

@@ -104,20 +104,32 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                 onChanged: (value) => viewModel.topupAmount = value,
               ),
             ]), action: () {
-      viewModel.topUp().onData((topUpData) {
-        var subs = viewModel.checkTopUpSuccessul(
-            topUpId: topUpData.topUpId, delay: 60);
-        subs.onDone(() {
-          Navigator.of(context).pop();
-          viewModel.fetchNewAccountBalances();
-        });
-        showWebViewDialog(context,
-            header: Image.asset("assets/images/uKhese-logo.png", width: 100),
-            url: "${viewModel.baseUrl}${topUpData.completionUrl}",
-            doneAction: () {
-          viewModel.fetchNewAccountBalances();
-          subs.cancel();
-        });
+                  viewModel.hasCards
+                      ? showWebViewDialog(context,
+                          header: Image.asset("assets/images/uKhese-logo.png", width: 100),
+                          url: "${viewModel.cardlinkingResponse.completionUrl}",
+                          doneAction: () {
+                          viewModel.fetchPaymentCards().onData((data) {
+                            topup(context);
+                          });
+                        })
+                      : topup(context);
+            });
+  }
+
+  topup(BuildContext context) {
+    viewModel.topUp().onData((topUpData) {
+      //check payment successful
+      var subs = viewModel.checkTopUpSuccessul(topUpId: topUpData.topUpId, delay: 60);
+      subs.onDone(() {
+        Navigator.of(context).pop();
+        viewModel.fetchNewAccountBalances();
+      });
+      showWebViewDialog(context,
+          header: Image.asset("assets/images/uKhese-logo.png", width: 100),
+          url: "${topUpData.completionUrl}", doneAction: () {
+        viewModel.fetchNewAccountBalances();
+        subs.cancel();
       });
     });
   }
@@ -188,10 +200,14 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                 child: FloatingActionButtonWithProgress(
                   viewModel: viewModel.progressMv,
                   onPressed: () {
-                    viewModel.paymentSuccessful ? viewModel.processPayment() :
-                    !viewModel.isBalanceLow ? showConfirmPayment(context) : 
-                    !viewModel.wallet.status.complianceChecksAllPassed? showFicaMessage(context) : _showLowBalanceMessage(context);
-                      return;
+                    viewModel.paymentSuccessful
+                        ? viewModel.processPayment()
+                        : !viewModel.isBalanceLow
+                            ? showConfirmPayment(context)
+                            : !viewModel.wallet.status.complianceChecksAllPassed
+                                ? showFicaMessage(context)
+                                : _showLowBalanceMessage(context);
+                    return;
                   },
                   child: Icon(Icons.arrow_forward),
                 )),

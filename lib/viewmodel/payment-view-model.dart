@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/topup-status-checker.dart';
-import 'package:intl/intl.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/model/init-topup-response.dart';
@@ -27,7 +25,12 @@ class PaymentViewModel extends BaseViewModel with TopTupStatusChecker {
       @required this.ukhesheService});
 
   @override
-  void initialize() {}
+  void initialize() {
+    fetchPaymentCards().onData((data) {
+        this.paymentCards = data;
+    });
+    generateAddPaymentCardUrl();
+  }
 
   set availableBalance(CustomerInfoResponse value) {
     order.customer.bank = value;
@@ -63,28 +66,6 @@ class PaymentViewModel extends BaseViewModel with TopTupStatusChecker {
   set paymentType(PaymentType paymentType) {
     order.paymentType = paymentType;
     notifyChanged();
-  }
-
-  StreamSubscription<InitTopUpResponse> topUp() {
-    progressMv.isBusy = true;
-    var sub = ukhesheService
-        .initiateTopUp(
-            order.customer.bank.customerId, double.parse(topupAmount), order.id)
-        .asStream()
-        .listen(null);
-    sub.onDone(() {
-      progressMv.isBusy = false;
-    });
-    return sub;
-  }
-
-  fetchNewAccountBalances() {
-    progressMv.isBusy = true;
-    ukhesheService.getAccountInformation().asStream().listen((resp) {
-      availableBalance = resp;
-    }, onDone: () {
-      progressMv.isBusy = false;
-    });
   }
 
   processPayment() {

@@ -221,7 +221,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
         .map((data) => data[0])
         .asyncExpand((position) => apiService
             .findNearbyMessangers(position.latitude, position.longitude,
-                Config.currentConfig.rangeMap["6.5km"])
+                Config.currentConfig.rangeMap["10km"])
             .asStream())
         .listen((messa) {
       messangers = messa;

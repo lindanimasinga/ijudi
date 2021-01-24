@@ -142,23 +142,36 @@ class WalletView extends MvStatefulWidget<WalletViewModel> {
                 onChanged: (value) => viewModel.topupAmount = value,
               ),
             ]), action: () {
-      viewModel.topUp().onData((topUpData) {
-        //check payment successful
-        log(topUpData.type);
-        var subs = viewModel.checkTopUpSuccessul(
-            topUpId: topUpData.topUpId, delay: 60);
-        subs.onDone(() {
-          Navigator.of(context).pop();
-          viewModel.fetchNewAccountBalances();
-        });
-        showWebViewDialog(context,
-            header: Image.asset("assets/images/uKhese-logo.png", width: 100),
-            url: "${viewModel.baseUrl}${topUpData.completionUrl}",
-            doneAction: () {
-          viewModel.fetchNewAccountBalances();
-          subs.cancel();
-        });
+                viewModel.hasCards
+                    ? showWebViewDialog(context,
+                        header: Image.asset("assets/images/uKhese-logo.png", width: 100),
+                        url: "${viewModel.cardlinkingResponse.completionUrl}",
+                        doneAction: () {
+                          viewModel.fetchPaymentCards().onData((data) {
+                            topup(context);
+                          });
+                        })
+                : topup(context);
+            });
+  }
+
+  topup(BuildContext context) {
+    viewModel.topUp().onData((topUpData) {
+      //check payment successful
+      var subs =
+          viewModel.checkTopUpSuccessul(topUpId: topUpData.topUpId, delay: 60);
+      subs.onDone(() {
+        Navigator.of(context).pop();
+        viewModel.fetchNewAccountBalances();
       });
+      showWebViewDialog(context,
+          header: Image.asset("assets/images/uKhese-logo.png", width: 100),
+          url: "${topUpData.completionUrl}", 
+          doneAction: () {
+            viewModel.fetchNewAccountBalances();
+            subs.cancel();
+          });
     });
   }
+
 }
