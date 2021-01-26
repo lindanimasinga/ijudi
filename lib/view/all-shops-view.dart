@@ -140,8 +140,8 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                         items: adsComponets,
                         options: CarouselOptions(
                           aspectRatio: 4 / 3,
-                          viewportFraction: 0.65,
-                          height: MediaQuery.of(context).size.height * 0.30,
+                          viewportFraction: 0.56,
+                          height: MediaQuery.of(context).size.height * 0.27,
                           initialPage: 0,
                           enableInfiniteScroll: true,
                           autoPlay: true,

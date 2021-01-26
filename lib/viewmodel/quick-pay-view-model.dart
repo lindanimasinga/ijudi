@@ -44,6 +44,7 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker {
             cust.bank = wallet;
             fetchPaymentCards().onData((data) {
               this.paymentCards = data;
+              this.paymentCardselected = data.first;
             });
             generateAddPaymentCardUrl();
     }, onError: (e) {

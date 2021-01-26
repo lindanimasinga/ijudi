@@ -387,4 +387,28 @@ class UkhesheService {
         : throw (UkhesheErrorResponse.fromJson(json.decode(data.body)[0])
             .description);
   }
+
+  Future deleteCardsOnFile(int customerId, String tokenKey) async {
+        if (storageManager.hasTokenExpired) {
+      refreshToken();
+    }
+
+    Map<String, String> headers = {
+      "Content-type": "application/json",
+      "Authorization": storageManager.findUkhesheAccessToken()
+    };
+
+    var request = {"alias": "iZinga Mobile App"};
+
+    var response = await http
+        .delete('$_apiUrl/customers/$customerId/cards-on-file/$tokenKey', headers: headers)
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+
+    if (response.statusCode != 204) {
+      throw (UkhesheErrorResponse.fromJson(json.decode(response.body)[0])
+          .description);
+    }
+
+    return Future.value("");
+  }
 }

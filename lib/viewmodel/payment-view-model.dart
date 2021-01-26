@@ -5,7 +5,6 @@ import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/topup-status-checker.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
-import 'package:ijudi/api/ukheshe/model/init-topup-response.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/api/ukheshe/model/customer-info-response.dart';
 import 'package:ijudi/model/order.dart';
@@ -28,6 +27,7 @@ class PaymentViewModel extends BaseViewModel with TopTupStatusChecker {
   void initialize() {
     fetchPaymentCards().onData((data) {
         this.paymentCards = data;
+        this.paymentCardselected = data.first;
     });
     generateAddPaymentCardUrl();
   }

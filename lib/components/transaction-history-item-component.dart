@@ -8,15 +8,15 @@ class TransactionHistoryItemComponent extends StatelessWidget {
   
   final Transaction transaction;
   final statuColors = {
-    "TRANSFER_DB" : IjudiColors.color2,
-    "TRANSFER_CR" : IjudiColors.color1,
+    "DEBIT" : IjudiColors.color2,
+    "CREDIT" : IjudiColors.color1,
     "FEE" : IjudiColors.color3,
     "TOPUP" : IjudiColors.color4,
   };
 
     final statuNames = {
-    "TRANSFER_DB" : "DEBIT",
-    "TRANSFER_CR" : "CREDIT",
+    "DEBIT" : "DEBIT",
+    "CREDIT" : "CREDIT",
     "FEE" : "FEE",
     "TOPUP" : "TOPUP"
   };
