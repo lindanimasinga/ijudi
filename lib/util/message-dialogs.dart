@@ -154,7 +154,7 @@ mixin MessageDialogs {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Image.asset("assets/images/uKhese-logo.png",
-                                width: 90),
+                                width: 70),
                             Container(margin: EdgeInsets.only(top: 8)),
                             RichText(
                                 strutStyle: StrutStyle.fromTextStyle(style),
@@ -198,7 +198,7 @@ mixin MessageDialogs {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Image.asset("assets/images/uKhese-logo.png",
-                              width: 90),
+                              width: 70),
                           Container(margin: EdgeInsets.only(top: 8)),
                           Text("Please enter your widrawal amount.",
                               style: Forms.INPUT_TEXT_STYLE),

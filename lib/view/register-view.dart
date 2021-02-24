@@ -20,7 +20,8 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    final Brightness brightnessValue = MediaQuery.of(context).platformBrightness;
+    final Brightness brightnessValue =
+        MediaQuery.of(context).platformBrightness;
     bool isLight = brightnessValue == Brightness.light;
 
     return ScrollableParent(
@@ -51,7 +52,9 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(75),
                                   bottomRight: Radius.circular(75)),
-                              color: isLight ? Colors.white : Theme.of(context).backgroundColor,
+                              color: isLight
+                                  ? Colors.white
+                                  : Theme.of(context).backgroundColor,
                               border: Border.all(
                                 color: IjudiColors.color1,
                                 width: 4,
@@ -167,7 +170,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
-                      child: Text("Do you have an Ukheshe Account?"),
+                      child: Text("Do you have an Telkom Pay Account?"),
                     ),
                     IjudiForm(
                         child: Row(
@@ -188,23 +191,22 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                         Text('No', style: Forms.INPUT_TEXT_STYLE)
                       ],
                     )),
-                    !viewModel.hasUkheshe
-                        ? Container()
-                        : Padding(
-                            padding:
-                                EdgeInsets.only(left: 16, top: 8, bottom: 16),
-                            child: Image.asset("assets/images/uKhese-logo.png",
-                                width: 90),
-                          ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 16, top: 8, bottom: 16),
+                      child: Image.asset("assets/images/uKhese-logo.png",
+                          width: 70),
+                    ),
                     viewModel.hasUkheshe
                         ? Padding(
                             padding: EdgeInsets.only(left: 16, bottom: 4),
                             child: Text(
-                                "Please register with your Ukheshe details"))
-                        : Container(),
-                    !viewModel.hasUkheshe
-                        ? Container()
-                        : IjudiForm(
+                                "Please register with your Telkom Pay details"))
+                        : Padding(
+                            padding: EdgeInsets.only(left: 16, bottom: 4),
+                            child: Text(
+                                "Your SA Id Number is required to create your Telkom Pay wallet to send and receive money.")),
+                    viewModel.hasUkheshe
+                        ? IjudiForm(
                             child: Column(
                               children: <Widget>[
                                 IjudiInputField(
@@ -216,56 +218,56 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                                       AutofillHints.telephoneNumber
                                     ],
                                     type: TextInputType.phone),
-                                !viewModel.hasUkheshe
-                                    ? Container()
-                                    : IjudiLoginField(
-                                        onTap: (pass) =>
-                                            viewModel.password = pass,
-                                        hint: 'Password',
-                                        icon: Icon(
-                                          Icons.lock,
-                                          size: 22,
-                                          color: Colors.white,
-                                        ),
-                                        autofillHints: [AutofillHints.password],
-                                        type: TextInputType.text)
+                                IjudiLoginField(
+                                    onTap: (pass) => viewModel.password = pass,
+                                    hint: 'Password',
+                                    icon: Icon(
+                                      Icons.lock,
+                                      size: 22,
+                                      color: Colors.white,
+                                    ),
+                                    autofillHints: [AutofillHints.password],
+                                    type: TextInputType.text)
+                              ],
+                            ),
+                          )
+                        : IjudiForm(
+                            child: Column(
+                              children: <Widget>[
+                                IjudiInputField(
+                                    text: viewModel.idNumber,
+                                    onChanged: (idNumber) =>
+                                        viewModel.idNumber = idNumber,
+                                    hint: 'SA Id Number',
+                                    autofillHints: [AutofillHints.birthday],
+                                    type: TextInputType.phone),
+                                IjudiLoginField(
+                                    onTap: (pass) => viewModel.password = pass,
+                                    hint: 'Create Password',
+                                    icon: Icon(
+                                      Icons.lock,
+                                      size: 22,
+                                      color: Colors.white,
+                                    ),
+                                    autofillHints: [AutofillHints.newPassword],
+                                    type: TextInputType.text),
+                                IjudiLoginField(
+                                    onTap: (pass) =>
+                                        viewModel.passwordConfirm = pass,
+                                    hint: 'Confirm Password',
+                                    error: () => viewModel.passwordValid
+                                        ? ""
+                                        : "passwords not match",
+                                    icon: Icon(
+                                      Icons.lock,
+                                      size: 22,
+                                      color: Colors.white,
+                                    ),
+                                    autofillHints: [AutofillHints.newPassword],
+                                    type: TextInputType.text)
                               ],
                             ),
                           ),
-                    IjudiForm(
-                      child: Column(
-                        children: <Widget>[
-                          viewModel.hasUkheshe
-                              ? Container()
-                              : IjudiLoginField(
-                                  onTap: (pass) => viewModel.password = pass,
-                                  hint: 'Create Password',
-                                  icon: Icon(
-                                    Icons.lock,
-                                    size: 22,
-                                    color: Colors.white,
-                                  ),
-                                  autofillHints: [AutofillHints.newPassword],
-                                  type: TextInputType.text),
-                          viewModel.hasUkheshe
-                              ? Container()
-                              : IjudiLoginField(
-                                  onTap: (pass) =>
-                                      viewModel.passwordConfirm = pass,
-                                  hint: 'Confirm Password',
-                                  error: () => viewModel.passwordValid
-                                      ? ""
-                                      : "passwords not match",
-                                  icon: Icon(
-                                    Icons.lock,
-                                    size: 22,
-                                    color: Colors.white,
-                                  ),
-                                  autofillHints: [AutofillHints.newPassword],
-                                  type: TextInputType.text)
-                        ],
-                      ),
-                    ),
                     Padding(
                       padding: EdgeInsets.only(
                           left: 16, right: 16, top: 16, bottom: 16),
@@ -295,14 +297,14 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                           child: RichText(
                               text: TextSpan(children: [
                             TextSpan(
-                                text: "UKHESHE Terms and Conditions",
+                                text: "Telkom Pay Terms and Conditions",
                                 style: TextStyle(
                                     decoration: TextDecoration.underline,
                                     color: Colors.blue))
                           ])),
                           onTap: () => Utils.launchURLInCustomeTab(context,
                               url:
-                                  "https://www.ukheshe.co.za/terms-and-conditions")),
+                                  "https://apps.telkom.co.za/today/help/downloads/file/digital-wallet-tcs/")),
                     ),
                     Container(
                         alignment: Alignment.center,
@@ -321,7 +323,9 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
-                                                Padding(padding: EdgeInsets.only(bottom: 16)),
+                                                Padding(
+                                                    padding: EdgeInsets.only(
+                                                        bottom: 16)),
                                                 IjudiInputField(
                                                   hint: "OTP",
                                                   autofillHints: [

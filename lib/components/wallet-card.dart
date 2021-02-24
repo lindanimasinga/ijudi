@@ -14,7 +14,10 @@ class WalletCard extends StatelessWidget with MessageDialogs {
 
   final String depositMessage = "";
 
-  const WalletCard({@required this.wallet, @required this.onTopUp,  @required this.onWithdraw});
+  const WalletCard(
+      {@required this.wallet,
+      @required this.onTopUp,
+      @required this.onWithdraw});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,7 @@ class WalletCard extends StatelessWidget with MessageDialogs {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset("assets/images/uKhese-logo.png", width: 100),
+                Image.asset("assets/images/uKhese-logo.png", width: 80),
                 Text("Account. ${wallet.accountId}")
               ],
             ),
@@ -141,14 +144,9 @@ class WalletCard extends StatelessWidget with MessageDialogs {
                     text: "$nedbankAccount",
                     style: importantText,
                   ),
+                  TextSpan(text: " or deposit cash at the", style: style),
                   TextSpan(
-                      text:
-                          " or deposit cash at the",
-                      style: style),
-                  TextSpan(
-                      text:
-                          " FNB ATM into account number ",
-                      style: styleBold),    
+                      text: " FNB ATM into account number ", style: styleBold),
                   TextSpan(text: "$fnbAccount", style: importantText),
                   TextSpan(text: ". Use", style: style),
                   TextSpan(text: " $ukhesheAccount", style: importantText),
@@ -161,6 +159,4 @@ class WalletCard extends StatelessWidget with MessageDialogs {
         title: "Deposit",
         cancel: () => {});
   }
-
-  
 }

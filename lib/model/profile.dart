@@ -48,9 +48,11 @@ class Bank {
   double currentBalance = 0;
   double availableBalance = 0;
   CustomerStatus status;
+  String idNumber;
   
   Bank({
     this.name,
+    this.idNumber,
     this.status,
     this.accountId = "- - -",
     this.type,

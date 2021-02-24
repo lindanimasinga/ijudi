@@ -161,8 +161,12 @@ class DeliveryOptionsViewModel extends BaseViewModel {
 
     progressMv.isBusy = true;
     if (order.shippingData.type == ShippingType.DELIVERY) {
-      order.shippingData.messenger = messangers[0];
-      order.shippingData.messengerId = messangers[0].id;
+      var storeMessengeId = order.shop.storeMessenger?.id;
+      var messenger = messangers?.firstWhere(
+          (item) => item.id == storeMessengeId,
+          orElse: () => messangers[0]);
+      order.shippingData.messenger = messenger;
+      order.shippingData.messengerId = messenger.id;
     }
 
     order.description = "order from ${order.shop.name}";
@@ -178,7 +182,8 @@ class DeliveryOptionsViewModel extends BaseViewModel {
           order.description =
               "Payment from ${order.customer.mobileNumber}: order ${resp.id}";
         })
-        .asyncExpand((element) => ukhesheService.getAccountInformation().asStream())
+        .asyncExpand(
+            (element) => ukhesheService.getAccountInformation().asStream())
         .listen((customerResponse) {
           availableBalance = customerResponse;
           BaseViewModel.analytics.logEvent(name: "order.start", parameters: {

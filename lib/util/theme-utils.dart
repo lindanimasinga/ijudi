@@ -300,25 +300,25 @@ class Buttons {
 
   static flat({String label, Function() action, Color color}) {
     return FlatButton(
-            padding: EdgeInsets.all(0),
-            color: color,
-            onPressed: () => action(),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(25.0),
-                    bottomRight: Radius.circular(25.0))),
-            child: Container(
-                height: 51,
-                width: 128,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Text(
-                        label,
-                        style: IjudiStyles.DIALOG_WHITE,
-                      )
-                    ])));
+        padding: EdgeInsets.all(0),
+        color: color,
+        onPressed: () => action(),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(25.0),
+                bottomRight: Radius.circular(25.0))),
+        child: Container(
+            height: 51,
+            width: 128,
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Text(
+                    label,
+                    style: IjudiStyles.DIALOG_WHITE,
+                  )
+                ])));
   }
 }
 
@@ -333,6 +333,7 @@ class IjudiColors {
   static const backgroud = Color(0XFFF8F7F7);
   static const clear = Color(0X00F8F7F7);
   static const whatsappColor = Color(0XFF64B161);
+  static const telkomPay = Color(0XFF0083c2);
 }
 
 class IjudiStyles {
@@ -423,8 +424,11 @@ class IjudiStyles {
   static const CARD_DISCR_ITAL =
       TextStyle(fontSize: 16, fontFamily: "Roboto", color: IjudiColors.color4);
 
-    static const CARD_AMOUNT_DISCR =
-      TextStyle(fontSize: 26, fontFamily: "Roboto", fontWeight: FontWeight.w500, color: IjudiColors.color4);    
+  static const CARD_AMOUNT_DISCR = TextStyle(
+      fontSize: 26,
+      fontFamily: "Roboto",
+      fontWeight: FontWeight.w500,
+      color: IjudiColors.color4);
 
   static const RATING = TextStyle(
       fontSize: 19,
@@ -451,20 +455,16 @@ class IjudiStyles {
     fontFamily: "Roboto",
   );
 
-    static const ITEM = TextStyle(
-    fontSize: 14,
-    fontFamily: "Roboto",
-    fontWeight: FontWeight.w500,
-    color: IjudiColors.color2
-
-  );
+  static const ITEM = TextStyle(
+      fontSize: 14,
+      fontFamily: "Roboto",
+      fontWeight: FontWeight.w500,
+      color: IjudiColors.color2);
 
   static const ITEM_EXCLUDED = TextStyle(
-    fontSize: 12,
-    fontFamily: "Roboto",
-    decoration: TextDecoration.lineThrough
-
-  );
+      fontSize: 12,
+      fontFamily: "Roboto",
+      decoration: TextDecoration.lineThrough);
 
   static const ITEM_INCLUDED = TextStyle(
     fontSize: 12,
@@ -481,6 +481,8 @@ class IjudiStyles {
   );
 
   static const CARD_ICON_BUTTON = TextStyle(fontSize: 12, fontFamily: "Roboto");
+
+  static const CARD_ICON_BUTTON_WHITE = TextStyle(fontSize: 12, fontFamily: "Roboto", color: Colors.white);
 
   static const COUNT_DOWN = TextStyle(
     fontSize: 26,

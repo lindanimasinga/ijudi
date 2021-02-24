@@ -14,7 +14,10 @@ class WalletCardSmall extends StatelessWidget with MessageDialogs {
 
   final String depositMessage = "";
 
-  const WalletCardSmall({@required this.wallet, @required this.onTopUp,  @required this.onWithdraw});
+  const WalletCardSmall(
+      {@required this.wallet,
+      @required this.onTopUp,
+      @required this.onWithdraw});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +31,8 @@ class WalletCardSmall extends StatelessWidget with MessageDialogs {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Image.asset("assets/images/uKhese-logo.png", width: 100),
-                Padding(padding: EdgeInsets.only(top: 8)),    
+                Image.asset("assets/images/uKhese-logo.png", width: 80),
+                Padding(padding: EdgeInsets.only(top: 8)),
                 Text("Account. ${wallet.accountId}"),
                 Text("Phone number. ${wallet.phone}")
               ],
@@ -37,7 +40,7 @@ class WalletCardSmall extends StatelessWidget with MessageDialogs {
             Column(
               children: [
                 Text("Available"),
-                Padding(padding: EdgeInsets.only(top: 8)),    
+                Padding(padding: EdgeInsets.only(top: 8)),
                 Text("R${Utils.formatToCurrency(wallet.availableBalance)}",
                     style: IjudiStyles.CARD_AMOUNT_DISCR),
               ],
@@ -71,14 +74,9 @@ class WalletCardSmall extends StatelessWidget with MessageDialogs {
                     text: "$nedbankAccount",
                     style: importantText,
                   ),
+                  TextSpan(text: " or deposit cash at the", style: style),
                   TextSpan(
-                      text:
-                          " or deposit cash at the",
-                      style: style),
-                  TextSpan(
-                      text:
-                          " FNB ATM into account number ",
-                      style: styleBold),    
+                      text: " FNB ATM into account number ", style: styleBold),
                   TextSpan(text: "$fnbAccount", style: importantText),
                   TextSpan(text: ". Use", style: style),
                   TextSpan(text: " $ukhesheAccount", style: importantText),
@@ -91,6 +89,4 @@ class WalletCardSmall extends StatelessWidget with MessageDialogs {
         title: "Deposit",
         cancel: () => {});
   }
-
-  
 }

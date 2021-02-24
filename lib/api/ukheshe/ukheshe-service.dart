@@ -119,6 +119,7 @@ class UkhesheService {
       "phone": bank.phone,
       "password": password,
       "phoneOtp": otp,
+      "idNumber": bank.idNumber,
       "referredBy": "318930"
     };
 
@@ -265,7 +266,8 @@ class UkhesheService {
     var request = {"alias": "iZinga Mobile App"};
 
     var response = await http
-        .post('$_apiUrl/customers/$customerId/cards-on-file',body: json.encode(request),  headers: headers)
+        .post('$_apiUrl/customers/$customerId/cards-on-file',
+            body: json.encode(request), headers: headers)
         .timeout(Duration(seconds: TIMEOUT_SEC));
 
     if (response.statusCode != 200) {
@@ -389,7 +391,7 @@ class UkhesheService {
   }
 
   Future deleteCardsOnFile(int customerId, String tokenKey) async {
-        if (storageManager.hasTokenExpired) {
+    if (storageManager.hasTokenExpired) {
       refreshToken();
     }
 
@@ -401,7 +403,8 @@ class UkhesheService {
     var request = {"alias": "iZinga Mobile App"};
 
     var response = await http
-        .delete('$_apiUrl/customers/$customerId/cards-on-file/$tokenKey', headers: headers)
+        .delete('$_apiUrl/customers/$customerId/cards-on-file/$tokenKey',
+            headers: headers)
         .timeout(Duration(seconds: TIMEOUT_SEC));
 
     if (response.statusCode != 204) {

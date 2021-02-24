@@ -41,7 +41,11 @@ Shop _$ShopFromJson(Map<String, dynamic> json) {
         ?.toList()
     ..ownerId = json['ownerId'] as String
     ..latitude = (json['latitude'] as num)?.toDouble()
-    ..longitude = (json['longitude'] as num)?.toDouble();
+    ..longitude = (json['longitude'] as num)?.toDouble()
+    ..storeMessenger = json['storeMessenger'] == null
+        ? null
+        : StoreMessenger.fromJson(
+            json['storeMessenger'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$ShopToJson(Shop instance) {
@@ -78,6 +82,7 @@ Map<String, dynamic> _$ShopToJson(Shop instance) {
   writeNotNull('featuredExpiry', Utils.dateToJson(instance.featuredExpiry));
   writeNotNull('latitude', instance.latitude);
   writeNotNull('longitude', instance.longitude);
+  writeNotNull('storeMessenger', instance.storeMessenger);
   return val;
 }
 

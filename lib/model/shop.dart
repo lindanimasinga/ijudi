@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/stock.dart';
+import 'package:ijudi/model/store-messenger.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -28,6 +29,7 @@ class Shop extends Profile with GeoLocation {
   DateTime featuredExpiry;
   double latitude;
   double longitude;
+  StoreMessenger storeMessenger;
 
   Shop(
       {@required String id,

@@ -29,7 +29,8 @@ class RegisterViewModel extends BaseViewModel {
   int yearsInService = 0;
   String email;
   String _address = "";
-  String imageUrl = "https://izinga-aut.s3.af-south-1.amazonaws.com/images/user.png";
+  String imageUrl =
+      "https://izinga-aut.s3.af-south-1.amazonaws.com/images/user.png";
   int likes = 0;
   int servicesCompleted = 0;
   int badges = 0;
@@ -54,7 +55,7 @@ class RegisterViewModel extends BaseViewModel {
     notifyChanged();
   }
 
-    SignUpReason get interests => _interests;
+  SignUpReason get interests => _interests;
 
   set interests(SignUpReason interests) {
     _interests = interests;
@@ -68,15 +69,16 @@ class RegisterViewModel extends BaseViewModel {
   Bank _bank = Bank(name: null, accountId: null, type: null);
 
   String get ukhesheMessage => hasUkheshe
-      ? "Your Ijudi account will be linked to your Ukheshe account. " +
-          "You will be able to top up, buy goods and receive money using your ukheshe account with ijudi."
-      : "Registering with Ijudi will automatically create you an Ukheshe account. " +
+      ? "Your iZinga account will be linked to your Telkom Pay account. " +
+          "You will be able to top up, buy goods and receive money using your Telkom Pay account with ijudi."
+      : "Registering with iZinga will automatically create you an Telkom Pay account. " +
           _aboutUkheshe;
 
   Stream _registerBank() {
     _bank.name = name;
     _bank.phone = mobileNumber;
     _bank.type = "wallet";
+    _bank.idNumber = idNumber;
     if (otp == null || otp.isEmpty) {
       Stream.error("Please try again and enter otp received via SMS.");
     }

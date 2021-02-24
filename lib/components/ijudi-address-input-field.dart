@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/util/theme-utils.dart';
 
-import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:flutter_places/flutter_places.dart';
 import 'package:google_maps_webservice/places.dart';
 
 class IjudiAddressInputField extends StatelessWidget {
@@ -80,19 +80,16 @@ class IjudiAddressInputField extends StatelessWidget {
 
   openAddressFinder(BuildContext context) async {
     print("finding address....");
-    Prediction p = await PlacesAutocomplete.show(
-        context: context,
-        apiKey: kGoogleApiKey,
-        mode: Mode.fullscreen, // Mode.fullscreen
-        language: "za",
-        components: [Component(Component.country, "za")]);
+
+    Place p = await FlutterPlaces.show(
+                    context: context,
+                    apiKey: kGoogleApiKey,
+                    modeType: ModeType.OVERLAY,
+                  );    
 
     if (p != null) {
       // get detail (lat/lng)
-      PlacesDetailsResponse detail =
-          await _places.getDetailsByPlaceId(p.placeId);
-      var text = detail.result.formattedAddress;
-      addressField.onSubmitted(text);
+      addressField.onSubmitted(p.placeDetails.formattedAddress);
     }
   }
 }

@@ -91,7 +91,8 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                           "Your Available Balance is R${viewModel.order.customer.bank.availableBalance}",
                           style: Forms.INPUT_TEXT_STYLE),
                       Text(""),
-                      Image.asset("assets/images/uKhese-logo.png", width: 90),
+                      Image.asset("assets/images/uKhese-logo.png", width: 70),
+                      Padding(padding: EdgeInsets.only(top: 8)),
                       Text("Please topup to finish your order.",
                           style: Forms.INPUT_TEXT_STYLE),
                     ],
@@ -104,26 +105,27 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                 onChanged: (value) => viewModel.topupAmount = value,
               ),
             ]), action: () {
-                  !viewModel.hasCards
-                      ? loadNewCardWebView(context, () {
-                          viewModel.fetchPaymentCards().onData((data) {
-                            selectCard(context);
-                          });
-                        })
-                      : selectCard(context);
-            });
+      !viewModel.hasCards
+          ? loadNewCardWebView(context, () {
+              viewModel.fetchPaymentCards().onData((data) {
+                selectCard(context);
+              });
+            })
+          : selectCard(context);
+    });
   }
 
   topup(BuildContext context) {
     viewModel.topUp().onData((topUpData) {
       //check payment successful
-      var subs = viewModel.checkTopUpSuccessul(topUpId: topUpData.topUpId, delay: 60);
+      var subs =
+          viewModel.checkTopUpSuccessul(topUpId: topUpData.topUpId, delay: 60);
       subs.onDone(() {
         Navigator.of(context).pop();
         viewModel.fetchNewAccountBalances();
       });
       showWebViewDialog(context,
-          header: Image.asset("assets/images/uKhese-logo.png", width: 100),
+          header: Image.asset("assets/images/uKhese-logo.png", width: 80),
           url: "${topUpData.completionUrl}", doneAction: () {
         viewModel.fetchNewAccountBalances();
         subs.cancel();
@@ -166,7 +168,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
               groupValue: viewModel.paymentType,
               onChanged: (selection) => viewModel.paymentType = selection,
             ),
-            Image.asset("assets/images/uKhese-logo.png", width: 60),
+            Image.asset("assets/images/uKhese-logo.png", width: 70),
             /* Radio(
               value: PaymentType.CASH,
               groupValue: viewModel.paymentType,
@@ -245,53 +247,51 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
     return payment;
   }
 
-    selectCard(BuildContext context) {
-    List<Widget> cardsWidget = viewModel.paymentCards.map<Widget>((card) => 
-      Container(
-        margin: EdgeInsets.only(bottom: 0.45),
-        child: ListTile( 
-                title: Text(card.alias),
-                leading: Icon(Icons.credit_card_rounded, size: 32, color: IjudiColors.color3),
-                subtitle: Text("Card Num:    ***${card.last4Digits}"),
-                onTap: () => viewModel.paymentCardselected = card,
-                ))).toList();
-    cardsWidget.add(
-    ListTile(title: Text("[ADD NEW CARD]"),
-            leading: Icon(Icons.credit_card, size: 32, color: IjudiColors.color4),
-            subtitle: Text("Top-up using a new card"),
-            onTap: () {
-              Navigator.of(context).pop();
-              loadNewCardWebView(context, () => viewModel.fetchPaymentCards().onData((data) {}));
-            })
-    );
-    cardsWidget.add(
-    ListTile(title: Text("[DELETE ALL CARDS]"),
-            leading: Icon(Icons.delete, size: 32, color: IjudiColors.color2),
-            subtitle: Text("Delete All Cards Linked"),
-            onTap: () {
-              Navigator.of(context).pop();
-              viewModel.deleteAllLinkedCards();
-            }));
+  selectCard(BuildContext context) {
+    List<Widget> cardsWidget = viewModel.paymentCards
+        .map<Widget>((card) => Container(
+            margin: EdgeInsets.only(bottom: 0.45),
+            child: ListTile(
+              title: Text(card.alias),
+              leading: Icon(Icons.credit_card_rounded,
+                  size: 32, color: IjudiColors.color3),
+              subtitle: Text("Card Num:    ***${card.last4Digits}"),
+              onTap: () => viewModel.paymentCardselected = card,
+            )))
+        .toList();
+    cardsWidget.add(ListTile(
+        title: Text("[ADD NEW CARD]"),
+        leading: Icon(Icons.credit_card, size: 32, color: IjudiColors.color4),
+        subtitle: Text("Top-up using a new card"),
+        onTap: () {
+          Navigator.of(context).pop();
+          loadNewCardWebView(
+              context, () => viewModel.fetchPaymentCards().onData((data) {}));
+        }));
+    cardsWidget.add(ListTile(
+        title: Text("[DELETE ALL CARDS]"),
+        leading: Icon(Icons.delete, size: 32, color: IjudiColors.color2),
+        subtitle: Text("Delete All Cards Linked"),
+        onTap: () {
+          Navigator.of(context).pop();
+          viewModel.deleteAllLinkedCards();
+        }));
 
     return showMessageDialog(context,
-            title: "Select Card",
-            actionName: "Continue",
-            child: Container(
-              margin: EdgeInsets.only(top: 16),
-              width: MediaQuery.of(context).size.height * 0.25,
-              height: MediaQuery.of(context).size.height * 0.30,
-              child: ListView(
-                children: cardsWidget
-          )
-        ),
-        action: () => topup(context)
-    );
+        title: "Select Card",
+        actionName: "Continue",
+        child: Container(
+            margin: EdgeInsets.only(top: 16),
+            width: MediaQuery.of(context).size.height * 0.25,
+            height: MediaQuery.of(context).size.height * 0.30,
+            child: ListView(children: cardsWidget)),
+        action: () => topup(context));
   }
 
-    loadNewCardWebView(BuildContext context, Function onDone) {
+  loadNewCardWebView(BuildContext context, Function onDone) {
     showWebViewDialog(context,
-                        header: Image.asset("assets/images/uKhese-logo.png", width: 100),
-                        url: "${viewModel.cardlinkingResponse.completionUrl}",
-                        doneAction: () => onDone());
+        header: Image.asset("assets/images/uKhese-logo.png", width: 80),
+        url: "${viewModel.cardlinkingResponse.completionUrl}",
+        doneAction: () => onDone());
   }
 }
