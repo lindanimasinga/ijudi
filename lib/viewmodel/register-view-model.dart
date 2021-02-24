@@ -151,7 +151,8 @@ class RegisterViewModel extends BaseViewModel {
     nameValid = name != null && name.isNotEmpty && name.length > 3;
     lastNameValid =
         lastname != null && lastname.isNotEmpty && lastname.length > 3;
+    idNumberValid = idNumberValid != null && idNumber.length == 13;
     notifyChanged();
-    return passwordValid && mobileNumberValid && nameValid && lastNameValid;
+    return passwordValid && mobileNumberValid && nameValid && lastNameValid && idNumberValid;
   }
 }

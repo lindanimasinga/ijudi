@@ -236,10 +236,13 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               children: <Widget>[
                                 IjudiInputField(
                                     text: viewModel.idNumber,
+                                    autofillHints: ["idNumber"],
                                     onChanged: (idNumber) =>
                                         viewModel.idNumber = idNumber,
                                     hint: 'SA Id Number',
-                                    autofillHints: [AutofillHints.birthday],
+                                    error: () => viewModel.idNumberValid
+                                        ? ""
+                                        : "Id number not valid",
                                     type: TextInputType.phone),
                                 IjudiLoginField(
                                     onTap: (pass) => viewModel.password = pass,
