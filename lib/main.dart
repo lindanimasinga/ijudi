@@ -1,6 +1,7 @@
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/services/impl/secure-storage-manager.dart';
@@ -18,27 +19,27 @@ main() {
   SharedPrefStorageManager sharedPref;
   Config config = Config.getProConfig();
   Config.currentConfig = config;
-  
   Firebase.initializeApp()
-    .asStream()
-    .map((event) {
-      // Pass all uncaught errors from the framework to Crashlytics.
-      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-    })
-    .asyncExpand((event) => SharedPrefStorageManager.singleton().asStream())
-    .map((event)  {
+      .asStream()
+      .map((event) {
+        // Pass all uncaught errors from the framework to Crashlytics.
+        FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+      })
+      .asyncExpand((event) => SharedPrefStorageManager.singleton().asStream())
+      .map((event) {
         sharedPref = event;
         //config = sharedPref.testEnvironment ? Config.getUATConfig() : Config.getProConfig();
         sharedPref.testEnvironment = false;
         return sharedPref;
-    })
-    .asyncExpand((event) => SecureStorageManager.singleton().asStream())
-    .listen((storage) {
+      })
+      .asyncExpand((event) => SecureStorageManager.singleton().asStream())
+      .listen((storage) {
         var ukhesheBaseURL = config.ukhesheBaseURL;
         var iZingaApiUrl = config.iZingaApiUrl;
         var ukhesheService =
             UkhesheService(storageManager: storage, baseUrl: ukhesheBaseURL);
-        var apiService = ApiService(storageManager: storage, apiUrl: iZingaApiUrl);
+        var apiService =
+            ApiService(storageManager: storage, apiUrl: iZingaApiUrl);
         localNotifications = NotificationService(apiService: apiService);
         localNotifications
             .initialize()
@@ -51,7 +52,14 @@ main() {
             ukhesheService: ukhesheService,
             localNotificationService: localNotifications);
         runApp(MyApp(navigation: navigation));
-  });
+      });
+
+  Geolocator.checkPermission().asStream().map((permission) {
+    print("permission $permission");
+    if (permission == null || permission == LocationPermission.denied) {
+      Geolocator.requestPermission().then((value) => null);
+    }
+  }).listen((event) {});
 }
 
 class MyApp extends StatelessWidget {
