@@ -148,5 +148,14 @@ class SecureStorageManager extends StorageManager {
   set profileRole(ProfileRoles value) {
     _save(StorageManager.PROFILE_ROLE, value.toString());
   }
+
+  @override
+  String get selectedLocation => _storeMap[StorageManager.SELECTED_LOCATION];
+
+  @override
+  set selectedLocation(String name) {
+    if(name == null || name.isEmpty) return null;
+    _save(StorageManager.SELECTED_LOCATION, name);
+  }
   
 }

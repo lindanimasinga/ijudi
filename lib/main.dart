@@ -9,6 +9,7 @@ import 'package:ijudi/services/impl/shared-pref-storage-manager.dart';
 import 'package:ijudi/services/local-notification-service.dart';
 import 'package:ijudi/util/navigator-service.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/view/choose-location-view.dart';
 import 'package:ijudi/view/introduction-view.dart';
 
 import 'config.dart';
@@ -25,6 +26,7 @@ main() {
         // Pass all uncaught errors from the framework to Crashlytics.
         FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
       })
+      // .asyncExpand((event) => RemoteConfig.instance.asStream())
       .asyncExpand((event) => SharedPrefStorageManager.singleton().asStream())
       .map((event) {
         sharedPref = event;
@@ -75,7 +77,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: JudiTheme().theme,
       darkTheme: JudiTheme().dark,
-      initialRoute: IntroductionView.ROUTE_NAME,
+      initialRoute: ChooseLocationView.ROUTE_NAME,
       onGenerateRoute: navigation.generateRoute,
     );
   }

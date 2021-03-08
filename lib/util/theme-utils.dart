@@ -482,7 +482,8 @@ class IjudiStyles {
 
   static const CARD_ICON_BUTTON = TextStyle(fontSize: 12, fontFamily: "Roboto");
 
-  static const CARD_ICON_BUTTON_WHITE = TextStyle(fontSize: 12, fontFamily: "Roboto", color: Colors.white);
+  static const CARD_ICON_BUTTON_WHITE =
+      TextStyle(fontSize: 12, fontFamily: "Roboto", color: Colors.white);
 
   static const COUNT_DOWN = TextStyle(
     fontSize: 26,

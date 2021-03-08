@@ -26,7 +26,7 @@ class QuickPayView extends MvStatefulWidget<QuickPayViewModel> {
       var color = BreadCrumb.statusColors[colorPickCount++];
       tagsComponents.add(BreadCrumb(
           color: color,
-          filterName: filterName,
+          name: filterName,
           selected: viewModel.itemName.contains(filterName),
           onPressed: (name) {
             if (viewModel.itemName.contains(name)) {

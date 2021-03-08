@@ -1,8 +1,7 @@
-
 import 'package:ijudi/model/profile.dart';
+import 'package:ijudi/model/supported-location.dart';
 
 abstract class StorageManager {
-
   static const ACCESS_TOKEN_IJUDI = "wewhhghtiie";
   static const ACCESS_TOKEN_UKHESHE = "22qqqS#eED";
   static const String MOBILE = "dflwe32w";
@@ -13,9 +12,11 @@ abstract class StorageManager {
   static const PROFILE_ROLE = "laskdjhqywe738239h";
   static const FIRST_TIME = "wer45234hhjdf";
   static const IS_TEST_ENV = "aksdhewewhkdfs";
+  static const SELECTED_LOCATION = "wewhhghtiie";
 
   bool viewedIntro;
   bool testEnvironment;
+  String selectedLocation;
 
   ProfileRoles get profileRole;
   set profileRole(ProfileRoles value);
@@ -58,6 +59,6 @@ abstract class StorageManager {
   T findById<T extends Entity>(String id);
 
   List<T> findByName<T extends Entity>(String name);
-*/  
-  
+*/
+
 }

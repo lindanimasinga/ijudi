@@ -1,3 +1,5 @@
+import 'package:ijudi/model/supported-location.dart';
+
 abstract class Config {
   static ProdConfig _prodConfig;
   static Config _uatConfig;
@@ -12,6 +14,7 @@ abstract class Config {
   String get depositingNedBankAccountNumber;
   String get ukhesheBaseURL;
   String get iZingaApiUrl;
+  List<SupportedLocation> get locations;
 
   Map<String, double> get rangeMap;
 
@@ -49,6 +52,16 @@ class ProdConfig extends Config {
       "https://api.whatsapp.com/send?phone=27812815707";
   final String ukhesheSupportUrl =
       "https://api.whatsapp.com/send?phone=270684835566&text=Hello";
+  final List<SupportedLocation> locations = [
+    SupportedLocation("KwaMashu", -29.7380334, 30.9553919),
+    SupportedLocation("Durban North", -29.7789353, 31.0113643),
+    SupportedLocation("uMhlanga", -29.7345642, 31.0472124),
+    SupportedLocation("Newlands East", -29.7713802, 30.9715548),
+    SupportedLocation("Avoca", -29.7690195, 31.0063363),
+    SupportedLocation("Red Hill", -29.7645907, 31.0201387),
+    SupportedLocation("Ntuzuma", -29.7412106, 30.9284555),
+    SupportedLocation("Phoenix DBN", -29.7010308, 30.9727855)
+  ];
 }
 
 class UATConfig extends Config {
@@ -63,6 +76,16 @@ class UATConfig extends Config {
       "https://api.whatsapp.com/send?phone=27812815707";
   final String ukhesheSupportUrl =
       "https://api.whatsapp.com/send?phone=270684835566&text=Hello";
+  final List<SupportedLocation> locations = [
+    SupportedLocation("KwaMashu", -29.7380334, 30.9553919),
+    SupportedLocation("Durban North", -29.7789353, 31.0113643),
+    SupportedLocation("uMhlanga", -29.7345642, 31.0472124),
+    SupportedLocation("Newlands East", -29.7713802, 30.9715548),
+    SupportedLocation("Avoca", -29.7690195, 31.0063363),
+    SupportedLocation("Red Hill", -29.7645907, 31.0201387),
+    SupportedLocation("Ntuzuma", -29.7412106, 30.9284555),
+    SupportedLocation("Phoenix DBN", -29.7010308, 30.9727855)
+  ];
 }
 
 class DevConfig extends Config {
@@ -77,4 +100,14 @@ class DevConfig extends Config {
       "https://api.whatsapp.com/send?phone=27812815707";
   final String ukhesheSupportUrl =
       "https://api.whatsapp.com/send?phone=270684835566&text=Hello";
+  final List<SupportedLocation> locations = [
+    SupportedLocation("KwaMashu", -29.7380334, 30.9553919),
+    SupportedLocation("Durban North", -29.7789353, 31.0113643),
+    SupportedLocation("uMhlanga", -29.7345642, 31.0472124),
+    SupportedLocation("Newlands East", -29.7713802, 30.9715548),
+    SupportedLocation("Avoca", -29.7690195, 31.0063363),
+    SupportedLocation("Red Hill", -29.7645907, 31.0201387),
+    SupportedLocation("Ntuzuma", -29.7412106, 30.9284555),
+    SupportedLocation("Phoenix DBN", -29.7010308, 30.9727855)
+  ];
 }

@@ -10,6 +10,7 @@ import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/shop-component.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
+import 'package:ijudi/view/choose-location-view.dart';
 import 'package:ijudi/viewmodel/all-shops-view-model.dart';
 
 import '../config.dart';
@@ -41,7 +42,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
         var color = BreadCrumb.statusColors[colorPickCount++];
         filterComponents.add(BreadCrumb(
             color: color,
-            filterName: filterName,
+            name: filterName,
             selected: viewModel.filters.contains(filterName),
             onPressed: (name) {
               if (viewModel.filters.contains(name)) {
@@ -55,11 +56,11 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
     }
 
     List<AdsCardComponent> adsComponets = [];
-    viewModel.ads.forEach((ad) => adsComponets
-        .add(AdsCardComponent(
-          advert: ad, 
-          color: IjudiColors.color3, 
-          shop: viewModel.shops?.firstWhere((item) => item.id == ad.shopId, orElse: () => null))));
+    viewModel.ads.forEach((ad) => adsComponets.add(AdsCardComponent(
+        advert: ad,
+        color: IjudiColors.color3,
+        shop: viewModel.shops
+            ?.firstWhere((item) => item.id == ad.shopId, orElse: () => null))));
 
     viewModel.featuredShops
         .where((shop) =>
@@ -69,7 +70,8 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             (viewModel.filters.isEmpty ||
                 viewModel.filters.intersection(shop.tags).length > 0))
         .forEach((shop) {
-      featuredShopComponents.add(FeaturedShop(shop: shop, isLoggedIn:() => viewModel.isLoggedIn));
+      featuredShopComponents.add(
+          FeaturedShop(shop: shop, isLoggedIn: () => viewModel.isLoggedIn));
     });
 
     viewModel.shops
@@ -80,7 +82,10 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             (viewModel.filters.isEmpty ||
                 viewModel.filters.intersection(shop.tags).length > 0))
         ?.forEach((shop) {
-      shopComponets.add(ShopComponent(shop: shop, isLoggedIn: () => viewModel.isLoggedIn,));
+      shopComponets.add(ShopComponent(
+        shop: shop,
+        isLoggedIn: () => viewModel.isLoggedIn,
+      ));
     });
 
     if (viewModel.showNoShopsAvailable) {
@@ -103,37 +108,29 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
         child: Column(
           children: <Widget>[
             Container(
-                    alignment: Alignment.topLeft,
-                    padding:
-                        EdgeInsets.only(left: 16, top: 0, bottom: 8, right: 16),
-                    child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              viewModel.search.isNotEmpty ||
-                            adsComponets.length == 0 || shopComponets.isEmpty
-                        ? Container() : Text("Promotions", style: IjudiStyles.HEADER_2),
-                              DropdownButton<String>(
-                                value: viewModel.radiusText,
-                                icon: Icon(Icons.arrow_downward),
-                                iconSize: 24,
-                                elevation: 16,
-                                style: IjudiStyles.SUBTITLE_2,
-                                underline: Container(
-                                  height: 2,
-                                  color: IjudiColors.color5,
-                                ),
-                                onChanged: (String newValue) => viewModel.radiusText = newValue,
-                                items: Config.currentConfig.rangeMap.keys
-                                    .map((String value) =>
-                                        DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        ))
-                                    .toList(),
-                              )
-                            ],
-                          )),
-            viewModel.search.isNotEmpty || adsComponets.length == 0 || shopComponets.isEmpty
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.only(left: 16, top: 8, bottom: 4, right: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    viewModel.search.isNotEmpty ||
+                            adsComponets.length == 0 ||
+                            shopComponets.isEmpty
+                        ? Container()
+                        : Text("Promotions", style: IjudiStyles.HEADER_2),
+                    BreadCrumb(
+                        color: IjudiColors.color4,
+                        name: viewModel.supportedLocation.name + " + 10km",
+                        lowerCase: false,
+                        onPressed: (name) {
+                          Navigator.pushNamed(
+                              context, ChooseLocationView.ROUTE_NAME);
+                        })
+                  ],
+                )),
+            viewModel.search.isNotEmpty ||
+                    adsComponets.length == 0 ||
+                    shopComponets.isEmpty
                 ? Container()
                 : Container(
                     child: CarouselSlider(

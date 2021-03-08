@@ -320,7 +320,7 @@ packages:
       name: flutter_mapbox_navigation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.18"
+    version: "0.0.19"
   flutter_places:
     dependency: "direct main"
     description:
@@ -501,6 +501,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.1"
+  maps_launcher:
+    dependency: "direct main"
+    description:
+      name: maps_launcher
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.2+2"
   matcher:
     dependency: transitive
     description:
@@ -856,6 +863,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.1+2"
+  touchable:
+    dependency: "direct main"
+    description:
+      name: touchable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
   typed_data:
     dependency: transitive
     description:

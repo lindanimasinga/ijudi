@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mapbox_navigation/library.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-address-input-field.dart';
@@ -15,6 +14,7 @@ import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/viewmodel/messenger-order-update-view-model.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class MessengerOrderUpdateView
     extends MvStatefulWidget<MessengerOrderUpdateViewModel> {
@@ -33,7 +33,6 @@ class MessengerOrderUpdateView
   };
 
   GoogleMapController _controller;
-  MapBoxNavigation _mapNavigation;
 
   MessengerOrderUpdateView({MessengerOrderUpdateViewModel viewModel})
       : super(viewModel);
@@ -95,16 +94,17 @@ class MessengerOrderUpdateView
                         child: Text(
                             "Order is a ${describeEnum(viewModel.order.shippingData.type)}",
                             style: IjudiStyles.HEADER_TEXT)),
-                            Container(
+                    Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 8, left: 16),
                         child: Text("Customer: ${viewModel?.customer?.name}",
                             style: IjudiStyles.HEADER_TEXT)),
-                            Container(
+                    Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 32, left: 16),
-                        child: Text("Phone Number: ${viewModel?.customer?.mobileNumber}",
-                            style: IjudiStyles.HEADER_TEXT)), 
+                        child: Text(
+                            "Phone Number: ${viewModel?.customer?.mobileNumber}",
+                            style: IjudiStyles.HEADER_TEXT)),
                     Container(
                         margin: EdgeInsets.only(right: 16),
                         child: OrderReviewComponent(order: viewModel.order)),
@@ -181,26 +181,26 @@ class MessengerOrderUpdateView
                         height: MediaQuery.of(context).size.height / 2,
                         child: Stack(children: [
                           Container(
-                            alignment: Alignment.center,
-                            child: 
-                          IJudiCard(
-                              color: IjudiColors.color5,
-                              child: Container(
-                                  margin: EdgeInsets.all(10),
-                                  height:
-                                      MediaQuery.of(context).size.height / 2,
-                                  child: GoogleMap(
-                                      mapType: MapType.normal,
-                                      trafficEnabled: true,
-                                      myLocationEnabled: true,
-                                      compassEnabled: true,
-                                      zoomGesturesEnabled: true,
-                                      scrollGesturesEnabled: true,
-                                      zoomControlsEnabled: true,
-                                      markers: markers.toSet(),
-                                      initialCameraPosition: _kGooglePlex,
-                                      onMapCreated:
-                                          (GoogleMapController controller) =>
+                              alignment: Alignment.center,
+                              child: IJudiCard(
+                                  color: IjudiColors.color5,
+                                  child: Container(
+                                      margin: EdgeInsets.all(10),
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              2,
+                                      child: GoogleMap(
+                                          mapType: MapType.normal,
+                                          trafficEnabled: true,
+                                          myLocationEnabled: true,
+                                          compassEnabled: true,
+                                          zoomGesturesEnabled: true,
+                                          scrollGesturesEnabled: true,
+                                          zoomControlsEnabled: true,
+                                          markers: markers.toSet(),
+                                          initialCameraPosition: _kGooglePlex,
+                                          onMapCreated: (GoogleMapController
+                                                  controller) =>
                                               _controller = controller)))),
                           Container(
                               alignment: Alignment.bottomLeft,
@@ -211,12 +211,12 @@ class MessengerOrderUpdateView
                                   Buttons.mapsNavigate(
                                       label: Icons.store,
                                       color: IjudiColors.color2,
-                                      action: () => startNavigation(true)),
+                                      action: () => startNavigationShop()),
                                   Padding(padding: EdgeInsets.only(right: 8)),
                                   Buttons.mapsNavigate(
                                       label: Icons.person_pin,
                                       color: IjudiColors.color4,
-                                      action: () => startNavigation(false))
+                                      action: () => startNavigationCustomer())
                                 ],
                               ))
                         ])),
@@ -224,39 +224,15 @@ class MessengerOrderUpdateView
         ]));
   }
 
-  startNavigation(bool toShop) async {
-    _mapNavigation = MapBoxNavigation(
-      onRouteEvent: (arrived) async {
-      
-      });
+  startNavigationShop() async {
+    print("location is ${viewModel.shopLatitude}, ${viewModel.shopLongitude}");
+    MapsLauncher.launchCoordinates(
+        viewModel.shopLatitude, viewModel.shopLongitude, viewModel.shop.name);
+  }
 
-    var fromPoint = WayPoint(
-          name: "Me", latitude: viewModel.currentLatitude, longitude: viewModel.currentLongitude);
-    var toPoint = WayPoint(
-          name: viewModel.shop.name,
-          latitude: viewModel.customerLatitude,
-          longitude: viewModel.customerLongitude);
-
-    if (toShop) {
-       fromPoint = WayPoint(
-          name: "Me", latitude: viewModel.currentLatitude, longitude: viewModel.currentLongitude);
-        toPoint = WayPoint(
-          name: viewModel.customer.name,
-          latitude: viewModel.shopLatitude,
-          longitude: viewModel.shopLongitude);
-    }
-
-    var wayPoints = List<WayPoint>();
-    wayPoints.add(fromPoint);
-    wayPoints.add(toPoint);
-
-    var options = MapBoxOptions(
-      mode: MapBoxNavigationMode.drivingWithTraffic,
-      voiceInstructionsEnabled: false
-    );
-    
-    await _mapNavigation.startNavigation(
-        wayPoints: wayPoints,
-        options: options);
+  startNavigationCustomer() async {
+    print("location is ${viewModel.shopLatitude}, ${viewModel.shopLongitude}");
+    MapsLauncher.launchCoordinates(viewModel.customerLatitude,
+        viewModel.customerLongitude, viewModel.customer.name);
   }
 }

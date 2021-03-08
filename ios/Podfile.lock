@@ -146,6 +146,8 @@ PODS:
     - Solar (~> 2.1)
   - MapboxNavigationNative (6.2.1)
   - MapboxSpeech (0.3.1)
+  - maps_launcher (0.0.1):
+    - Flutter
   - nanopb (1.30906.0):
     - nanopb/decode (= 1.30906.0)
     - nanopb/encode (= 1.30906.0)
@@ -182,6 +184,7 @@ DEPENDENCIES:
   - geolocator (from `.symlinks/plugins/geolocator/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - local_auth (from `.symlinks/plugins/local_auth/ios`)
+  - maps_launcher (from `.symlinks/plugins/maps_launcher/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
@@ -245,6 +248,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
   local_auth:
     :path: ".symlinks/plugins/local_auth/ios"
+  maps_launcher:
+    :path: ".symlinks/plugins/maps_launcher/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
   shared_preferences:
@@ -291,6 +296,7 @@ SPEC CHECKSUMS:
   MapboxNavigation: 42bae50b0381dce317c85884ba0de38fc68a4814
   MapboxNavigationNative: 11dc22140f4698d3f26989f2b6379dc81ef0d4c1
   MapboxSpeech: 67a558a672dc2b6266a993f4624895f69e58d105
+  maps_launcher: eae38ee13a9c3f210fa04e04bb4c073fa4c6ed92
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   Polyline: 0e9890790292741c8186201a536b6bb6a78d02dd
@@ -305,4 +311,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 6b5f6fc0a466d0ae7e0626b201c052a797b795d3
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.10.1
