@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: JudiTheme().theme,
       darkTheme: JudiTheme().dark,
-      initialRoute: ChooseLocationView.ROUTE_NAME,
+      initialRoute: IntroductionView.ROUTE_NAME,
       onGenerateRoute: navigation.generateRoute,
     );
   }

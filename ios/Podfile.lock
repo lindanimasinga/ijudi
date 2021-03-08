@@ -76,9 +76,6 @@ PODS:
     - Flutter
   - flutter_local_notifications (0.0.1):
     - Flutter
-  - flutter_mapbox_navigation (0.0.17):
-    - Flutter
-    - MapboxNavigation (~> 0.40.0)
   - flutter_secure_storage (3.3.1):
     - Flutter
   - FMDB (2.7.5):
@@ -125,27 +122,6 @@ PODS:
     - GoogleUtilities/Logger
   - local_auth (0.0.1):
     - Flutter
-  - Mapbox-iOS-SDK (5.9.0):
-    - MapboxMobileEvents (= 0.10.2)
-  - MapboxAccounts (2.2.0)
-  - MapboxCoreNavigation (0.40.0):
-    - MapboxAccounts (~> 2.2.0)
-    - MapboxDirections (~> 0.31.0)
-    - MapboxMobileEvents (~> 0.10.2)
-    - MapboxNavigationNative (~> 6.2.1)
-    - Turf (~> 0.3.0)
-  - MapboxDirections (0.31.1):
-    - Polyline (~> 4.2)
-    - Turf (~> 0.3.0)
-  - MapboxMobileEvents (0.10.2)
-  - MapboxNavigation (0.40.0):
-    - Mapbox-iOS-SDK (~> 5.6)
-    - MapboxCoreNavigation (= 0.40.0)
-    - MapboxMobileEvents (~> 0.10.2)
-    - MapboxSpeech (~> 0.3.0)
-    - Solar (~> 2.1)
-  - MapboxNavigationNative (6.2.1)
-  - MapboxSpeech (0.3.1)
   - maps_launcher (0.0.1):
     - Flutter
   - nanopb (1.30906.0):
@@ -155,16 +131,13 @@ PODS:
   - nanopb/encode (1.30906.0)
   - path_provider (0.0.1):
     - Flutter
-  - Polyline (4.2.1)
   - PromisesObjC (1.2.11)
   - Protobuf (3.13.0)
   - shared_preferences (0.0.1):
     - Flutter
-  - Solar (2.1.0)
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
-  - Turf (0.3.0)
   - url_launcher (0.0.1):
     - Flutter
   - webview_flutter (0.0.1):
@@ -178,7 +151,6 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_custom_tabs (from `.symlinks/plugins/flutter_custom_tabs/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
-  - flutter_mapbox_navigation (from `.symlinks/plugins/flutter_mapbox_navigation/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - geocoding (from `.symlinks/plugins/geocoding/ios`)
   - geolocator (from `.symlinks/plugins/geolocator/ios`)
@@ -206,20 +178,9 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleMaps
     - GoogleUtilities
-    - Mapbox-iOS-SDK
-    - MapboxAccounts
-    - MapboxCoreNavigation
-    - MapboxDirections
-    - MapboxMobileEvents
-    - MapboxNavigation
-    - MapboxNavigationNative
-    - MapboxSpeech
     - nanopb
-    - Polyline
     - PromisesObjC
     - Protobuf
-    - Solar
-    - Turf
 
 EXTERNAL SOURCES:
   firebase_analytics:
@@ -236,8 +197,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_custom_tabs/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
-  flutter_mapbox_navigation:
-    :path: ".symlinks/plugins/flutter_mapbox_navigation/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   geocoding:
@@ -277,7 +236,6 @@ SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_custom_tabs: 9f7596dc1593f2e0d0562ce888dde6447751e97c
   flutter_local_notifications: 9e4738ce2471c5af910d961a6b7eadcf57c50186
-  flutter_mapbox_navigation: a66c99eb5caac2fba63df3284e87c23bbc998362
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geocoding: 32cfcdb16d38d907caaba65e2e42ad10d38bee58
@@ -288,24 +246,13 @@ SPEC CHECKSUMS:
   GoogleMaps: 4b5346bddfe6911bb89155d43c903020170523ac
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   local_auth: 25938960984c3a7f6e3253e3f8d962fdd16852bd
-  Mapbox-iOS-SDK: a5915700ec84bc1a7f8b3e746d474789e35b7956
-  MapboxAccounts: f9716ba2cc66013e44ef93e0e16cfa1049f3aeec
-  MapboxCoreNavigation: 2856c46bd064bb11c406ba00191d579cda424efa
-  MapboxDirections: 69dca02d780c5e506bdcc65385dd5fb77b9e90b5
-  MapboxMobileEvents: 2bc0ca2eedb627b73cf403258dce2b2fa98074a6
-  MapboxNavigation: 42bae50b0381dce317c85884ba0de38fc68a4814
-  MapboxNavigationNative: 11dc22140f4698d3f26989f2b6379dc81ef0d4c1
-  MapboxSpeech: 67a558a672dc2b6266a993f4624895f69e58d105
   maps_launcher: eae38ee13a9c3f210fa04e04bb4c073fa4c6ed92
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
-  Polyline: 0e9890790292741c8186201a536b6bb6a78d02dd
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
-  Solar: 2dc6e7cc39186cb0c8228fa08df76fb50c7d8f24
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
-  Turf: c6bdf62d6a70c647874f295dd1cf4eefc0c3e9e6
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   webview_flutter: d2b4d6c66968ad042ad94cbb791f5b72b4678a96
 
