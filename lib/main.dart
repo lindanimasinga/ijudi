@@ -55,13 +55,6 @@ main() {
             localNotificationService: localNotifications);
         runApp(MyApp(navigation: navigation));
       });
-
-  Geolocator.checkPermission().asStream().map((permission) {
-    print("permission $permission");
-    if (permission == null || permission == LocationPermission.denied) {
-      Geolocator.requestPermission().then((value) => null);
-    }
-  }).listen((event) {});
 }
 
 class MyApp extends StatelessWidget {

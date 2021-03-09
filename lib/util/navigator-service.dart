@@ -79,14 +79,17 @@ class NavigatorService {
       routeName = AllShopsView.ROUTE_NAME;
     }
 
-    if (settings.name == AllShopsView.ROUTE_NAME) {
+    if (routeName == AllShopsView.ROUTE_NAME) {
+      print("args is $args");
       if (args == null) {
         var cachedLocationName = sharedPrefStorageManager.selectedLocation;
-        if (cachedLocationName == null) {
+        args = cachedLocationName != null
+            ? Config.getProConfig()
+                .locations
+                .firstWhere((it) => it.name == cachedLocationName)
+            : null;
+        if (args == null) {
           routeName = ChooseLocationView.ROUTE_NAME;
-        } else {
-          args = Config.getProConfig().locations.firstWhere(
-              (it) => it.name == sharedPrefStorageManager.selectedLocation);
         }
       } else if (sharedPrefStorageManager.selectedLocation == null) {
         sharedPrefStorageManager.selectedLocation =
