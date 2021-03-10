@@ -91,7 +91,7 @@ class NavigatorService {
         if (args == null) {
           routeName = ChooseLocationView.ROUTE_NAME;
         }
-      } else if (sharedPrefStorageManager.selectedLocation == null) {
+      } else {
         sharedPrefStorageManager.selectedLocation =
             (args as SupportedLocation).name;
       }
