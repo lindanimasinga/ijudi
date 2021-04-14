@@ -293,7 +293,7 @@ mixin MessageDialogs {
               Padding(
                   padding: EdgeInsets.all(16),
                   child: Text(
-                      "To get unlimited access and great benefits of your iZinga, you will need to Login or register. Please click confinue to proceed.",
+                      "To get unlimited access and great benefits of your iZinga, you will need to Login or register. Please click continue to proceed.",
                       style: style))
             ]));
   }
