@@ -38,22 +38,21 @@ class _StockItemComponentState extends State<StockItemComponent>
 
     widgets.addAll([
       Container(
-          
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Container(
-                width: !item.hasImages ? 146 : 90,
-                child: Text(
-                  "${item.name}",
-                  style: Forms.INPUT_TEXT_STYLE,
-                )),
-            !item.hasImages
-                ? Container()
-                : Container(
-                    margin: EdgeInsets.only(right: 8, left: 16),
-                    child: StackedThumbnails(urls: item.images),
-                  )
-          ])),
+        Container(
+            width: !item.hasImages ? 192 : 136,
+            child: Text(
+              "${item.name}",
+              style: Forms.INPUT_TEXT_STYLE,
+            )),
+        !item.hasImages
+            ? Container()
+            : Container(
+                margin: EdgeInsets.only(right: 8, left: 8),
+                child: StackedThumbnails(urls: item.images),
+              )
+      ])),
       Container(
           child: Text(
         "R${Utils.formatToCurrency(item.price)}",
@@ -61,13 +60,20 @@ class _StockItemComponentState extends State<StockItemComponent>
       )),
       Container(
           child: FlatButton(
-              onPressed: item.itemsAvailable <= 0 ? null
-                  : item.shouldSelectOptions ? () => openSeletionDialog() : () => addAction(item),
+              onPressed: item.itemsAvailable <= 0
+                  ? null
+                  : item.shouldSelectOptions
+                      ? () => openSeletionDialog()
+                      : () => addAction(item),
               child: Text("ADD")))
     ]);
 
     return GestureDetector(
-        onTap: () => item.itemsAvailable <= 0 ? null : openSeletionDialog(),
+        onTap: item.itemsAvailable <= 0
+            ? null
+            : item.shouldSelectOptions
+                ? () => openSeletionDialog()
+                : () => addAction(item),
         child: Container(
             //height: 62,
             padding: EdgeInsets.only(left: 16, top: 4, bottom: 4),
