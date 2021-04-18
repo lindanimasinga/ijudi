@@ -6,13 +6,12 @@ import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/services/storage-manager.dart';
 
 class SecureStorageManager extends StorageManager {
-
   FlutterSecureStorage _prefs;
   static SecureStorageManager _storageManager;
   Map<String, String> _storeMap = {};
 
   static Future<StorageManager> singleton() async {
-    if(_storageManager == null) {
+    if (_storageManager == null) {
       var store = FlutterSecureStorage();
       _storageManager = SecureStorageManager._(store);
       await _storageManager.initialize();
@@ -34,10 +33,12 @@ class SecureStorageManager extends StorageManager {
   }
 
   void _save(String key, String value) {
-    _prefs.write(key: key, value: value).asStream()
-    .map((value) => log("$key saved!"))
-    .asyncExpand((value) => _readAll().asStream())
-    .listen((event) { });
+    _prefs
+        .write(key: key, value: value)
+        .asStream()
+        .map((value) => log("$key saved!"))
+        .asyncExpand((value) => _readAll().asStream())
+        .listen((event) {});
   }
 
   @override
@@ -52,33 +53,35 @@ class SecureStorageManager extends StorageManager {
 
   @override
   void saveIjudiAccessToken(String token) {
-    if(token == null || token.isEmpty) return null;
+    if (token == null || token.isEmpty) return null;
     _save(StorageManager.ACCESS_TOKEN_IJUDI, token);
   }
 
   @override
   void saveUkhesheAccessToken(String token) {
-    if(token == null || token.isEmpty) return null;
+    if (token == null || token.isEmpty) return null;
     _save(StorageManager.ACCESS_TOKEN_UKHESHE, token);
   }
 
   @override
   bool get isLoggedIn {
-    var token = findUkhesheAccessToken();
-    log("token is $token");
-    return token != null && token.isNotEmpty && !hasTokenExpired;
+    return mobileNumber != null && mobileNumber.isNotEmpty;
   }
 
   @override
   Stream clear() {
-    return _prefs.deleteAll().asStream()
-          .map((event) {
-            _save(StorageManager.UKHESHE_PASSWORD, _storeMap[StorageManager.UKHESHE_PASSWORD]);
-            _save(StorageManager.MOBILE, _storeMap[StorageManager.MOBILE]);
-            _save(StorageManager.IJUDI_DEVICE_ID, _storeMap[StorageManager.IJUDI_DEVICE_ID]);
-          })
-          .map((event) => _storeMap.clear())
-          .asyncExpand((event) => _readAll().asStream());
+    return _prefs
+        .deleteAll()
+        .asStream()
+        .map((event) {
+          /*_save(StorageManager.UKHESHE_PASSWORD,
+              _storeMap[StorageManager.UKHESHE_PASSWORD]);
+          _save(StorageManager.MOBILE, _storeMap[StorageManager.MOBILE]);*/
+          _save(StorageManager.IJUDI_DEVICE_ID,
+              _storeMap[StorageManager.IJUDI_DEVICE_ID]);
+        })
+        .map((event) => _storeMap.clear())
+        .asyncExpand((event) => _readAll().asStream());
   }
 
   @override
@@ -86,25 +89,25 @@ class SecureStorageManager extends StorageManager {
 
   @override
   set mobileNumber(String value) {
-    if(value == null || value.isEmpty) return null;
+    if (value == null || value.isEmpty) return null;
     _save(StorageManager.MOBILE, value);
   }
 
   @override
   String findUkhesheTokenExpiryDate() {
-      return _storeMap[StorageManager.UKHESHE_EXPIRY];
+    return _storeMap[StorageManager.UKHESHE_EXPIRY];
   }
-  
+
   @override
   void saveUkhesheTokenExpiryDate(String value) {
-    if(value == null || value.isEmpty) return null;
+    if (value == null || value.isEmpty) return null;
     _save(StorageManager.UKHESHE_EXPIRY, value);
   }
 
   @override
   bool get hasTokenExpired {
     var ukhesheExpiry = findUkhesheTokenExpiryDate();
-    if(ukhesheExpiry == null) return true;
+    if (ukhesheExpiry == null) return true;
     var ukhesheExpDate = DateTime.parse(ukhesheExpiry);
     print(ukhesheExpDate);
     return ukhesheExpDate.isBefore(DateTime.now().add(Duration(minutes: 1)));
@@ -112,7 +115,7 @@ class SecureStorageManager extends StorageManager {
 
   @override
   void saveIjudiUserId(String id) {
-    if(id == null || id.isEmpty) return null;
+    if (id == null || id.isEmpty) return null;
     _save(StorageManager.IJUDI_USER_ID, id);
   }
 
@@ -126,7 +129,7 @@ class SecureStorageManager extends StorageManager {
 
   @override
   set deviceId(String id) {
-    if(id == null || id.isEmpty) return null;
+    if (id == null || id.isEmpty) return null;
     _save(StorageManager.IJUDI_DEVICE_ID, id);
   }
 
@@ -141,7 +144,10 @@ class SecureStorageManager extends StorageManager {
   @override
   ProfileRoles get profileRole {
     var stringEnum = _storeMap[StorageManager.PROFILE_ROLE];
-    return stringEnum == null ? null : ProfileRoles.values.singleWhere((item) =>  item.toString() == stringEnum, orElse: null);
+    return stringEnum == null
+        ? null
+        : ProfileRoles.values
+            .singleWhere((item) => item.toString() == stringEnum, orElse: null);
   }
 
   @override
@@ -154,8 +160,7 @@ class SecureStorageManager extends StorageManager {
 
   @override
   set selectedLocation(String name) {
-    if(name == null || name.isEmpty) return null;
+    if (name == null || name.isEmpty) return null;
     _save(StorageManager.SELECTED_LOCATION, name);
   }
-  
 }

@@ -10,10 +10,10 @@ class UserProfile extends Profile {
   SignUpReason signUpReason;
 
   UserProfile(
-      {@required String id,
+      {String id,
       @required String name,
-      @required SignUpReason signUpReason,
-      @required this.idNumber,
+      SignUpReason signUpReason,
+      this.idNumber,
       @required String description,
       int yearsInService,
       String address,
@@ -24,7 +24,7 @@ class UserProfile extends Profile {
       String verificationCode,
       @required String mobileNumber,
       @required ProfileRoles role,
-      @required Bank bank,
+      Bank bank,
       String surname})
       : super(
             id: id,

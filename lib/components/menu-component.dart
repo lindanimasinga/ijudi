@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/services/impl/secure-storage-manager.dart';
+import 'package:ijudi/services/impl/shared-pref-storage-manager.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/util/message-dialogs.dart';
 import 'package:ijudi/util/theme-utils.dart';
@@ -26,6 +27,7 @@ class MenuComponent extends StatefulWidget {
 class _MenuComponentState extends State<MenuComponent>
     with AutomaticKeepAliveClientMixin, MessageDialogs {
   StorageManager _storageManager;
+  SharedPrefStorageManager sharedPrefs;
   ProfileRoles _profileRole = ProfileRoles.CUSTOMER;
   String _userId;
 
@@ -40,6 +42,27 @@ class _MenuComponentState extends State<MenuComponent>
       profileRole = _storageManager.profileRole;
       _userId = _storageManager.getIjudiUserId();
     });
+
+    SharedPrefStorageManager.singleton().then((value) {
+      sharedPrefs = value;
+    });
+  }
+
+  static int tapCount = 0;
+  get isUAT => sharedPrefs != null && sharedPrefs.testEnvironment;
+
+  switchEnvironement() {
+    ++tapCount;
+    if (tapCount % 5 == 0) {
+      sharedPrefs.testEnvironment = !sharedPrefs.testEnvironment;
+      if (sharedPrefs.testEnvironment) {
+        Config.currentConfig = Config.getUATConfig();
+      } else {
+        Config.currentConfig = Config.getProConfig();
+      }
+      setState(() {});
+      tapCount = 0;
+    }
   }
 
   @override
@@ -82,7 +105,7 @@ class _MenuComponentState extends State<MenuComponent>
                         context,
                         AllShopsView.ROUTE_NAME,
                         (Route<dynamic> route) => false)),
-                Buttons.menuItem(
+                /*Buttons.menuItem(
                     text: "My Wallet",
                     height: buttonHeight,
                     action: !isLoggedIn
@@ -91,7 +114,7 @@ class _MenuComponentState extends State<MenuComponent>
                         : () => Navigator.pushNamedAndRemoveUntil(
                             context,
                             WalletView.ROUTE_NAME,
-                            (Route<dynamic> route) => false)),
+                            (Route<dynamic> route) => false)),*/
                 !isLoggedIn
                     ? Container()
                     : Buttons.menuItem(
@@ -141,7 +164,20 @@ class _MenuComponentState extends State<MenuComponent>
       Container(
           alignment: Alignment.topCenter,
           margin: EdgeInsets.only(top: 32),
-          child: Image.asset("assets/images/izinga-logo.png", width: 100))
+          child: Image.asset("assets/images/izinga-logo.png", width: 100)),
+      GestureDetector(
+          onTap: () => switchEnvironement(),
+          child: isUAT
+              ? Container(
+                  alignment: Alignment.bottomCenter,
+                  margin: EdgeInsets.only(bottom: 32, left: 16, right: 16),
+                  child: Text("UAT Environment", style: IjudiStyles.SUBTITLE_2))
+              : Container(
+                  margin: EdgeInsets.only(bottom: 32, left: 16, right: 16),
+                  child: Text("Powered by Curiousoft Pty Ltd",
+                      style: IjudiStyles.SUBTITLE_2),
+                  alignment: Alignment.bottomCenter,
+                ))
     ]);
   }
 

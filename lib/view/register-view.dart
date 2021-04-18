@@ -27,7 +27,7 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
     return ScrollableParent(
         hasDrawer: false,
         appBarColor: IjudiColors.color1,
-        title: "Registration",
+        title: "Contact Info",
         child: Stack(
           children: <Widget>[
             Headers.getHeader(context),
@@ -66,51 +66,8 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                             ))),
                     Padding(
                       padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
-                      child: Text("What is your interest on iZinga?",
+                      child: Text("Personal Information",
                           style: IjudiStyles.HEADER_TEXT),
-                    ),
-                    IjudiForm(
-                        child: Column(children: [
-                      Row(
-                        children: <Widget>[
-                          Radio(
-                            value: SignUpReason.BUY,
-                            groupValue: viewModel.interests,
-                            onChanged: (selection) =>
-                                viewModel.interests = selection,
-                          ),
-                          Text('I want buy my favourite food',
-                              style: Forms.INPUT_TEXT_STYLE),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Radio(
-                            value: SignUpReason.SELL,
-                            groupValue: viewModel.interests,
-                            onChanged: (selection) =>
-                                viewModel.interests = selection,
-                          ),
-                          Text('I want to sell food online',
-                              style: Forms.INPUT_TEXT_STYLE),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Radio(
-                            value: SignUpReason.DELIVERY_DRIVER,
-                            groupValue: viewModel.interests,
-                            onChanged: (selection) =>
-                                viewModel.interests = selection,
-                          ),
-                          Text('I want to deliver food',
-                              style: Forms.INPUT_TEXT_STYLE),
-                        ],
-                      )
-                    ])),
-                    Padding(
-                      padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
-                      child: Text("Personal Information"),
                     ),
                     IjudiForm(
                       child: AutofillGroup(
@@ -169,109 +126,6 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                       )),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
-                      child: Text("Do you have an Telkom Pay Account?"),
-                    ),
-                    IjudiForm(
-                        child: Row(
-                      children: <Widget>[
-                        Radio(
-                          value: true,
-                          groupValue: viewModel.hasUkheshe,
-                          onChanged: (selection) =>
-                              viewModel.hasUkheshe = selection,
-                        ),
-                        Text('Yes', style: Forms.INPUT_TEXT_STYLE),
-                        Radio(
-                          value: false,
-                          groupValue: viewModel.hasUkheshe,
-                          onChanged: (selection) =>
-                              viewModel.hasUkheshe = selection,
-                        ),
-                        Text('No', style: Forms.INPUT_TEXT_STYLE)
-                      ],
-                    )),
-                    Padding(
-                      padding: EdgeInsets.only(left: 16, top: 8, bottom: 16),
-                      child: Image.asset("assets/images/uKhese-logo.png",
-                          width: 70),
-                    ),
-                    viewModel.hasUkheshe
-                        ? Padding(
-                            padding: EdgeInsets.only(left: 16, bottom: 4),
-                            child: Text(
-                                "Please register with your Telkom Pay details"))
-                        : Padding(
-                            padding: EdgeInsets.only(left: 16, bottom: 4),
-                            child: Text(
-                                "Your SA Id Number is required to create your Telkom Pay wallet to send and receive money.")),
-                    viewModel.hasUkheshe
-                        ? IjudiForm(
-                            child: Column(
-                              children: <Widget>[
-                                IjudiInputField(
-                                    text: viewModel.mobileNumber,
-                                    onChanged: (phone) =>
-                                        viewModel.mobileNumber = phone,
-                                    hint: 'SA Mobile Number',
-                                    autofillHints: [
-                                      AutofillHints.telephoneNumber
-                                    ],
-                                    type: TextInputType.phone),
-                                IjudiLoginField(
-                                    onTap: (pass) => viewModel.password = pass,
-                                    hint: 'Password',
-                                    icon: Icon(
-                                      Icons.lock,
-                                      size: 22,
-                                      color: Colors.white,
-                                    ),
-                                    autofillHints: [AutofillHints.password],
-                                    type: TextInputType.text)
-                              ],
-                            ),
-                          )
-                        : IjudiForm(
-                            child: Column(
-                              children: <Widget>[
-                                IjudiInputField(
-                                    text: viewModel.idNumber,
-                                    autofillHints: ["idNumber"],
-                                    onChanged: (idNumber) =>
-                                        viewModel.idNumber = idNumber,
-                                    hint: 'SA Id Number',
-                                    error: () => viewModel.idNumberValid
-                                        ? ""
-                                        : "Id number not valid",
-                                    type: TextInputType.phone),
-                                IjudiLoginField(
-                                    onTap: (pass) => viewModel.password = pass,
-                                    hint: 'Create Password',
-                                    icon: Icon(
-                                      Icons.lock,
-                                      size: 22,
-                                      color: Colors.white,
-                                    ),
-                                    autofillHints: [AutofillHints.newPassword],
-                                    type: TextInputType.text),
-                                IjudiLoginField(
-                                    onTap: (pass) =>
-                                        viewModel.passwordConfirm = pass,
-                                    hint: 'Confirm Password',
-                                    error: () => viewModel.passwordValid
-                                        ? ""
-                                        : "passwords not match",
-                                    icon: Icon(
-                                      Icons.lock,
-                                      size: 22,
-                                      color: Colors.white,
-                                    ),
-                                    autofillHints: [AutofillHints.newPassword],
-                                    type: TextInputType.text)
-                              ],
-                            ),
-                          ),
-                    Padding(
                       padding: EdgeInsets.only(
                           left: 16, right: 16, top: 16, bottom: 16),
                       child: Text(
@@ -294,21 +148,6 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               url:
                                   "https://www.iubenda.com/privacy-policy/83133872/legal")),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                      child: InkWell(
-                          child: RichText(
-                              text: TextSpan(children: [
-                            TextSpan(
-                                text: "Telkom Pay Terms and Conditions",
-                                style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    color: Colors.blue))
-                          ])),
-                          onTap: () => Utils.launchURLInCustomeTab(context,
-                              url:
-                                  "https://apps.telkom.co.za/today/help/downloads/file/digital-wallet-tcs/")),
-                    ),
                     Container(
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(top: 16, bottom: 16),
@@ -317,38 +156,13 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                                 FloatingActionButtonWithProgress(
                                   viewModel: viewModel.progressMv,
                                   onPressed: () {
-                                    if (viewModel.allFieldsValid) {
-                                      viewModel.startRegistration();
-                                      showMessageDialog(context,
-                                          title: "Confirm Code",
-                                          child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Padding(
-                                                    padding: EdgeInsets.only(
-                                                        bottom: 16)),
-                                                IjudiInputField(
-                                                  hint: "OTP",
-                                                  autofillHints: [
-                                                    AutofillHints.oneTimeCode
-                                                  ],
-                                                  type: TextInputType.number,
-                                                  color: IjudiColors.color5,
-                                                  onChanged: (value) =>
-                                                      viewModel.otp = value,
-                                                )
-                                              ]),
-                                          actionName: "Proceed",
-                                          action: () =>
-                                              viewModel.registerUser());
-                                    } else {
+                                    if (viewModel.allFieldsValid)
+                                      viewModel.signupUser();
+                                    else
                                       Scaffold.of(context).showSnackBar(SnackBar(
                                           backgroundColor: IjudiColors.color2,
                                           content: Text(
                                               'Some fields are missing or invalid.')));
-                                    }
                                   },
                                   child: Icon(Icons.check),
                                 )))

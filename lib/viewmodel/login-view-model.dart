@@ -198,12 +198,10 @@ class LoginViewModel extends BaseViewModel {
       if (ukhesheService.baseUrl != Config.getUATConfig().ukhesheBaseURL) {
         Config.currentConfig = Config.getUATConfig();
         ukhesheService.baseUrl = Config.getUATConfig().ukhesheBaseURL;
-        apiService.apiUrl = Config.getUATConfig().iZingaApiUrl;
         sharedPrefs.testEnvironment = true;
       } else {
         Config.currentConfig = Config.getProConfig();
         ukhesheService.baseUrl = Config.getProConfig().ukhesheBaseURL;
-        apiService.apiUrl = Config.getProConfig().iZingaApiUrl;
         sharedPrefs.testEnvironment = false;
       }
       notifyChanged();

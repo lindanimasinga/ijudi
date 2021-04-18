@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:ijudi/config.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/topup-status-checker.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ import 'package:ijudi/model/order.dart';
 import 'package:ijudi/view/final-order-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
-class PaymentViewModel extends BaseViewModel with TopTupStatusChecker {
+class PaymentViewModel extends BaseViewModel {
   final Order order;
   final ApiService apiService;
   final UkhesheService ukhesheService;
@@ -23,14 +24,10 @@ class PaymentViewModel extends BaseViewModel with TopTupStatusChecker {
       @required this.order,
       @required this.ukhesheService});
 
+  get paymentUrl => Config.currentConfig.paymentUrl;
+
   @override
-  void initialize() {
-    fetchPaymentCards().onData((data) {
-        this.paymentCards = data;
-        this.paymentCardselected = data.first;
-    });
-    generateAddPaymentCardUrl();
-  }
+  void initialize() {}
 
   set availableBalance(CustomerInfoResponse value) {
     order.customer.bank = value;
@@ -50,8 +47,6 @@ class PaymentViewModel extends BaseViewModel with TopTupStatusChecker {
   bool get isBalanceLow =>
       order.customer.bank.availableBalance < order.totalAmount;
 
-  String get baseUrl => ukhesheService.baseUrl;
-
   String get collectionInstructions =>
       "Please produce your order number ${order.id} when collecting your order at ${order.shop.name}. Contact Number : ${order.shop.mobileNumber}";
 
@@ -70,14 +65,12 @@ class PaymentViewModel extends BaseViewModel with TopTupStatusChecker {
 
   processPayment() {
     progressMv.isBusy = true;
-    var stream = paymentSuccessful
-        ? Stream.value(0)
-        : ukhesheService.paymentForOrder(order).asStream();
+    var stream = Stream.value(0);
     stream.asyncExpand((event) {
       HapticFeedback.vibrate();
       return Future.delayed(Duration(seconds: 2)).asStream();
     }).asyncExpand((event) {
-      order.paymentType = PaymentType.UKHESHE;
+      order.paymentType = PaymentType.PAYFAST;
       paymentSuccessful = true;
       return apiService.completeOrderPayment(order).asStream();
     }).listen((data) {
@@ -90,9 +83,8 @@ class PaymentViewModel extends BaseViewModel with TopTupStatusChecker {
               currency: "ZAR")
           .then((value) => {});
 
-      BaseViewModel.analytics.logEvent(
-        name: "order.purchase.leg.1", 
-        parameters: {
+      BaseViewModel.analytics
+          .logEvent(name: "order.purchase.leg.1", parameters: {
         "shop": order.shop.name,
         "Order Id": order.id,
         "Delivery": order.shippingData.type,

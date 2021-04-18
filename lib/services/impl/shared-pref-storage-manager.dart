@@ -43,8 +43,7 @@ class SharedPrefStorageManager extends StorageManager {
 
   @override
   bool get isLoggedIn {
-    var token = findUkhesheAccessToken();
-    return token != null && token.isNotEmpty && !hasTokenExpired;
+    return mobileNumber != null && mobileNumber.isNotEmpty;
   }
 
   @override

@@ -41,7 +41,7 @@ class _StockItemComponentState extends State<StockItemComponent>
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Container(
-            width: !item.hasImages ? 192 : 136,
+            width: 152,
             child: Text(
               "${item.name}",
               style: Forms.INPUT_TEXT_STYLE,
@@ -54,18 +54,11 @@ class _StockItemComponentState extends State<StockItemComponent>
               )
       ])),
       Container(
+          margin: EdgeInsets.only(right: 16),
           child: Text(
-        "R${Utils.formatToCurrency(item.price)}",
-        style: Forms.INPUT_TEXT_STYLE,
-      )),
-      Container(
-          child: FlatButton(
-              onPressed: item.itemsAvailable <= 0
-                  ? null
-                  : item.shouldSelectOptions
-                      ? () => openSeletionDialog()
-                      : () => addAction(item),
-              child: Text("ADD")))
+            "R${Utils.formatToCurrency(item.price)}",
+            style: Forms.INPUT_TEXT_STYLE,
+          ))
     ]);
 
     return GestureDetector(

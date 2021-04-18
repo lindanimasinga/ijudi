@@ -170,52 +170,30 @@ class DeliveryOptionsViewModel extends BaseViewModel {
     }
 
     order.description = "order from ${order.shop.name}";
-    apiService
-        .startOrder(order)
-        .asStream()
-        .map((resp) {
-          var oldOrder = order;
-          order = resp;
-          order.customer = oldOrder.customer;
-          order.shop = oldOrder.shop;
-          order.shippingData.messenger = oldOrder.shippingData.messenger;
-          order.description =
-              "Payment from ${order.customer.mobileNumber}: order ${resp.id}";
-        })
-        .asyncExpand(
-            (element) => ukhesheService.getAccountInformation().asStream())
-        .listen((customerResponse) {
-          availableBalance = customerResponse;
-          BaseViewModel.analytics.logEvent(name: "order.start", parameters: {
-            "shop": order.shop.name,
-            "Order Id": order.id,
-            "Delivery": order.shippingData.type.toString(),
-            "Total Amount": order.totalAmount
-          }).then((value) => {});
+    apiService.startOrder(order).asStream().map((resp) {
+      var oldOrder = order;
+      order = resp;
+      order.customer = oldOrder.customer;
+      order.shop = oldOrder.shop;
+      order.shippingData.messenger = oldOrder.shippingData.messenger;
+      order.description =
+          "Payment from ${order.customer.mobileNumber}: order ${resp.id}";
+    }).listen((customerResponse) {
+      BaseViewModel.analytics.logEvent(name: "order.start", parameters: {
+        "shop": order.shop.name,
+        "Order Id": order.id,
+        "Delivery": order.shippingData.type.toString(),
+        "Total Amount": order.totalAmount
+      }).then((value) => {});
 
-          Navigator.popAndPushNamed(context, PaymentView.ROUTE_NAME,
-              arguments: order);
-        }, onError: (handleError) {
-          showError(error: handleError);
-          log("handleError", error: handleError);
-        }, onDone: () {
-          progressMv.isBusy = false;
-        });
-  }
-
-  set availableBalance(CustomerInfoResponse value) {
-    order.customer.bank = value;
-    print(order.customer.bank);
-    print(order.customer.bank.currentBalance);
-    order.customer.bank.currentBalance =
-        order.customer.bank.currentBalance == null
-            ? 0
-            : order.customer.bank.currentBalance;
-    order.customer.bank.availableBalance =
-        order.customer.bank.availableBalance == null
-            ? 0
-            : order.customer.bank.availableBalance;
-    notifyChanged();
+      Navigator.popAndPushNamed(context, PaymentView.ROUTE_NAME,
+          arguments: order);
+    }, onError: (handleError) {
+      showError(error: handleError);
+      log("handleError", error: handleError);
+    }, onDone: () {
+      progressMv.isBusy = false;
+    });
   }
 
   findMessengers() {

@@ -30,10 +30,13 @@ class FeaturedShop extends StatelessWidget with MessageDialogs {
                 arguments: shop),
             onLongPress: () {
               HapticFeedback.lightImpact();
-              !isLoggedIn()
-            ? showLoginMessage(context)
-            : Navigator.pushNamed(context, QuickPayView.ROUTE_NAME,
-                arguments: shop);
+              shop.collectAllowed
+                  ? !isLoggedIn()
+                      ? showLoginMessage(context)
+                      : Navigator.pushNamed(context, QuickPayView.ROUTE_NAME,
+                          arguments: shop)
+                  : Navigator.pushNamed(context, StartShoppingView.ROUTE_NAME,
+                      arguments: shop);
             },
             child: Container(
                 child: IJudiCard(
@@ -55,18 +58,17 @@ class FeaturedShop extends StatelessWidget with MessageDialogs {
                     padding: EdgeInsets.all(10.0),
                   ),
                   Container(
-                      width: deviceWidth >= 360? 148 : 128,
+                      width: deviceWidth >= 360 ? 148 : 128,
                       // padding: EdgeInsets.only(top: 8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.only(right: 4, top: 8),
-                            child: Text(shop.name,
-                              style: IjudiStyles.CARD_SHOP_HEADER,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis)
-                          ),
+                              padding: EdgeInsets.only(right: 4, top: 8),
+                              child: Text(shop.name,
+                                  style: IjudiStyles.CARD_SHOP_HEADER,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis)),
                           Padding(
                             padding: EdgeInsets.only(right: 4, top: 8),
                             child: Text(
@@ -109,10 +111,17 @@ class FeaturedShop extends StatelessWidget with MessageDialogs {
                   ],
                 ),
                 color: IjudiColors.color2,
-                onPressed: !isLoggedIn()
-            ? () => showLoginMessage(context)
-            : () => Navigator.pushNamed(context, QuickPayView.ROUTE_NAME,
-                arguments: shop),
+                onPressed: () {
+                  HapticFeedback.lightImpact();
+                  shop.collectAllowed
+                      ? !isLoggedIn()
+                          ? showLoginMessage(context)
+                          : Navigator.pushNamed(
+                              context, QuickPayView.ROUTE_NAME, arguments: shop)
+                      : Navigator.pushNamed(
+                          context, StartShoppingView.ROUTE_NAME,
+                          arguments: shop);
+                },
               )),
         ]);
     ;

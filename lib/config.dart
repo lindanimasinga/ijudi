@@ -14,6 +14,8 @@ abstract class Config {
   String get depositingNedBankAccountNumber;
   String get ukhesheBaseURL;
   String get iZingaApiUrl;
+  String get paymentUrl;
+
   List<SupportedLocation> get locations;
 
   Map<String, double> get rangeMap;
@@ -52,6 +54,9 @@ class ProdConfig extends Config {
       "https://api.whatsapp.com/send?phone=27812815707";
   final String ukhesheSupportUrl =
       "https://api.whatsapp.com/send?phone=270684835566&text=Hello";
+
+  final String paymentUrl = "https://pay-izinga.web.app";
+
   final List<SupportedLocation> locations = [
     SupportedLocation("KwaMashu", -29.7380334, 30.9553919),
     SupportedLocation("Durban North", -29.7789353, 31.0113643),
@@ -76,6 +81,9 @@ class UATConfig extends Config {
       "https://api.whatsapp.com/send?phone=27812815707";
   final String ukhesheSupportUrl =
       "https://api.whatsapp.com/send?phone=270684835566&text=Hello";
+
+  final String paymentUrl = "https://pay-izinga-uat.web.app";
+
   final List<SupportedLocation> locations = [
     SupportedLocation("KwaMashu", -29.7380334, 30.9553919),
     SupportedLocation("Durban North", -29.7789353, 31.0113643),
@@ -100,6 +108,9 @@ class DevConfig extends Config {
       "https://api.whatsapp.com/send?phone=27812815707";
   final String ukhesheSupportUrl =
       "https://api.whatsapp.com/send?phone=270684835566&text=Hello";
+
+  final String paymentUrl = "https://pay-izinga-uat.web.app";
+
   final List<SupportedLocation> locations = [
     SupportedLocation("KwaMashu", -29.7380334, 30.9553919),
     SupportedLocation("Durban North", -29.7789353, 31.0113643),

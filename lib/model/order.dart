@@ -11,7 +11,7 @@ part 'order.g.dart';
 class Order {
   String id;
   Shipping shippingData;
-  PaymentType paymentType = PaymentType.UKHESHE;
+  PaymentType paymentType = PaymentType.PAYFAST;
   OrderType orderType = OrderType.ONLINE;
   bool hasVat;
   Basket basket = Basket();

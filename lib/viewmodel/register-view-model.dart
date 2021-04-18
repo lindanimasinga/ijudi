@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/userProfile.dart';
+import 'package:ijudi/services/local-notification-service.dart';
+import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/login-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
@@ -10,11 +14,12 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 class RegisterViewModel extends BaseViewModel {
   final UkhesheService ukhesheService;
   final ApiService apiService;
+  final StorageManager storage;
+  final NotificationService notificationService;
+
   String otp;
   final String _aboutUkheshe =
-      "Ukheshe is a digital wallet that lets you buy goods and received money without a need to have a" +
-          "bank account.\n\nIt simple requires only your mobile number and you are good to go." +
-          "You can send, receive and withdraw and deposit money from any ATM or Pick n Pay stores.\n\nBy signing up, I agree to the terms and conditions below.";
+      "By signing up, I agree to the terms and conditions below.";
 
   bool passwordValid = true;
   bool mobileNumberValid = true;
@@ -41,7 +46,11 @@ class RegisterViewModel extends BaseViewModel {
   String passwordConfirm;
   bool _hasUkheshe = false;
 
-  RegisterViewModel({this.ukhesheService, @required this.apiService});
+  RegisterViewModel(
+      {this.ukhesheService,
+      @required this.apiService,
+      @required this.storage,
+      @required this.notificationService});
 
   bool get hasUkheshe => _hasUkheshe;
   set hasUkheshe(bool hasUkheshe) {
@@ -68,11 +77,7 @@ class RegisterViewModel extends BaseViewModel {
   String bankCellNumber;
   Bank _bank = Bank(name: null, accountId: null, type: null);
 
-  String get ukhesheMessage => hasUkheshe
-      ? "Your iZinga account will be linked to your Telkom Pay account. " +
-          "You will be able to top up, buy goods and receive money using your Telkom Pay account with ijudi."
-      : "Registering with iZinga will automatically create you an Telkom Pay account. " +
-          _aboutUkheshe;
+  String get ukhesheMessage => _aboutUkheshe;
 
   Stream _registerBank() {
     _bank.name = name;
@@ -87,7 +92,7 @@ class RegisterViewModel extends BaseViewModel {
         .asStream();
   }
 
-  registerUser() {
+  signupUser() {
     if (!allFieldsValid) return;
 
     _bank.name = "Ukheshe";
@@ -95,8 +100,6 @@ class RegisterViewModel extends BaseViewModel {
     _bank.type = "wallet";
 
     var user = UserProfile(
-        id: idNumber,
-        signUpReason: interests,
         name: name,
         surname: lastname,
         idNumber: idNumber,
@@ -108,17 +111,27 @@ class RegisterViewModel extends BaseViewModel {
         bank: _bank);
 
     progressMv.isBusy = true;
-    Stream stream = !hasUkheshe ? _registerBank() : Stream.value(0);
-    stream
-        .asyncExpand((event) => apiService.registerUser(user).asStream())
-        .listen((event) {
-      print("successful registration");
+    apiService
+        .findUserByPhone(mobileNumber)
+        .catchError((error) => log("user does not exist."))
+        .asStream()
+        .asyncExpand((existingUser) => existingUser != null
+            ? Stream.value(existingUser)
+            : apiService.registerUser(user).asStream())
+        .listen((data) {
+      log("successful registration");
       BaseViewModel.analytics.logSignUp(signUpMethod: "cellphone");
-      Navigator.pushNamedAndRemoveUntil(
-          context, LoginView.ROUTE_NAME, (Route<dynamic> route) => false);
+
+      storage.mobileNumber = mobileNumber;
+      storage.password = password;
+      storage.profileRole = data.role;
+      log("user Id is ${data.id}");
+      storage.saveIjudiUserId(data.id);
+      notificationService.updateDeviceUser();
+
+      Navigator.pop(context);
     }, onError: (e) {
       showError(error: e);
-
       BaseViewModel.analytics.logEvent(name: "error.signup", parameters: {
         "error": e.toString(),
         "cellNumber": mobileNumber
@@ -126,19 +139,6 @@ class RegisterViewModel extends BaseViewModel {
     }, onDone: () {
       progressMv.isBusy = false;
     });
-  }
-
-  _registerUserOtpRequest() {
-    progressMv.isBusy = true;
-    ukhesheService.requestOpt(mobileNumber).asStream().listen((event) {},
-        onError: (e) {
-          showError(error: e);
-        },
-        onDone: () => progressMv.isBusy = false);
-  }
-
-  void startRegistration() {
-    _registerUserOtpRequest();
   }
 
   bool get allFieldsValid {
@@ -153,6 +153,6 @@ class RegisterViewModel extends BaseViewModel {
         lastname != null && lastname.isNotEmpty && lastname.length > 3;
     idNumberValid = idNumberValid != null && idNumber.length == 13;
     notifyChanged();
-    return passwordValid && mobileNumberValid && nameValid && lastNameValid && idNumberValid;
+    return mobileNumberValid && nameValid && lastNameValid;
   }
 }

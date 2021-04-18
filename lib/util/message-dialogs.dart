@@ -10,6 +10,7 @@ import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/login-view.dart';
+import 'package:ijudi/view/register-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -73,24 +74,26 @@ mixin MessageDialogs {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
+            backgroundColor: IjudiColors.color3,
             insetPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
             child: Container(
-              height: Utils.calculationDialogMinHeight(context),
-              padding: EdgeInsets.only(top: 8),
+              height: MediaQuery.of(context).size.height,
+              padding: EdgeInsets.only(top: 20),
               child: Column(
                 children: [
                   header != null ? header : Container(),
                   Expanded(
                       child: WebView(
                           initialUrl: url,
-                          onPageFinished: (url) {
-                            if (url == "about:blank") {
-                              print("completed");
+                          onPageStarted: (url) {
+                            if (url.startsWith("https://www.izinga.co.za")) {
+                              var status = Uri.parse(url).pathSegments[0];
+                              print("status is $status");
                               Navigator.of(context).pop();
-                              doneAction();
+                              doneAction(status);
                             }
                           },
                           javascriptMode: JavascriptMode.unrestricted)),
@@ -99,7 +102,10 @@ mixin MessageDialogs {
                       margin: EdgeInsets.symmetric(horizontal: 12),
                       child: FlatButton(
                         padding: EdgeInsets.symmetric(vertical: 0),
-                        child: Text("Close"),
+                        child: Text(
+                          "Close",
+                          style: IjudiStyles.CONTENT_TEXT,
+                        ),
                         onPressed: () {
                           Navigator.of(context).pop();
                           doneAction();
@@ -284,7 +290,7 @@ mixin MessageDialogs {
       if (onLogin != null) {
         onLogin();
       }
-      Navigator.pushNamed(context, LoginView.ROUTE_NAME);
+      Navigator.pushNamed(context, RegisterView.ROUTE_NAME);
     },
         child: Column(
             mainAxisSize: MainAxisSize.min,

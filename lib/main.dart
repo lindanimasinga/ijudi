@@ -37,11 +37,9 @@ main() {
       .asyncExpand((event) => SecureStorageManager.singleton().asStream())
       .listen((storage) {
         var ukhesheBaseURL = config.ukhesheBaseURL;
-        var iZingaApiUrl = config.iZingaApiUrl;
         var ukhesheService =
             UkhesheService(storageManager: storage, baseUrl: ukhesheBaseURL);
-        var apiService =
-            ApiService(storageManager: storage, apiUrl: iZingaApiUrl);
+        var apiService = ApiService(storageManager: storage);
         localNotifications = NotificationService(apiService: apiService);
         localNotifications
             .initialize()

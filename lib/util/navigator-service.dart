@@ -106,7 +106,7 @@ class NavigatorService {
         return MaterialPageRoute(
             builder: (context) => ChooseLocationView(), fullscreenDialog: true);
       case LoginView.ROUTE_NAME:
-        viewmodel = LoginViewModel(
+      /*viewmodel = LoginViewModel(
             sharedPrefs: sharedPrefStorageManager,
             storage: storageManager,
             ukhesheService: ukhesheService,
@@ -114,12 +114,16 @@ class NavigatorService {
             notificationService: localNotificationService);
         return MaterialPageRoute(
             builder: (context) => LoginView(viewModel: viewmodel),
-            fullscreenDialog: true);
+            fullscreenDialog: true);*/
       case RegisterView.ROUTE_NAME:
         viewmodel = RegisterViewModel(
-            ukhesheService: ukhesheService, apiService: apiService);
+            ukhesheService: ukhesheService,
+            apiService: apiService,
+            notificationService: localNotificationService,
+            storage: storageManager);
         return MaterialPageRoute(
-            builder: (context) => RegisterView(viewModel: viewmodel));
+            builder: (context) => RegisterView(viewModel: viewmodel),
+            fullscreenDialog: true);
       case ForgotPasswordView.ROUTE_NAME:
         viewmodel = ForgotPasswordViewModel(
             storageManager: storageManager,
