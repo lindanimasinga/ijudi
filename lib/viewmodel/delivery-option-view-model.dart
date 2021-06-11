@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/payment-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
-import 'package:ijudi/api/ukheshe/model/customer-info-response.dart';
 import 'package:intl/intl.dart';
 
 class DeliveryOptionsViewModel extends BaseViewModel {
@@ -71,9 +69,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   set shippingType(ShippingType delivery) {
     order.shippingData.type = delivery;
     if (!allowedOrder) {
-      showError(
-          error:
-              "No drivers available on your area. Only collections are allowed");
+      showError(error: "No drivers available on your area at the moment.");
     }
     if (order.shippingData.type == ShippingType.DELIVERY &&
         order.shippingData.buildingType == null) {
@@ -137,7 +133,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
     //
     order.shippingData = Shipping();
     order.shippingData.toAddress = order.customer.address;
-    order.shippingData.type = ShippingType.COLLECTION;
+    order.shippingData.type = ShippingType.DELIVERY;
     order.shippingData.fromAddress = order.shop.name;
     order.shippingData.fee = 0;
     findMessengers();
@@ -145,9 +141,7 @@ class DeliveryOptionsViewModel extends BaseViewModel {
 
   startOrder() {
     if (!allowedOrder) {
-      showError(
-          error:
-              "No drivers available on your area. Only collections are allowed");
+      showError(error: "No drivers available on your area at the moment.");
       return;
     }
 
