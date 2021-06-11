@@ -51,9 +51,11 @@ class ShopComponent extends StatelessWidget with MessageDialogs {
                     ? "In Store"
                     : "Delivers",
             location: BannerLocation.topStart,
-            color: shop.stockList == null || shop.stockList.isEmpty
+            color: shop.storeOffline
                 ? IjudiColors.color2
-                : IjudiColors.color1,
+                : shop.stockList == null || shop.stockList.isEmpty
+                    ? IjudiColors.color2
+                    : IjudiColors.color1,
             child: Column(
               children: <Widget>[
                 Container(
