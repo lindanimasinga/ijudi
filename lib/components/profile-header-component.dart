@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ijudi/components/bread-crumb.dart';
 import 'package:ijudi/model/profile.dart';
+import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/util/theme-utils.dart';
 
 class ProfileHeaderComponent extends StatelessWidget {
@@ -13,39 +15,18 @@ class ProfileHeaderComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
-    double profilePicWidth = deviceWidth >= 360 ? 123 : 108;
+    double profilePicWidth = deviceWidth >= 360 ? 143 : 128;
 
-    Widget ratings = Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Padding(
-            padding: EdgeInsets.only(left: 4, right: 4),
-            child: Column(
-              children: <Widget>[
-                Text("${profile.likes}", style: IjudiStyles.RATING),
-                Text("Likes", style: IjudiStyles.RATING_LABEL)
-              ],
-            )),
-        Padding(
-            padding: EdgeInsets.only(left: 4, right: 4),
-            child: Column(
-              children: <Widget>[
-                Text("${profile.servicesCompleted}", style: IjudiStyles.RATING),
-                Text("Served", style: IjudiStyles.RATING_LABEL)
-              ],
-            )),
-        Padding(
-            padding: EdgeInsets.only(left: 4),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("${profile.badges}", style: IjudiStyles.RATING),
-                Image.asset("assets/images/badge.png")
-              ],
-            )),
-      ],
-    );
+    var profileStatus = profile is Shop
+        ? Container(
+            margin: EdgeInsets.only(right: 16),
+            child: BreadCrumb(
+                lowerCase: false,
+                color: (profile as Shop).storeOffline
+                    ? IjudiColors.color2
+                    : IjudiColors.color1,
+                name: (profile as Shop).storeOffline ? "OFFLINE" : "ONLINE"))
+        : Container();
 
     Widget contacts = Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -53,9 +34,9 @@ class ProfileHeaderComponent extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(right: 8),
-          child: Icon(Icons.phone, color: IjudiColors.backgroud),
+          child: Icon(Icons.phone_android, color: IjudiColors.backgroud),
         ),
-        Text(profile.mobileNumber, style: IjudiStyles.HEADER_TEXT)
+        Text(profile.mobileNumber, style: IjudiStyles.HEADER_2_WHITE)
       ],
     );
 
@@ -63,7 +44,7 @@ class ProfileHeaderComponent extends StatelessWidget {
         width: profilePicWidth,
         height: profilePicWidth,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(61),
+          borderRadius: BorderRadius.circular(81),
           color: Colors.white,
           border: Border.all(
             color: profilePicBorder,
@@ -76,31 +57,38 @@ class ProfileHeaderComponent extends StatelessWidget {
         ));
 
     return Container(
-        height: 237,
+        height: 207,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(profile.name, style: IjudiStyles.HEADER_1),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(profile.name, style: IjudiStyles.HEADER_1),
+                  profileStatus
+                ],
+              ),
               Text("${describeEnum(profile.role)}",
                   style: IjudiStyles.SUBTITLE_1),
-              Padding(padding: EdgeInsets.only(top: 16)),
+              Padding(padding: EdgeInsets.only(top: 0)),
               Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        ratings,
                         Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text("Location", style: IjudiStyles.SUBTITLE_1),
                               Container(
+                                  margin: EdgeInsets.only(top: 16),
                                   width: 180,
                                   child: Text(profile.address,
-                                      style: IjudiStyles.HEADER_TEXT,
+                                      style: IjudiStyles.HEADER_2_WHITE,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis))
                             ]),

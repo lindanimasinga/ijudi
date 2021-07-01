@@ -141,6 +141,7 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
     order.shippingData.toAddress =
         order.customer != null ? order.customer.address : "";
     order.shippingData.type = ShippingType.DELIVERY;
+    order.shippingData.buildingType = BuildingType.HOUSE;
     order.shippingData.fromAddress = order.shop.name;
     order.shippingData.fee = 0;
     findMessengers();

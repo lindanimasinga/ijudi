@@ -9,7 +9,6 @@ import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/viewmodel/start-shopping-view-model.dart';
 
 class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
-  
   static const ROUTE_NAME = "start-shopping";
 
   StartShoppingView({viewModel}) : super(viewModel);
@@ -33,11 +32,10 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                         padding: EdgeInsets.only(left: 16, right: 16),
                         child: ProfileHeaderComponent(
                             profile: viewModel.shop,
-                            profilePicBorder: IjudiColors.color1)),
+                            profilePicBorder: IjudiColors.color2)),
                     Padding(
                         padding: EdgeInsets.only(top: 24, bottom: 16),
-                        child: Forms.searchField(
-                            context, 
+                        child: Forms.searchField(context,
                             hint: "Chips, Wings, Burger",
                             onChanged: (value) => viewModel.search = value)),
                     Padding(
@@ -46,12 +44,12 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text("Basket",style: IjudiStyles.SUBTITLE_2),
+                            Text("Basket", style: IjudiStyles.SUBTITLE_2),
                             FloatingActionButtonWithProgress(
-                              viewModel: viewModel.progressMv,
-                              onPressed: () => viewModel.verifyItemsAvailable(),
-                              child: Icon(Icons.arrow_forward)
-                              )
+                                viewModel: viewModel.progressMv,
+                                onPressed: () =>
+                                    viewModel.verifyItemsAvailable(),
+                                child: Icon(Icons.arrow_forward))
                           ],
                         )),
                     Padding(
@@ -63,19 +61,16 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                                 viewModel.remove(basketItem))),
                     Container(
                         alignment: Alignment.topLeft,
-                        padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                        child: Text(
-                          "Available Items",
-                          style: IjudiStyles.SUBTITLE_2
-                        )),
+                        padding:
+                            EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                        child: Text("Available Items",
+                            style: IjudiStyles.SUBTITLE_2)),
                     Padding(
                         padding:
                             EdgeInsets.only(left: 0, right: 16, bottom: 16),
                         child: StocksWithImageComponent(
-                                stocks: viewModel.matchedStocks,
-                                addAction: (stock) => viewModel.add(stock.take(1))
-                              )
-                    )
+                            stocks: viewModel.matchedStocks,
+                            addAction: (stock) => viewModel.add(stock.take(1))))
                   ],
                 ))
           ],
