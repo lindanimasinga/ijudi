@@ -13,8 +13,10 @@ import 'package:ijudi/components/order-review-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/messenger-order-update-view-model.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MessengerOrderUpdateView
     extends MvStatefulWidget<MessengerOrderUpdateViewModel> {
@@ -102,9 +104,20 @@ class MessengerOrderUpdateView
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 32, left: 16),
-                        child: Text(
-                            "Phone Number: ${viewModel?.customer?.mobileNumber}",
-                            style: IjudiStyles.HEADER_TEXT)),
+                        child: InkWell(
+                            child: RichText(
+                                text: TextSpan(children: [
+                              TextSpan(
+                                  text: "Phone Number: ",
+                                  style: IjudiStyles.HEADER_TEXT),
+                              TextSpan(
+                                  text: "${viewModel?.customer?.mobileNumber}",
+                                  style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      color: Colors.white))
+                            ])),
+                            onTap: () => launch(
+                                "https:${viewModel?.customer?.mobileNumber}"))),
                     Container(
                         margin: EdgeInsets.only(right: 16),
                         child: OrderReviewComponent(order: viewModel.order)),

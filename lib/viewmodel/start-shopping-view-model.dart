@@ -12,10 +12,8 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 class StartShoppingViewModel extends BaseViewModel with MessageDialogs {
   final Shop shop;
   final ApiService apiService;
-  final StorageManager storageManager;
 
-  StartShoppingViewModel(
-      {this.shop, @required this.apiService, @required this.storageManager});
+  StartShoppingViewModel({this.shop, @required this.apiService});
 
   List<Stock> _stocks;
   Order order;
@@ -31,10 +29,13 @@ class StartShoppingViewModel extends BaseViewModel with MessageDialogs {
     order.shop = shop;
     order.description = "order from ${shop.name}";
     stocks = shop.stockList;
+
     var userId = apiService.currentUserPhone;
-    apiService.findUserByPhone(userId).asStream().listen((user) {
-      order.customer = user;
-    });
+    if (userId != null) {
+      apiService.findUserByPhone(userId).asStream().listen((user) {
+        order.customer = user;
+      });
+    }
 
     if (stocks == null) {
       apiService.findAllStockByShopId(shop.id).asStream().listen((resp) {
@@ -88,28 +89,10 @@ class StartShoppingViewModel extends BaseViewModel with MessageDialogs {
     if (order.basket.getBasketTotalItems() == 0) {
       return;
     }
-
-    if (!isLoggedIn) {
-      showLoginMessage(context);
-      return;
-    }
-
-    if (order.customer == null) {
-      var userId = apiService.currentUserPhone;
-      progressMv.isBusy = true;
-      apiService.findUserByPhone(userId).asStream().listen((user) {
-        order.customer = user;
-        Navigator.pushNamed(context, DeliveryOptionsView.ROUTE_NAME,
-            arguments: order);
-        progressMv.isBusy = false;
-      });
-    } else {
-      Navigator.pushNamed(context, DeliveryOptionsView.ROUTE_NAME,
-            arguments: order);
-    }
+    Navigator.pushNamed(context, DeliveryOptionsView.ROUTE_NAME,
+          arguments: order);
+    
   }
-
-  bool get isLoggedIn => storageManager.isLoggedIn;
 
   List<Stock> get stocks => _stocks;
 

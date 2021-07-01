@@ -17,8 +17,8 @@ class StackedThumbnails extends StatelessWidget {
           alignment: FractionalOffset.center,
           transform: Matrix4.rotationZ(pi/(2*k+3)),*/
           Container(
-              width: 45,
-              height: 45,
+              width: 55,
+              height: 55,
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(

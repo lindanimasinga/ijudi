@@ -280,7 +280,7 @@ mixin MessageDialogs {
             ]));
   }
 
-  showLoginMessage(BuildContext context, {void Function() onLogin}) {
+  showLoginMessage(BuildContext context, {Object params, void Function() onLogin}) {
     final Brightness brightnessValue =
         MediaQuery.of(context).platformBrightness;
     bool isLight = brightnessValue == Brightness.light;
@@ -290,7 +290,7 @@ mixin MessageDialogs {
       if (onLogin != null) {
         onLogin();
       }
-      Navigator.pushNamed(context, RegisterView.ROUTE_NAME);
+      Navigator.pushNamed(context, RegisterView.ROUTE_NAME, arguments: params);
     },
         child: Column(
             mainAxisSize: MainAxisSize.min,

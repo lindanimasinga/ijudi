@@ -12,7 +12,6 @@ class ProfileHeaderComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     double deviceWidth = MediaQuery.of(context).size.width;
     double profilePicWidth = deviceWidth >= 360 ? 123 : 108;
 
@@ -52,7 +51,8 @@ class ProfileHeaderComponent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Padding(padding: EdgeInsets.only(right: 8),
+        Padding(
+          padding: EdgeInsets.only(right: 8),
           child: Icon(Icons.phone, color: IjudiColors.backgroud),
         ),
         Text(profile.mobileNumber, style: IjudiStyles.HEADER_TEXT)
@@ -73,8 +73,7 @@ class ProfileHeaderComponent extends StatelessWidget {
             image: NetworkImage(profile.imageUrl),
             fit: BoxFit.cover,
           ),
-        )
-    );
+        ));
 
     return Container(
         height: 237,
@@ -82,7 +81,8 @@ class ProfileHeaderComponent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(profile.name, style: IjudiStyles.HEADER_1),
-              Text("${describeEnum(profile.role)}", style: IjudiStyles.SUBTITLE_1),
+              Text("${describeEnum(profile.role)}",
+                  style: IjudiStyles.SUBTITLE_1),
               Padding(padding: EdgeInsets.only(top: 16)),
               Row(
                   mainAxisSize: MainAxisSize.max,
@@ -98,11 +98,11 @@ class ProfileHeaderComponent extends StatelessWidget {
                             children: <Widget>[
                               Text("Location", style: IjudiStyles.SUBTITLE_1),
                               Container(
-                               width: 180,
-                               child: Text(profile.address,
-                                  style: IjudiStyles.HEADER_TEXT, maxLines: 2,
-                                  overflow: TextOverflow.ellipsis)
-                              )
+                                  width: 180,
+                                  child: Text(profile.address,
+                                      style: IjudiStyles.HEADER_TEXT,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis))
                             ]),
                         Padding(padding: EdgeInsets.only(top: 16)),
                         contacts

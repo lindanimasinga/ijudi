@@ -9,15 +9,18 @@ import 'package:ijudi/model/business-hours.dart';
 import 'package:ijudi/model/day.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/userProfile.dart';
+import 'package:ijudi/services/storage-manager.dart';
+import 'package:ijudi/util/message-dialogs.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/payment-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:intl/intl.dart';
 
-class DeliveryOptionsViewModel extends BaseViewModel {
+class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
   Order order;
   final UkhesheService ukhesheService;
   final ApiService apiService;
+  final StorageManager storageManager;
   bool fetchingMessangers = false;
 
   BuildingType _buildingType = BuildingType.HOUSE;
@@ -28,7 +31,8 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   DeliveryOptionsViewModel(
       {@required this.ukhesheService,
       @required this.order,
-      @required this.apiService});
+      @required this.apiService,
+      @required this.storageManager});
 
   List<UserProfile> get messangers => _messangers;
 
@@ -87,6 +91,8 @@ class DeliveryOptionsViewModel extends BaseViewModel {
 
   get isDelivery => shippingType == ShippingType.DELIVERY;
 
+  bool get isLoggedIn => storageManager.isLoggedIn;
+
   List<BusinessHours> get businessHours {
     var hours = order.shop.businessHours;
     if (hours != null) return hours;
@@ -132,7 +138,8 @@ class DeliveryOptionsViewModel extends BaseViewModel {
   void initialize() {
     //
     order.shippingData = Shipping();
-    order.shippingData.toAddress = order.customer.address;
+    order.shippingData.toAddress =
+        order.customer != null ? order.customer.address : "";
     order.shippingData.type = ShippingType.DELIVERY;
     order.shippingData.fromAddress = order.shop.name;
     order.shippingData.fee = 0;
@@ -153,7 +160,11 @@ class DeliveryOptionsViewModel extends BaseViewModel {
       return;
     }
 
-    progressMv.isBusy = true;
+    if (!isLoggedIn) {
+      showLoginMessage(context, params: order.shippingData.toAddress);
+      return;
+    }
+
     if (order.shippingData.type == ShippingType.DELIVERY) {
       var storeMessengeId = order.shop.storeMessenger?.id;
       var messenger = messangers?.firstWhere(
@@ -163,8 +174,19 @@ class DeliveryOptionsViewModel extends BaseViewModel {
       order.shippingData.messengerId = messenger.id;
     }
 
+    var userId = apiService.currentUserPhone;
+    progressMv.isBusy = true;
+    var streamCall = order.customer == null
+        ? apiService
+            .findUserByPhone(userId)
+            .asStream()
+            .map((user) => order.customer = user)
+        : Stream.value("");
+
     order.description = "order from ${order.shop.name}";
-    apiService.startOrder(order).asStream().map((resp) {
+    streamCall
+        .asyncExpand((event) => apiService.startOrder(order).asStream())
+        .map((resp) {
       var oldOrder = order;
       order = resp;
       order.customer = oldOrder.customer;

@@ -111,17 +111,17 @@ class RegisterView extends MvStatefulWidget<RegisterViewModel> {
                               hint: 'Id Number',
                               autofillHints: ["idNumber"],
                               type: TextInputType.text),*/
-                          IjudiInputField(
+                          /*IjudiInputField(
                               text: viewModel.email,
                               onChanged: (email) => viewModel.email = email,
                               hint: 'Email Address',
                               autofillHints: [AutofillHints.email],
-                              type: TextInputType.emailAddress),
-                          IjudiAddressInputField(
+                              type: TextInputType.emailAddress),*/
+                          viewModel.isFirstTimeUser ? IjudiAddressInputField(
                               text: viewModel.address,
                               onTap: (address) => viewModel.address = address,
                               hint: 'Physical Address',
-                              type: TextInputType.number)
+                              type: TextInputType.number) : Container()
                         ],
                       )),
                     ),

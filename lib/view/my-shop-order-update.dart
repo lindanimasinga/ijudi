@@ -9,6 +9,7 @@ import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/my-shop-order-update-view-model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyShopOrderUpdateView
     extends MvStatefulWidget<MyShopOrderUpdateViewModel> {
@@ -51,16 +52,30 @@ class MyShopOrderUpdateView
                         padding: EdgeInsets.only(bottom: 8, left: 16),
                         child: Text("Customer: ${viewModel?.customer?.name}",
                             style: IjudiStyles.HEADER_TEXT)),
-                            Container(
+                    Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 32, left: 16),
-                        child: Text("Phone Number: ${viewModel?.customer?.mobileNumber}",
-                            style: IjudiStyles.HEADER_TEXT)),        
+                        child: InkWell(
+                            child: RichText(
+                                text: TextSpan(children: [
+                              TextSpan(
+                                  text: "Phone Number: ",
+                                  style: IjudiStyles.HEADER_TEXT),
+                              TextSpan(
+                                  text: "${viewModel?.customer?.mobileNumber}",
+                                  style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      color: Colors.white))
+                            ])),
+                            onTap: () => launch(
+                                "tel:${viewModel?.customer?.mobileNumber}"))),
                     Container(
                         margin: EdgeInsets.only(right: 16),
                         child: OrderReviewComponent(
                             order: viewModel.order, includeFees: false)),
-                    (viewModel.orderReadyForCollection && viewModel.isDelivery) || viewModel.isInstoreOrder
+                    (viewModel.orderReadyForCollection &&
+                                viewModel.isDelivery) ||
+                            viewModel.isInstoreOrder
                         ? Container()
                         : Row(
                             crossAxisAlignment: CrossAxisAlignment.end,

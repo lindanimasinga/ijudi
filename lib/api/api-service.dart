@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:developer' as logger;
-import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -197,7 +196,7 @@ class ApiService {
     };
 
     var request = json.encode(order);
-    print(request);
+    logger.log(request);
     var event = await http
         .post('$apiUrl/order', headers: headers, body: request)
         .timeout(Duration(seconds: TIMEOUT_SEC));

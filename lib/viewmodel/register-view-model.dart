@@ -45,12 +45,17 @@ class RegisterViewModel extends BaseViewModel {
   String password;
   String passwordConfirm;
   bool _hasUkheshe = false;
+  bool isFirstTimeUser;
 
   RegisterViewModel(
       {this.ukhesheService,
       @required this.apiService,
       @required this.storage,
-      @required this.notificationService});
+      @required this.notificationService,
+      this.isFirstTimeUser = false,
+      String address}) {
+    _address = address;
+  }
 
   bool get hasUkheshe => _hasUkheshe;
   set hasUkheshe(bool hasUkheshe) {

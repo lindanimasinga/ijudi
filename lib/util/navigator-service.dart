@@ -120,7 +120,8 @@ class NavigatorService {
             ukhesheService: ukhesheService,
             apiService: apiService,
             notificationService: localNotificationService,
-            storage: storageManager);
+            storage: storageManager,
+            address: args);
         return MaterialPageRoute(
             builder: (context) => RegisterView(viewModel: viewmodel),
             fullscreenDialog: true);
@@ -160,15 +161,15 @@ class NavigatorService {
         return MaterialPageRoute(
             builder: (context) => ShopProfileView(viewModel: viewmodel));
       case StartShoppingView.ROUTE_NAME:
-        viewmodel = StartShoppingViewModel(
-            shop: args, apiService: apiService, storageManager: storageManager);
+        viewmodel = StartShoppingViewModel(shop: args, apiService: apiService);
         return MaterialPageRoute(
             builder: (context) => StartShoppingView(viewModel: viewmodel));
       case DeliveryOptionsView.ROUTE_NAME:
         viewmodel = DeliveryOptionsViewModel(
             order: args,
             ukhesheService: ukhesheService,
-            apiService: apiService);
+            apiService: apiService,
+            storageManager: storageManager);
         return MaterialPageRoute(
             builder: (context) => DeliveryOptionsView(viewModel: viewmodel));
       case PaymentView.ROUTE_NAME:

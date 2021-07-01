@@ -47,7 +47,9 @@ class _StockItemComponentState extends State<StockItemComponent>
               style: Forms.INPUT_TEXT_STYLE,
             )),
         !item.hasImages
-            ? Container()
+            ? Container(
+                height: 55,
+              )
             : Container(
                 margin: EdgeInsets.only(right: 8, left: 8),
                 child: StackedThumbnails(urls: item.images),
