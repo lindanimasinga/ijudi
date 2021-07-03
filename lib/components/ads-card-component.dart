@@ -14,31 +14,30 @@ class AdsCardComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    GestureDetector(
-      onTap: () {
-        if(advert.actionUrl != null) {
-          Utils.launchURLInCustomeTab(context, url: advert.actionUrl);
-        }
-        else if(shop != null) {
-          Navigator.pushNamed(context, StartShoppingView.ROUTE_NAME, arguments: shop);
-        }
-      },
-    child: Card(
-        color: color,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-            side: BorderSide(color: color, width: 5)),
-        child: Container(
-          width: MediaQuery.of(context).size.height * 0.35,
-          height: MediaQuery.of(context).size.height * 0.35,
-          padding: EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            image: DecorationImage(
-                        image: NetworkImage(advert.imageUrl),
-                        fit: BoxFit.cover,
-                      )),
-        )));
+    return GestureDetector(
+        onTap: () {
+          if (advert.actionUrl != null) {
+            Utils.launchURLInCustomeTab(context, url: advert.actionUrl);
+          } else if (shop != null) {
+            Navigator.pushNamed(context, StartShoppingView.ROUTE_NAME,
+                arguments: shop);
+          }
+        },
+        child: Card(
+            color: color,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+                side: BorderSide(color: color, width: 3)),
+            child: Container(
+              width: MediaQuery.of(context).size.height * 0.35,
+              height: MediaQuery.of(context).size.height * 0.35,
+              padding: EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  image: DecorationImage(
+                    image: NetworkImage(advert.imageUrl),
+                    fit: BoxFit.cover,
+                  )),
+            )));
   }
 }

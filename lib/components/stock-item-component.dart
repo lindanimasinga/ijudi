@@ -109,7 +109,7 @@ class _StockItemComponentState extends State<StockItemComponent>
                                         color: Colors.white,
                                         border: Border.all(
                                           color: IjudiColors.color3,
-                                          width: 5,
+                                          width: 2,
                                         ),
                                         image: DecorationImage(
                                           image: NetworkImage(url),
@@ -119,7 +119,7 @@ class _StockItemComponentState extends State<StockItemComponent>
                                   .toList(),
                               options: CarouselOptions(
                                 aspectRatio: 16 / 9,
-                                viewportFraction: 0.8,
+                                viewportFraction: 0.9,
                                 initialPage: 0,
                                 enableInfiniteScroll: false,
                                 autoPlay: true,

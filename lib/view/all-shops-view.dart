@@ -88,6 +88,30 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
       ));
     });
 
+    var groceries = viewModel.shops
+        ?.where((shop) =>
+            (viewModel.search.isEmpty ||
+                shop.containsStockItem(viewModel.search) ||
+                shop.name.toLowerCase().contains(viewModel.search)) &&
+            (shop.tags.contains("groceries")))
+        ?.map((shop) => ShopComponent(
+              shop: shop,
+              isLoggedIn: () => viewModel.isLoggedIn,
+            ))
+        ?.toList();
+
+    var medicine = viewModel.shops
+        ?.where((shop) =>
+            (viewModel.search.isEmpty ||
+                shop.containsStockItem(viewModel.search) ||
+                shop.name.toLowerCase().contains(viewModel.search)) &&
+            (shop.tags.contains("medicine")))
+        ?.map((shop) => ShopComponent(
+              shop: shop,
+              isLoggedIn: () => viewModel.isLoggedIn,
+            ))
+        ?.toList();
+
     if (viewModel.showNoShopsAvailable) {
       Future.delayed(Duration(seconds: 1), () {
         showMessageDialog(context,
@@ -173,13 +197,42 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 : Container(
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(left: 16, top: 32, bottom: 8),
-                    child: Text("Shops", style: IjudiStyles.HEADER_2),
+                    child: Text("Resturants", style: IjudiStyles.HEADER_2),
                   ),
-            Container(
-                height: deviceWidth >= 360 ? 202 : 172,
-                margin: EdgeInsets.only(bottom: 32),
-                child: ListView(
-                    scrollDirection: Axis.horizontal, children: shopComponets)),
+            shopComponets.isEmpty
+                ? Container()
+                : Container(
+                    height: deviceWidth >= 360 ? 202 : 172,
+                    child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: shopComponets)),
+            groceries.isEmpty
+                ? Container()
+                : Container(
+                    alignment: Alignment.topLeft,
+                    padding: EdgeInsets.only(left: 16, top: 32, bottom: 8),
+                    child: Text("Groceries", style: IjudiStyles.HEADER_2),
+                  ),
+            groceries.isEmpty
+                ? Container()
+                : Container(
+                    height: deviceWidth >= 360 ? 202 : 172,
+                    child: ListView(
+                        scrollDirection: Axis.horizontal, children: groceries)),
+            medicine.isEmpty
+                ? Container()
+                : Container(
+                    alignment: Alignment.topLeft,
+                    padding: EdgeInsets.only(left: 16, top: 32, bottom: 8),
+                    child: Text("Medicine", style: IjudiStyles.HEADER_2),
+                  ),
+            medicine.isEmpty
+                ? Container()
+                : Container(
+                    height: deviceWidth >= 360 ? 202 : 172,
+                    margin: EdgeInsets.only(bottom: 32),
+                    child: ListView(
+                        scrollDirection: Axis.horizontal, children: medicine)),
           ],
         ));
   }
