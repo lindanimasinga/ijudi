@@ -4,7 +4,6 @@ import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class ShopProfileViewModel extends BaseViewModel {
-  
   final Shop shop;
   ApiService apiService;
 
@@ -12,13 +11,12 @@ class ShopProfileViewModel extends BaseViewModel {
 
   void updateProfile() {
     progressMv.isBusy = true;
-    apiService.updateShop(shop)
-      .asStream()
-      .listen((resp) {
-        Navigator.pop(context);
-      }, onDone: () {
-        progressMv.isBusy = false;
-      });
+    apiService.updateShop(shop).asStream().listen((resp) {
+      Navigator.pop(context);
+    }, onDone: () {
+      progressMv.isBusy = false;
+      Navigator.of(context).pop();
+    });
   }
 
   String get address => shop.address;
