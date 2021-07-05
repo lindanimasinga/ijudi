@@ -1,5 +1,3 @@
-import 'dart:developer';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/ukheshe/model/withdrawal.dart';
@@ -9,7 +7,6 @@ import 'package:ijudi/config.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
-import 'package:ijudi/view/login-view.dart';
 import 'package:ijudi/view/register-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:intl/intl.dart';

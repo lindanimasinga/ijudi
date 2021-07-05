@@ -21,6 +21,7 @@ import 'package:ijudi/view/my-shop-orders.dart';
 import 'package:ijudi/view/my-shops.dart';
 import 'package:ijudi/view/order-history-view.dart';
 import 'package:ijudi/view/payment-view.dart';
+import 'package:ijudi/view/payment-webview.dart';
 import 'package:ijudi/view/personal-and-bank.dart';
 import 'package:ijudi/view/profile-view.dart';
 import 'package:ijudi/view/quick-pay.dart';
@@ -179,6 +180,12 @@ class NavigatorService {
             apiService: apiService);
         return MaterialPageRoute(
             builder: (context) => PaymentView(viewModel: viewmodel));
+      case PaymentWebView.ROUTE_NAME:
+        var url = (args as List).first;
+        var onDone = (args as List).last;
+        return MaterialPageRoute(
+            fullscreenDialog: true,
+            builder: (context) => PaymentWebView(url: url, doneAction: onDone));
       case FinalOrderView.ROUTE_NAME:
         viewmodel = FinalOrderViewModel(
             currentOrder: args,

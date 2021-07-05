@@ -18,7 +18,9 @@ class JudiTheme {
       buttonTheme: ButtonThemeData(buttonColor: Colors.white));
 
   final ThemeData dark = ThemeData.dark().copyWith(
-      accentColor: IjudiColors.color2,
+      cardColor: IjudiColors.cardDark,
+      dialogBackgroundColor: IjudiColors.cardDark,
+      scaffoldBackgroundColor: IjudiColors.backgroundDark,
       floatingActionButtonTheme:
           FloatingActionButtonThemeData(backgroundColor: IjudiColors.color1),
       buttonTheme: ButtonThemeData(buttonColor: IjudiColors.color5));
@@ -331,6 +333,8 @@ class IjudiColors {
   static const color6 = Color(0XFFA2A2A2);
   static const facebook = Color(0XFF1778f2);
   static const backgroud = Color(0XFFF8F7F7);
+  static const backgroundDark = Color(0XFF212121);
+  static const cardDark = Color(0XFF2D2D2D);
   static const clear = Color(0X00F8F7F7);
   static const whatsappColor = Color(0XFF64B161);
   static const telkomPay = Color(0XFF0083c2);

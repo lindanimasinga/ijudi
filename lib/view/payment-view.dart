@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-form.dart';
-import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/ijudi-time-input-field.dart';
 import 'package:ijudi/components/messager-preview-component.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/order-review-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
-import 'package:ijudi/components/ukheshe-payment-compoment.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
+import 'package:ijudi/view/payment-webview.dart';
 import 'package:ijudi/viewmodel/payment-view-model.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class PaymentView extends MvStatefulWidget<PaymentViewModel> {
   static const String ROUTE_NAME = "payment";
@@ -138,13 +135,15 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
   }
 
   payNowWebView(BuildContext context) {
-    showWebViewDialog(context,
-        url:
-            "${viewModel.paymentUrl}/?Status=init&type=payfast&TransactionReference=${viewModel.order.id}&callback=https://www.izinga.co.za",
-        doneAction: (String status) {
+    var doneAction = (String status) {
       if (status.toLowerCase() == "complete") {
         viewModel.processPayment();
       }
-    });
+    };
+    var args = [
+      "${viewModel.paymentUrl}/?Status=init&type=payfast&TransactionReference=${viewModel.order.id}&callback=https://www.izinga.co.za",
+      doneAction
+    ];
+    Navigator.pushNamed(context, PaymentWebView.ROUTE_NAME, arguments: args);
   }
 }

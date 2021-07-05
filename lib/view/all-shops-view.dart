@@ -76,11 +76,10 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
 
     viewModel.shops
         ?.where((shop) =>
-            (viewModel.search.isEmpty ||
-                shop.containsStockItem(viewModel.search) ||
-                shop.name.toLowerCase().contains(viewModel.search)) &&
-            (viewModel.filters.isEmpty ||
-                viewModel.filters.intersection(shop.tags).length > 0))
+            (viewModel.search.isEmpty || shop.containsStockItem(viewModel.search) || shop.name.toLowerCase().contains(viewModel.search)) &&
+            (viewModel.filters.isEmpty || viewModel.filters.intersection(shop.tags).length > 0) &&
+            shop.tags.contains("restuarant")
+        )
         ?.forEach((shop) {
       shopComponets.add(ShopComponent(
         shop: shop,
@@ -206,27 +205,27 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                     child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: shopComponets)),
-            groceries.isEmpty
+             groceries == null  || groceries.isEmpty
                 ? Container()
                 : Container(
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(left: 16, top: 32, bottom: 8),
                     child: Text("Groceries", style: IjudiStyles.HEADER_2),
                   ),
-            groceries.isEmpty
+            groceries == null || groceries.isEmpty
                 ? Container()
                 : Container(
                     height: deviceWidth >= 360 ? 202 : 172,
                     child: ListView(
                         scrollDirection: Axis.horizontal, children: groceries)),
-            medicine.isEmpty
+             medicine == null || medicine.isEmpty
                 ? Container()
                 : Container(
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(left: 16, top: 32, bottom: 8),
                     child: Text("Medicine", style: IjudiStyles.HEADER_2),
                   ),
-            medicine.isEmpty
+             medicine == null || medicine.isEmpty
                 ? Container()
                 : Container(
                     height: deviceWidth >= 360 ? 202 : 172,

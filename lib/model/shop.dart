@@ -32,6 +32,7 @@ class Shop extends Profile with GeoLocation {
   double longitude;
   StoreMessenger storeMessenger;
   bool storeOffline;
+  String availability;
 
   Shop(
       {@required String id,
@@ -44,6 +45,7 @@ class Shop extends Profile with GeoLocation {
       this.featured,
       this.featuredExpiry,
       this.storeOffline,
+      this.availability,
       @required String description,
       @required int yearsInService,
       @required String address,

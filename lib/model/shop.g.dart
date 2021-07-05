@@ -21,6 +21,7 @@ Shop _$ShopFromJson(Map<String, dynamic> json) {
     featured: json['featured'] as bool,
     featuredExpiry: Utils.dateFromJson(json['featuredExpiry'] as String),
     storeOffline: json['storeOffline'] as bool,
+    availability: json['availability'] as String,
     description: json['description'] as String,
     yearsInService: json['yearsInService'] as int,
     address: json['address'] as String,
@@ -87,6 +88,7 @@ Map<String, dynamic> _$ShopToJson(Shop instance) {
   writeNotNull('longitude', instance.longitude);
   writeNotNull('storeMessenger', instance.storeMessenger);
   writeNotNull('storeOffline', instance.storeOffline);
+  writeNotNull('availability', instance.availability);
   return val;
 }
 
