@@ -15,7 +15,7 @@ part 'shop.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class Shop extends Profile with GeoLocation {
-  final String storeType = "FOOD";
+  String storeType;
   String registrationNumber;
   @JsonKey(ignore: false, toJson: businessHoursToJson)
   List<BusinessHours> businessHours;
@@ -33,6 +33,7 @@ class Shop extends Profile with GeoLocation {
   StoreMessenger storeMessenger;
   bool storeOffline;
   String availability;
+  String shortName;
 
   Shop(
       {@required String id,
@@ -46,6 +47,8 @@ class Shop extends Profile with GeoLocation {
       this.featuredExpiry,
       this.storeOffline,
       this.availability,
+      this.shortName,
+      this.storeType,
       @required String description,
       @required int yearsInService,
       @required String address,

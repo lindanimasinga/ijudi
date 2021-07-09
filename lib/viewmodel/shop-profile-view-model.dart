@@ -11,9 +11,7 @@ class ShopProfileViewModel extends BaseViewModel {
 
   void updateProfile() {
     progressMv.isBusy = true;
-    apiService.updateShop(shop).asStream().listen((resp) {
-      Navigator.pop(context);
-    }, onDone: () {
+    apiService.updateShop(shop).asStream().listen((resp) {}, onDone: () {
       progressMv.isBusy = false;
       Navigator.of(context).pop();
     });

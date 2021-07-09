@@ -196,7 +196,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 : Container(
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(left: 16, top: 32, bottom: 8),
-                    child: Text("Resturants", style: IjudiStyles.HEADER_2),
+                    child: Text("Restuarants", style: IjudiStyles.HEADER_2),
                   ),
             shopComponets.isEmpty
                 ? Container()
