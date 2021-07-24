@@ -45,7 +45,7 @@ class MyShopOrdersView extends MvStatefulWidget<MyShopOrdersViewModel> {
 
     viewModel.orders
         .where((order) => order.stage != OrderStage.STAGE_7_ALL_PAID)
-        .where((order) => order.shippingData.type == ShippingType.COLLECTION)
+        .where((order) => order.shippingData.type == ShippingType.SCHEDULED_DELIVERY)
         .where((order) =>
             !viewModel.isCurrentOrder(order))
         .forEach((order) =>

@@ -9,16 +9,16 @@ part of 'business-hours.dart';
 BusinessHours _$BusinessHoursFromJson(Map<String, dynamic> json) {
   return BusinessHours(
     _$enumDecodeNullable(_$DayEnumMap, json['day']),
-    Utils.timeOfDayFromJson(json['open'] as String),
-    Utils.timeOfDayFromJson(json['close'] as String),
+    json['open'] == null ? null : DateTime.parse(json['open'] as String),
+    json['close'] == null ? null : DateTime.parse(json['close'] as String),
   );
 }
 
 Map<String, dynamic> _$BusinessHoursToJson(BusinessHours instance) =>
     <String, dynamic>{
       'day': _$DayEnumMap[instance.day],
-      'open': Utils.timeOfDayToJson(instance.open),
-      'close': Utils.timeOfDayToJson(instance.close),
+      'open': instance.open?.toIso8601String(),
+      'close': instance.close?.toIso8601String(),
     };
 
 T _$enumDecode<T>(

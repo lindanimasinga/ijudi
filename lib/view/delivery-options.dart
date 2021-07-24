@@ -14,6 +14,7 @@ import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/delivery-option-view-model.dart';
+import 'package:intl/intl.dart';
 
 class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
   static const String ROUTE_NAME = "delivery";
@@ -52,25 +53,25 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
                       child: Row(
                     children: <Widget>[
                       Radio(
-                        value: ShippingType.COLLECTION,
+                        value: ShippingType.SCHEDULED_DELIVERY,
                         groupValue: viewModel.order.shippingData.type,
                         onChanged: (selection) =>
                             viewModel.shippingType = selection,
                       ),
-                      Text('Collection', style: Forms.INPUT_TEXT_STYLE),
+                      Text('Deliver Later', style: Forms.INPUT_TEXT_STYLE),
                       Radio(
                         value: ShippingType.DELIVERY,
                         groupValue: viewModel.order.shippingData.type,
                         onChanged: (selection) =>
                             viewModel.shippingType = selection,
                       ),
-                      Text('Delivery', style: Forms.INPUT_TEXT_STYLE)
+                      Text('Deliver Now', style: Forms.INPUT_TEXT_STYLE)
                     ],
                   )),
                   Padding(padding: EdgeInsets.only(top: 16)),
-                  viewModel.isDelivery
+                  viewModel.isDeliveryNow
                       ? shippingDetailsWidget(messageComponents)
-                      : collectionDetailsWidget(context),
+                      : collectionDetailsWidget(context, messageComponents),
                   Container(
                     alignment: Alignment.center,
                     margin: EdgeInsets.only(left: 16, right: 16, bottom: 16),
@@ -86,9 +87,7 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
   }
 
   Widget shippingDetailsWidget(List<Widget> messageComponents) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start, 
-      children: [
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       IjudiForm(
           child: Column(
         children: <Widget>[
@@ -103,18 +102,22 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
               options: BuildingType.values,
               color: IjudiColors.color5,
               onSelected: (value) => viewModel.buildingType = value),
-          !viewModel.isBuildingInfoRequired ? Container() : IjudiInputField(
-              hint: "Unit Number",
-              enabled: true,
-              text: viewModel.unitNumner,
-              color: IjudiColors.color5,
-              onChanged: (value) => viewModel.unitNumner = value),
-          !viewModel.isBuildingInfoRequired ? Container() : IjudiInputField(
-              hint: "Building Name",
-              enabled: true,
-              text: viewModel.buildingName,
-              color: IjudiColors.color5,
-              onChanged: (value) => viewModel.buildingName = value),
+          !viewModel.isBuildingInfoRequired
+              ? Container()
+              : IjudiInputField(
+                  hint: "Unit Number",
+                  enabled: true,
+                  text: viewModel.unitNumner,
+                  color: IjudiColors.color5,
+                  onChanged: (value) => viewModel.unitNumner = value),
+          !viewModel.isBuildingInfoRequired
+              ? Container()
+              : IjudiInputField(
+                  hint: "Building Name",
+                  enabled: true,
+                  text: viewModel.buildingName,
+                  color: IjudiColors.color5,
+                  onChanged: (value) => viewModel.buildingName = value),
           IjudiAddressInputField(
               hint: "Street Address",
               enabled: true,
@@ -135,12 +138,14 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
     ]);
   }
 
-  Widget collectionDetailsWidget(BuildContext context) {
+  Widget collectionDetailsWidget(
+      BuildContext context, List<Widget> messangersWidgets) {
     List<Widget> textSpans = [];
     viewModel.businessHours.forEach((time) {
-      textSpans.add(Text("${time.open.format(context)} - ${time.close.format(context)} ${describeEnum(time.day)}",  style: IjudiStyles.CONTENT_TEXT));
+      textSpans.add(Text(
+          "${DateFormat('HH:mm').format(time.open)} - ${DateFormat('HH:mm').format(time.close)} ${describeEnum(time.day)}",
+          style: IjudiStyles.CONTENT_TEXT));
       textSpans.add(Padding(padding: EdgeInsets.only(top: 8)));
-
     });
 
     return Container(
@@ -150,26 +155,28 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
           children: [
             Container(
                 margin: EdgeInsets.only(left: 16, right: 16),
-                child: Text("Please selection the time you will be able to pickup the order at the store.",  style: IjudiStyles.CONTENT_TEXT)),
+                child: Text(
+                    "Please select the date and time we can delivery your order.",
+                    style: IjudiStyles.CONTENT_TEXT)),
             Padding(padding: EdgeInsets.only(top: 16)),
             Container(
                 margin: EdgeInsets.only(left: 16, right: 16),
-                child: Text("Collection Hours", style: IjudiStyles.HEADING)),    
+                child: Text("Delivery Hours", style: IjudiStyles.HEADING)),
             Padding(padding: EdgeInsets.only(top: 16)),
             Container(
                 margin: EdgeInsets.only(left: 16, right: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: textSpans
-            )),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: textSpans)),
             Padding(padding: EdgeInsets.only(top: 8)),
             IjudiForm(
                 child: IjudiTimeInput(
-              hint: "Pick Up Time",
+              hint: "Date",
               text: "${Utils.pickUpDay(viewModel.arrivalTime, context)}",
-              onChanged: (time) => viewModel.arrivalTime = Utils.createPickUpDay(time),
+              onChanged: (DateTime time) => viewModel.arrivalTime = time,
             )),
-            Padding(padding: EdgeInsets.only(top: 16)),
+            Padding(padding: EdgeInsets.only(top: 8)),
+            shippingDetailsWidget(messangersWidgets)
           ],
         ));
   }

@@ -16,7 +16,7 @@ Shop _$ShopFromJson(Map<String, dynamic> json) {
             (e) => e == null ? null : Stock.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     hasVat: json['hasVat'] as bool,
-    collectAllowed: json['collectAllowed'] as bool,
+    scheduledDeliveryAllowed: json['scheduledDeliveryAllowed'] as bool,
     tags: (json['tags'] as List)?.map((e) => e as String)?.toSet(),
     featured: json['featured'] as bool,
     featuredExpiry: Utils.dateFromJson(json['featuredExpiry'] as String),
@@ -83,7 +83,7 @@ Map<String, dynamic> _$ShopToJson(Shop instance) {
   writeNotNull('stockList', Shop.listToJson(instance.stockList));
   writeNotNull('tags', instance.tags?.toList());
   writeNotNull('hasVat', instance.hasVat);
-  writeNotNull('collectAllowed', instance.collectAllowed);
+  writeNotNull('scheduledDeliveryAllowed', instance.scheduledDeliveryAllowed);
   writeNotNull('ownerId', instance.ownerId);
   writeNotNull('featured', instance.featured);
   writeNotNull('featuredExpiry', Utils.dateToJson(instance.featuredExpiry));

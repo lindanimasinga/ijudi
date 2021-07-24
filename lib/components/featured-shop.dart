@@ -30,7 +30,7 @@ class FeaturedShop extends StatelessWidget with MessageDialogs {
                 arguments: shop),
             onLongPress: () {
               HapticFeedback.lightImpact();
-              shop.collectAllowed
+              shop.scheduledDeliveryAllowed
                   ? !isLoggedIn()
                       ? showLoginMessage(context)
                       : Navigator.pushNamed(context, QuickPayView.ROUTE_NAME,
@@ -113,7 +113,7 @@ class FeaturedShop extends StatelessWidget with MessageDialogs {
                 color: IjudiColors.color2,
                 onPressed: () {
                   HapticFeedback.lightImpact();
-                  shop.collectAllowed
+                  shop.scheduledDeliveryAllowed
                       ? !isLoggedIn()
                           ? showLoginMessage(context)
                           : Navigator.pushNamed(

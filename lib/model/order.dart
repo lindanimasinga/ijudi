@@ -59,7 +59,7 @@ class Order {
   }
 }
 
-enum ShippingType { COLLECTION, DELIVERY }
+enum ShippingType { SCHEDULED_DELIVERY, DELIVERY }
 
 enum BuildingType { HOUSE, OFFICE, APARTMENT }
 

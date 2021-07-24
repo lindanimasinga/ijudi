@@ -50,7 +50,7 @@ class IjudiTimeInput extends StatelessWidget {
               child: TextField(
                 controller: controller,
                 keyboardType: type,
-                onTap: () => timeIput(context).then((value) {
+                onTap: () => timeIput(context).listen((value) {
                   if (value != null) {
                     onChanged(value);
                   }
@@ -69,7 +69,8 @@ class IjudiTimeInput extends StatelessWidget {
     ]);
   }
 
-  Future<TimeOfDay> timeIput(BuildContext context) {
+  Stream<DateTime> timeIput(BuildContext context) {
+    TimeOfDay timeOfDay = TimeOfDay.now();
     return showTimePicker(
       context: context,
       initialTime: TimeOfDay(hour: 12, minute: 00),
@@ -79,6 +80,15 @@ class IjudiTimeInput extends StatelessWidget {
           child: child,
         );
       },
-    );
+    ).asStream()
+    .map((time) => timeOfDay = time)
+    .asyncMap((time) => showDatePicker(
+        context: context,
+        initialDate: DateTime.now()
+            .add(Duration(days: 7, hours: time.hour, minutes: time.minute)),
+        initialDatePickerMode: DatePickerMode.day,
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now().add(Duration(days: 30))))
+    .map((dateTime) => DateTime(dateTime.year,dateTime.month, dateTime.day, timeOfDay.hour, timeOfDay.minute));
   }
 }

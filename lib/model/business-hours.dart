@@ -11,10 +11,8 @@ part 'business-hours.g.dart';
 class BusinessHours {
 
   final Day day;
-  @JsonKey(ignore: false,fromJson: Utils.timeOfDayFromJson, toJson: Utils.timeOfDayToJson)
-  final TimeOfDay open;
-  @JsonKey(ignore: false, fromJson: Utils.timeOfDayFromJson, toJson: Utils.timeOfDayToJson)
-  final TimeOfDay close;
+  final DateTime open;
+  final DateTime close;
 
   BusinessHours(this.day, this.open, this.close);
 

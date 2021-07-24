@@ -23,7 +23,7 @@ class Shop extends Profile with GeoLocation {
   List<Stock> stockList;
   Set<String> tags;
   bool hasVat;
-  bool collectAllowed;
+  bool scheduledDeliveryAllowed;
   String ownerId;
   bool featured;
   @JsonKey(fromJson: Utils.dateFromJson, toJson: Utils.dateToJson)
@@ -41,7 +41,7 @@ class Shop extends Profile with GeoLocation {
       this.registrationNumber,
       this.stockList,
       this.hasVat = false,
-      this.collectAllowed = false,
+      this.scheduledDeliveryAllowed = false,
       this.tags,
       this.featured,
       this.featuredExpiry,

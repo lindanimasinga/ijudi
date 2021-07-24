@@ -158,6 +158,6 @@ const _$BuildingTypeEnumMap = {
 };
 
 const _$ShippingTypeEnumMap = {
-  ShippingType.COLLECTION: 'COLLECTION',
+  ShippingType.SCHEDULED_DELIVERY: 'SCHEDULED_DELIVERY',
   ShippingType.DELIVERY: 'DELIVERY',
 };

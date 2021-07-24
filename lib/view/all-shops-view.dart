@@ -78,7 +78,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
         ?.where((shop) =>
             (viewModel.search.isEmpty || shop.containsStockItem(viewModel.search) || shop.name.toLowerCase().contains(viewModel.search)) &&
             (viewModel.filters.isEmpty || viewModel.filters.intersection(shop.tags).length > 0) &&
-            shop.tags.contains("restuarant")
+            shop.tags.contains("restaurant")
         )
         ?.forEach((shop) {
       shopComponets.add(ShopComponent(
@@ -138,7 +138,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                   children: [
                     viewModel.search.isNotEmpty ||
                             adsComponets.length == 0 ||
-                            shopComponets.isEmpty
+                            adsComponets.isEmpty
                         ? Container()
                         : Text("Promotions", style: IjudiStyles.HEADER_2),
                     BreadCrumb(
@@ -153,7 +153,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 )),
             viewModel.search.isNotEmpty ||
                     adsComponets.length == 0 ||
-                    shopComponets.isEmpty
+                    adsComponets.isEmpty
                 ? Container()
                 : Container(
                     child: CarouselSlider(
@@ -196,7 +196,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 : Container(
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(left: 16, top: 32, bottom: 8),
-                    child: Text("Restuarants", style: IjudiStyles.HEADER_2),
+                    child: Text("Restaurants", style: IjudiStyles.HEADER_2),
                   ),
             shopComponets.isEmpty
                 ? Container()
@@ -223,8 +223,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 : Container(
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(left: 16, top: 32, bottom: 8),
-                    child: Text("Medicine", style: IjudiStyles.HEADER_2),
-                  ),
+                    child: Text("Medicine", style: IjudiStyles.HEADER_2)),
              medicine == null || medicine.isEmpty
                 ? Container()
                 : Container(

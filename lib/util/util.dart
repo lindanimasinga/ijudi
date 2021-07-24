@@ -9,7 +9,6 @@ import 'package:ijudi/util/theme-utils.dart';
 import 'package:intl/intl.dart';
 
 class Utils {
-
   static const orderStatusColors = {
     OrderStage.STAGE_0_CUSTOMER_NOT_PAID: IjudiColors.color2,
     OrderStage.STAGE_1_WAITING_STORE_CONFIRM: IjudiColors.color2,
@@ -241,4 +240,10 @@ class Utils {
   }
 
   static int hoursMinuteAsInt(TimeOfDay open) {}
+
+  static bool isSameDay(DateTime time1, DateTime time2) {
+    return time1.year == time2.year &&
+        time1.month == time2.month &&
+        time1.day == time2.day;
+  }
 }

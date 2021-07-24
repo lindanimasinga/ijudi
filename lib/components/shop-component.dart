@@ -21,7 +21,7 @@ class ShopComponent extends StatelessWidget with MessageDialogs {
     return GestureDetector(
       onTap: () {
         if ((shop.stockList == null || shop.stockList.isEmpty) &&
-            shop.collectAllowed) {
+            shop.scheduledDeliveryAllowed) {
           !isLoggedIn()
               ? showLoginMessage(context)
               : Navigator.pushNamed(context, QuickPayView.ROUTE_NAME,
@@ -33,7 +33,7 @@ class ShopComponent extends StatelessWidget with MessageDialogs {
       },
       onLongPress: () {
         HapticFeedback.lightImpact();
-        shop.collectAllowed
+        shop.scheduledDeliveryAllowed
             ? !isLoggedIn()
                 ? showLoginMessage(context)
                 : Navigator.pushNamed(context, QuickPayView.ROUTE_NAME,

@@ -5,7 +5,6 @@ import 'package:ijudi/util/util.dart';
 import 'package:intl/intl.dart';
 
 class OrderHistoryItemComponent extends StatelessWidget {
-
   final Order order;
   final Function onTap;
 
@@ -41,9 +40,9 @@ class OrderHistoryItemComponent extends StatelessWidget {
                                         "Ordered On: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.date)}",
                                         style: IjudiStyles.CARD_SHOP_DISCR)
                                     : order.shippingData?.type ==
-                                            ShippingType.COLLECTION
+                                            ShippingType.SCHEDULED_DELIVERY
                                         ? Text(
-                                            "Collection At: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.shippingData.pickUpTime)}",
+                                            "Delivery On: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.shippingData.pickUpTime)}",
                                             style: IjudiStyles.CARD_SHOP_DISCR)
                                         : Text(
                                             "In store: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.date)}",

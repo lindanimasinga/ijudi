@@ -37,7 +37,7 @@ class MyShopOrdersViewModel extends BaseViewModel with OrderStatusChecker {
     var pickUpDateTime = order.shippingData.pickUpTime;
     var anHourAgo = DateTime.now().subtract(Duration(hours: 1));
     return pickUpDateTime.isAtSameMomentAs(anHourAgo) ||
-        pickUpDateTime.isAfter(anHourAgo);
+        (pickUpDateTime.isAfter(anHourAgo) && Utils.isSameDay(pickUpDateTime, anHourAgo));
   }
 
   @override

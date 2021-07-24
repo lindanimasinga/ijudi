@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:ijudi/api/api-service.dart';
@@ -62,7 +63,7 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
   get allowedOrder =>
       fetchingMessangers ||
       messangers.length > 0 ||
-      order.shippingData.type == ShippingType.COLLECTION;
+      order.shippingData.type == ShippingType.SCHEDULED_DELIVERY;
 
   set messangers(List<UserProfile> messangers) {
     _messangers = messangers;
@@ -89,7 +90,9 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
     findMessengers();
   }
 
-  get isDelivery => shippingType == ShippingType.DELIVERY;
+  get isDeliveryNow {
+    return shippingType == ShippingType.DELIVERY;
+  }
 
   bool get isLoggedIn => storageManager.isLoggedIn;
 
@@ -98,38 +101,46 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
     if (hours != null) return hours;
 
     hours = [
-      BusinessHours(Day.MONDAY, TimeOfDay(hour: 8, minute: 0),
-          TimeOfDay(hour: 17, minute: 0)),
-      BusinessHours(Day.TUESDAY, TimeOfDay(hour: 8, minute: 0),
-          TimeOfDay(hour: 17, minute: 0)),
-      BusinessHours(Day.WEDNESDAY, TimeOfDay(hour: 8, minute: 0),
-          TimeOfDay(hour: 17, minute: 0)),
-      BusinessHours(Day.THURSDAY, TimeOfDay(hour: 8, minute: 0),
-          TimeOfDay(hour: 17, minute: 0)),
-      BusinessHours(Day.FRIDAY, TimeOfDay(hour: 8, minute: 0),
-          TimeOfDay(hour: 17, minute: 0)),
+      BusinessHours(
+          Day.MONDAY, DateTime(2021, 1, 1, 8, 0), DateTime(2021, 1, 1, 17, 0)),
+      BusinessHours(
+          Day.TUESDAY, DateTime(2021, 1, 1, 8, 0), DateTime(2021, 1, 1, 17, 0)),
+      BusinessHours(Day.WEDNESDAY, DateTime(2021, 1, 1, 8, 0),
+          DateTime(2021, 1, 1, 17, 0)),
+      BusinessHours(Day.THURSDAY, DateTime(2021, 1, 1, 8, 0),
+          DateTime(2021, 1, 1, 17, 0)),
+      BusinessHours(
+          Day.FRIDAY, DateTime(2021, 1, 1, 8, 0), DateTime(2021, 1, 1, 17, 0)),
     ];
     return hours;
   }
 
   DateTime get arrivalTime => order.shippingData.pickUpTime;
 
-  bool get isValidCollectionTime {
+  bool get isValidDeliveryTime {
     var pickUpDateTime = order.shippingData.pickUpTime;
-    int openTime = int.parse(
-        "${DateFormat('HHmm').format(Utils.timeOfDayAsDateTime(businessHours[0].open))}");
+    var businessDay = businessHours.firstWhere((day) =>
+        DateFormat('EEEE').format(pickUpDateTime).toUpperCase() ==
+        describeEnum(day.day), orElse: () => null,);
+
+    if(businessDay == null) {
+      return false;
+    }    
+
+    int openTime = int.parse("${DateFormat('HHmm').format(businessDay.open)}");
     int pickUpTime = int.parse("${DateFormat('HHmm').format(pickUpDateTime)}");
-    int closeTime = int.parse(
-        "${DateFormat('HHmm').format(Utils.timeOfDayAsDateTime(businessHours[0].close))}");
+    int closeTime =
+        int.parse("${DateFormat('HHmm').format(businessDay.close)}");
+    log("open $openTime, delivery $pickUpTime, close $closeTime");
     return openTime <= pickUpTime && closeTime >= pickUpTime;
   }
 
   set arrivalTime(DateTime arrivalTime) {
     order.shippingData.pickUpTime = arrivalTime;
-    if (!isValidCollectionTime) {
+    if (!isValidDeliveryTime) {
       showError(
           error:
-              "Your pick up time should be within the collection times indicated.");
+              "Your delivery should be within the delivery times indicated.");
     }
     notifyChanged();
   }
@@ -140,10 +151,12 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
     order.shippingData = Shipping();
     order.shippingData.toAddress =
         order.customer != null ? order.customer.address : "";
-    order.shippingData.type = ShippingType.DELIVERY;
     order.shippingData.buildingType = BuildingType.HOUSE;
     order.shippingData.fromAddress = order.shop.name;
     order.shippingData.fee = 0;
+    order.shippingData.type = order.shop.scheduledDeliveryAllowed
+        ? ShippingType.SCHEDULED_DELIVERY
+        : ShippingType.DELIVERY;
     findMessengers();
   }
 
@@ -153,11 +166,11 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
       return;
     }
 
-    if (order.shippingData.type == ShippingType.COLLECTION &&
-        !isValidCollectionTime) {
+    if (order.shippingData.type == ShippingType.SCHEDULED_DELIVERY &&
+        !isValidDeliveryTime) {
       showError(
           error:
-              "Your pick up time should be within the collection times indicated.");
+              "Your delivery should be within the delivery times indicated.");
       return;
     }
 
