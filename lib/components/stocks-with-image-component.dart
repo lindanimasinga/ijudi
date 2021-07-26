@@ -6,8 +6,9 @@ import 'package:ijudi/util/theme-utils.dart';
 class StocksWithImageComponent extends StatelessWidget {
   final Function addAction;
   final List<Stock> stocks;
+  final String label;
 
-  StocksWithImageComponent({@required this.stocks, @required this.addAction});
+  StocksWithImageComponent({@required this.label, @required this.stocks, @required this.addAction});
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +31,15 @@ class StocksWithImageComponent extends StatelessWidget {
       stockWidget.add(StockItemComponent(item: item, addAction: addAction));
     });
 
-    return Card(
-        child: Column(
-          children: stockWidget,
-        ));
+    return Column(children: [
+      Container(
+          alignment: Alignment.topLeft,
+          padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
+          child: Text(label , style: IjudiStyles.SUBTITLE_2)),
+      Card(
+          child: Column(
+        children: stockWidget,
+      ))
+    ]);
   }
 }

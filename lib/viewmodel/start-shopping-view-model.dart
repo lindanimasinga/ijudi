@@ -52,6 +52,20 @@ class StartShoppingViewModel extends BaseViewModel with MessageDialogs {
     notifyChanged();
   }
 
+  Map<String, List<Stock>> get stockGroup {
+    var map = new Map<String, List<Stock>>();
+    matchedStocks.forEach((item) {
+      item.group = item.group == null ? "Items" : item.group;
+      var stockList = map[item.group];
+      if (map[item.group] == null) {
+        stockList = new List<Stock>();
+        map[item.group] = stockList;
+      }
+      stockList.add(item);
+    });
+    return map;
+  }
+
   List<Stock> get matchedStocks => _stocks
       .where((element) =>
           element.name.toLowerCase().contains(search.toLowerCase()))
@@ -90,8 +104,7 @@ class StartShoppingViewModel extends BaseViewModel with MessageDialogs {
       return;
     }
     Navigator.pushNamed(context, DeliveryOptionsView.ROUTE_NAME,
-          arguments: order);
-    
+        arguments: order);
   }
 
   List<Stock> get stocks => _stocks;

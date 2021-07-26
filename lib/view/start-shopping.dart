@@ -44,7 +44,7 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text("Basket", style: IjudiStyles.SUBTITLE_2),
+                            Text("BASKET", style: IjudiStyles.SUBTITLE_2),
                             FloatingActionButtonWithProgress(
                                 viewModel: viewModel.progressMv,
                                 onPressed: () =>
@@ -59,18 +59,19 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                             basket: viewModel.order.basket,
                             removeAction: (basketItem) =>
                                 viewModel.remove(basketItem))),
-                    Container(
-                        alignment: Alignment.topLeft,
-                        padding:
-                            EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                        child: Text("Available Items",
-                            style: IjudiStyles.SUBTITLE_2)),
-                    Padding(
-                        padding:
-                            EdgeInsets.only(left: 0, right: 16, bottom: 16),
-                        child: StocksWithImageComponent(
-                            stocks: viewModel.matchedStocks,
-                            addAction: (stock) => viewModel.add(stock.take(1))))
+                    Column(
+                      children: viewModel.stockGroup.entries
+                          .map((entry) => Padding(
+                              padding: EdgeInsets.only(
+                                  left: 0, right: 16, bottom: 16),
+                              child: StocksWithImageComponent(
+                                  label: entry.key.toUpperCase(),
+                                  stocks: entry.value,
+                                  addAction: (stock) =>
+                                      viewModel.add(stock.take(1)))))
+                          .toList(),
+                    ),
+                    Container()
                   ],
                 ))
           ],

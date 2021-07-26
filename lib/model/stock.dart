@@ -12,6 +12,8 @@ class Stock {
   String description;
   int quantity;
   double _price;
+  String group;
+  List<String> tags;
 
   double discountPerc;
   List<String> images;
@@ -22,7 +24,10 @@ class Stock {
       {this.name,
       this.quantity = 0,
       double price = 0,
-      this.discountPerc = 0.0}) {
+      this.discountPerc = 0.0,
+      this.group,
+      this.tags
+      }) {
     this.name = name;
     this.quantity = quantity;
     this.price = price;
