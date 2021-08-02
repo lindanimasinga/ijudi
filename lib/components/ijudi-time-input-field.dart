@@ -70,25 +70,28 @@ class IjudiTimeInput extends StatelessWidget {
   }
 
   Stream<DateTime> timeIput(BuildContext context) {
-    TimeOfDay timeOfDay = TimeOfDay.now();
-    return showTimePicker(
-      context: context,
-      initialTime: TimeOfDay(hour: 12, minute: 00),
-      builder: (BuildContext context, Widget child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
-          child: child,
-        );
-      },
-    ).asStream()
-    .map((time) => timeOfDay = time)
-    .asyncMap((time) => showDatePicker(
-        context: context,
-        initialDate: DateTime.now()
-            .add(Duration(days: 2, hours: time.hour, minutes: time.minute)),
-        initialDatePickerMode: DatePickerMode.day,
-        firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(Duration(days: 30))))
-    .map((dateTime) => DateTime(dateTime.year,dateTime.month, dateTime.day, timeOfDay.hour, timeOfDay.minute));
+    DateTime dateTime = DateTime.now();
+
+    return showDatePicker(
+            context: context,
+            initialDate:
+                DateTime.now().add(Duration(days: 2, hours: 0, minutes: 0)),
+            initialDatePickerMode: DatePickerMode.day,
+            firstDate: DateTime.now(),
+            lastDate: DateTime.now().add(Duration(days: 30)))
+        .asStream()
+        .map((date) => dateTime = date)
+        .asyncMap((dateTime) => showTimePicker(
+            context: context,
+            initialTime: TimeOfDay(hour: 12, minute: 00),
+            builder: (BuildContext context, Widget child) {
+              return MediaQuery(
+                data: MediaQuery.of(context)
+                    .copyWith(alwaysUse24HourFormat: false),
+                child: child,
+              );
+            }))
+        .map((timeofDay) => DateTime(dateTime.year, dateTime.month,
+            dateTime.day, timeofDay.hour, timeofDay.minute));
   }
 }
