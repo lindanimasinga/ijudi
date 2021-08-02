@@ -24,8 +24,10 @@ class Shop extends Profile with GeoLocation {
   Set<String> tags;
   bool hasVat;
   bool scheduledDeliveryAllowed;
+  bool deliverNowAllowed;
   String ownerId;
   bool featured;
+  bool markUpPrice;
   @JsonKey(fromJson: Utils.dateFromJson, toJson: Utils.dateToJson)
   DateTime featuredExpiry;
   double latitude;
@@ -42,11 +44,13 @@ class Shop extends Profile with GeoLocation {
       this.stockList,
       this.hasVat = false,
       this.scheduledDeliveryAllowed = false,
+      this.deliverNowAllowed = true,
       this.tags,
       this.featured,
       this.featuredExpiry,
       this.storeOffline,
       this.availability,
+      this.markUpPrice = true,
       this.shortName,
       this.storeType,
       @required String description,

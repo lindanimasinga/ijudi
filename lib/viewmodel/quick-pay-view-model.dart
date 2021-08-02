@@ -113,7 +113,7 @@ class QuickPayViewModel extends BaseViewModel with TopTupStatusChecker {
     order.description = "Payment from ${order.customer.mobileNumber}";
     order.basket.clear();
     var basketItem =
-        BasketItem(name: itemName, quantity: quantity, price: payAmount);
+        BasketItem(name: itemName, quantity: quantity, price: payAmount, storePrice: payAmount);
     order.basket.addItem(basketItem);
     var subscr = apiService.startOrder(order).asStream().map((newOrder) {
       var oldOrder = order;

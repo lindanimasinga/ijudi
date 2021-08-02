@@ -17,11 +17,13 @@ Shop _$ShopFromJson(Map<String, dynamic> json) {
         ?.toList(),
     hasVat: json['hasVat'] as bool,
     scheduledDeliveryAllowed: json['scheduledDeliveryAllowed'] as bool,
+    deliverNowAllowed: json['deliverNowAllowed'] as bool,
     tags: (json['tags'] as List)?.map((e) => e as String)?.toSet(),
     featured: json['featured'] as bool,
     featuredExpiry: Utils.dateFromJson(json['featuredExpiry'] as String),
     storeOffline: json['storeOffline'] as bool,
     availability: json['availability'] as String,
+    markUpPrice: json['markUpPrice'] as bool,
     shortName: json['shortName'] as String,
     storeType: json['storeType'] as String,
     description: json['description'] as String,
@@ -84,8 +86,10 @@ Map<String, dynamic> _$ShopToJson(Shop instance) {
   writeNotNull('tags', instance.tags?.toList());
   writeNotNull('hasVat', instance.hasVat);
   writeNotNull('scheduledDeliveryAllowed', instance.scheduledDeliveryAllowed);
+  writeNotNull('deliverNowAllowed', instance.deliverNowAllowed);
   writeNotNull('ownerId', instance.ownerId);
   writeNotNull('featured', instance.featured);
+  writeNotNull('markUpPrice', instance.markUpPrice);
   writeNotNull('featuredExpiry', Utils.dateToJson(instance.featuredExpiry));
   writeNotNull('latitude', instance.latitude);
   writeNotNull('longitude', instance.longitude);

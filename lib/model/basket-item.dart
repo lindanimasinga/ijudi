@@ -9,11 +9,12 @@ class BasketItem {
   String name;
   int quantity;
   double price;
+  double storePrice;
 
   double discountPerc;
   List<SelectionOption> options;
 
-  BasketItem({this.name, this.quantity, this.price, this.discountPerc});
+  BasketItem({this.name, this.quantity, this.price, this.storePrice, this.discountPerc});
 
   @override
   int get hashCode => name.hashCode;

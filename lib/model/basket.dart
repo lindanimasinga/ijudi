@@ -43,6 +43,14 @@ class Basket {
     return totalAmount;
   }
 
+  double getBasketStorePriceTotalAmount() {
+    double totalAmount = 0;
+    items.forEach((element) {
+      totalAmount += element.storePrice * element.quantity;
+    });
+    return totalAmount;
+  }
+
   int getBasketTotalItems() {
     int totalAmount = 0;
     items.forEach((element) {

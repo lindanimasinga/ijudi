@@ -12,6 +12,7 @@ class Stock {
   String description;
   int quantity;
   double _price;
+  double storePrice;
   String group;
   List<String> tags;
 
@@ -24,10 +25,10 @@ class Stock {
       {this.name,
       this.quantity = 0,
       double price = 0,
+      this.storePrice,
       this.discountPerc = 0.0,
       this.group,
-      this.tags
-      }) {
+      this.tags}) {
     this.name = name;
     this.quantity = quantity;
     this.price = price;
@@ -66,6 +67,7 @@ class Stock {
         name: name,
         quantity: quantity,
         price: price,
+        storePrice: storePrice,
         discountPerc: discountPerc)
       ..options = mandatorySelection == null
           ? []

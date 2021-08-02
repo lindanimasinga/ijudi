@@ -72,7 +72,7 @@ class MyShopOrderUpdateView
                     Container(
                         margin: EdgeInsets.only(right: 16),
                         child: OrderReviewComponent(
-                            order: viewModel.order, includeFees: false)),
+                            order: viewModel.order, includeFees: false, isCustomerView: false,)),
                     (viewModel.orderReadyForCollection &&
                                 viewModel.isDelivery) ||
                             viewModel.isInstoreOrder

@@ -6,8 +6,10 @@ import 'package:ijudi/util/util.dart';
 class OrderReviewComponent extends StatelessWidget {
   final Order order;
   final includeFees;
+  final isCustomerView;
 
-  const OrderReviewComponent({this.order, this.includeFees = true});
+  const OrderReviewComponent(
+      {this.order, this.includeFees = true, this.isCustomerView = true});
 
   @override
   Widget build(BuildContext context) {
@@ -38,17 +40,23 @@ class OrderReviewComponent extends StatelessWidget {
                         children: item.options == null
                             ? []
                             : item.options
-                                .map((choice) =>
-                                    choice?.selected != "None" ?
-                                    Text("${choice.name}:  ${choice.selected}", style: IjudiStyles.ITEM_INCLUDED,) :
-                                    Text("${choice.name}:  ${choice.selected}", style: IjudiStyles.ITEM_EXCLUDED))
+                                .map((choice) => choice?.selected != "None"
+                                    ? Text(
+                                        "${choice.name}:  ${choice.selected}",
+                                        style: IjudiStyles.ITEM_INCLUDED,
+                                      )
+                                    : Text(
+                                        "${choice.name}:  ${choice.selected}",
+                                        style: IjudiStyles.ITEM_EXCLUDED))
                                 .toList(),
                       )
                     ])),
             Container(
                 width: 70,
                 child: Text(
-                  "R${Utils.formatToCurrency(item.price * item.quantity)}",
+                  this.isCustomerView || item.storePrice == null
+                      ? "R${Utils.formatToCurrency(item.price * item.quantity)}"
+                      : "R${Utils.formatToCurrency(item.storePrice * item.quantity)}",
                   style: Forms.INPUT_TEXT_STYLE,
                 ))
           ],
@@ -98,7 +106,7 @@ class OrderReviewComponent extends StatelessWidget {
                 margin: EdgeInsets.only(left: 0),
                 width: 145,
                 child: Text(
-                  "Delivery Fee",
+                  "Delivery Fee (${order.shippingData.distance}km)",
                   style: Forms.INPUT_TEXT_STYLE,
                 )),
             Container(
@@ -133,7 +141,10 @@ class OrderReviewComponent extends StatelessWidget {
               child: Text(
                 includeFees
                     ? "R${Utils.formatToCurrency(order.totalAmount)}"
-                    : "R${Utils.formatToCurrency(order.basket.getBasketTotalAmount())}",
+                    : isCustomerView ||
+                            order.basket.items.first.storePrice == null
+                        ? "R${Utils.formatToCurrency(order.basket.getBasketTotalAmount())}"
+                        : "R${Utils.formatToCurrency(order.basket.getBasketStorePriceTotalAmount())}",
                 style: IjudiStyles.HEADER_TEXT,
               )),
         ],

@@ -77,6 +77,7 @@ class Shipping {
   String additionalInstructions;
   ShippingType type;
   double fee = 0;
+  double distance = 0;
   UserProfile messenger;
   DateTime pickUpTime = DateTime.now();
 

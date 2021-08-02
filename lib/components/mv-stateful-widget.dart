@@ -4,8 +4,8 @@ import 'package:ijudi/util/message-dialogs.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
-abstract class MvStatefulWidget<T extends BaseViewModel>
-    extends StatefulWidget with MessageDialogs {
+abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget
+    with MessageDialogs {
   final T viewModel;
 
   MvStatefulWidget(T viewModel) : this.viewModel = viewModel {
@@ -32,7 +32,7 @@ abstract class MvStatefulWidget<T extends BaseViewModel>
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
           ),
-          title: Text("Error"),
+          title: Text("Message"),
           content: Text(errorMessage),
           actions: <Widget>[
             FlatButton(
@@ -49,31 +49,27 @@ abstract class MvStatefulWidget<T extends BaseViewModel>
   }
 
   void showLogin(BuildContext context) {
-    showMessageDialog(
-      context,
-      title: "Login",
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-         Padding(padding: EdgeInsets.only(top: 16)), 
-        IjudiLoginField(
-          hint: "Cell Number",
-          autofillHints: [AutofillHints.username],
-          type: TextInputType.number,
-          color: IjudiColors.color5,
-          icon: Icon(Icons.phone_android, size: 22, color: Colors.white),
-          onTap: (value) => viewModel.username = value,
-        ),
-        IjudiLoginField(
-          hint: "Password",
-          autofillHints: [AutofillHints.password],
-          color: IjudiColors.color5,
-          icon: Icon(Icons.lock, size: 22, color: Colors.white),
-          onTap: (value) => viewModel.password = value,
-        ),
-      ]),
-      actionName: "Login",
-      action: () => viewModel.login()
-    );
+    showMessageDialog(context,
+        title: "Login",
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Padding(padding: EdgeInsets.only(top: 16)),
+          IjudiLoginField(
+            hint: "Cell Number",
+            autofillHints: [AutofillHints.username],
+            type: TextInputType.number,
+            color: IjudiColors.color5,
+            icon: Icon(Icons.phone_android, size: 22, color: Colors.white),
+            onTap: (value) => viewModel.username = value,
+          ),
+          IjudiLoginField(
+            hint: "Password",
+            autofillHints: [AutofillHints.password],
+            color: IjudiColors.color5,
+            icon: Icon(Icons.lock, size: 22, color: Colors.white),
+            onTap: (value) => viewModel.password = value,
+          ),
+        ]),
+        actionName: "Login",
+        action: () => viewModel.login());
   }
 }

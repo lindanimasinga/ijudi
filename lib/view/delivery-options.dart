@@ -61,9 +61,11 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
                       Text('Deliver Later', style: Forms.INPUT_TEXT_STYLE),
                       Radio(
                         value: ShippingType.DELIVERY,
+                        toggleable: viewModel.order.shop.deliverNowAllowed,
                         groupValue: viewModel.order.shippingData.type,
-                        onChanged: (selection) =>
-                            viewModel.shippingType = selection,
+                        onChanged: viewModel.order.shop.deliverNowAllowed
+                            ? (selection) => viewModel.shippingType = selection
+                            : (selection) => {},
                       ),
                       Text('Deliver Now', style: Forms.INPUT_TEXT_STYLE)
                     ],

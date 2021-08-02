@@ -11,6 +11,7 @@ Stock _$StockFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     quantity: json['quantity'] as int,
     price: (json['price'] as num)?.toDouble(),
+    storePrice: (json['storePrice'] as num)?.toDouble(),
     discountPerc: (json['discountPerc'] as num)?.toDouble(),
     group: json['group'] as String,
     tags: (json['tags'] as List)?.map((e) => e as String)?.toList(),
@@ -43,6 +44,7 @@ Map<String, dynamic> _$StockToJson(Stock instance) {
   writeNotNull('name', instance.name);
   writeNotNull('description', instance.description);
   writeNotNull('quantity', instance.quantity);
+  writeNotNull('storePrice', instance.storePrice);
   writeNotNull('group', instance.group);
   writeNotNull('tags', instance.tags);
   writeNotNull('discountPerc', instance.discountPerc);

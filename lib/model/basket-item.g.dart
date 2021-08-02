@@ -11,6 +11,7 @@ BasketItem _$BasketItemFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     quantity: json['quantity'] as int,
     price: (json['price'] as num)?.toDouble(),
+    storePrice: (json['storePrice'] as num)?.toDouble(),
     discountPerc: (json['discountPerc'] as num)?.toDouble(),
   )..options = (json['options'] as List)
       ?.map((e) => e == null
@@ -31,6 +32,7 @@ Map<String, dynamic> _$BasketItemToJson(BasketItem instance) {
   writeNotNull('name', instance.name);
   writeNotNull('quantity', instance.quantity);
   writeNotNull('price', instance.price);
+  writeNotNull('storePrice', instance.storePrice);
   writeNotNull('discountPerc', instance.discountPerc);
   writeNotNull('options', instance.options);
   return val;

@@ -48,7 +48,7 @@ class StocksComponent extends StatelessWidget {
                           style: Forms.INPUT_TEXT_STYLE,)
             ),
             Container(
-              child: Text("R${Utils.formatToCurrency(item.price)}", style: Forms.INPUT_TEXT_STYLE,)
+              child: Text("R${Utils.formatToCurrency(item.storePrice)}", style: Forms.INPUT_TEXT_STYLE,)
             ),
             Container(
               child: FlatButton(

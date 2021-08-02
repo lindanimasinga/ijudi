@@ -38,7 +38,7 @@ class StockAddNewViewModel extends BaseViewModel {
     progressMv.isBusy = true;
     var stock = Stock(
       name: newItemName,
-      price: newItemPrice,
+      storePrice: newItemPrice,
       quantity: newItemQuantity,
     )
       ..id = inputData.stock?.id

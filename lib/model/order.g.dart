@@ -119,6 +119,7 @@ Shipping _$ShippingFromJson(Map<String, dynamic> json) {
     ..additionalInstructions = json['additionalInstructions'] as String
     ..type = _$enumDecodeNullable(_$ShippingTypeEnumMap, json['type'])
     ..fee = (json['fee'] as num)?.toDouble()
+    ..distance = (json['distance'] as num)?.toDouble()
     ..messenger = json['messenger'] == null
         ? null
         : UserProfile.fromJson(json['messenger'] as Map<String, dynamic>)
@@ -145,6 +146,7 @@ Map<String, dynamic> _$ShippingToJson(Shipping instance) {
   writeNotNull('additionalInstructions', instance.additionalInstructions);
   writeNotNull('type', _$ShippingTypeEnumMap[instance.type]);
   writeNotNull('fee', instance.fee);
+  writeNotNull('distance', instance.distance);
   writeNotNull('messenger', instance.messenger);
   writeNotNull('pickUpTime', instance.pickUpTime?.toIso8601String());
   writeNotNull('messengerId', instance.messengerId);

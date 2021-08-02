@@ -120,7 +120,7 @@ class MessengerOrderUpdateView
                                 "https:${viewModel?.customer?.mobileNumber}"))),
                     Container(
                         margin: EdgeInsets.only(right: 16),
-                        child: OrderReviewComponent(order: viewModel.order)),
+                        child: OrderReviewComponent(order: viewModel.order, isCustomerView: false)),
                     Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
                       Container(
                           alignment: Alignment.topLeft,

@@ -85,7 +85,7 @@ class IjudiTimeInput extends StatelessWidget {
     .asyncMap((time) => showDatePicker(
         context: context,
         initialDate: DateTime.now()
-            .add(Duration(days: 7, hours: time.hour, minutes: time.minute)),
+            .add(Duration(days: 2, hours: time.hour, minutes: time.minute)),
         initialDatePickerMode: DatePickerMode.day,
         firstDate: DateTime.now(),
         lastDate: DateTime.now().add(Duration(days: 30))))
