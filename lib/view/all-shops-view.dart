@@ -143,7 +143,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                         : Text("Promotions", style: IjudiStyles.HEADER_2),
                     BreadCrumb(
                         color: IjudiColors.color4,
-                        name: viewModel.supportedLocation.name + " + 10km",
+                        name: viewModel.supportedLocation.name + " + 15km",
                         lowerCase: false,
                         onPressed: (name) {
                           Navigator.pushNamed(

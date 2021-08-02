@@ -47,7 +47,7 @@ class ProdConfig extends Config {
   final String depositingNedBankAccountNumber = "1196782040";
   final String ukhesheBaseURL = "https://api.ukheshe.co.za";
   final String iZingaApiUrl = "https://api.izinga.co.za";
-  final rangeMap = {'10km': 0.066666};
+  final rangeMap = {'15km': 0.09999};
   final double centreLatitude = -29.991591;
   final double centrelongitude = 30.885905;
   final String supportPageUrl =
@@ -74,7 +74,7 @@ class UATConfig extends Config {
   final String depositingNedBankAccountNumber = "1196782040";
   final String ukhesheBaseURL = "https://api.ukheshe.co.za";
   final String iZingaApiUrl = "https://api-uat.izinga.co.za";
-  final rangeMap = {'16500km': 110.0, '10km': 0.066666};
+  final rangeMap = {'16500km': 110.0, '15km': 0.09999};
   final double centreLatitude = -29.991591;
   final double centrelongitude = 30.885905;
   final String supportPageUrl =
