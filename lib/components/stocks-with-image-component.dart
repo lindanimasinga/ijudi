@@ -16,7 +16,7 @@ class StocksWithImageComponent extends StatelessWidget {
       return Card(
           margin: EdgeInsets.only(left: 0),
           child: Container(
-            height: 52,
+            height: 62,
             padding: EdgeInsets.only(left: 16),
             alignment: Alignment.center,
             decoration: BoxDecoration(

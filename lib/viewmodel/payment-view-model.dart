@@ -50,7 +50,7 @@ class PaymentViewModel extends BaseViewModel {
   String get collectionInstructions =>
       "Please produce your order number ${order.id} when collecting your order at ${order.shop.name}. Contact Number : ${order.shop.mobileNumber}";
 
-  String get deliveryHeader => isDelivery ? "Delivery By" : "Collection";
+  String get deliveryHeader => isDelivery ? "Delivery By" : "Delivery on";
 
   bool get isDelivery => order.shippingData.type == ShippingType.DELIVERY;
 

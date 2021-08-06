@@ -48,7 +48,7 @@ class _StockItemComponentState extends State<StockItemComponent>
             )),
         !item.hasImages
             ? Container(
-                height: 55,
+                height: 65,
               )
             : Container(
                 margin: EdgeInsets.only(right: 8, left: 8),

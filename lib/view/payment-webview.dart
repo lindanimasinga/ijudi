@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/util/theme-utils.dart';
@@ -12,6 +14,7 @@ class PaymentWebView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log(url);
     return ScrollableParent(
         hasDrawer: false,
         title: "Payment",

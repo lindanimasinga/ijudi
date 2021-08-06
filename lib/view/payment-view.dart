@@ -53,7 +53,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                             alignment: Alignment.topLeft,
                             child: IjudiForm(
                                 child: IjudiTimeInput(
-                                    hint: "Pick Up Time",
+                                    hint: "Delivery Time",
                                     enabled: false,
                                     text:
                                         "${Utils.pickUpDay(viewModel.order.shippingData.pickUpTime, context)}"))),

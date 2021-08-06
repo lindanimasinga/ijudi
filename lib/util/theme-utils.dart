@@ -380,13 +380,13 @@ class IjudiStyles {
       fontSize: 16,
       fontFamily: "Roboto",
       fontWeight: FontWeight.bold,
-      color: IjudiColors.color2);
+      color: IjudiColors.color3);
 
   static const CARD_SHOP_HEADER2 = TextStyle(
-    fontSize: 14,
-    fontFamily: "Roboto",
-    fontWeight: FontWeight.w500,
-  );
+      fontSize: 14,
+      fontFamily: "Roboto",
+      fontWeight: FontWeight.w500,
+      color: IjudiColors.color3);
 
   static const CARD_HEADER = TextStyle(
       fontSize: 18,

@@ -76,10 +76,12 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
 
     viewModel.shops
         ?.where((shop) =>
-            (viewModel.search.isEmpty || shop.containsStockItem(viewModel.search) || shop.name.toLowerCase().contains(viewModel.search)) &&
-            (viewModel.filters.isEmpty || viewModel.filters.intersection(shop.tags).length > 0) &&
-            shop.tags.contains("restaurant")
-        )
+            (viewModel.search.isEmpty ||
+                shop.containsStockItem(viewModel.search) ||
+                shop.name.toLowerCase().contains(viewModel.search)) &&
+            (viewModel.filters.isEmpty ||
+                viewModel.filters.intersection(shop.tags).length > 0) &&
+            shop.tags.contains("restaurant"))
         ?.forEach((shop) {
       shopComponets.add(ShopComponent(
         shop: shop,
@@ -205,7 +207,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                     child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: shopComponets)),
-             groceries == null  || groceries.isEmpty
+            groceries == null || groceries.isEmpty
                 ? Container()
                 : Container(
                     alignment: Alignment.topLeft,
@@ -218,13 +220,13 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                     height: deviceWidth >= 360 ? 202 : 172,
                     child: ListView(
                         scrollDirection: Axis.horizontal, children: groceries)),
-             medicine == null || medicine.isEmpty
+            medicine == null || medicine.isEmpty
                 ? Container()
                 : Container(
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(left: 16, top: 32, bottom: 8),
                     child: Text("Medicine", style: IjudiStyles.HEADER_2)),
-             medicine == null || medicine.isEmpty
+            medicine == null || medicine.isEmpty
                 ? Container()
                 : Container(
                     height: deviceWidth >= 360 ? 202 : 172,
