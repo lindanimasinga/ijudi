@@ -28,15 +28,19 @@ class BasketItem {
 
   double get price =>
       _price +
-      options
-          .map((e) => e.selected.toLowerCase() == "none" ? 0 : e.price)
-          .reduce((previousValue, current) => previousValue + current);
+      (null == null
+          ? 0
+          : options
+              ?.map((e) => e.selected.toLowerCase() == "none" ? 0 : e.price)
+              ?.reduce((previousValue, current) => previousValue + current));
 
   double get storePrice =>
       _storePrice +
-      options
-          .map((e) => e.selected.toLowerCase() == "none" ? 0 : e.price)
-          .reduce((previousValue, current) => previousValue + current);
+      (null == null
+          ? 0
+          : options
+              .map((e) => e.selected.toLowerCase() == "none" ? 0 : e.price)
+              .reduce((previousValue, current) => previousValue + current));
 
   @override
   bool operator ==(Object other) =>
