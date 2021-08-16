@@ -8,16 +8,35 @@ part 'basket-item.g.dart';
 class BasketItem {
   String name;
   int quantity;
-  double price;
-  double storePrice;
-
+  double _price;
+  double _storePrice;
   double discountPerc;
   List<SelectionOption> options;
 
-  BasketItem({this.name, this.quantity, this.price, this.storePrice, this.discountPerc});
+  BasketItem(
+      {this.name,
+      this.quantity,
+      double price,
+      double storePrice,
+      this.discountPerc}) {
+    this._price = price;
+    this._storePrice = storePrice;
+  }
 
   @override
   int get hashCode => name.hashCode;
+
+  double get price =>
+      _price +
+      options
+          .map((e) => e.selected.toLowerCase() == "none" ? 0 : e.price)
+          .reduce((previousValue, current) => previousValue + current);
+
+  double get storePrice =>
+      _storePrice +
+      options
+          .map((e) => e.selected.toLowerCase() == "none" ? 0 : e.price)
+          .reduce((previousValue, current) => previousValue + current);
 
   @override
   bool operator ==(Object other) =>
