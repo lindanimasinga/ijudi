@@ -14,44 +14,41 @@ abstract class StorageManager {
   static const IS_TEST_ENV = "aksdhewewhkdfs";
   static const SELECTED_LOCATION = "wewhhghtiie";
 
-  bool viewedIntro;
-  bool testEnvironment;
-  String selectedLocation;
+  bool? viewedIntro;
+  late bool testEnvironment;
+  String? selectedLocation;
 
-  ProfileRoles get profileRole;
-  set profileRole(ProfileRoles value);
+  ProfileRoles? get profileRole;
+  set profileRole(ProfileRoles? value);
 
-  String get mobileNumber;
-  set mobileNumber(String value);
-
-  get password;
-  set password(String value);
+  String? get mobileNumber;
+  set mobileNumber(String? value);
 
   void saveIjudiAccessToken(String token);
 
-  String findIjudiAccessToken();
+  String? findIjudiAccessToken();
 
   void saveUkhesheAccessToken(String token);
 
-  String findUkhesheAccessToken();
+  String? findUkhesheAccessToken();
 
   bool get isLoggedIn;
 
-  String get deviceId;
+  String? get deviceId;
 
-  set deviceId(String deviceId);
+  set deviceId(String? deviceId);
 
   Stream clear();
 
   void saveUkhesheTokenExpiryDate(String expires);
 
-  String findUkhesheTokenExpiryDate();
+  String? findUkhesheTokenExpiryDate();
 
   bool get hasTokenExpired;
 
-  void saveIjudiUserId(String id);
+  void saveIjudiUserId(String? id);
 
-  String getIjudiUserId();
+  String? getIjudiUserId();
 
 /*
   void save<T extends Entity>(T entity);

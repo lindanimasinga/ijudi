@@ -13,7 +13,7 @@ import 'package:ijudi/viewmodel/shop-profile-view-model.dart';
 class ShopProfileView extends MvStatefulWidget<ShopProfileViewModel> {
   static const String ROUTE_NAME = "shop-profile";
 
-  ShopProfileView({ShopProfileViewModel viewModel}) : super(viewModel);
+  ShopProfileView({required ShopProfileViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -47,21 +47,21 @@ class ShopProfileView extends MvStatefulWidget<ShopProfileViewModel> {
                               hint: 'Shop Name',
                               autofillHints: [AutofillHints.name],
                               type: TextInputType.phone,
-                              text: viewModel.shop.name),
+                              text: viewModel.shop!.name),
                           IjudiInputField(
                               hint: 'Company Reg Number',
                               autofillHints: [AutofillHints.creditCardNumber],
                               type: TextInputType.visiblePassword,
-                              text: viewModel.shop.registrationNumber),
+                              text: viewModel.shop!.registrationNumber),
                           IjudiInputField(
                               hint: 'Description',
                               autofillHints: [AutofillHints.name],
                               type: TextInputType.text,
-                              text: viewModel.shop.description),
+                              text: viewModel.shop!.description),
                           IjudiInputField(
                               hint: 'Years in service',
                               type: TextInputType.text,
-                              text: "${viewModel.shop.yearsInService}"),
+                              text: "${viewModel.shop!.yearsInService}"),
                           IjudiAddressInputField(
                               hint: 'Address',
                               type: TextInputType.number,
@@ -72,11 +72,11 @@ class ShopProfileView extends MvStatefulWidget<ShopProfileViewModel> {
                     ),
                     IjudiForm(
                       child: IjudiSwitchInputField(
-                          active: !viewModel.shop.storeOffline,
+                          active: !viewModel.shop!.storeOffline!,
                           label: "Active",
                           onChanged: (bool online) {
-                                viewModel.shop.storeOffline = !online;
-                                viewModel.shop.availability = online ? "SPECIFIC_HOURS" : "OFFLINE";
+                                viewModel.shop!.storeOffline = !online;
+                                viewModel.shop!.availability = online ? "SPECIFIC_HOURS" : "OFFLINE";
                               }),
                     ),
                     Container(

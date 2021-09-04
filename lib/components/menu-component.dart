@@ -13,7 +13,6 @@ import 'package:ijudi/view/messenger-orders.dart';
 import 'package:ijudi/view/my-shops.dart';
 import 'package:ijudi/view/order-history-view.dart';
 import 'package:ijudi/view/profile-view.dart';
-import 'package:ijudi/view/wallet-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,10 +25,10 @@ class MenuComponent extends StatefulWidget {
 
 class _MenuComponentState extends State<MenuComponent>
     with AutomaticKeepAliveClientMixin, MessageDialogs {
-  StorageManager _storageManager;
-  SharedPrefStorageManager sharedPrefs;
-  ProfileRoles _profileRole = ProfileRoles.CUSTOMER;
-  String _userId;
+  StorageManager? _storageManager;
+  SharedPrefStorageManager? sharedPrefs;
+  ProfileRoles? _profileRole = ProfileRoles.CUSTOMER;
+  String? _userId;
 
   @override
   bool get wantKeepAlive => true;
@@ -39,23 +38,23 @@ class _MenuComponentState extends State<MenuComponent>
     super.initState();
     SecureStorageManager.singleton().then((value) {
       _storageManager = value;
-      profileRole = _storageManager.profileRole;
-      _userId = _storageManager.getIjudiUserId();
+      profileRole = _storageManager!.profileRole;
+      _userId = _storageManager!.getIjudiUserId();
     });
 
     SharedPrefStorageManager.singleton().then((value) {
-      sharedPrefs = value;
+      sharedPrefs = value as SharedPrefStorageManager?;
     });
   }
 
   static int tapCount = 0;
-  get isUAT => sharedPrefs != null && sharedPrefs.testEnvironment;
+  get isUAT => sharedPrefs != null && sharedPrefs!.testEnvironment;
 
   switchEnvironement() {
     ++tapCount;
     if (tapCount % 5 == 0) {
-      sharedPrefs.testEnvironment = !sharedPrefs.testEnvironment;
-      if (sharedPrefs.testEnvironment) {
+      sharedPrefs!.testEnvironment = !sharedPrefs!.testEnvironment;
+      if (sharedPrefs!.testEnvironment) {
         Config.currentConfig = Config.getUATConfig();
       } else {
         Config.currentConfig = Config.getProConfig();
@@ -136,13 +135,13 @@ class _MenuComponentState extends State<MenuComponent>
                 Buttons.menuItem(
                     text: "Help",
                     height: buttonHeight,
-                    action: () => launch(Config.currentConfig.supportPageUrl))
+                    action: () => launch(Config.currentConfig!.supportPageUrl))
               ]),
               isLoggedIn
                   ? Buttons.accountFlat(
                       text: "Logout",
                       action: () {
-                        _storageManager.clear().listen((event) {
+                        _storageManager!.clear().listen((event) {
                           log("logged out");
                           BaseViewModel.analytics
                               .logEvent(name: "logout")
@@ -181,11 +180,11 @@ class _MenuComponentState extends State<MenuComponent>
     ]);
   }
 
-  ProfileRoles get profileRole => _profileRole;
-  set profileRole(ProfileRoles profileRole) {
+  ProfileRoles? get profileRole => _profileRole;
+  set profileRole(ProfileRoles? profileRole) {
     _profileRole = profileRole;
     setState(() {});
   }
 
-  get isLoggedIn => _storageManager != null && _storageManager.isLoggedIn;
+  get isLoggedIn => _storageManager != null && _storageManager!.isLoggedIn;
 }

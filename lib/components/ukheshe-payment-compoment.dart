@@ -24,7 +24,7 @@ class UkheshePaymentComponent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text("Avialable Balance", style: Forms.INPUT_TEXT_STYLE),
-                  Text("R${Utils.formatToCurrency(customer.bank.availableBalance)}", style: Forms.INPUT_TEXT_STYLE)
+                  Text("R${Utils.formatToCurrency(customer.bank!.availableBalance)}", style: Forms.INPUT_TEXT_STYLE)
                 ],
               )
             ),
@@ -37,7 +37,7 @@ class UkheshePaymentComponent extends StatelessWidget {
               hint: "Card Number",
               autofillHints: [AutofillHints.creditCardNumber],
               enabled: true,
-              text: customer.bank.accountId,
+              text: customer.bank!.accountId,
               color: IjudiColors.color5,
             ),
           ],

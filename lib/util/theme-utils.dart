@@ -113,13 +113,13 @@ class Forms {
   static const INPUT_LABEL_STYLE = TextStyle(fontSize: 12, color: Colors.white);
 
   static Widget searchField(BuildContext context,
-      {String hint, Function onChanged}) {
+      {String? hint, Function? onChanged}) {
     return Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         child: Padding(
             padding: EdgeInsets.only(left: 16, right: 16),
             child: TextFormField(
-              onChanged: (value) => onChanged(value),
+              onChanged: (value) => onChanged!(value),
               decoration: InputDecoration(
                   hintText: hint,
                   enabledBorder: UnderlineInputBorder(
@@ -131,7 +131,7 @@ class Forms {
                     width: 0.001,
                   ))),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return 'Please enter some text';
                 }
                 return null;
@@ -148,7 +148,7 @@ class Buttons {
       TextStyle(color: IjudiColors.color3, fontSize: 16);
 
   static Widget menu(
-      {BuildContext context, List<Widget> children = const <Widget>[]}) {
+      {BuildContext? context, List<Widget> children = const <Widget>[]}) {
     final _formKey = GlobalKey<FormState>();
 
     return Container(
@@ -163,12 +163,15 @@ class Buttons {
   }
 
   static Widget menuItem(
-      {double height = 60, String text, Color color, Function action}) {
+      {double height = 60,
+      required String text,
+      Color? color,
+      Function? action}) {
     return Container(
         margin: EdgeInsets.only(bottom: 4),
         child: FlatButton(
             color: IjudiColors.clear,
-            onPressed: () => action(),
+            onPressed: () => action!(),
             shape: RoundedRectangleBorder(),
             child: Container(
                 height: height,
@@ -183,12 +186,12 @@ class Buttons {
                     ]))));
   }
 
-  static Widget account({String text, Function action}) {
+  static Widget account({required String text, Function? action}) {
     return Container(
         margin: EdgeInsets.only(bottom: 4),
         child: RaisedButton(
             padding: EdgeInsets.all(0),
-            onPressed: () => action(),
+            onPressed: () => action!(),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(25.0),
@@ -207,12 +210,12 @@ class Buttons {
                     ]))));
   }
 
-  static Widget accountFlat({String text, Function action}) {
+  static Widget accountFlat({required String text, Function? action}) {
     return Container(
         margin: EdgeInsets.only(bottom: 4),
         child: FlatButton(
             padding: EdgeInsets.all(0),
-            onPressed: () => action(),
+            onPressed: () => action!(),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(25.0),
@@ -254,18 +257,18 @@ class Buttons {
   }
 
   static Widget iconButton(Icon icon,
-      {Color color, Function onPressed, String tag}) {
+      {Color? color, Function? onPressed, String? tag}) {
     return Container(
         margin: EdgeInsets.all(4),
         child: FloatingActionButton(
           heroTag: tag,
           backgroundColor: color,
-          onPressed: () => onPressed(),
+          onPressed: () => onPressed!(),
           child: icon,
         ));
   }
 
-  static Widget back({String tag}) {
+  static Widget back({String? tag}) {
     return iconButton(
         Icon(
           Icons.arrow_back,
@@ -281,9 +284,9 @@ class Buttons {
     ));
   }
 
-  static mapsNavigate({IconData label, Color color, Function action}) {
+  static mapsNavigate({IconData? label, Color? color, Function? action}) {
     return RaisedButton(
-        onPressed: action,
+        onPressed: action as void Function()?,
         color: color,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         child: Container(
@@ -300,11 +303,11 @@ class Buttons {
             )));
   }
 
-  static flat({String label, Function() action, Color color}) {
+  static flat({required String label, Function()? action, Color? color}) {
     return FlatButton(
         padding: EdgeInsets.all(0),
         color: color,
-        onPressed: () => action(),
+        onPressed: () => action!(),
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(25.0),
@@ -357,6 +360,9 @@ class IjudiStyles {
     fontSize: 18,
     fontFamily: "Roboto",
   );
+
+  static const HEADER_LG = TextStyle(
+      fontSize: 22, fontFamily: "Roboto", fontWeight: FontWeight.w500);
 
   static const HEADER_2_WHITE = TextStyle(
     fontSize: 18,

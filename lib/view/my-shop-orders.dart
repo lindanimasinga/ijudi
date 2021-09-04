@@ -10,7 +10,7 @@ import 'package:ijudi/viewmodel/myshop-orders-view-model.dart';
 class MyShopOrdersView extends MvStatefulWidget<MyShopOrdersViewModel> {
   static const ROUTE_NAME = "myshop-orders";
 
-  MyShopOrdersView({MyShopOrdersViewModel viewModel}) : super(viewModel);
+  MyShopOrdersView({required MyShopOrdersViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class MyShopOrdersView extends MvStatefulWidget<MyShopOrdersViewModel> {
           child: Text("Past Orders", style: IjudiStyles.HEADER_2)),
     ];
 
-    viewModel.orders
+    viewModel.orders!
         .where((order) => order.stage != OrderStage.STAGE_7_ALL_PAID)
         .where((order) => viewModel.isCurrentOrder(order))
         .forEach((order) =>
@@ -43,9 +43,9 @@ class MyShopOrdersView extends MvStatefulWidget<MyShopOrdersViewModel> {
                       arguments: order);
                 })));
 
-    viewModel.orders
+    viewModel.orders!
         .where((order) => order.stage != OrderStage.STAGE_7_ALL_PAID)
-        .where((order) => order.shippingData.type == ShippingType.SCHEDULED_DELIVERY)
+        .where((order) => order.shippingData!.type == ShippingType.SCHEDULED_DELIVERY)
         .where((order) =>
             !viewModel.isCurrentOrder(order))
         .forEach((order) =>
@@ -56,7 +56,7 @@ class MyShopOrdersView extends MvStatefulWidget<MyShopOrdersViewModel> {
                       arguments: order);
                 })));
 
-    viewModel.orders
+    viewModel.orders!
         .where((order) => order.stage == OrderStage.STAGE_7_ALL_PAID)
         .forEach((order) =>
             finishedOrderItemsComponents.add(OrderHistoryItemComponent(

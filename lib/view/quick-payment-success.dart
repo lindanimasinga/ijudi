@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 class ReceiptView extends MvStatefulWidget<ReceiptViewModel> {
   static const String ROUTE_NAME = "receipt";
 
-  ReceiptView({ReceiptViewModel viewModel}) : super(viewModel);
+  ReceiptView({required ReceiptViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +45,12 @@ class ReceiptView extends MvStatefulWidget<ReceiptViewModel> {
                                   width: 2,
                                 ),
                                 image: DecorationImage(
-                                  image: NetworkImage(viewModel.shop.imageUrl),
+                                  image: NetworkImage(viewModel.shop!.imageUrl!),
                                   fit: BoxFit.cover,
                                 ),
                               )),
                           Text(
-                            "Tax Invoice  #${viewModel.order.id}",
+                            "Tax Invoice  #${viewModel.order!.id}",
                             style: IjudiStyles.CARD_SHOP_DISCR,
                           ),
                         ]),
@@ -60,27 +60,27 @@ class ReceiptView extends MvStatefulWidget<ReceiptViewModel> {
                         Container(
                           width: 160,
                           child: Text(
-                            "${viewModel.shop.name}",
+                            "${viewModel.shop!.name}",
                             style: IjudiStyles.CARD_SHOP_HEADER,
                             maxLines: 2,
                           ),
                         ),
                         Text(
-                          "Date: ${DateFormat("dd MMM yy 'at' HH:mm").format(viewModel.order.date)}",
+                          "Date: ${DateFormat("dd MMM yy 'at' HH:mm").format(viewModel.order!.date!)}",
                           style: IjudiStyles.CARD_SHOP_DISCR,
                         )
                       ],
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 8)),
                     Text(
-                      "*${describeEnum(viewModel.order.orderType)}",
+                      "*${describeEnum(viewModel.order!.orderType!)}",
                       style: IjudiStyles.CARD_SHOP_DISCR,
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
                     OrderReviewComponent(order: viewModel.order),
                     Padding(padding: EdgeInsets.only(bottom: 32)),
                     Text(
-                      "Contact:  ${viewModel.shop.mobileNumber}",
+                      "Contact:  ${viewModel.shop!.mobileNumber}",
                       style: IjudiStyles.CARD_SHOP_DISCR,
                     ),
                     Padding(padding: EdgeInsets.only(bottom: 16)),

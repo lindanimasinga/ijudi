@@ -13,7 +13,6 @@ import 'package:ijudi/components/order-review-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
-import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/messenger-order-update-view-model.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -34,15 +33,15 @@ class MessengerOrderUpdateView
     OrderStage.STAGE_7_ALL_PAID: "Completed"
   };
 
-  GoogleMapController _controller;
+  GoogleMapController? _controller;
 
-  MessengerOrderUpdateView({MessengerOrderUpdateViewModel viewModel})
+  MessengerOrderUpdateView({required MessengerOrderUpdateViewModel viewModel})
       : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
     CameraPosition _kGooglePlex = CameraPosition(
-      target: LatLng(viewModel.currentLatitude, viewModel.currentLongitude),
+      target: LatLng(viewModel.currentLatitude!, viewModel.currentLongitude!),
       zoom: 15,
     );
 
@@ -50,21 +49,21 @@ class MessengerOrderUpdateView
         ? []
         : [
             Marker(
-                markerId: MarkerId(viewModel.shop.name),
+                markerId: MarkerId(viewModel.shop!.name!),
                 // onTap: () => launchMaps(latitude, longitude),
-                infoWindow: InfoWindow(title: viewModel.shop.name),
+                infoWindow: InfoWindow(title: viewModel.shop!.name),
                 position:
-                    LatLng(viewModel.shop.latitude, viewModel.shop.longitude)),
+                    LatLng(viewModel.shop!.latitude!, viewModel.shop!.longitude!)),
             Marker(
-                markerId: MarkerId(viewModel.customer.name),
-                infoWindow: InfoWindow(title: viewModel.customer.name),
+                markerId: MarkerId(viewModel.customer!.name!),
+                infoWindow: InfoWindow(title: viewModel.customer!.name),
                 position: LatLng(
-                    viewModel.customerLatitude, viewModel.customerLongitude))
+                    viewModel.customerLatitude!, viewModel.customerLongitude!))
           ];
 
     var bounds = LatLngBounds(
-        southwest: LatLng(viewModel.latBounds[0], viewModel.lngBounds[0]),
-        northeast: LatLng(viewModel.latBounds[2], viewModel.lngBounds[2]));
+        southwest: LatLng(viewModel.latBounds[0]!, viewModel.lngBounds[0]!),
+        northeast: LatLng(viewModel.latBounds[2]!, viewModel.lngBounds[2]!));
 
     _controller?.moveCamera(CameraUpdate.newLatLngBounds(bounds, 40));
 
@@ -82,24 +81,24 @@ class MessengerOrderUpdateView
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 8, left: 16),
-                        child: Text("Order: ${viewModel.order.id}",
+                        child: Text("Order: ${viewModel.order!.id}",
                             style: IjudiStyles.HEADER_TEXT)),
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 8, left: 16),
                         child: Text(
-                            "Paid with ${describeEnum(viewModel.order.paymentType)}",
+                            "Paid with ${describeEnum(viewModel.order!.paymentType!)}",
                             style: IjudiStyles.HEADER_TEXT)),
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 8, left: 16),
                         child: Text(
-                            "Order is a ${describeEnum(viewModel.order.shippingData.type)}",
+                            "Order is a ${describeEnum(viewModel.order!.shippingData!.type!)}",
                             style: IjudiStyles.HEADER_TEXT)),
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 8, left: 16),
-                        child: Text("Customer: ${viewModel?.customer?.name}",
+                        child: Text("Customer: ${viewModel.customer?.name}",
                             style: IjudiStyles.HEADER_TEXT)),
                     Container(
                         alignment: Alignment.topLeft,
@@ -111,13 +110,13 @@ class MessengerOrderUpdateView
                                   text: "Phone Number: ",
                                   style: IjudiStyles.HEADER_TEXT),
                               TextSpan(
-                                  text: "${viewModel?.customer?.mobileNumber}",
+                                  text: "${viewModel.customer?.mobileNumber}",
                                   style: TextStyle(
                                       decoration: TextDecoration.underline,
                                       color: Colors.white))
                             ])),
                             onTap: () => launch(
-                                "https:${viewModel?.customer?.mobileNumber}"))),
+                                "https:${viewModel.customer?.mobileNumber}"))),
                     Container(
                         margin: EdgeInsets.only(right: 16),
                         child: OrderReviewComponent(order: viewModel.order, isCustomerView: false)),
@@ -129,7 +128,7 @@ class MessengerOrderUpdateView
                               child: Container(
                                   alignment: Alignment.center,
                                   height: 140,
-                                  child: Text(statusText[viewModel.order.stage],
+                                  child: Text(statusText[viewModel.order!.stage!]!,
                                       style: IjudiStyles.HEADER_2,
                                       textAlign: TextAlign.center)))),
                       Container(margin: EdgeInsets.only(top: 32)),
@@ -154,32 +153,32 @@ class MessengerOrderUpdateView
                         IjudiInputField(
                             hint: "From Shop",
                             enabled: false,
-                            text: viewModel.order.shippingData.fromAddress,
+                            text: viewModel.order!.shippingData!.fromAddress,
                             color: IjudiColors.color5),
                         IjudiInputField(
                             hint: "Buidling Type",
                             enabled: false,
                             text: describeEnum(
-                                viewModel.order.shippingData.buildingType),
+                                viewModel.order!.shippingData!.buildingType!),
                             color: IjudiColors.color5),
-                        viewModel.order.shippingData.unitNumber == null
+                        viewModel.order!.shippingData!.unitNumber == null
                             ? Container()
                             : IjudiInputField(
                                 hint: "Unit Number",
                                 enabled: false,
-                                text: viewModel.order.shippingData.unitNumber,
+                                text: viewModel.order!.shippingData!.unitNumber,
                                 color: IjudiColors.color5),
-                        viewModel.order.shippingData.buildingName == null
+                        viewModel.order!.shippingData!.buildingName == null
                             ? Container()
                             : IjudiInputField(
                                 hint: "Building Name",
                                 enabled: false,
-                                text: viewModel.order.shippingData.buildingName,
+                                text: viewModel.order!.shippingData!.buildingName,
                                 color: IjudiColors.color5),
                         IjudiAddressInputField(
                             hint: "To Address",
                             enabled: false,
-                            text: viewModel.order.shippingData.toAddress,
+                            text: viewModel.order!.shippingData!.toAddress,
                             color: IjudiColors.color5,
                             onTap: (value) => {})
                       ],
@@ -240,12 +239,12 @@ class MessengerOrderUpdateView
   startNavigationShop() async {
     print("location is ${viewModel.shopLatitude}, ${viewModel.shopLongitude}");
     MapsLauncher.launchCoordinates(
-        viewModel.shopLatitude, viewModel.shopLongitude, viewModel.shop.name);
+        viewModel.shopLatitude!, viewModel.shopLongitude!, viewModel.shop!.name);
   }
 
   startNavigationCustomer() async {
     print("location is ${viewModel.shopLatitude}, ${viewModel.shopLongitude}");
-    MapsLauncher.launchCoordinates(viewModel.customerLatitude,
-        viewModel.customerLongitude, viewModel.customer.name);
+    MapsLauncher.launchCoordinates(viewModel.customerLatitude!,
+        viewModel.customerLongitude!, viewModel.customer!.name);
   }
 }

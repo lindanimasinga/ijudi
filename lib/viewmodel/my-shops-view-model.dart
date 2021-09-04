@@ -9,7 +9,7 @@ class MyShopsViewModel extends BaseViewModel {
 
   ApiService apiService;
 
-  MyShopsViewModel({@required this.apiService});
+  MyShopsViewModel({required this.apiService});
 
   @override
   void initialize() {

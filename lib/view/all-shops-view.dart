@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/ads-card-component.dart';
 import 'package:ijudi/components/bread-crumb.dart';
@@ -12,25 +13,28 @@ import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/choose-location-view.dart';
 import 'package:ijudi/viewmodel/all-shops-view-model.dart';
-
-import '../config.dart';
+import 'package:lottie/lottie.dart';
 
 class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
   static const ROUTE_NAME = "shopping";
 
-  AllShopsView({AllShopsViewModel viewModel}) : super(viewModel);
+  AllShopsView({required AllShopsViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
+    if (!viewModel.dataAvailable) {
+      return showLoadingScreen(context);
+    }
+
     double deviceWidth = MediaQuery.of(context).size.width;
     var colorPickCount = 0;
     List<FeaturedShop> featuredShopComponents = [];
     List<ShopComponent> shopComponets = [];
     List<Widget> filterComponents = [];
 
-    if (viewModel.shops != null && viewModel.shops.isNotEmpty) {
+    if (viewModel.shops != null && viewModel.shops!.isNotEmpty) {
       var tags =
-          viewModel.shops.map((shop) => shop.tags).reduce((current, next) {
+          viewModel.shops!.map((shop) => shop.tags).reduce((current, next) {
         Set<String> tagsSet = HashSet();
         tagsSet.addAll(current);
         tagsSet.addAll(next);
@@ -59,14 +63,14 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
     viewModel.ads.forEach((ad) => adsComponets.add(AdsCardComponent(
         advert: ad,
         color: IjudiColors.color3,
-        shop: viewModel.shops
-            ?.firstWhere((item) => item.id == ad.shopId, orElse: () => null))));
+        shop: viewModel.shops!
+            .firstWhereOrNull((item) => item.id == ad.shopId))));
 
     viewModel.featuredShops
         .where((shop) =>
             (viewModel.search.isEmpty ||
                 shop.containsStockItem(viewModel.search) ||
-                shop.name.toLowerCase().contains(viewModel.search)) &&
+                shop.name!.toLowerCase().contains(viewModel.search)) &&
             (viewModel.filters.isEmpty ||
                 viewModel.filters.intersection(shop.tags).length > 0))
         .forEach((shop) {
@@ -74,44 +78,44 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
           FeaturedShop(shop: shop, isLoggedIn: () => viewModel.isLoggedIn));
     });
 
-    viewModel.shops
-        ?.where((shop) =>
+    viewModel.shops!
+        .where((shop) =>
             (viewModel.search.isEmpty ||
                 shop.containsStockItem(viewModel.search) ||
-                shop.name.toLowerCase().contains(viewModel.search)) &&
+                shop.name!.toLowerCase().contains(viewModel.search)) &&
             (viewModel.filters.isEmpty ||
                 viewModel.filters.intersection(shop.tags).length > 0) &&
             shop.tags.contains("restaurant"))
-        ?.forEach((shop) {
+        .forEach((shop) {
       shopComponets.add(ShopComponent(
         shop: shop,
         isLoggedIn: () => viewModel.isLoggedIn,
       ));
     });
 
-    var groceries = viewModel.shops
-        ?.where((shop) =>
+    var groceries = viewModel.shops!
+        .where((shop) =>
             (viewModel.search.isEmpty ||
                 shop.containsStockItem(viewModel.search) ||
-                shop.name.toLowerCase().contains(viewModel.search)) &&
+                shop.name!.toLowerCase().contains(viewModel.search)) &&
             (shop.tags.contains("groceries")))
-        ?.map((shop) => ShopComponent(
+        .map((shop) => ShopComponent(
               shop: shop,
               isLoggedIn: () => viewModel.isLoggedIn,
             ))
-        ?.toList();
+        .toList();
 
-    var medicine = viewModel.shops
-        ?.where((shop) =>
+    var medicine = viewModel.shops!
+        .where((shop) =>
             (viewModel.search.isEmpty ||
                 shop.containsStockItem(viewModel.search) ||
-                shop.name.toLowerCase().contains(viewModel.search)) &&
+                shop.name!.toLowerCase().contains(viewModel.search)) &&
             (shop.tags.contains("medicine")))
-        ?.map((shop) => ShopComponent(
+        .map((shop) => ShopComponent(
               shop: shop,
               isLoggedIn: () => viewModel.isLoggedIn,
             ))
-        ?.toList();
+        .toList();
 
     if (viewModel.showNoShopsAvailable) {
       Future.delayed(Duration(seconds: 1), () {
@@ -145,7 +149,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                         : Text("Promotions", style: IjudiStyles.HEADER_2),
                     BreadCrumb(
                         color: IjudiColors.color4,
-                        name: viewModel.supportedLocation.name + " + 15km",
+                        name: viewModel.supportedLocation!.name,
                         lowerCase: false,
                         onPressed: (name) {
                           Navigator.pushNamed(
@@ -207,26 +211,26 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                     child: ListView(
                         scrollDirection: Axis.horizontal,
                         children: shopComponets)),
-            groceries == null || groceries.isEmpty
+            groceries.isEmpty
                 ? Container()
                 : Container(
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(left: 16, top: 32, bottom: 8),
                     child: Text("Groceries", style: IjudiStyles.HEADER_2),
                   ),
-            groceries == null || groceries.isEmpty
+            groceries.isEmpty
                 ? Container()
                 : Container(
                     height: deviceWidth >= 360 ? 202 : 172,
                     child: ListView(
                         scrollDirection: Axis.horizontal, children: groceries)),
-            medicine == null || medicine.isEmpty
+            medicine.isEmpty
                 ? Container()
                 : Container(
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(left: 16, top: 32, bottom: 8),
                     child: Text("Medicine", style: IjudiStyles.HEADER_2)),
-            medicine == null || medicine.isEmpty
+            medicine.isEmpty
                 ? Container()
                 : Container(
                     height: deviceWidth >= 360 ? 202 : 172,
@@ -235,5 +239,24 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                         scrollDirection: Axis.horizontal, children: medicine)),
           ],
         ));
+  }
+
+  Widget showLoadingScreen(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(elevation: 0, backgroundColor: IjudiColors.clear),
+        body: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              Image.asset("assets/images/izinga-logo.png", width: 180),
+              Lottie.asset("assets/lottie/pan.json",
+                  animate: true, fit: BoxFit.fill, width: 250),
+              Padding(padding: EdgeInsets.only(bottom: 16)),
+              Text(
+                "Cooking...",
+                style: IjudiStyles.HEADER_LG,
+              )
+            ])));
   }
 }

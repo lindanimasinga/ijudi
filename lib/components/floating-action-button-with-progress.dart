@@ -10,9 +10,9 @@ class FloatingActionButtonWithProgress extends MvStatefulWidget<ProgressViewMode
   final color;
 
   FloatingActionButtonWithProgress({
-   @required this.onPressed,
-   @required this.child,
-   @required viewModel,
+   required this.onPressed,
+   required this.child,
+   required viewModel,
    this.color
   }) : super(viewModel);
 

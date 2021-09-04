@@ -5,8 +5,8 @@ part 'device.g.dart';
 @JsonSerializable(includeIfNull: false)
 class Device {
   
-  final String token;
-  String userId;
+  final String? token;
+  String? userId;
 
   var id;
 

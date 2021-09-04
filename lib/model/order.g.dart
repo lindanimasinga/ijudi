@@ -8,24 +8,24 @@ part of 'order.dart';
 
 Order _$OrderFromJson(Map<String, dynamic> json) {
   return Order()
-    ..id = json['id'] as String
+    ..id = json['id'] as String?
     ..shippingData = json['shippingData'] == null
         ? null
         : Shipping.fromJson(json['shippingData'] as Map<String, dynamic>)
     ..paymentType =
         _$enumDecodeNullable(_$PaymentTypeEnumMap, json['paymentType'])
     ..orderType = _$enumDecodeNullable(_$OrderTypeEnumMap, json['orderType'])
-    ..hasVat = json['hasVat'] as bool
+    ..hasVat = json['hasVat'] as bool?
     ..basket = json['basket'] == null
         ? null
         : Basket.fromJson(json['basket'] as Map<String, dynamic>)
-    ..customerId = json['customerId'] as String
-    ..shopId = json['shopId'] as String
+    ..customerId = json['customerId'] as String?
+    ..shopId = json['shopId'] as String?
     ..date = Order.dateFromJson(json['date'] as String)
     ..stage = _$enumDecodeNullable(_$OrderStageEnumMap, json['stage'])
-    ..serviceFee = (json['serviceFee'] as num)?.toDouble()
-    ..totalAmount = (json['totalAmount'] as num)?.toDouble()
-    ..description = json['description'] as String;
+    ..serviceFee = (json['serviceFee'] as num?)?.toDouble()
+    ..totalAmount = (json['totalAmount'] as num?)?.toDouble()
+    ..description = json['description'] as String?;
 }
 
 Map<String, dynamic> _$OrderToJson(Order instance) {
@@ -53,36 +53,41 @@ Map<String, dynamic> _$OrderToJson(Order instance) {
   return val;
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
   dynamic source, {
-  T unknownValue,
+  K? unknownValue,
 }) {
   if (source == null) {
     return null;
   }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$PaymentTypeEnumMap = {
@@ -110,16 +115,16 @@ const _$OrderStageEnumMap = {
 
 Shipping _$ShippingFromJson(Map<String, dynamic> json) {
   return Shipping()
-    ..fromAddress = json['fromAddress'] as String
+    ..fromAddress = json['fromAddress'] as String?
     ..buildingType =
         _$enumDecodeNullable(_$BuildingTypeEnumMap, json['buildingType'])
-    ..unitNumber = json['unitNumber'] as String
-    ..buildingName = json['buildingName'] as String
-    ..toAddress = json['toAddress'] as String
-    ..additionalInstructions = json['additionalInstructions'] as String
+    ..unitNumber = json['unitNumber'] as String?
+    ..buildingName = json['buildingName'] as String?
+    ..toAddress = json['toAddress'] as String?
+    ..additionalInstructions = json['additionalInstructions'] as String?
     ..type = _$enumDecodeNullable(_$ShippingTypeEnumMap, json['type'])
-    ..fee = (json['fee'] as num)?.toDouble()
-    ..distance = (json['distance'] as num)?.toDouble()
+    ..fee = (json['fee'] as num?)?.toDouble()
+    ..distance = (json['distance'] as num?)?.toDouble()
     ..messenger = json['messenger'] == null
         ? null
         : UserProfile.fromJson(json['messenger'] as Map<String, dynamic>)

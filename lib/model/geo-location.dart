@@ -1,4 +1,4 @@
 mixin GeoLocation {
-  double latitude;
-  double longitude;
+  double? latitude;
+  double? longitude;
 }

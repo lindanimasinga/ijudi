@@ -13,7 +13,7 @@ class PersonalAndBankView extends StatefulWidget {
   static const ROUTE_NAME = "personal";
   final ApiService apiService;
 
-  const PersonalAndBankView({@required this.apiService});
+  const PersonalAndBankView({required this.apiService});
 
   @override
   _PersonalAndBankViewState createState() => _PersonalAndBankViewState(apiService);
@@ -21,7 +21,7 @@ class PersonalAndBankView extends StatefulWidget {
 
 class _PersonalAndBankViewState extends State<PersonalAndBankView> {
   
-  UserProfile userProfile;
+  UserProfile? userProfile;
   final ApiService apiService;
 
   _PersonalAndBankViewState(this.apiService);
@@ -66,15 +66,15 @@ class _PersonalAndBankViewState extends State<PersonalAndBankView> {
                 IjudiForm(
                   child: Column(
                           children: <Widget>[
-                            IjudiInputField(hint: 'Cell Number', type: TextInputType.phone, text: userProfile.mobileNumber),
-                            IjudiInputField(hint: 'Name', type: TextInputType.text, text: userProfile.name),
-                            IjudiInputField(hint: 'Surname', type: TextInputType.text, text: userProfile.description),
-                            IjudiInputField(hint: 'Id Number', type: TextInputType.text, text: userProfile.idNumber),
+                            IjudiInputField(hint: 'Cell Number', type: TextInputType.phone, text: userProfile!.mobileNumber),
+                            IjudiInputField(hint: 'Name', type: TextInputType.text, text: userProfile!.name),
+                            IjudiInputField(hint: 'Surname', type: TextInputType.text, text: userProfile!.description),
+                            IjudiInputField(hint: 'Id Number', type: TextInputType.text, text: userProfile!.idNumber),
                             IjudiAddressInputField(
                               hint: 'Address', 
                               type: TextInputType.number, 
-                              text: userProfile.address,
-                              onTap: (value) => userProfile.address = value)
+                              text: userProfile!.address,
+                              onTap: (value) => userProfile!.address = value)
                           ],
                   ),
                 ),
@@ -87,9 +87,9 @@ class _PersonalAndBankViewState extends State<PersonalAndBankView> {
                 IjudiForm( 
                   child: Column(
                           children: <Widget>[
-                            IjudiInputField(hint: 'Bank Name', type: TextInputType.text, text: userProfile.bank.name),
-                            IjudiInputField(hint: 'Account Number', type: TextInputType.text, text: userProfile.bank.accountId),
-                            IjudiInputField(hint: 'Account Type', type: TextInputType.text, text: userProfile.bank.type)
+                            IjudiInputField(hint: 'Bank Name', type: TextInputType.text, text: userProfile!.bank!.name),
+                            IjudiInputField(hint: 'Account Number', type: TextInputType.text, text: userProfile!.bank!.accountId),
+                            IjudiInputField(hint: 'Account Type', type: TextInputType.text, text: userProfile!.bank!.type)
                           ],
                   ),
                 )

@@ -12,7 +12,7 @@ import 'messenger-order-update.dart';
 class MessengerOrdersView extends MvStatefulWidget<MessengerOrdersViewModel> {
   static const ROUTE_NAME = "messenger-orders";
 
-  MessengerOrdersView({MessengerOrdersViewModel viewModel}) : super(viewModel);
+  MessengerOrdersView({required MessengerOrdersViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class MessengerOrdersView extends MvStatefulWidget<MessengerOrdersViewModel> {
           child: Text("Past Orders", style: IjudiStyles.HEADER_2)),
     ];
 
-    viewModel.orders
+    viewModel.orders!
         .where((order) => order.stage != OrderStage.STAGE_7_ALL_PAID)
         .forEach((order) =>
             pendingOrderItemsComponents.add(OrderHistoryItemComponent(
@@ -40,7 +40,7 @@ class MessengerOrdersView extends MvStatefulWidget<MessengerOrdersViewModel> {
                   }
                 })));
 
-    viewModel.orders
+    viewModel.orders!
         .where((order) => order.stage == OrderStage.STAGE_7_ALL_PAID)
         .forEach((order) =>
             finishedOrderItemsComponents.add(OrderHistoryItemComponent(

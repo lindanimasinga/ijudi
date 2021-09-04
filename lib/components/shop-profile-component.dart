@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/my-shop-orders.dart';
 import 'package:ijudi/view/shop-profile-view.dart';
-import 'package:ijudi/view/start-shopping.dart';
 import 'package:ijudi/view/stock-view.dart';
 
 import 'ijudi-card.dart';
 
 class ShopProfileComponent extends StatelessWidget {
-  final Shop shop;
+  final Shop? shop;
 
   ShopProfileComponent({this.shop});
 
@@ -19,11 +17,7 @@ class ShopProfileComponent extends StatelessWidget {
     double deviceWidth = MediaQuery.of(context).size.width;
     double height = deviceWidth >= 360 ? 140 : 120;
 
-    return Slidable(
-        actionPane: SlidableDrawerActionPane(),
-        movementDuration: Duration(milliseconds: 500),
-        actionExtentRatio: 0.25,
-        child: Container(
+    return Container(
                 child: IJudiCard(
               child: Column(children: [
                 Row(
@@ -37,7 +31,7 @@ class ShopProfileComponent extends StatelessWidget {
                             bottomLeft: Radius.circular(25.0),
                             topLeft: Radius.circular(25.0)),
                         image: DecorationImage(
-                          image: NetworkImage(shop.imageUrl),
+                          image: NetworkImage(shop!.imageUrl!),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -49,13 +43,13 @@ class ShopProfileComponent extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(shop.name,
+                            Text(shop!.name!,
                                 style: IjudiStyles.CARD_SHOP_HEADER,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis),
                             Padding(padding: EdgeInsets.all(4)),
                             Text(
-                              shop.description,
+                              shop!.description!,
                               style: IjudiStyles.CARD_SHOP_DISCR,
                               maxLines: 2,
                               softWrap: true,
@@ -108,7 +102,7 @@ class ShopProfileComponent extends StatelessWidget {
                                         onPressed: () => Navigator.pushNamed(
                                             context,
                                             MyShopOrdersView.ROUTE_NAME,
-                                            arguments: shop.id)),
+                                            arguments: shop!.id)),
                                     Text("Orders",
                                         style: IjudiStyles.CARD_ICON_BUTTON)
                                   ],
@@ -121,26 +115,7 @@ class ShopProfileComponent extends StatelessWidget {
                   ],
                 )
               ]),
-            )),
-        secondaryActions: <Widget>[
-          Container(
-              margin: EdgeInsets.all(4),
-              child: FlatButton(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Shop",
-                      style: IjudiStyles.HEADER_TEXT,
-                    )
-                  ],
-                ),
-                color: IjudiColors.color2,
-                onPressed: () => Navigator.pushNamed(
-                    context, StartShoppingView.ROUTE_NAME,
-                    arguments: shop),
-              )),
-        ]);
+            ));
     ;
   }
 }

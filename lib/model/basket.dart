@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:ijudi/model/basket-item.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -14,31 +15,29 @@ class Basket {
   Basket();
 
   addItem(BasketItem basketItem) {
-    BasketItem item = items.firstWhere(
-        (element) => element == basketItem,
-        orElse: () => null);
+    BasketItem? item = items.firstWhereOrNull(
+        (element) => element == basketItem);
     if (item == null) {
       items.add(basketItem);
     } else {
-      item.quantity = item.quantity + basketItem.quantity;
+      item.quantity = item.quantity! + basketItem.quantity!;
     }
   }
 
   removeOneItem(BasketItem basketItem) {
-    BasketItem item = items.firstWhere(
-        (element) => element.name == basketItem.name,
-        orElse: () => null);
+    BasketItem? item = items.firstWhereOrNull(
+        (element) => element.name == basketItem.name);
 
     if (item == null) return;
     if (item.quantity == 1) items.remove(item);
 
-    item.quantity = item.quantity - 1;
+    item.quantity = item.quantity! - 1;
   }
 
   double getBasketTotalAmount() {
     double totalAmount = 0;
     items.forEach((element) {
-      totalAmount += element.price * element.quantity;
+      totalAmount += element.price * element.quantity!;
     });
     return totalAmount;
   }
@@ -46,7 +45,7 @@ class Basket {
   double getBasketStorePriceTotalAmount() {
     double totalAmount = 0;
     items.forEach((element) {
-      totalAmount += element.storePrice * element.quantity;
+      totalAmount += element.storePrice * element.quantity!;
     });
     return totalAmount;
   }
@@ -54,7 +53,7 @@ class Basket {
   int getBasketTotalItems() {
     int totalAmount = 0;
     items.forEach((element) {
-      totalAmount += element.quantity;
+      totalAmount += element.quantity!;
     });
     return totalAmount;
   }

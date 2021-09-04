@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/util/theme-utils.dart';
 
 class IjudiSwitchInputField extends StatefulWidget {
-  final String label;
-  final Function onChanged;
-  final bool active;
+  final String? label;
+  final Function? onChanged;
+  final bool? active;
   final Color color;
 
   const IjudiSwitchInputField(
@@ -19,13 +19,13 @@ class IjudiSwitchInputField extends StatefulWidget {
 }
 
 class _IjudiSwitchInputField extends State<IjudiSwitchInputField> {
-  final String label;
-  final Function onChanged;
-  final Color color;
+  final String? label;
+  final Function? onChanged;
+  final Color? color;
 
-  bool online;
-  bool get active => online;
-  set active(bool active) {
+  bool? online;
+  bool? get active => online;
+  set active(bool? active) {
     online = active;
     setState(() {});
   }
@@ -43,7 +43,7 @@ class _IjudiSwitchInputField extends State<IjudiSwitchInputField> {
         alignment: Alignment.centerLeft,
         child: Padding(
             padding: EdgeInsets.only(left: 16, right: 4),
-            child: Text(label,
+            child: Text(label!,
                 maxLines: 2,
                 style: Forms.INPUT_LABEL_STYLE,
                 overflow: TextOverflow.ellipsis)),
@@ -53,10 +53,10 @@ class _IjudiSwitchInputField extends State<IjudiSwitchInputField> {
           child: Padding(
               padding: EdgeInsets.only(top: 4, bottom: 0),
               child: Switch(
-                  value: active,
+                  value: active!,
                   onChanged: (value) {
                     active = value;
-                    onChanged(value);
+                    onChanged!(value);
                   })))
     ]);
   }

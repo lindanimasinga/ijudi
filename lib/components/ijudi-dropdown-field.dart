@@ -6,15 +6,15 @@ import 'package:ijudi/util/util.dart';
 class IjudiDropDownField<T> extends StatefulWidget {
   final String hint;
   final Color color;
-  final TextInputType type;
+  final TextInputType? type;
   final List options;
-  final Function onSelected;
-  final bool enabled;
-  final Function error;
-  final Iterable<String> autofillHints;
+  final Function? onSelected;
+  final bool? enabled;
+  final Function? error;
+  final Iterable<String>? autofillHints;
 
   IjudiDropDownField(
-      {@required this.hint,
+      {required this.hint,
       this.autofillHints,
       this.enabled,
       this.color = IjudiColors.color5,
@@ -38,17 +38,17 @@ class IjudiDropDownField<T> extends StatefulWidget {
 class _IjudiDropDownFieldState<T> extends State<IjudiDropDownField> {
   final String hint;
   Color color;
-  final TextInputType type;
+  final TextInputType? type;
   List<T> options;
-  Function onSelected;
-  bool enabled;
-  Function error;
+  Function? onSelected;
+  bool? enabled;
+  Function? error;
   String errorText = "";
-  Iterable<String> autofillHints;
-  T _selected;
+  Iterable<String>? autofillHints;
+  T? _selected;
 
   _IjudiDropDownFieldState(
-      {@required this.hint,
+      {required this.hint,
       this.autofillHints,
       this.enabled,
       this.color = IjudiColors.color5,
@@ -96,15 +96,15 @@ class _IjudiDropDownFieldState<T> extends State<IjudiDropDownField> {
                   height: 1,
                   color: IjudiColors.color6,
                 ),
-                onChanged: (T newValue) {
+                onChanged: (T? newValue) {
                   selected = newValue;
                   print(newValue);
-                  onSelected(newValue);
+                  onSelected!(newValue);
                 },
                 items: options
                     .map((value) => DropdownMenuItem<T>(
                           value: value,
-                          child: Text(describeEnum(value)),
+                          child: Text(describeEnum(value!)),
                         ))
                     .toList(),
               )))
@@ -114,7 +114,7 @@ class _IjudiDropDownFieldState<T> extends State<IjudiDropDownField> {
   void validate(String value) {
     if (autofillHints == null) return;
 
-    if (autofillHints.contains(AutofillHints.telephoneNumber)) {
+    if (autofillHints!.contains(AutofillHints.telephoneNumber)) {
       errorText = value.length < 10 || Utils.validSANumber(value)
           ? ""
           : "Invalid SA mobile number";
@@ -122,7 +122,7 @@ class _IjudiDropDownFieldState<T> extends State<IjudiDropDownField> {
       return;
     }
 
-    if (autofillHints.contains("idNumber")) {
+    if (autofillHints!.contains("idNumber")) {
       errorText = value.length < 13 || Utils.isValidSAId(value)
           ? ""
           : "Invalid SA Id number";
@@ -130,7 +130,7 @@ class _IjudiDropDownFieldState<T> extends State<IjudiDropDownField> {
       return;
     }
 
-    if (autofillHints.contains(AutofillHints.email)) {
+    if (autofillHints!.contains(AutofillHints.email)) {
       errorText = value.length < 6 || Utils.isEmail(value)
           ? ""
           : "contiue enter valid email";
@@ -139,8 +139,8 @@ class _IjudiDropDownFieldState<T> extends State<IjudiDropDownField> {
     }
   }
 
-  T get selected => _selected;
-  set selected(T selected) {
+  T? get selected => _selected;
+  set selected(T? selected) {
     _selected = selected;
     setState(() {});
   }

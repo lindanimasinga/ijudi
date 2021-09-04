@@ -8,27 +8,24 @@ part of 'stock.dart';
 
 Stock _$StockFromJson(Map<String, dynamic> json) {
   return Stock(
-    name: json['name'] as String,
-    quantity: json['quantity'] as int,
-    price: (json['price'] as num)?.toDouble(),
-    storePrice: (json['storePrice'] as num)?.toDouble(),
-    discountPerc: (json['discountPerc'] as num)?.toDouble(),
-    group: json['group'] as String,
-    tags: (json['tags'] as List)?.map((e) => e as String)?.toList(),
+    name: json['name'] as String?,
+    quantity: json['quantity'] as int?,
+    price: (json['price'] as num?)?.toDouble(),
+    storePrice: (json['storePrice'] as num?)?.toDouble(),
+    discountPerc: (json['discountPerc'] as num?)?.toDouble(),
+    group: json['group'] as String?,
+    tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
   )
-    ..id = json['id'] as String
-    ..description = json['description'] as String
-    ..images = (json['images'] as List)?.map((e) => e as String)?.toList()
-    ..mandatorySelection = (json['mandatorySelection'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SelectionOption.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..optionalSelection = (json['optionalSelection'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SelectionOption.fromJson(e as Map<String, dynamic>))
-        ?.toList();
+    ..id = json['id'] as String?
+    ..description = json['description'] as String?
+    ..images =
+        (json['images'] as List<dynamic>?)?.map((e) => e as String).toList()
+    ..mandatorySelection = (json['mandatorySelection'] as List<dynamic>?)
+        ?.map((e) => SelectionOption.fromJson(e as Map<String, dynamic>))
+        .toList()
+    ..optionalSelection = (json['optionalSelection'] as List<dynamic>?)
+        ?.map((e) => SelectionOption.fromJson(e as Map<String, dynamic>))
+        .toList();
 }
 
 Map<String, dynamic> _$StockToJson(Stock instance) {
@@ -51,6 +48,6 @@ Map<String, dynamic> _$StockToJson(Stock instance) {
   writeNotNull('images', instance.images);
   writeNotNull('mandatorySelection', instance.mandatorySelection);
   writeNotNull('optionalSelection', instance.optionalSelection);
-  writeNotNull('price', instance.price);
+  val['price'] = instance.price;
   return val;
 }

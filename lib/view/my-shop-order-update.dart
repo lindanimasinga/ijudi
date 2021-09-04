@@ -15,7 +15,7 @@ class MyShopOrderUpdateView
     extends MvStatefulWidget<MyShopOrderUpdateViewModel> {
   static const String ROUTE_NAME = "shop-order-update";
 
-  MyShopOrderUpdateView({MyShopOrderUpdateViewModel viewModel})
+  MyShopOrderUpdateView({required MyShopOrderUpdateViewModel viewModel})
       : super(viewModel);
 
   @override
@@ -34,13 +34,13 @@ class MyShopOrderUpdateView
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 8, left: 16),
-                        child: Text("Order: ${viewModel.order.id}",
+                        child: Text("Order: ${viewModel.order!.id}",
                             style: IjudiStyles.HEADER_TEXT)),
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 8, left: 16),
                         child: Text(
-                            "Paid with ${describeEnum(viewModel.order.paymentType)}",
+                            "Paid with ${describeEnum(viewModel.order!.paymentType!)}",
                             style: IjudiStyles.HEADER_TEXT)),
                     Container(
                         alignment: Alignment.topLeft,
@@ -50,7 +50,7 @@ class MyShopOrderUpdateView
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 8, left: 16),
-                        child: Text("Customer: ${viewModel?.customer?.name}",
+                        child: Text("Customer: ${viewModel.customer?.name}",
                             style: IjudiStyles.HEADER_TEXT)),
                     Container(
                         alignment: Alignment.topLeft,
@@ -62,13 +62,13 @@ class MyShopOrderUpdateView
                                   text: "Phone Number: ",
                                   style: IjudiStyles.HEADER_TEXT),
                               TextSpan(
-                                  text: "${viewModel?.customer?.mobileNumber}",
+                                  text: "${viewModel.customer?.mobileNumber}",
                                   style: TextStyle(
                                       decoration: TextDecoration.underline,
                                       color: Colors.white))
                             ])),
                             onTap: () => launch(
-                                "tel:${viewModel?.customer?.mobileNumber}"))),
+                                "tel:${viewModel.customer?.mobileNumber}"))),
                     Container(
                         margin: EdgeInsets.only(right: 16),
                         child: OrderReviewComponent(
@@ -90,7 +90,7 @@ class MyShopOrderUpdateView
                                             height: 140,
                                             child: Text(
                                                 Utils.statusText[
-                                                    viewModel.order.stage],
+                                                    viewModel.order!.stage!]!,
                                                 style: IjudiStyles.HEADER_2,
                                                 textAlign: TextAlign.center)))),
                                 Container(margin: EdgeInsets.only(top: 32)),

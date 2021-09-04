@@ -12,7 +12,7 @@ import 'package:ijudi/viewmodel/stock-management-view-mode.dart';
 class StockManagementView extends MvStatefulWidget<StockManagementViewModel> {
   static const ROUTE_NAME = "/stock";
 
-  StockManagementView({StockManagementViewModel viewModel}) : super(viewModel);
+  StockManagementView({required StockManagementViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {

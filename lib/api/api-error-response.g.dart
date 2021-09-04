@@ -12,7 +12,7 @@ ApiErrorResponse _$ApiErrorResponseFromJson(Map<String, dynamic> json) {
         ? null
         : DateTime.parse(json['timestamp'] as String)
     ..message = json['message']
-    ..path = json['path'] as String;
+    ..path = json['path'] as String?;
 }
 
 Map<String, dynamic> _$ApiErrorResponseToJson(ApiErrorResponse instance) =>

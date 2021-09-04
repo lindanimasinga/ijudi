@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/model/transaction.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
@@ -9,20 +8,12 @@ class TransactionHistoryViewModel extends BaseViewModel {
   List<Transaction> _transacions = [];
   List<Transaction> _filteredTransactions = [];
 
-  final UkhesheService ukhesheService;
   final Bank wallet;
 
-  TransactionHistoryViewModel({@required this.ukhesheService, @required this.wallet});
+  TransactionHistoryViewModel({required this.wallet});
 
   @override
   void initialize() {
-    ukhesheService.getTransactions(wallet.customerId).asStream()
-    .listen((trans) { 
-      filteredTransactions = trans;
-      transacions = trans;
-    }, onError: (e) {
-      showError(error: e);
-    });
   }
 
   List<Transaction> get transacions => _transacions;

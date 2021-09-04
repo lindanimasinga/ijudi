@@ -8,16 +8,16 @@ import 'package:ijudi/view/start-shopping.dart';
 class AdsCardComponent extends StatelessWidget {
   final Color color;
   final Advert advert;
-  final Shop shop;
+  final Shop? shop;
 
-  AdsCardComponent({@required this.color, @required this.advert, this.shop});
+  AdsCardComponent({required this.color, required this.advert, this.shop});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
           if (advert.actionUrl != null) {
-            Utils.launchURLInCustomeTab(context, url: advert.actionUrl);
+            Utils.launchURLInCustomeTab(context, url: advert.actionUrl!);
           } else if (shop != null) {
             Navigator.pushNamed(context, StartShoppingView.ROUTE_NAME,
                 arguments: shop);
@@ -35,7 +35,7 @@ class AdsCardComponent extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
                   image: DecorationImage(
-                    image: NetworkImage(advert.imageUrl),
+                    image: NetworkImage(advert.imageUrl!),
                     fit: BoxFit.cover,
                   )),
             )));

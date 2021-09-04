@@ -8,10 +8,11 @@ part of 'selection-option.dart';
 
 SelectionOption _$SelectionOptionFromJson(Map<String, dynamic> json) {
   return SelectionOption()
-    ..name = json['name'] as String
-    ..price = (json['price'] as num)?.toDouble()
-    ..values = (json['values'] as List)?.map((e) => e as String)?.toList()
-    ..selected = json['selected'] as String;
+    ..name = json['name'] as String?
+    ..price = (json['price'] as num?)?.toDouble()
+    ..values =
+        (json['values'] as List<dynamic>?)?.map((e) => e as String).toList()
+    ..selected = json['selected'] as String?;
 }
 
 Map<String, dynamic> _$SelectionOptionToJson(SelectionOption instance) =>

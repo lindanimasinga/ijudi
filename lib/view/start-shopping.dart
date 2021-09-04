@@ -11,7 +11,7 @@ import 'package:ijudi/viewmodel/start-shopping-view-model.dart';
 class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
   static const ROUTE_NAME = "start-shopping";
 
-  StartShoppingView({viewModel}) : super(viewModel);
+  StartShoppingView({@required viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                         padding:
                             EdgeInsets.only(left: 0, right: 16, bottom: 16),
                         child: BasketComponent(
-                            basket: viewModel.order.basket,
+                            basket: viewModel.order!.basket,
                             removeAction: (basketItem) =>
                                 viewModel.remove(basketItem))),
                     Column(
@@ -65,7 +65,7 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                               padding: EdgeInsets.only(
                                   left: 0, right: 16, bottom: 16),
                               child: StocksWithImageComponent(
-                                  label: entry.key.toUpperCase(),
+                                  label: entry.key!.toUpperCase(),
                                   stocks: entry.value,
                                   addAction: (stock) =>
                                       viewModel.add(stock.take(1)))))

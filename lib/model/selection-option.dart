@@ -4,21 +4,21 @@ part 'selection-option.g.dart';
 
 @JsonSerializable()
 class SelectionOption {
-  String name;
-  List<String> _values;
-  double price;
-  String _selected;
+  String? name;
+  List<String>? _values;
+  double? price;
+  String? _selected;
 
   SelectionOption();
 
-  List<String> get values => _values;
-  set values(List<String> values) {
-    _values = values?.map((e) => e.trim())?.toList();
+  List<String>? get values => _values;
+  set values(List<String>? values) {
+    _values = values?.map((e) => e.trim()).toList();
   }
 
-  String get selected => _selected != null ? _selected : values != null ? values[0] : "None";
+  String? get selected => _selected != null ? _selected : values != null ? values![0] : "None";
 
-  set selected(String selected) {
+  set selected(String? selected) {
     _selected = selected;
   }
 

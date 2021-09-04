@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class IjudiForm extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-  final Widget child;
+  final Widget? child;
 
   IjudiForm({this.child});
 

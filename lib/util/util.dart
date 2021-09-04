@@ -34,7 +34,7 @@ class Utils {
   static const LOTTIE_BY_STAGE = {
     OrderStage.STAGE_0_CUSTOMER_NOT_PAID: "assets/lottie/loading.json",
     OrderStage.STAGE_1_WAITING_STORE_CONFIRM: "assets/lottie/loading.json",
-    OrderStage.STAGE_2_STORE_PROCESSING: "assets/lottie/packing.json",
+    OrderStage.STAGE_2_STORE_PROCESSING: "assets/lottie/pan.json",
     OrderStage.STAGE_3_READY_FOR_COLLECTION: "assets/lottie/food.json",
     OrderStage.STAGE_4_ON_THE_ROAD: "assets/lottie/delivery.json",
     OrderStage.STAGE_5_ARRIVED: "assets/lottie/loading.json",
@@ -81,7 +81,7 @@ class Utils {
 
   static final currencyFormatter = NumberFormat("#,##0.00");
 
-  static double generateWaveNumber(int max) {
+  static double? generateWaveNumber(int max) {
     var number;
     if (Random().nextBool()) {
       number = Random().nextDouble() >= 0.5 ? 0.8 : 0.4;
@@ -91,29 +91,13 @@ class Utils {
     return number > 0 ? number.toDouble() : generateWaveNumber(max);
   }
 
-  static Shop createPlaceHolder() {
-    return Shop(
-        id: "1",
-        name: "......",
-        registrationNumber: "",
-        mobileNumber: "...........",
-        description: "..............",
-        address: "............",
-        imageUrl: "https://pbs.twimg.com/media/C1OKE9QXgAAArDp.jpg",
-        role: ProfileRoles.STORE,
-        yearsInService: 0,
-        badges: 0,
-        likes: 0,
-        servicesCompleted: 0,
-        bank: Bank(name: "Name", accountId: "Account", type: "Wallet"));
-  }
-
-  static DateTime dateFromJson(String dateString) {
+  static DateTime? dateFromJson(String? dateString) {
     if (dateString == null) return null;
     return DateTime.parse(dateString);
   }
 
-  static String dateToJson(DateTime time) {
+  static String? dateToJson(DateTime? time) {
+    if (time == null) return null;
     var date = DateTime.now();
     var pickupDate =
         DateTime(date.year, date.month, date.day, time.hour, time.minute);
@@ -121,7 +105,6 @@ class Utils {
   }
 
   static TimeOfDay timeOfDayFromJson(String dateString) {
-    if (dateString == null) return null;
     var date = DateTime.parse(dateString);
     return TimeOfDay.fromDateTime(date);
   }
@@ -153,16 +136,17 @@ class Utils {
         : pickupDate;
   }
 
-  static void launchURLInCustomeTab(BuildContext context, {String url}) async {
+  static void launchURLInCustomeTab(BuildContext context,
+      {required String url}) async {
     try {
       await launch(
         url,
-        option: new CustomTabsOption(
+        customTabsOption: CustomTabsOption(
           toolbarColor: IjudiColors.color3,
           enableDefaultShare: true,
           enableUrlBarHiding: true,
           showPageTitle: true,
-          animation: CustomTabsAnimation.slideIn(),
+          animation: CustomTabsSystemAnimation.slideIn(),
           extraCustomTabs: <String>[
             // ref. https://play.google.com/store/apps/details?id=org.mozilla.firefox
             'org.mozilla.firefox',
@@ -217,7 +201,7 @@ class Utils {
     return (sum % 10 == 0);
   }
 
-  static bool validSANumber(String cellNumber) {
+  static bool validSANumber(String? cellNumber) {
     RegExp reg = RegExp("((0))([0-9]{9})");
     return cellNumber != null &&
         cellNumber.length == 10 &&
@@ -229,7 +213,7 @@ class Utils {
     return name != null && reg.hasMatch(name);
   }
 
-  static String formatToCurrency(double value) {
+  static String formatToCurrency(double? value) {
     return value == null ? "None" : currencyFormatter.format(value);
   }
 
@@ -238,8 +222,6 @@ class Utils {
     return DateTime(
         today.year, today.month, today.day, timeOfDay.hour, timeOfDay.minute);
   }
-
-  static int hoursMinuteAsInt(TimeOfDay open) {}
 
   static bool isSameDay(DateTime time1, DateTime time2) {
     return time1.year == time2.year &&

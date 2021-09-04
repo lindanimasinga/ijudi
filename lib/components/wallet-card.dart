@@ -15,9 +15,9 @@ class WalletCard extends StatelessWidget with MessageDialogs {
   final String depositMessage = "";
 
   const WalletCard(
-      {@required this.wallet,
-      @required this.onTopUp,
-      @required this.onWithdraw});
+      {required this.wallet,
+      required this.onTopUp,
+      required this.onWithdraw});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class WalletCard extends StatelessWidget with MessageDialogs {
                             color: IjudiColors.color3),
                         onPressed: () => onDeposit(context,
                             nedbankAccount:
-                                config.depositingNedBankAccountNumber,
+                                config!.depositingNedBankAccountNumber,
                             fnbAccount: config.depositingFnbBankAccountNumber,
                             ukhesheAccount: wallet.accountId)),
                     Text("Cash Deposit", style: IjudiStyles.CARD_ICON_BUTTON)
@@ -120,9 +120,9 @@ class WalletCard extends StatelessWidget with MessageDialogs {
   }
 
   onDeposit(BuildContext context,
-      {@required String nedbankAccount,
-      @required String fnbAccount,
-      @required String ukhesheAccount}) {
+      {required String nedbankAccount,
+      required String fnbAccount,
+      required String? ukhesheAccount}) {
     final Brightness brightnessValue =
         MediaQuery.of(context).platformBrightness;
     bool isLight = brightnessValue == Brightness.light;

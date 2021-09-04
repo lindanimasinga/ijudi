@@ -16,7 +16,7 @@ import 'package:url_launcher/url_launcher.dart' as UrlOutSide;
 class LoginView extends MvStatefulWidget<LoginViewModel> {
   static const String ROUTE_NAME = "/";
 
-  LoginView({LoginViewModel viewModel}) : super(viewModel);
+  LoginView({required LoginViewModel viewModel}) : super(viewModel);
 
   @override
   void initialize() {}
@@ -105,7 +105,7 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                         child: Buttons.account(
                           text: "Register",
                           action: () => viewModel.register(),
-                        )),
+                        )),/*
                     !viewModel.hasBioMetric
                         ? Container()
                         : GestureDetector(
@@ -126,7 +126,7 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
                             padding: EdgeInsets.only(
                                 left: 16, right: 16, bottom: 0, top: 0),
                             child: Text("Use ${viewModel.bioMetricName}"),
-                          ),
+                          ),*/
                     Padding(
                       padding: EdgeInsets.only(
                           left: 16, right: 16, bottom: 16, top: 16),
@@ -149,6 +149,6 @@ class LoginView extends MvStatefulWidget<LoginViewModel> {
   }
 
   openWhatsapp(BuildContext context) {
-    UrlOutSide.launch(Config.currentConfig.supportPageUrl);
+    UrlOutSide.launch(Config.currentConfig!.supportPageUrl);
   }
 }

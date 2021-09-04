@@ -8,7 +8,7 @@ class OrderHistoryItemComponent extends StatelessWidget {
   final Order order;
   final Function onTap;
 
-  OrderHistoryItemComponent({@required this.order, @required this.onTap});
+  OrderHistoryItemComponent({required this.order, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -37,28 +37,28 @@ class OrderHistoryItemComponent extends StatelessWidget {
                                 order.shippingData?.type ==
                                         ShippingType.DELIVERY
                                     ? Text(
-                                        "Ordered On: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.date)}",
+                                        "Ordered On: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.date!)}",
                                         style: IjudiStyles.CARD_SHOP_DISCR)
                                     : order.shippingData?.type ==
                                             ShippingType.SCHEDULED_DELIVERY
                                         ? Text(
-                                            "Delivery On: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.shippingData.pickUpTime)}",
+                                            "Delivery On: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.shippingData!.pickUpTime!)}",
                                             style: IjudiStyles.CARD_SHOP_DISCR)
                                         : Text(
-                                            "In store: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.date)}",
+                                            "In store: ${DateFormat("dd MMM yy 'at' HH:mm").format(order.date!)}",
                                             style: IjudiStyles.CARD_SHOP_DISCR),
                                 Padding(padding: EdgeInsets.only(top: 8)),
                                 Text(
-                                    "Total Amount: R${Utils.formatToCurrency(order.basket.getBasketTotalAmount())}")
+                                    "Total Amount: R${Utils.formatToCurrency(order.basket!.getBasketTotalAmount())}")
                               ],
                             )),
                         Container(
                           alignment: Alignment.center,
                           width: statusWidth,
                           height: 90,
-                          color: Utils.orderStatusColors[order.stage],
+                          color: Utils.orderStatusColors[order.stage!],
                           child: Text(
-                            Utils.statusText[order.stage],
+                            Utils.statusText[order.stage!]!,
                             style: IjudiStyles.HEADER_TEXT,
                             textAlign: TextAlign.center,
                           ),

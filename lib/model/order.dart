@@ -9,45 +9,45 @@ part 'order.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class Order {
-  String id;
-  Shipping shippingData;
-  PaymentType paymentType = PaymentType.PAYFAST;
-  OrderType orderType = OrderType.ONLINE;
-  bool hasVat;
-  Basket basket = Basket();
-  String customerId;
-  String shopId;
+  String? id;
+  Shipping? shippingData;
+  PaymentType? paymentType = PaymentType.PAYFAST;
+  OrderType? orderType = OrderType.ONLINE;
+  bool? hasVat;
+  Basket? basket = Basket();
+  String? customerId;
+  String? shopId;
   @JsonKey(fromJson: dateFromJson)
-  DateTime date;
-  OrderStage stage = OrderStage.STAGE_0_CUSTOMER_NOT_PAID;
-  double serviceFee = 0;
-  double totalAmount = 0;
-  UserProfile _customer;
-  Shop _shop;
-  String description;
+  DateTime? date;
+  OrderStage? stage = OrderStage.STAGE_0_CUSTOMER_NOT_PAID;
+  double? serviceFee = 0;
+  double? totalAmount = 0;
+  UserProfile? _customer;
+  Shop? _shop;
+  String? description;
 
   Order();
 
   String get totalAmountFomarted => Utils.formatToCurrency(totalAmount);
 
   @JsonKey(ignore: true)
-  Shop get shop => _shop;
+  Shop? get shop => _shop;
 
-  get shippingFee => shippingData != null ? shippingData.fee : 0;
+  get shippingFee => shippingData != null ? shippingData!.fee : 0;
 
   @JsonKey(ignore: true)
-  set shop(Shop shop) {
+  set shop(Shop? shop) {
     _shop = shop;
-    shopId = _shop.id;
+    shopId = _shop!.id;
   }
 
   @JsonKey(ignore: true)
-  UserProfile get customer => _customer;
+  UserProfile? get customer => _customer;
 
   @JsonKey(ignore: true)
-  set customer(UserProfile customer) {
+  set customer(UserProfile? customer) {
     _customer = customer;
-    customerId = _customer.id;
+    customerId = _customer!.id;
   }
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
@@ -69,17 +69,17 @@ enum OrderType { ONLINE, INSTORE }
 
 @JsonSerializable(includeIfNull: false)
 class Shipping {
-  String fromAddress;
-  BuildingType buildingType;
-  String unitNumber;
-  String buildingName;
-  String toAddress;
-  String additionalInstructions;
-  ShippingType type;
-  double fee = 0;
-  double distance = 0;
-  UserProfile messenger;
-  DateTime pickUpTime = DateTime.now();
+  String? fromAddress;
+  BuildingType? buildingType;
+  String? unitNumber;
+  String? buildingName;
+  String? toAddress;
+  String? additionalInstructions;
+  ShippingType? type;
+  double? fee = 0;
+  double? distance = 0;
+  UserProfile? messenger;
+  DateTime? pickUpTime = DateTime.now();
 
   var messengerId;
 

@@ -1,10 +1,10 @@
 import 'dart:developer';
 
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:ijudi/api/api-service.dart';
-import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/config.dart';
 import 'package:ijudi/model/business-hours.dart';
 import 'package:ijudi/model/day.dart';
@@ -12,16 +12,14 @@ import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/util/message-dialogs.dart';
-import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/payment-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:intl/intl.dart';
 
 class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
-  Order order;
-  final UkhesheService ukhesheService;
+  Order? order;
   final ApiService apiService;
-  final StorageManager storageManager;
+  final StorageManager? storageManager;
   bool fetchingMessangers = false;
 
   BuildingType _buildingType = BuildingType.HOUSE;
@@ -30,62 +28,61 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
   List<UserProfile> _messangers = [];
 
   DeliveryOptionsViewModel(
-      {@required this.ukhesheService,
-      @required this.order,
-      @required this.apiService,
-      @required this.storageManager});
+      {required this.order,
+      required this.apiService,
+      required this.storageManager});
 
   List<UserProfile> get messangers => _messangers;
 
   String get buildingName => _buildingName;
   set buildingName(String buildingName) {
     _buildingName = buildingName;
-    order.shippingData.buildingName = buildingName;
+    order!.shippingData!.buildingName = buildingName;
   }
 
   String get unitNumner => _unitNumner;
   set unitNumner(String unitNumner) {
     _unitNumner = unitNumner;
-    order.shippingData.unitNumber = unitNumner;
+    order!.shippingData!.unitNumber = unitNumner;
   }
 
   BuildingType get buildingType => _buildingType;
   set buildingType(BuildingType buildingType) {
     _buildingType = buildingType;
-    order.shippingData.buildingType = _buildingType;
+    order!.shippingData!.buildingType = _buildingType;
     notifyChanged();
   }
 
   get isBuildingInfoRequired =>
-      order.shippingData.buildingType == BuildingType.APARTMENT ||
-      order.shippingData.buildingType == BuildingType.OFFICE;
+      order!.shippingData!.buildingType == BuildingType.APARTMENT ||
+      order!.shippingData!.buildingType == BuildingType.OFFICE;
 
   get allowedOrder =>
       fetchingMessangers ||
       messangers.length > 0 ||
-      order.shippingData.type == ShippingType.SCHEDULED_DELIVERY;
+      order!.shippingData!.type == ShippingType.SCHEDULED_DELIVERY;
 
   set messangers(List<UserProfile> messangers) {
     _messangers = messangers;
     notifyChanged();
   }
 
-  ShippingType get shippingType => order.shippingData.type;
-  set shippingType(ShippingType delivery) {
-    order.shippingData.type = delivery;
+  ShippingType? get shippingType => order!.shippingData!.type;
+  set shippingType(ShippingType? delivery) {
+    order!.shippingData!.type = delivery;
     if (!allowedOrder) {
       showError(error: "No drivers available on your area at the moment.");
     }
-    if (order.shippingData.type == ShippingType.DELIVERY &&
-        order.shippingData.buildingType == null) {
-      order.shippingData.buildingType = BuildingType.HOUSE;
+    if (order!.shippingData!.type == ShippingType.DELIVERY &&
+        order!.shippingData!.buildingType == null) {
+      order!.shippingData!.buildingType = BuildingType.HOUSE;
     }
     notifyChanged();
   }
 
-  get deliveryAddress => order.shippingData.toAddress;
+  get deliveryAddress => order!.shippingData!.toAddress;
   set deliveryAddress(deliveryAddress) {
-    order.shippingData.toAddress = deliveryAddress;
+    order!.shippingData!.toAddress = deliveryAddress;
     notifyChanged();
     findMessengers();
   }
@@ -94,10 +91,10 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
     return shippingType == ShippingType.DELIVERY;
   }
 
-  bool get isLoggedIn => storageManager.isLoggedIn;
+  bool get isLoggedIn => storageManager!.isLoggedIn;
 
   List<BusinessHours> get businessHours {
-    var hours = order.shop.businessHours;
+    var hours = order!.shop!.businessHours;
     if (hours != null) return hours;
 
     hours = [
@@ -115,28 +112,28 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
     return hours;
   }
 
-  DateTime get arrivalTime => order.shippingData.pickUpTime;
+  DateTime? get arrivalTime => order!.shippingData!.pickUpTime;
 
   bool get isValidDeliveryTime {
-    var pickUpDateTime = order.shippingData.pickUpTime;
-    var businessDay = businessHours.firstWhere((day) =>
-        DateFormat('EEEE').format(pickUpDateTime).toUpperCase() ==
-        describeEnum(day.day), orElse: () => null,);
+    var pickUpDateTime = order!.shippingData!.pickUpTime;
+    var businessDay = businessHours.firstWhereOrNull((day) =>
+        DateFormat('EEEE').format(pickUpDateTime!).toUpperCase() ==
+        describeEnum(day.day!), );
 
     if(businessDay == null) {
       return false;
     }    
 
-    int openTime = int.parse("${DateFormat('HHmm').format(businessDay.open)}");
-    int pickUpTime = int.parse("${DateFormat('HHmm').format(pickUpDateTime)}");
+    int openTime = int.parse("${DateFormat('HHmm').format(businessDay.open!)}");
+    int pickUpTime = int.parse("${DateFormat('HHmm').format(pickUpDateTime!)}");
     int closeTime =
-        int.parse("${DateFormat('HHmm').format(businessDay.close)}");
+        int.parse("${DateFormat('HHmm').format(businessDay.close!)}");
     log("open $openTime, delivery $pickUpTime, close $closeTime");
     return openTime <= pickUpTime && closeTime >= pickUpTime;
   }
 
-  set arrivalTime(DateTime arrivalTime) {
-    order.shippingData.pickUpTime = arrivalTime;
+  set arrivalTime(DateTime? arrivalTime) {
+    order!.shippingData!.pickUpTime = arrivalTime;
     if (!isValidDeliveryTime) {
       showError(
           error:
@@ -148,13 +145,13 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
   @override
   void initialize() {
     //
-    order.shippingData = Shipping();
-    order.shippingData.toAddress =
-        order.customer != null ? order.customer.address : "";
-    order.shippingData.buildingType = BuildingType.HOUSE;
-    order.shippingData.fromAddress = order.shop.name;
-    order.shippingData.fee = 0;
-    order.shippingData.type = order.shop.scheduledDeliveryAllowed
+    order!.shippingData = Shipping();
+    order!.shippingData!.toAddress =
+        order!.customer != null ? order!.customer!.address : "";
+    order!.shippingData!.buildingType = BuildingType.HOUSE;
+    order!.shippingData!.fromAddress = order!.shop!.name;
+    order!.shippingData!.fee = 0;
+    order!.shippingData!.type = order!.shop!.scheduledDeliveryAllowed!
         ? ShippingType.SCHEDULED_DELIVERY
         : ShippingType.DELIVERY;
     findMessengers();
@@ -166,7 +163,7 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
       return;
     }
 
-    if (order.shippingData.type == ShippingType.SCHEDULED_DELIVERY &&
+    if (order!.shippingData!.type == ShippingType.SCHEDULED_DELIVERY &&
         !isValidDeliveryTime) {
       showError(
           error:
@@ -175,66 +172,66 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
     }
 
     if (!isLoggedIn) {
-      showLoginMessage(context, params: order.shippingData.toAddress);
+      showLoginMessage(context, params: order!.shippingData!.toAddress);
       return;
     }
 
-    if (order.shippingData.type == ShippingType.DELIVERY) {
-      var storeMessengeId = order.shop.storeMessenger?.id;
-      var messenger = messangers?.firstWhere(
+    if (order!.shippingData!.type == ShippingType.DELIVERY) {
+      var storeMessengeId = order!.shop!.storeMessenger?.id;
+      var messenger = messangers.firstWhere(
           (item) => item.id == storeMessengeId,
           orElse: () => messangers[0]);
-      order.shippingData.messenger = messenger;
-      order.shippingData.messengerId = messenger.id;
+      order!.shippingData!.messenger = messenger;
+      order!.shippingData!.messengerId = messenger.id;
     }
 
     var userId = apiService.currentUserPhone;
-    progressMv.isBusy = true;
-    var streamCall = order.customer == null
+    progressMv!.isBusy = true;
+    var streamCall = order!.customer == null
         ? apiService
             .findUserByPhone(userId)
             .asStream()
-            .map((user) => order.customer = user)
+            .map((user) => order!.customer = user)
         : Stream.value("");
 
-    order.description = "order from ${order.shop.name}";
+    order!.description = "order from ${order!.shop!.name}";
     streamCall
         .asyncExpand((event) => apiService.startOrder(order).asStream())
         .map((resp) {
-      var oldOrder = order;
+      var oldOrder = order!;
       order = resp;
-      order.customer = oldOrder.customer;
-      order.shop = oldOrder.shop;
-      order.shippingData.messenger = oldOrder.shippingData.messenger;
-      order.description =
-          "Payment from ${order.customer.mobileNumber}: order ${resp.id}";
+      order!.customer = oldOrder.customer;
+      order!.shop = oldOrder.shop;
+      order!.shippingData!.messenger = oldOrder.shippingData!.messenger;
+      order!.description =
+          "Payment from ${order!.customer!.mobileNumber}: order ${resp.id}";
     }).listen((customerResponse) {
       BaseViewModel.analytics.logEvent(name: "order.start", parameters: {
-        "shop": order.shop.name,
-        "Order Id": order.id,
-        "Delivery": order.shippingData.type.toString(),
-        "Total Amount": order.totalAmount
+        "shop": order!.shop!.name,
+        "Order Id": order!.id,
+        "Delivery": order!.shippingData!.type.toString(),
+        "Total Amount": order!.totalAmount
       }).then((value) => {});
 
       Navigator.popAndPushNamed(context, PaymentView.ROUTE_NAME,
           arguments: order);
-    }, onError: (handleError) {
+    } as void Function(Null)?, onError: (handleError) {
       showError(error: handleError);
       log("handleError", error: handleError);
     }, onDone: () {
-      progressMv.isBusy = false;
+      progressMv!.isBusy = false;
     });
   }
 
   findMessengers() {
     log("searching for messengers");
     fetchingMessangers = true;
-    locationFromAddress(order.shippingData.toAddress)
+    locationFromAddress(order!.shippingData!.toAddress!)
         .asStream()
         .map((data) => data[0])
         .asyncExpand((position) => apiService
             .findNearbyMessangers(position.latitude, position.longitude,
-                Config.currentConfig.rangeMap["15km"])
+                Config.currentConfig!.rangeMap["15km"])
             .asStream())
         .listen((messa) {
       messangers = messa;

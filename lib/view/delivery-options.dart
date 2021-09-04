@@ -47,25 +47,25 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
                         bottom: 16, left: 0, right: 16, top: 16),
                     alignment: Alignment.center,
                     child:
-                        BasketViewOnlyComponent(basket: viewModel.order.basket),
+                        BasketViewOnlyComponent(basket: viewModel.order!.basket),
                   ),
                   IjudiForm(
                       child: Row(
                     children: <Widget>[
                       Radio(
                         value: ShippingType.SCHEDULED_DELIVERY,
-                        groupValue: viewModel.order.shippingData.type,
-                        onChanged: (selection) =>
+                        groupValue: viewModel.order!.shippingData!.type,
+                        onChanged: (dynamic selection) =>
                             viewModel.shippingType = selection,
                       ),
                       Text('Deliver Later', style: Forms.INPUT_TEXT_STYLE),
                       Radio(
                         value: ShippingType.DELIVERY,
-                        toggleable: viewModel.order.shop.deliverNowAllowed,
-                        groupValue: viewModel.order.shippingData.type,
-                        onChanged: viewModel.order.shop.deliverNowAllowed
-                            ? (selection) => viewModel.shippingType = selection
-                            : (selection) => {},
+                        toggleable: viewModel.order!.shop!.deliverNowAllowed!,
+                        groupValue: viewModel.order!.shippingData!.type,
+                        onChanged: viewModel.order!.shop!.deliverNowAllowed!
+                            ? (dynamic selection) => viewModel.shippingType = selection
+                            : (dynamic selection) => {},
                       ),
                       Text('Deliver Now', style: Forms.INPUT_TEXT_STYLE)
                     ],
@@ -96,7 +96,7 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
           IjudiInputField(
               hint: "From Shop",
               enabled: false,
-              text: viewModel.order.shop.name,
+              text: viewModel.order!.shop!.name,
               color: IjudiColors.color5),
           IjudiDropDownField(
               hint: "Buidling Type",
@@ -145,7 +145,7 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
     List<Widget> textSpans = [];
     viewModel.businessHours.forEach((time) {
       textSpans.add(Text(
-          "${DateFormat('HH:mm').format(time.open)} - ${DateFormat('HH:mm').format(time.close)} ${describeEnum(time.day)}",
+          "${DateFormat('HH:mm').format(time.open!)} - ${DateFormat('HH:mm').format(time.close!)} ${describeEnum(time.day!)}",
           style: IjudiStyles.CONTENT_TEXT));
       textSpans.add(Padding(padding: EdgeInsets.only(top: 8)));
     });
@@ -174,7 +174,7 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
             IjudiForm(
                 child: IjudiTimeInput(
               hint: "Date",
-              text: "${Utils.pickUpDay(viewModel.arrivalTime, context)}",
+              text: "${Utils.pickUpDay(viewModel.arrivalTime!, context)}",
               onChanged: (DateTime time) => viewModel.arrivalTime = time,
             )),
             Padding(padding: EdgeInsets.only(top: 8)),

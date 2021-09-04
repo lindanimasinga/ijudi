@@ -4,7 +4,7 @@ import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 
 class IjudiSelectionComponent extends StatefulWidget {
-  final SelectionOption option;
+  final SelectionOption? option;
   final Color color;
 
   IjudiSelectionComponent({
@@ -20,11 +20,11 @@ class IjudiSelectionComponent extends StatefulWidget {
 
 class _IjudiSelectionComponent extends State<IjudiSelectionComponent> {
   Color color;
-  final TextInputType type;
-  final SelectionOption option;
+  final TextInputType? type;
+  final SelectionOption? option;
 
   _IjudiSelectionComponent(
-      {@required this.option, this.color = IjudiColors.color5, this.type});
+      {required this.option, this.color = IjudiColors.color5, this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +34,8 @@ class _IjudiSelectionComponent extends State<IjudiSelectionComponent> {
         children: <Widget>[
           Radio(
             value: value,
-            groupValue: option.selected,
-            onChanged: (selection) => selected = selection,
+            groupValue: option!.selected,
+            onChanged: (dynamic selection) => selected = selection,
           ),
           Container(
               width: 93,
@@ -47,13 +47,13 @@ class _IjudiSelectionComponent extends State<IjudiSelectionComponent> {
     return Container(
         margin: EdgeInsets.only(bottom: 8),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text("${option.name} (R${Utils.formatToCurrency(option.price)})"),
+          Text("${option!.name} (R${Utils.formatToCurrency(option!.price)})"),
           Row(children: [Column(children: choices), Container()])
         ]));
   }
 
-  set selected(String selected) {
-    option.selected = selected;
+  set selected(String? selected) {
+    option!.selected = selected;
     setState(() {});
   }
 }

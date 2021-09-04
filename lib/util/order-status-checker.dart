@@ -4,15 +4,15 @@ import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/order.dart';
 
 mixin OrderStatusChecker {
-  Timer _timer;
-  ApiService apiService;
-  Order currentOrder;
-  List<Order> orders;
+  late Timer _timer;
+  late ApiService apiService;
+  Order? currentOrder;
+  List<Order>? orders;
 
   startOrderStatusCheck() {
     _timer = Timer.periodic(Duration(seconds: 10), (time) {
-      apiService.findOrderById(currentOrder.id).asStream().listen((respo) {
-        currentOrder.stage = respo.stage;
+      apiService.findOrderById(currentOrder!.id).asStream().listen((respo) {
+        currentOrder!.stage = respo.stage;
         notifyChanged();
       }, onError: (e) {
         showError(error: e);
@@ -20,7 +20,7 @@ mixin OrderStatusChecker {
     });
   }
 
-  startOrdersStatusCheck({String storeId, String messengerId, String userId}) {
+  startOrdersStatusCheck({String? storeId, String? messengerId, String? userId}) {
     _timer = Timer.periodic(Duration(seconds: 10), (time) {
       Future<List<Order>> orderStream = userId != null
           ? apiService.findOrdersByPhoneNumber(userId)

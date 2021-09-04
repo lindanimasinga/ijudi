@@ -12,7 +12,7 @@ class ProfileView extends MvStatefulWidget<ProfileViewModel> {
   
   static const ROUTE_NAME = "profile";
 
-  ProfileView({ProfileViewModel viewModel}) : super(viewModel);
+  ProfileView({required ProfileViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class ProfileView extends MvStatefulWidget<ProfileViewModel> {
                               ),
                               image: DecorationImage(
                                 image: NetworkImage(
-                                    viewModel.userProfile.imageUrl),
+                                    viewModel.userProfile!.imageUrl!),
                                 fit: BoxFit.contain,
                               ),
                             ))),
@@ -66,19 +66,19 @@ class ProfileView extends MvStatefulWidget<ProfileViewModel> {
                           IjudiInputField(
                             hint: 'Cell Number',
                             autofillHints: [AutofillHints.telephoneNumber],
-                            text: viewModel.userProfile.mobileNumber,
-                            onChanged: (number) => viewModel.userProfile.mobileNumber = number,
+                            text: viewModel.userProfile!.mobileNumber,
+                            onChanged: (number) => viewModel.userProfile!.mobileNumber = number,
                             type: TextInputType.phone,
                           ),
                           IjudiInputField(
-                              text: viewModel.userProfile.name,
-                              onChanged: (name) => viewModel.userProfile.name = name,
+                              text: viewModel.userProfile!.name,
+                              onChanged: (name) => viewModel.userProfile!.name = name,
                               autofillHints: [AutofillHints.name],
                               hint: 'Name',
                               type: TextInputType.text),
                           IjudiAddressInputField(
-                              text: viewModel.userProfile.address,
-                              onTap: (address) => viewModel.userProfile.address = address,
+                              text: viewModel.userProfile!.address,
+                              onTap: (address) => viewModel.userProfile!.address = address,
                               hint: 'Physical Address',
                               type: TextInputType.number),   
                         ],

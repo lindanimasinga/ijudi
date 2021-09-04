@@ -10,9 +10,9 @@ part 'business-hours.g.dart';
 @JsonSerializable()
 class BusinessHours {
 
-  final Day day;
-  final DateTime open;
-  final DateTime close;
+  final Day? day;
+  final DateTime? open;
+  final DateTime? close;
 
   BusinessHours(this.day, this.open, this.close);
 

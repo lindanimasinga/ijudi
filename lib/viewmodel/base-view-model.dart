@@ -3,24 +3,22 @@ import 'dart:developer';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-error-response.dart';
-import 'package:ijudi/api/ukheshe/model/error-response.dart';
-import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/viewmodel/progress-view-model.dart';
 
 abstract class BaseViewModel extends State {
   static final FirebaseAnalytics analytics = FirebaseAnalytics();
 
-  ProgressViewModel progressMv;
+  ProgressViewModel? progressMv;
   bool _hasError = false;
   bool _showLogin = false;
   String _errorMessage = "";
-  Function buildFunction;
-  Function errorBuildFunction;
-  Function initWidgetFunction;
-  Function loginBuildFunction;
+  late Function buildFunction;
+  late Function errorBuildFunction;
+  late Function initWidgetFunction;
+  late Function loginBuildFunction;
 
-  String password;
-  String username;
+  String? password;
+  String? username;
 
   BaseViewModel();
 
@@ -41,8 +39,6 @@ abstract class BaseViewModel extends State {
     _hasError = hasError;
     notifyChanged();
   }
-
-  UkhesheService get ukhesheService => null;
 
   @protected
   @override
@@ -82,9 +78,6 @@ abstract class BaseViewModel extends State {
     var errorCode;
     if (error is ApiErrorResponse) {
       errorMessege = error.message.toString();
-    } else if (error is UkhesheErrorResponse) {
-      errorMessege = error.description;
-      errorCode = error.code;
     } else {
       errorMessege = error.toString();
     }
@@ -97,10 +90,5 @@ abstract class BaseViewModel extends State {
   }
 
   login() {
-    ukhesheService.authenticate(username, password).asStream().listen((data) {},
-        onError: (handleError) {
-      showError(error: handleError);
-      //log(handleError);
-    }, onDone: () {});
   }
 }

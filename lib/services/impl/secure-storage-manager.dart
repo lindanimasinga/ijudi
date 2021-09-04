@@ -6,15 +6,15 @@ import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/services/storage-manager.dart';
 
 class SecureStorageManager extends StorageManager {
-  FlutterSecureStorage _prefs;
-  static SecureStorageManager _storageManager;
+  late FlutterSecureStorage _prefs;
+  static SecureStorageManager? _storageManager;
   Map<String, String> _storeMap = {};
 
-  static Future<StorageManager> singleton() async {
+  static Future<StorageManager?> singleton() async {
     if (_storageManager == null) {
       var store = FlutterSecureStorage();
       _storageManager = SecureStorageManager._(store);
-      await _storageManager.initialize();
+      await _storageManager!.initialize();
     }
     return _storageManager;
   }
@@ -32,7 +32,7 @@ class SecureStorageManager extends StorageManager {
     log("keys are ${json.encode(_storeMap)}");
   }
 
-  void _save(String key, String value) {
+  void _save(String key, String? value) {
     _prefs
         .write(key: key, value: value)
         .asStream()
@@ -42,12 +42,12 @@ class SecureStorageManager extends StorageManager {
   }
 
   @override
-  String findIjudiAccessToken() {
+  String? findIjudiAccessToken() {
     return _storeMap[StorageManager.ACCESS_TOKEN_IJUDI];
   }
 
   @override
-  String findUkhesheAccessToken() {
+  String? findUkhesheAccessToken() {
     return _storeMap[StorageManager.ACCESS_TOKEN_UKHESHE];
   }
 
@@ -65,7 +65,7 @@ class SecureStorageManager extends StorageManager {
 
   @override
   bool get isLoggedIn {
-    return mobileNumber != null && mobileNumber.isNotEmpty;
+    return mobileNumber != null && mobileNumber!.isNotEmpty;
   }
 
   @override
@@ -80,21 +80,21 @@ class SecureStorageManager extends StorageManager {
           _save(StorageManager.IJUDI_DEVICE_ID,
               _storeMap[StorageManager.IJUDI_DEVICE_ID]);
         })
-        .map((event) => _storeMap.clear())
+        .map(((event) => _storeMap.clear()))
         .asyncExpand((event) => _readAll().asStream());
   }
 
   @override
-  String get mobileNumber => _storeMap[StorageManager.MOBILE];
+  String? get mobileNumber => _storeMap[StorageManager.MOBILE];
 
   @override
-  set mobileNumber(String value) {
+  set mobileNumber(String? value) {
     if (value == null || value.isEmpty) return null;
     _save(StorageManager.MOBILE, value);
   }
 
   @override
-  String findUkhesheTokenExpiryDate() {
+  String? findUkhesheTokenExpiryDate() {
     return _storeMap[StorageManager.UKHESHE_EXPIRY];
   }
 
@@ -114,35 +114,27 @@ class SecureStorageManager extends StorageManager {
   }
 
   @override
-  void saveIjudiUserId(String id) {
+  void saveIjudiUserId(String? id) {
     if (id == null || id.isEmpty) return null;
     _save(StorageManager.IJUDI_USER_ID, id);
   }
 
   @override
-  String getIjudiUserId() {
+  String? getIjudiUserId() {
     return _storeMap[StorageManager.IJUDI_USER_ID];
   }
 
   @override
-  String get deviceId => _storeMap[StorageManager.IJUDI_DEVICE_ID];
+  String? get deviceId => _storeMap[StorageManager.IJUDI_DEVICE_ID];
 
   @override
-  set deviceId(String id) {
+  set deviceId(String? id) {
     if (id == null || id.isEmpty) return null;
     _save(StorageManager.IJUDI_DEVICE_ID, id);
   }
 
   @override
-  get password => _storeMap[StorageManager.UKHESHE_PASSWORD];
-
-  @override
-  set password(String value) {
-    _save(StorageManager.UKHESHE_PASSWORD, value);
-  }
-
-  @override
-  ProfileRoles get profileRole {
+  ProfileRoles? get profileRole {
     var stringEnum = _storeMap[StorageManager.PROFILE_ROLE];
     return stringEnum == null
         ? null
@@ -151,15 +143,15 @@ class SecureStorageManager extends StorageManager {
   }
 
   @override
-  set profileRole(ProfileRoles value) {
+  set profileRole(ProfileRoles? value) {
     _save(StorageManager.PROFILE_ROLE, value.toString());
   }
 
   @override
-  String get selectedLocation => _storeMap[StorageManager.SELECTED_LOCATION];
+  String? get selectedLocation => _storeMap[StorageManager.SELECTED_LOCATION];
 
   @override
-  set selectedLocation(String name) {
+  set selectedLocation(String? name) {
     if (name == null || name.isEmpty) return null;
     _save(StorageManager.SELECTED_LOCATION, name);
   }

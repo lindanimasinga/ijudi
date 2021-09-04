@@ -10,7 +10,7 @@ import 'package:ijudi/viewmodel/order-progress-view-model.dart';
 class FinalOrderView extends MvStatefulWidget<FinalOrderViewModel> {
   static const String ROUTE_NAME = "/finalOrder";
 
-  FinalOrderView({FinalOrderViewModel viewModel}) : super(viewModel);
+  FinalOrderView({required FinalOrderViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class FinalOrderView extends MvStatefulWidget<FinalOrderViewModel> {
                       viewModel: OrderProgressViewModel(
                           order: viewModel.currentOrder,
                           stage: OrderStage.STAGE_1_WAITING_STORE_CONFIRM,
-                      label: "Order Number ${viewModel.currentOrder.id}")),
+                      label: "Order Number ${viewModel.currentOrder!.id}")),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
                           order: viewModel.currentOrder,

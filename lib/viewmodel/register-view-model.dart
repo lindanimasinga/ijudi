@@ -2,22 +2,19 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
-import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/services/local-notification-service.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/util/util.dart';
-import 'package:ijudi/view/login-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class RegisterViewModel extends BaseViewModel {
-  final UkhesheService ukhesheService;
   final ApiService apiService;
-  final StorageManager storage;
-  final NotificationService notificationService;
+  final StorageManager? storage;
+  final NotificationService? notificationService;
 
-  String otp;
+  String? otp;
   final String _aboutUkheshe =
       "By signing up, I agree to the terms and conditions below.";
 
@@ -32,8 +29,8 @@ class RegisterViewModel extends BaseViewModel {
   String lastname = "";
   String description = "";
   int yearsInService = 0;
-  String email;
-  String _address = "";
+  String? email;
+  String? _address = "";
   String imageUrl =
       "https://izinga-aut.s3.af-south-1.amazonaws.com/images/user.png";
   int likes = 0;
@@ -42,18 +39,18 @@ class RegisterViewModel extends BaseViewModel {
   String mobileNumber = "";
   String role = "";
   int responseTimeMinutes = 0;
-  String password;
-  String passwordConfirm;
+  String? password;
+  String? passwordConfirm;
   bool _hasUkheshe = false;
   bool isFirstTimeUser;
 
   RegisterViewModel(
-      {this.ukhesheService,
-      @required this.apiService,
-      @required this.storage,
-      @required this.notificationService,
+      {
+      required this.apiService,
+      required this.storage,
+      required this.notificationService,
       this.isFirstTimeUser = false,
-      String address}) {
+      String? address}) {
     _address = address;
   }
 
@@ -63,8 +60,8 @@ class RegisterViewModel extends BaseViewModel {
     notifyChanged();
   }
 
-  String get address => _address;
-  set address(String address) {
+  String? get address => _address;
+  set address(String? address) {
     _address = address;
     notifyChanged();
   }
@@ -76,26 +73,13 @@ class RegisterViewModel extends BaseViewModel {
     notifyChanged();
   }
 
-  String bankName;
-  String bankAccountNumber;
-  String bankAccountType;
-  String bankCellNumber;
+  String? bankName;
+  String? bankAccountNumber;
+  String? bankAccountType;
+  String? bankCellNumber;
   Bank _bank = Bank(name: null, accountId: null, type: null);
 
   String get ukhesheMessage => _aboutUkheshe;
-
-  Stream _registerBank() {
-    _bank.name = name;
-    _bank.phone = mobileNumber;
-    _bank.type = "wallet";
-    _bank.idNumber = idNumber;
-    if (otp == null || otp.isEmpty) {
-      Stream.error("Please try again and enter otp received via SMS.");
-    }
-    return ukhesheService
-        .registerUkhesheAccount(_bank, otp, password)
-        .asStream();
-  }
 
   signupUser() {
     if (!allFieldsValid) return;
@@ -115,7 +99,7 @@ class RegisterViewModel extends BaseViewModel {
         role: ProfileRoles.CUSTOMER,
         bank: _bank);
 
-    progressMv.isBusy = true;
+    progressMv!.isBusy = true;
     apiService
         .findUserByPhone(mobileNumber)
         .catchError((error) => log("user does not exist."))
@@ -127,12 +111,11 @@ class RegisterViewModel extends BaseViewModel {
       log("successful registration");
       BaseViewModel.analytics.logSignUp(signUpMethod: "cellphone");
 
-      storage.mobileNumber = mobileNumber;
-      storage.password = password;
-      storage.profileRole = data.role;
+      storage!.mobileNumber = mobileNumber;
+      storage!.profileRole = data.role;
       log("user Id is ${data.id}");
-      storage.saveIjudiUserId(data.id);
-      notificationService.updateDeviceUser();
+      storage!.saveIjudiUserId(data.id);
+      notificationService!.updateDeviceUser();
 
       Navigator.pop(context);
     }, onError: (e) {
@@ -142,13 +125,13 @@ class RegisterViewModel extends BaseViewModel {
         "cellNumber": mobileNumber
       }).then((value) => {});
     }, onDone: () {
-      progressMv.isBusy = false;
+      progressMv!.isBusy = false;
     });
   }
 
   bool get allFieldsValid {
     passwordValid = password != null &&
-        password.isNotEmpty &&
+        password!.isNotEmpty &&
         (hasUkheshe || passwordConfirm == password);
     mobileNumberValid = mobileNumber != null &&
         mobileNumber.isNotEmpty &&

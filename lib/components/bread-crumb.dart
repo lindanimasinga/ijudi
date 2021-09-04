@@ -10,13 +10,13 @@ class BreadCrumb extends StatelessWidget {
   ];
 
   final String name;
-  final Function onPressed;
+  final Function? onPressed;
   final Color color;
   final bool selected;
   final bool lowerCase;
 
   const BreadCrumb(
-      {@required this.name,
+      {required this.name,
       this.onPressed,
       this.color = IjudiColors.color1,
       this.lowerCase = true,
@@ -30,7 +30,7 @@ class BreadCrumb extends StatelessWidget {
         child: FilterChip(
           label: Text(lowerCase ? name.toLowerCase() : name,
               style: IjudiStyles.HEADER_TEXT),
-          onSelected: (value) => onPressed(name),
+          onSelected: (value) => onPressed!(name),
           backgroundColor: color,
           selectedColor: IjudiColors.color5,
           selected: selected,

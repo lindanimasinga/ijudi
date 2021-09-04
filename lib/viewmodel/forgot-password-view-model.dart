@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
-import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class ForgotPasswordViewModel extends BaseViewModel {
 
   final ApiService apiService;
-  final UkhesheService ukhesheService;
-  final StorageManager storageManager;
+  final StorageManager? storageManager;
 
   String mobileNumber = "";
-  String password  = "";
+  String? password  = "";
   String passwordConfirm = "";
   String otpCode = "";
   bool _otpVerified = false;
@@ -19,8 +17,8 @@ class ForgotPasswordViewModel extends BaseViewModel {
 
   String _message = "Please enter your mobile number. We will send you a One Time Pin to reset your password";
 
-  ForgotPasswordViewModel({@required this.storageManager,
-   @required this.apiService, @required this.ukhesheService});
+  ForgotPasswordViewModel({required this.storageManager,
+   required this.apiService });
 
   @override
   initialize() {
@@ -54,60 +52,10 @@ class ForgotPasswordViewModel extends BaseViewModel {
       return;
     }
 
-    progressMv.isBusy = true;
-    ukhesheService.requestPasswordReset(mobileNumber).asStream()
-    .listen((event) {
-      otpRequestSent = true;
-      
-    BaseViewModel.analytics
-    .logEvent(name: "password.reset.requested")
-    .then((value) => null);
-
-    }, onError: (e) {
-      showError(error: e.toString());
-
-      BaseViewModel.analytics
-      .logEvent(name: "error.password.reset.requested")
-      .then((value) => {
-        {
-          "error" : e.toString(),
-          "cellNumber" : mobileNumber
-        }
-      });
-    }, onDone:() {
-      progressMv.isBusy = false;
-    });
+    progressMv!.isBusy = true;
   }
 
   void passwordReset() {
-
-    if(mobileNumber.length != 10) {
-      showError(error: "Mobile number is not valid.");
-      return;
-    }
-
-    if(password != passwordConfirm) {
-      showError(error: "Your confirm password does not match");
-    }
-
-    progressMv.isBusy = true;
-    var request = {
-      "identity": mobileNumber,
-      "password": password,
-      "hash": otpCode
-    };
-
-    ukhesheService.resetPassword(request).asStream()
-    .listen((event) {
-      changeSucessful = true;
-      Future.delayed(Duration(seconds: 2))
-      .then((value) => Navigator.pop(context));
-    }, onError: (e) {
-      showError(error: e);
-      hasError = true;
-    }, onDone:() {
-      progressMv.isBusy = false;
-    });
   }
 
   

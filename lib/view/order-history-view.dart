@@ -12,7 +12,7 @@ import 'quick-payment-success.dart';
 class OrderHistoryView extends MvStatefulWidget<OrderHistoryViewModel> {
   static const ROUTE_NAME = "order-history";
 
-  OrderHistoryView({OrderHistoryViewModel viewModel}) : super(viewModel);
+  OrderHistoryView({required OrderHistoryViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {

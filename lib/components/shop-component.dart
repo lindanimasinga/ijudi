@@ -4,14 +4,13 @@ import 'package:ijudi/components/ijudi-card.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/util/message-dialogs.dart';
 import 'package:ijudi/util/theme-utils.dart';
-import 'package:ijudi/view/quick-pay.dart';
 import 'package:ijudi/view/start-shopping.dart';
 
 class ShopComponent extends StatelessWidget with MessageDialogs {
   final Shop shop;
   final Function isLoggedIn;
 
-  ShopComponent({@required this.shop, @required this.isLoggedIn});
+  ShopComponent({required this.shop, required this.isLoggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -20,36 +19,18 @@ class ShopComponent extends StatelessWidget with MessageDialogs {
 
     return GestureDetector(
       onTap: () {
-        if ((shop.stockList == null || shop.stockList.isEmpty) &&
-            shop.scheduledDeliveryAllowed) {
-          !isLoggedIn()
-              ? showLoginMessage(context)
-              : Navigator.pushNamed(context, QuickPayView.ROUTE_NAME,
-                  arguments: shop);
-          return;
-        }
         Navigator.pushNamed(context, StartShoppingView.ROUTE_NAME,
             arguments: shop);
-      },
-      onLongPress: () {
-        HapticFeedback.lightImpact();
-        shop.scheduledDeliveryAllowed
-            ? !isLoggedIn()
-                ? showLoginMessage(context)
-                : Navigator.pushNamed(context, QuickPayView.ROUTE_NAME,
-                    arguments: shop)
-            : Navigator.pushNamed(context, StartShoppingView.ROUTE_NAME,
-                arguments: shop);
       },
       child: Container(
           child: IJudiCard(
         width: deviceWidth >= 360 ? 157 : 127,
         child: Banner(
-            message: shop.stockList == null || shop.stockList.isEmpty
+            message: shop.stockList == null || shop.stockList!.isEmpty
                 ? "In Store"
                 : "Delivers",
             location: BannerLocation.topStart,
-            color: shop.stockList == null || shop.stockList.isEmpty
+            color: shop.stockList == null || shop.stockList!.isEmpty
                 ? IjudiColors.color2
                 : IjudiColors.color1,
             child: Column(
@@ -62,7 +43,7 @@ class ShopComponent extends StatelessWidget with MessageDialogs {
                         topLeft: Radius.circular(25.0),
                         topRight: Radius.circular(25.0)),
                     image: DecorationImage(
-                      image: NetworkImage(shop.imageUrl),
+                      image: NetworkImage(shop.imageUrl!),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -76,7 +57,7 @@ class ShopComponent extends StatelessWidget with MessageDialogs {
                       children: <Widget>[
                         Padding(
                             padding: EdgeInsets.all(8),
-                            child: Text(shop.name,
+                            child: Text(shop.name!,
                                 style: IjudiStyles.CARD_SHOP_HEADER2,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis)),
@@ -84,7 +65,7 @@ class ShopComponent extends StatelessWidget with MessageDialogs {
                             padding:
                                 EdgeInsets.only(left: 8, right: 8, bottom: 4),
                             child: Text(
-                              shop.description,
+                              shop.description!,
                               style: IjudiStyles.CARD_SHOP_DISCR2,
                               maxLines: 2,
                               softWrap: true,
@@ -99,10 +80,10 @@ class ShopComponent extends StatelessWidget with MessageDialogs {
 }
 
 class ShopCard extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
   final double width;
-  final Color color;
-  final double elevation;
+  final Color? color;
+  final double? elevation;
 
   ShopCard({this.child, this.width = 352, this.color, this.elevation});
 

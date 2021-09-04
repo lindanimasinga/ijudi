@@ -7,18 +7,18 @@ class ScrollableParent extends StatelessWidget {
   final menu = MenuComponent();
   final Widget child;
   final String title;
-  final Color appBarColor;
+  final Color? appBarColor;
   final bool hasDrawer;
   final appBarPinned;
 
-  ProfileRoles role;
+  ProfileRoles? role;
 
   ScrollableParent({
-      @required this.title,
+      required this.title,
       this.appBarColor,
       this.appBarPinned = false,
-      @required this.hasDrawer,
-      @required this.child});
+      required this.hasDrawer,
+      required this.child});
   
   @override
   Widget build(BuildContext context) {

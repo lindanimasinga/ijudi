@@ -16,54 +16,54 @@ part 'shop.g.dart';
 @JsonSerializable(includeIfNull: false)
 class Shop extends Profile with GeoLocation {
   String storeType;
-  String registrationNumber;
+  String? registrationNumber;
   @JsonKey(ignore: false, toJson: businessHoursToJson)
   List<BusinessHours> businessHours;
   @JsonKey(ignore: false, toJson: listToJson)
   List<Stock> stockList;
   Set<String> tags;
-  bool hasVat;
+  bool? hasVat;
   bool scheduledDeliveryAllowed;
   bool deliverNowAllowed;
   String ownerId;
   bool featured;
   bool markUpPrice;
   @JsonKey(fromJson: Utils.dateFromJson, toJson: Utils.dateToJson)
-  DateTime featuredExpiry;
-  double latitude;
-  double longitude;
-  StoreMessenger storeMessenger;
+  DateTime? featuredExpiry;
+  StoreMessenger? storeMessenger;
   bool storeOffline;
   String availability;
-  String shortName;
+  String? shortName;
 
   Shop(
-      {@required String id,
-      @required String name,
+      {required String id,
+      required String name,
       this.registrationNumber,
-      this.stockList,
+      required this.stockList,
       this.hasVat = false,
       this.scheduledDeliveryAllowed = false,
       this.deliverNowAllowed = true,
-      this.tags,
-      this.featured,
+      required this.tags,
+      required this.featured,
+      required this.ownerId,
+      required this.businessHours,
       this.featuredExpiry,
-      this.storeOffline,
-      this.availability,
+      required this.storeOffline,
+      required this.availability,
       this.markUpPrice = true,
       this.shortName,
-      this.storeType,
-      @required String description,
-      @required int yearsInService,
-      @required String address,
-      @required String imageUrl,
-      int likes,
-      @required int servicesCompleted,
-      int badges,
-      String verificationCode,
-      @required String mobileNumber,
-      @required ProfileRoles role,
-      @required Bank bank})
+      required this.storeType,
+      required String? description,
+      required int? yearsInService,
+      required String? address,
+      required String? imageUrl,
+      int? likes,
+      required int? servicesCompleted,
+      int? badges,
+      String? verificationCode,
+      required String? mobileNumber,
+      required ProfileRoles? role,
+      required Bank? bank})
       : super(
             id: id,
             name: name,
@@ -109,8 +109,8 @@ class Shop extends Profile with GeoLocation {
   bool containsStockItem(String search) {
     var list = stockList
         .where((element) =>
-            element.name.toLowerCase().contains(search.toLowerCase()))
+            element.name!.toLowerCase().contains(search.toLowerCase()))
         .toList();
-    return list != null && list.length > 0;
+    return list.length > 0;
   }
 }

@@ -16,7 +16,7 @@ import 'package:ijudi/viewmodel/register-view-model.dart';
 class RegisterView extends MvStatefulWidget<RegisterViewModel> {
   static const ROUTE_NAME = "register";
 
-  RegisterView({RegisterViewModel viewModel}) : super(viewModel);
+  RegisterView({required RegisterViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {

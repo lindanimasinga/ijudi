@@ -9,7 +9,7 @@ class TransactionHistoryView
     extends MvStatefulWidget<TransactionHistoryViewModel> {
   static const ROUTE_NAME = "transaction-history";
 
-  TransactionHistoryView({TransactionHistoryViewModel viewModel})
+  TransactionHistoryView({required TransactionHistoryViewModel viewModel})
       : super(viewModel);
 
   @override

@@ -4,22 +4,22 @@ import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class ShopProfileViewModel extends BaseViewModel {
-  final Shop shop;
+  final Shop? shop;
   ApiService apiService;
 
-  ShopProfileViewModel({@required this.shop, @required this.apiService});
+  ShopProfileViewModel({required this.shop, required this.apiService});
 
   void updateProfile() {
-    progressMv.isBusy = true;
-    apiService.updateShop(shop).asStream().listen((resp) {}, onDone: () {
-      progressMv.isBusy = false;
+    progressMv!.isBusy = true;
+    apiService.updateShop(shop!).asStream().listen((resp) {}, onDone: () {
+      progressMv!.isBusy = false;
       Navigator.of(context).pop();
     });
   }
 
-  String get address => shop.address;
-  set address(String address) {
-    shop.address = address;
+  String? get address => shop!.address;
+  set address(String? address) {
+    shop!.address = address;
     notifyChanged();
   }
 }

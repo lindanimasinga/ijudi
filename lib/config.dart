@@ -1,14 +1,14 @@
 import 'package:ijudi/model/supported-location.dart';
 
 abstract class Config {
-  static ProdConfig _prodConfig;
-  static Config _uatConfig;
-  static Config _devConfig;
-  static Config currentConfig;
-  double centreLatitude;
-  double centrelongitude;
-  String supportPageUrl;
-  String ukhesheSupportUrl;
+  static ProdConfig? _prodConfig;
+  static Config? _uatConfig;
+  static Config? _devConfig;
+  static Config? currentConfig;
+  double? centreLatitude;
+  double? centrelongitude;
+  late String supportPageUrl;
+  late String ukhesheSupportUrl;
 
   String get depositingFnbBankAccountNumber;
   String get depositingNedBankAccountNumber;
@@ -20,21 +20,21 @@ abstract class Config {
 
   Map<String, double> get rangeMap;
 
-  static Config getProConfig() {
+  static Config? getProConfig() {
     if (_prodConfig == null) {
       _prodConfig = ProdConfig();
     }
     return _prodConfig;
   }
 
-  static Config getUATConfig() {
+  static Config? getUATConfig() {
     if (_uatConfig == null) {
       _uatConfig = UATConfig();
     }
     return _uatConfig;
   }
 
-  static Config getDEVConfig() {
+  static Config? getDEVConfig() {
     if (_devConfig == null) {
       _devConfig = DevConfig();
     }

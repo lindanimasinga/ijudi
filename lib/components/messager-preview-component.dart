@@ -3,7 +3,7 @@ import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 
 class MessagerPreviewComponent extends StatefulWidget {
-  final UserProfile messenger;
+  final UserProfile? messenger;
 
   MessagerPreviewComponent({this.messenger});
 
@@ -13,7 +13,7 @@ class MessagerPreviewComponent extends StatefulWidget {
 }
 
 class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
-  UserProfile messanger;
+  UserProfile? messanger;
 
   _MessagerPreviewComponentState(this.messanger);
 
@@ -73,14 +73,14 @@ class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
                 color: Colors.white,
                 border: Border.all(width: 3, color: IjudiColors.color1),
                 image: DecorationImage(
-                  image: NetworkImage(messanger.imageUrl),
+                  image: NetworkImage(messanger!.imageUrl!),
                   fit: BoxFit.cover,
                 ),
               )),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Text(messanger.name, style: Forms.INPUT_TEXT_STYLE),
+              Text(messanger!.name!, style: Forms.INPUT_TEXT_STYLE),
               ratings,
             ],
           ),

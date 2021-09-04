@@ -7,24 +7,24 @@ part 'stock.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class Stock {
-  String id;
-  String name;
-  String description;
-  int quantity;
-  double _price;
-  double storePrice;
-  String group;
-  List<String> tags;
+  String? id;
+  String? name;
+  String? description;
+  int? quantity;
+  double? _price;
+  double? storePrice;
+  String? group;
+  List<String>? tags;
 
-  double discountPerc;
-  List<String> images;
-  List<SelectionOption> mandatorySelection = [];
-  List<SelectionOption> optionalSelection = [];
+  double? discountPerc;
+  List<String>? images;
+  List<SelectionOption>? mandatorySelection = [];
+  List<SelectionOption>? optionalSelection = [];
 
   Stock(
       {this.name,
       this.quantity = 0,
-      double price = 0,
+      double? price = 0,
       this.storePrice,
       this.discountPerc = 0.0,
       this.group,
@@ -36,18 +36,18 @@ class Stock {
   }
 
   double get price =>
-      _price +
-      (mandatorySelection != null && mandatorySelection.isNotEmpty
-          ? mandatorySelection
+      _price! +
+      (mandatorySelection != null && mandatorySelection!.isNotEmpty
+          ? mandatorySelection!
               .map((value) =>
                   "none" == value.selected?.toLowerCase() ? 0 : value.price)
-              .reduce((value, element) => value + element)
+              .reduce((value, element) => value! + element!)!
           : 0);
 
   get shouldSelectOptions =>
-      mandatorySelection != null && mandatorySelection.isNotEmpty;
+      mandatorySelection != null && mandatorySelection!.isNotEmpty;
 
-  set price(double price) {
+  set price(double? price) {
     _price = price;
   }
 
@@ -55,14 +55,14 @@ class Stock {
     return quantity;
   }
 
-  bool get hasImages => images != null && images.length > 0;
+  bool get hasImages => images != null && images!.length > 0;
 
-  BasketItem take(int quantity) {
-    if (quantity > this.quantity) {
+  BasketItem? take(int quantity) {
+    if (quantity > this.quantity!) {
       return null;
     }
 
-    this.quantity = this.quantity - quantity;
+    this.quantity = this.quantity! - quantity;
     return BasketItem(
         name: name,
         quantity: quantity,
@@ -71,7 +71,7 @@ class Stock {
         discountPerc: discountPerc)
       ..options = mandatorySelection == null
           ? []
-          : mandatorySelection
+          : mandatorySelection!
               .map((e) => SelectionOption()
                 ..name = e.name
                 ..price = e.price
@@ -80,7 +80,7 @@ class Stock {
   }
 
   put(int quantity) {
-    this.quantity = this.quantity + quantity;
+    this.quantity = this.quantity! + quantity;
   }
 
   factory Stock.fromJson(Map<String, dynamic> json) => _$StockFromJson(json);

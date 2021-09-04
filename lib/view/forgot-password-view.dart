@@ -11,7 +11,7 @@ import 'package:lottie/lottie.dart';
 class ForgotPasswordView extends MvStatefulWidget<ForgotPasswordViewModel> {
   static const ROUTE_NAME = "forgot-password";
 
-  ForgotPasswordView({ForgotPasswordViewModel viewModel}) : super(viewModel);
+  ForgotPasswordView({required ForgotPasswordViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {

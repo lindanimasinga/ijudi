@@ -8,7 +8,7 @@ class StocksWithImageComponent extends StatelessWidget {
   final List<Stock> stocks;
   final String label;
 
-  StocksWithImageComponent({@required this.label, @required this.stocks, @required this.addAction});
+  StocksWithImageComponent({required this.label, required this.stocks, required this.addAction});
 
   @override
   Widget build(BuildContext context) {

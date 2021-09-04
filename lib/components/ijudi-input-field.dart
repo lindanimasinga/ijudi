@@ -6,16 +6,16 @@ import 'package:ijudi/util/util.dart';
 class IjudiInputField extends StatefulWidget {
   final String hint;
   final Color color;
-  final TextInputType type;
-  final String text;
-  final Function onChanged;
+  final TextInputType? type;
+  final String? text;
+  final Function? onChanged;
   final bool enabled;
-  final Function error;
-  Iterable<String> autofillHints;
+  final Function? error;
+  Iterable<String>? autofillHints;
   final int lines;
 
   IjudiInputField(
-      {@required this.hint,
+      {required this.hint,
       this.autofillHints,
       this.enabled = true,
       this.color = IjudiColors.color5,
@@ -41,17 +41,17 @@ class IjudiInputField extends StatefulWidget {
 class _IjudiInputFieldState extends State<IjudiInputField> {
   final String hint;
   Color color;
-  final TextInputType type;
-  final int lines;
-  String text;
-  Function onChanged;
+  final TextInputType? type;
+  final int? lines;
+  String? text;
+  Function? onChanged;
   bool enabled;
-  Function error;
-  String errorText = "";
-  Iterable<String> autofillHints;
+  Function? error;
+  String? errorText = "";
+  Iterable<String>? autofillHints;
 
   _IjudiInputFieldState(
-      {@required this.hint,
+      {required this.hint,
       this.autofillHints,
       this.enabled = true,
       this.lines,
@@ -63,13 +63,13 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
 
   @override
   Widget build(BuildContext context) {
-    errorText = errorText.isEmpty && error != null ? error() : errorText;
+    errorText = errorText!.isEmpty && error != null ? error!() : errorText;
     var controller = text == null
         ? null
         : TextEditingController.fromValue(TextEditingValue(
-            text: text,
+            text: text!,
             selection:
-                TextSelection.fromPosition(TextPosition(offset: text.length))));
+                TextSelection.fromPosition(TextPosition(offset: text!.length))));
 
     double width = MediaQuery.of(context).size.width > 360 ? 166 : 126;
     double width2 = MediaQuery.of(context).size.width > 360 ? 114 : 114;
@@ -77,11 +77,11 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
     return Row(
       children: <Widget>[
       Container(
-        color: errorText is String && errorText.isNotEmpty
+        color: errorText is String && errorText!.isNotEmpty
             ? IjudiColors.color2
             : color,
         width: width2,
-        height: 52.0 * lines,
+        height: 52.0 * lines!,
         alignment: Alignment.centerLeft,
         child: Padding(
             padding: EdgeInsets.only(left: 16, right: 4),
@@ -104,7 +104,7 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
                   onChanged: (value) {
                     text = value;
                     validate(value);
-                    onChanged(value);
+                    onChanged!(value);
                   },
                   decoration: InputDecoration(
                       hintText: hint,
@@ -115,7 +115,7 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
                 ),
                 Container(
                     alignment: Alignment.bottomLeft,
-                    child: Text(errorText, style: IjudiStyles.FORM_ERROR))
+                    child: Text(errorText!, style: IjudiStyles.FORM_ERROR))
               ])))
     ]);
   }
@@ -123,7 +123,7 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
   void validate(String value) {
     if (autofillHints == null) return;
 
-    if (autofillHints.contains(AutofillHints.telephoneNumber)) {
+    if (autofillHints!.contains(AutofillHints.telephoneNumber)) {
       errorText = value.length < 10 || Utils.validSANumber(value)
           ? ""
           : "Invalid SA mobile number";
@@ -131,7 +131,7 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
       return;
     }
 
-    if (autofillHints.contains("idNumber")) {
+    if (autofillHints!.contains("idNumber")) {
       errorText = value.length < 13 || Utils.isValidSAId(value)
           ? ""
           : "Invalid SA Id number";
@@ -139,7 +139,7 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
       return;
     }
 
-    if (autofillHints.contains(AutofillHints.email)) {
+    if (autofillHints!.contains(AutofillHints.email)) {
       errorText = value.length < 6 || Utils.isEmail(value)
           ? ""
           : "contiue enter valid email";

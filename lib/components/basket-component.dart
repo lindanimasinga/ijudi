@@ -6,14 +6,14 @@ import 'package:ijudi/util/util.dart';
 
 class BasketComponent extends StatelessWidget {
 
-  final Basket basket;
-  final Function(BasketItem) removeAction;
+  final Basket? basket;
+  final Function(BasketItem)? removeAction;
 
-  BasketComponent({@required this.basket, this.removeAction});
+  BasketComponent({required this.basket, this.removeAction});
 
   @override
   Widget build(BuildContext context) {
-  if (basket == null || basket.items.isEmpty)
+  if (basket == null || basket!.items.isEmpty)
     return Card(
             margin: EdgeInsets.only(left: 0),
             child: Container(
@@ -28,7 +28,7 @@ class BasketComponent extends StatelessWidget {
           ));
 
     List<Widget> basketWidget = <Widget>[];
-    basket.items.forEach((item) {
+    basket!.items.forEach((item) {
       basketWidget.add(Container(
         height: 52,
         padding: EdgeInsets.only(left: 0),
@@ -44,12 +44,12 @@ class BasketComponent extends StatelessWidget {
               child: Text("${item.quantity}  x  ${item.name}", style: Forms.INPUT_TEXT_STYLE,)
             ),
             Container(
-              child: Text("R${(Utils.formatToCurrency(item.price * item.quantity))}", style: Forms.INPUT_TEXT_STYLE,)
+              child: Text("R${(Utils.formatToCurrency(item.price * item.quantity!))}", style: Forms.INPUT_TEXT_STYLE,)
             ),
             Container(
               child: FlatButton(
-                onPressed: removeAction == null ? null : ()=> removeAction(item), 
-                child: removeAction == null ? null : Text("REMOVE")
+                onPressed: removeAction == null ? null : ()=> removeAction!(item), 
+                child: removeAction == null ? Text("") : Text("REMOVE")
               ) 
             )
           ],
@@ -73,11 +73,11 @@ basketWidget.add(Container(
             ),
             Container(
               width: 60,
-              child: Text("R${Utils.formatToCurrency(basket.getBasketTotalAmount())}", style: IjudiStyles.HEADER_TEXT,)
+              child: Text("R${Utils.formatToCurrency(basket!.getBasketTotalAmount())}", style: IjudiStyles.HEADER_TEXT,)
             ),
             Container(
               width: 70,
-              child: Text("${(basket.getBasketTotalItems())} item(s)", style: IjudiStyles.HEADER_TEXT,)
+              child: Text("${(basket!.getBasketTotalItems())} item(s)", style: IjudiStyles.HEADER_TEXT,)
             ),
           ],
         ),

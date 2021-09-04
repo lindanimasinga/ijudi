@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 class IjudyHeaderClipPath extends CustomClipper<Path>{
   
   Parts part;
-  double waves;
+  double? waves;
   double amplitude;
   double height;
 
-  IjudyHeaderClipPath({@required this.part, 
+  IjudyHeaderClipPath({required this.part, 
     this.amplitude = 100,
-    @required this.height,
+    required this.height,
     this.waves = 0.5});
   
   @override
@@ -19,16 +19,16 @@ class IjudyHeaderClipPath extends CustomClipper<Path>{
     
     Path path = Path();
     double width = size.width;
-    waves = size.width/(4 * waves) ;
+    waves = size.width/(4 * waves!) ;
 
     switch(part) {
       case Parts.FIRST:
         path.lineTo(0, 0);
 
         path.lineTo(0, height);
-        for(double xValue= waves; xValue < width; xValue = xValue + 2 * waves) {
+        for(double xValue= waves!; xValue < width; xValue = xValue + 2 * waves!) {
           var yValue = height + amplitude;
-          path.quadraticBezierTo(xValue, yValue, xValue + waves, height);
+          path.quadraticBezierTo(xValue, yValue, xValue + waves!, height);
           amplitude = -1 * amplitude;
         }
         
@@ -39,9 +39,9 @@ class IjudyHeaderClipPath extends CustomClipper<Path>{
       case Parts.SECOND:
                 path.lineTo(0, 0);
         path.lineTo(0, height);
-        for(double xValue= waves; xValue < width; xValue = xValue + 2 * waves) {
+        for(double xValue= waves!; xValue < width; xValue = xValue + 2 * waves!) {
           var yValue = height + amplitude;
-          path.quadraticBezierTo(xValue, yValue, xValue + waves, height);
+          path.quadraticBezierTo(xValue, yValue, xValue + waves!, height);
           amplitude = -1 * amplitude;
         }
         path.lineTo(width, 0.0);
@@ -49,9 +49,9 @@ class IjudyHeaderClipPath extends CustomClipper<Path>{
       case Parts.THIRD:
                 path.lineTo(0, 0);
         path.lineTo(0, height);
-        for(double xValue= waves; xValue < width; xValue = xValue + 2 * waves) {
+        for(double xValue= waves!; xValue < width; xValue = xValue + 2 * waves!) {
           var yValue = height + amplitude;
-          path.quadraticBezierTo(xValue, yValue, xValue + waves, height);
+          path.quadraticBezierTo(xValue, yValue, xValue + waves!, height);
           amplitude = -1 * amplitude;
         }
         path.lineTo(width, 0.0);

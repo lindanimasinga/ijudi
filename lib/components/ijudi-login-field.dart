@@ -6,23 +6,23 @@ class IjudiLoginField extends StatefulWidget {
   final String hint;
   final Color color;
   final List<String> autofillHints;
-  final Icon icon;
+  final Icon? icon;
   final TextInputType type;
-  final Function onTap;
-  final bool enabled;
-  final Function text;
-  Function error;
+  final Function? onTap;
+  final bool? enabled;
+  Function? text;
+  Function? error;
 
   IjudiLoginField(
-      {@required this.hint,
+      {required this.hint,
       this.enabled,
       this.color = IjudiColors.color5,
-      @required this.autofillHints,
+      required this.autofillHints,
       this.icon,
       this.onTap,
       this.type = TextInputType.text,
       this.error,
-      @required this.text});
+      this.text});
 
   @override
   _IjudiLoginFieldState createState() => _IjudiLoginFieldState(
@@ -41,39 +41,39 @@ class _IjudiLoginFieldState extends State<IjudiLoginField> {
   final String hint;
   Color color;
   final List<String> autofillHints;
-  Icon icon;
+  Icon? icon;
   final TextInputType type;
-  final Function onTap;
-  bool enabled;
-  Function text;
-  Function error;
-  String errorText = "";
+  final Function? onTap;
+  bool? enabled;
+  Function? text;
+  Function? error;
+  String? errorText = "";
 
   _IjudiLoginFieldState(
-      {@required this.hint,
+      {required this.hint,
       this.enabled,
       this.color = IjudiColors.color5,
-      @required this.autofillHints,
+      required this.autofillHints,
       this.icon,
       this.onTap,
       this.type = TextInputType.text,
       this.error,
-      @required this.text});
+      required this.text});
 
   @override
   Widget build(BuildContext context) {
-    errorText = errorText.isEmpty && error != null ? error() : errorText;
-    var controller = (text == null || !(text() is String))
+    errorText = errorText!.isEmpty && error != null ? error!() : errorText;
+    var controller = (text == null || !(text!() is String))
         ? null
         : TextEditingController.fromValue(TextEditingValue(
-            text: text(),
+            text: text!(),
             selection: TextSelection.fromPosition(
-                TextPosition(offset: text().length))));
+                TextPosition(offset: text!().length))));
     double width = MediaQuery.of(context).size.width > 360 ? 166 : 146;
     double width2 = MediaQuery.of(context).size.width > 360 ? 114 : 84;
     return Row(children: <Widget>[
       Container(
-          color: errorText is String && errorText.isNotEmpty
+          color: errorText is String && errorText!.isNotEmpty
               ? IjudiColors.color2
               : color,
           width: width2,
@@ -94,7 +94,7 @@ class _IjudiLoginFieldState extends State<IjudiLoginField> {
                     enabled: enabled,
                     onChanged: (value) {
                       validate(value);
-                      onTap(value);
+                      onTap!(value);
                     },
                     decoration: InputDecoration(
                       hintText: hint,
@@ -105,7 +105,7 @@ class _IjudiLoginFieldState extends State<IjudiLoginField> {
                     )),
                 Container(
                     alignment: Alignment.bottomLeft,
-                    child: Text(errorText, style: IjudiStyles.FORM_ERROR))
+                    child: Text(errorText!, style: IjudiStyles.FORM_ERROR))
               ])))
     ]);
   }

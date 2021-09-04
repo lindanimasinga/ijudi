@@ -6,24 +6,24 @@ import 'package:ijudi/util/util.dart';
 
 class BasketViewOnlyComponent extends StatefulWidget {
 
-  final Basket basket;
-  final Function(BasketItem) removeAction;
+  final Basket? basket;
+  final Function(BasketItem)? removeAction;
 
-  BasketViewOnlyComponent({@required this.basket, this.removeAction});
+  BasketViewOnlyComponent({required this.basket, this.removeAction});
 
   @override
   _BasketViewOnlyComponentState createState() => _BasketViewOnlyComponentState(basket, this.removeAction);
 }
 
 class _BasketViewOnlyComponentState extends State<BasketViewOnlyComponent> {
-  Basket basket;
-  Function(BasketItem) removeAction;
+  Basket? basket;
+  Function(BasketItem)? removeAction;
 
   _BasketViewOnlyComponentState(this.basket, this.removeAction);
 
   @override
   Widget build(BuildContext context) {
-  if (basket == null || basket.items.isEmpty)
+  if (basket == null || basket!.items.isEmpty)
     return Card(
             child:Container(
               height: 52,
@@ -36,7 +36,7 @@ class _BasketViewOnlyComponentState extends State<BasketViewOnlyComponent> {
           ));
 
     List<Widget> basketWidget = <Widget>[];
-    basket.items.forEach((item) {
+    basket!.items.forEach((item) {
       basketWidget.add(
         Container(
         padding: EdgeInsets.only(left: 16, top: 16, bottom: 8),
@@ -62,7 +62,7 @@ class _BasketViewOnlyComponentState extends State<BasketViewOnlyComponent> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: item.options == null
                             ? []
-                            : item.options
+                            : item.options!
                                 .map((choice) =>
                                     choice?.selected != "None" ?
                                     Text("${choice.name}:  ${choice.selected}", style: IjudiStyles.ITEM_INCLUDED,) :
@@ -73,7 +73,7 @@ class _BasketViewOnlyComponentState extends State<BasketViewOnlyComponent> {
             ),
             Container(
               width: 70,
-              child: Text("R${(Utils.formatToCurrency(item.price * item.quantity))}", style: Forms.INPUT_TEXT_STYLE,)
+              child: Text("R${(Utils.formatToCurrency(item.price * item.quantity!))}", style: Forms.INPUT_TEXT_STYLE,)
             )
           ],
         ),
@@ -97,7 +97,7 @@ basketWidget.add(Container(
             ),
             Container(
               width: 70,
-              child: Text("R${Utils.formatToCurrency(basket.getBasketTotalAmount())}", style: IjudiStyles.HEADER_TEXT,)
+              child: Text("R${Utils.formatToCurrency(basket!.getBasketTotalAmount())}", style: IjudiStyles.HEADER_TEXT,)
             ),
           ],
         ),

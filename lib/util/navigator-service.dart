@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
-import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/config.dart';
+import 'package:ijudi/model/order.dart';
+import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/supported-location.dart';
 import 'package:ijudi/services/impl/shared-pref-storage-manager.dart';
 import 'package:ijudi/services/local-notification-service.dart';
@@ -24,7 +25,6 @@ import 'package:ijudi/view/payment-view.dart';
 import 'package:ijudi/view/payment-webview.dart';
 import 'package:ijudi/view/personal-and-bank.dart';
 import 'package:ijudi/view/profile-view.dart';
-import 'package:ijudi/view/quick-pay.dart';
 import 'package:ijudi/view/quick-payment-success.dart';
 import 'package:ijudi/view/register-view.dart';
 import 'package:ijudi/view/shop-profile-view.dart';
@@ -32,13 +32,12 @@ import 'package:ijudi/view/start-shopping.dart';
 import 'package:ijudi/view/stock-add-new.dart';
 import 'package:ijudi/view/stock-view.dart';
 import 'package:ijudi/view/tranasction-history-view.dart';
-import 'package:ijudi/view/wallet-view.dart';
 import 'package:ijudi/viewmodel/all-shops-view-model.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
+import 'package:ijudi/viewmodel/choose-location-viewmodel.dart';
 import 'package:ijudi/viewmodel/delivery-option-view-model.dart';
 import 'package:ijudi/viewmodel/final-order-view-model.dart';
 import 'package:ijudi/viewmodel/forgot-password-view-model.dart';
-import 'package:ijudi/viewmodel/login-view-model.dart';
 import 'package:ijudi/viewmodel/messenger-order-update-view-model.dart';
 import 'package:ijudi/viewmodel/messenger-orders-view-model.dart';
 import 'package:ijudi/viewmodel/my-shop-order-update-view-model.dart';
@@ -47,54 +46,46 @@ import 'package:ijudi/viewmodel/myshop-orders-view-model.dart';
 import 'package:ijudi/viewmodel/order-history-view-model.dart';
 import 'package:ijudi/viewmodel/payment-view-model.dart';
 import 'package:ijudi/viewmodel/profile-view-model.dart';
-import 'package:ijudi/viewmodel/quick-pay-view-model.dart';
 import 'package:ijudi/viewmodel/receipt-view-model.dart';
 import 'package:ijudi/viewmodel/register-view-model.dart';
 import 'package:ijudi/viewmodel/shop-profile-view-model.dart';
 import 'package:ijudi/viewmodel/start-shopping-view-model.dart';
 import 'package:ijudi/viewmodel/stock-add-new-view-model.dart';
 import 'package:ijudi/viewmodel/stock-management-view-mode.dart';
-import 'package:ijudi/viewmodel/transaction-history-view-model.dart';
-import 'package:ijudi/viewmodel/wallet-view-model.dart';
 
 class NavigatorService {
-  final SharedPrefStorageManager sharedPrefStorageManager;
-  final StorageManager storageManager;
-  final UkhesheService ukhesheService;
+  final SharedPrefStorageManager? sharedPrefStorageManager;
+  final StorageManager? storageManager;
   final ApiService apiService;
-  final NotificationService localNotificationService;
+  final NotificationService? localNotificationService;
 
   NavigatorService(
-      {@required this.ukhesheService,
-      @required this.storageManager,
-      @required this.apiService,
-      @required this.sharedPrefStorageManager,
+      {required this.storageManager,
+      required this.apiService,
+      required this.sharedPrefStorageManager,
       this.localNotificationService});
 
   Route<dynamic> generateRoute(RouteSettings settings) {
     var args = settings.arguments;
     var viewmodel;
     var routeName = settings.name;
-    if (settings.name == IntroductionView.ROUTE_NAME &&
-        sharedPrefStorageManager.viewedIntro) {
+    /*if (settings.name == IntroductionView.ROUTE_NAME &&
+        sharedPrefStorageManager!.viewedIntro) {
       routeName = AllShopsView.ROUTE_NAME;
-    }
+    }*/
 
     if (routeName == AllShopsView.ROUTE_NAME) {
       print("args is $args");
       if (args == null) {
-        var cachedLocationName = sharedPrefStorageManager.selectedLocation;
-        args = cachedLocationName != null
-            ? Config.getProConfig()
-                .locations
-                .firstWhere((it) => it.name == cachedLocationName)
-            : null;
-        if (args == null) {
+        var geocord = sharedPrefStorageManager!.selectedLocation?.split(":");
+        if (geocord == null) {
           routeName = ChooseLocationView.ROUTE_NAME;
         }
+        args = SupportedLocation("Change Location",
+            double.parse(geocord!.first), double.parse(geocord.last));
       } else {
-        sharedPrefStorageManager.selectedLocation =
-            (args as SupportedLocation).name;
+        sharedPrefStorageManager!.selectedLocation =
+            "${(args as SupportedLocation).latitude}:${args.longitude}";
       }
     }
 
@@ -105,7 +96,8 @@ class NavigatorService {
         return MaterialPageRoute(builder: (context) => IntroductionView());
       case ChooseLocationView.ROUTE_NAME:
         return MaterialPageRoute(
-            builder: (context) => ChooseLocationView(), fullscreenDialog: true);
+            builder: (context) => ChooseLocationView(ChooseLocationViewModel()),
+            fullscreenDialog: true);
       case LoginView.ROUTE_NAME:
       /*viewmodel = LoginViewModel(
             sharedPrefs: sharedPrefStorageManager,
@@ -118,19 +110,16 @@ class NavigatorService {
             fullscreenDialog: true);*/
       case RegisterView.ROUTE_NAME:
         viewmodel = RegisterViewModel(
-            ukhesheService: ukhesheService,
             apiService: apiService,
             notificationService: localNotificationService,
             storage: storageManager,
-            address: args);
+            address: args as String?);
         return MaterialPageRoute(
             builder: (context) => RegisterView(viewModel: viewmodel),
             fullscreenDialog: true);
       case ForgotPasswordView.ROUTE_NAME:
         viewmodel = ForgotPasswordViewModel(
-            storageManager: storageManager,
-            ukhesheService: ukhesheService,
-            apiService: apiService);
+            storageManager: storageManager, apiService: apiService);
         return MaterialPageRoute(
             fullscreenDialog: true,
             builder: (context) => ForgotPasswordView(viewModel: viewmodel));
@@ -138,14 +127,13 @@ class NavigatorService {
         viewmodel = AllShopsViewModel(
             apiService: apiService,
             storageManager: storageManager,
-            supportedLocation: args);
+            supportedLocation: args as SupportedLocation?);
         return MaterialPageRoute(
             builder: (context) => AllShopsView(viewModel: viewmodel));
       case AllComponentsView.ROUTE_NAME:
         return MaterialPageRoute(builder: (context) => AllComponentsView());
       case ProfileView.ROUTE_NAME:
-        viewmodel = ProfileViewModel(
-            ukhesheService: ukhesheService, apiService: apiService);
+        viewmodel = ProfileViewModel(apiService: apiService);
         return MaterialPageRoute(
             builder: (context) => ProfileView(viewModel: viewmodel));
       case PersonalAndBankView.ROUTE_NAME:
@@ -158,49 +146,48 @@ class NavigatorService {
         return MaterialPageRoute(
             builder: (context) => MyShopsView(viewModel: viewmodel));
       case ShopProfileView.ROUTE_NAME:
-        viewmodel = ShopProfileViewModel(apiService: apiService, shop: args);
+        viewmodel =
+            ShopProfileViewModel(apiService: apiService, shop: args as Shop?);
         return MaterialPageRoute(
             builder: (context) => ShopProfileView(viewModel: viewmodel));
       case StartShoppingView.ROUTE_NAME:
-        viewmodel = StartShoppingViewModel(shop: args, apiService: apiService);
+        viewmodel =
+            StartShoppingViewModel(shop: args as Shop?, apiService: apiService);
         return MaterialPageRoute(
             builder: (context) => StartShoppingView(viewModel: viewmodel));
       case DeliveryOptionsView.ROUTE_NAME:
         viewmodel = DeliveryOptionsViewModel(
-            order: args,
-            ukhesheService: ukhesheService,
+            order: args as Order?,
             apiService: apiService,
             storageManager: storageManager);
         return MaterialPageRoute(
             builder: (context) => DeliveryOptionsView(viewModel: viewmodel));
       case PaymentView.ROUTE_NAME:
-        viewmodel = PaymentViewModel(
-            order: args,
-            ukhesheService: ukhesheService,
-            apiService: apiService);
+        viewmodel =
+            PaymentViewModel(order: args as Order?, apiService: apiService);
         return MaterialPageRoute(
             builder: (context) => PaymentView(viewModel: viewmodel));
       case PaymentWebView.ROUTE_NAME:
         var url = (args as List).first;
-        var onDone = (args as List).last;
+        var onDone = args.last;
         return MaterialPageRoute(
             fullscreenDialog: true,
             builder: (context) => PaymentWebView(url: url, doneAction: onDone));
       case FinalOrderView.ROUTE_NAME:
         viewmodel = FinalOrderViewModel(
-            currentOrder: args,
+            currentOrder: args as Order?,
             apiService: apiService,
             localNotificationService: localNotificationService);
         return MaterialPageRoute(
             builder: (context) => FinalOrderView(viewModel: viewmodel));
       case StockManagementView.ROUTE_NAME:
-        viewmodel =
-            StockManagementViewModel(shop: args, apiService: apiService);
+        viewmodel = StockManagementViewModel(
+            shop: args as Shop?, apiService: apiService);
         return MaterialPageRoute(
             builder: (context) => StockManagementView(viewModel: viewmodel));
       case StockAddNewView.ROUTE_NAME:
-        viewmodel =
-            StockAddNewViewModel(inputData: args, apiService: apiService);
+        viewmodel = StockAddNewViewModel(
+            inputData: args as StockAddNewInput?, apiService: apiService);
         return MaterialPageRoute(
             builder: (context) => StockAddNewView(viewModel: viewmodel),
             fullscreenDialog: true);
@@ -209,48 +196,39 @@ class NavigatorService {
         return MaterialPageRoute(
             builder: (context) => OrderHistoryView(viewModel: viewmodel));
       case MyShopOrdersView.ROUTE_NAME:
-        viewmodel = MyShopOrdersViewModel(apiService: apiService, shopId: args);
+        viewmodel = MyShopOrdersViewModel(
+            apiService: apiService, shopId: args as String?);
         return MaterialPageRoute(
             builder: (context) => MyShopOrdersView(viewModel: viewmodel));
       case MessengerOrdersView.ROUTE_NAME:
-        viewmodel =
-            MessengerOrdersViewModel(apiService: apiService, messengerId: args);
+        viewmodel = MessengerOrdersViewModel(
+            apiService: apiService, messengerId: args as String?);
         return MaterialPageRoute(
             builder: (context) => MessengerOrdersView(viewModel: viewmodel));
       case MyShopOrderUpdateView.ROUTE_NAME:
-        viewmodel =
-            MyShopOrderUpdateViewModel(apiService: apiService, order: args);
+        viewmodel = MyShopOrderUpdateViewModel(
+            apiService: apiService, order: args as Order?);
         return MaterialPageRoute(
             builder: (context) => MyShopOrderUpdateView(viewModel: viewmodel));
       case MessengerOrderUpdateView.ROUTE_NAME:
-        viewmodel =
-            MessengerOrderUpdateViewModel(apiService: apiService, order: args);
+        viewmodel = MessengerOrderUpdateViewModel(
+            apiService: apiService, order: args as Order?);
         return MaterialPageRoute(
             builder: (context) =>
                 MessengerOrderUpdateView(viewModel: viewmodel));
-      case WalletView.ROUTE_NAME:
-        viewmodel = WalletViewModel(
-            apiService: apiService, ukhesheService: ukhesheService);
-        return MaterialPageRoute(
-            builder: (context) => WalletView(viewModel: viewmodel));
-      case QuickPayView.ROUTE_NAME:
-        viewmodel = QuickPayViewModel(
-            apiService: apiService, ukhesheService: ukhesheService, shop: args);
-        return MaterialPageRoute(
-            builder: (context) => QuickPayView(viewModel: viewmodel),
-            fullscreenDialog: true);
       case ReceiptView.ROUTE_NAME:
-        viewmodel = ReceiptViewModel(apiService: apiService, order: args);
+        viewmodel =
+            ReceiptViewModel(apiService: apiService, order: args as Order?);
         return MaterialPageRoute(
             builder: (context) => ReceiptView(viewModel: viewmodel),
             fullscreenDialog: true);
-      case TransactionHistoryView.ROUTE_NAME:
-        viewmodel = TransactionHistoryViewModel(
-            ukhesheService: ukhesheService, wallet: args);
-        return MaterialPageRoute(
-            builder: (context) => TransactionHistoryView(viewModel: viewmodel));
       default:
-        return MaterialPageRoute(builder: (context) => LoginView());
+        viewmodel = AllShopsViewModel(
+            apiService: apiService,
+            storageManager: storageManager,
+            supportedLocation: args as SupportedLocation?);
+        return MaterialPageRoute(
+            builder: (context) => AllShopsView(viewModel: viewmodel));
     }
   }
 }

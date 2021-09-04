@@ -21,16 +21,16 @@ class _IntroductionViewState extends State<IntroductionView> {
   );
   int _currentPage = 0;
   final Random random = Random();
-  final List<ParticleModel> particles = [];
-  SharedPrefStorageManager sharedPrefStorageManager;
+ // final List<ParticleModel> particles = [];
+  SharedPrefStorageManager? sharedPrefStorageManager;
 
   @override
   void initState() {
-    List.generate(30, (index) {
+    /*List.generate(30, (index) {
       particles.add(ParticleModel(random));
-    });
+    }); */
     SharedPrefStorageManager.singleton()
-        .then((value) => sharedPrefStorageManager = value);
+        .then((value) => sharedPrefStorageManager = value as SharedPrefStorageManager?);
     super.initState();
   }
 
@@ -38,14 +38,13 @@ class _IntroductionViewState extends State<IntroductionView> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: LiquidSwipe(
-      enableSlideIcon: true,
       enableLoop: false,
       positionSlideIcon: 0.815,
       slideIconWidget: currentPage == 3
           ? IconButton(
               icon: Icon(Icons.check, size: 32, color: Colors.white),
               onPressed: () {
-                sharedPrefStorageManager.viewedIntro = true;
+                sharedPrefStorageManager!.viewedIntro = true;
                 Navigator.popAndPushNamed(context, AllShopsView.ROUTE_NAME);
               })
           : IconButton(
@@ -78,7 +77,7 @@ class _IntroductionViewState extends State<IntroductionView> {
         Container(
             child: GestureDetector(
                 onTap: () {
-                  sharedPrefStorageManager.viewedIntro = true;
+                  sharedPrefStorageManager!.viewedIntro = true;
                   Navigator.popAndPushNamed(context, AllShopsView.ROUTE_NAME);
                 },
                 onHorizontalDragEnd: (value) => print(value),
@@ -95,7 +94,8 @@ class _IntroductionViewState extends State<IntroductionView> {
   }
 
   Container buildStep(
-      {int index, String img, String title, String message, Color color}) {
+      {required int index, required String img, required String title,
+       required String message, required Color color}) {
     final Brightness brightnessValue =
         MediaQuery.of(context).platformBrightness;
     bool isLight = brightnessValue == Brightness.light;
@@ -105,36 +105,41 @@ class _IntroductionViewState extends State<IntroductionView> {
             ? Theme.of(context).scaffoldBackgroundColor
             : IjudiColors.color5;
     return Container(
-        padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-        color: background,
-        child: Stack(children: [
-          Positioned.fill(child: buildParticles(context)),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                  margin: EdgeInsets.only(top: 56),
-                  child: Image.asset(img, height: 350)),
-              Text(
-                title,
-                style: IjudiStyles.HEADER_1_MEDIUM,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                message,
-                style: IjudiStyles.HEADER_TEXT,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                "$index of 4",
-                style: IjudiStyles.HEADER_TEXT,
-                textAlign: TextAlign.center,
-              )
-            ],
-          ),
-        ]));
+  decoration: BoxDecoration(
+    gradient: LinearGradient(
+      tileMode: TileMode.mirror,
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        color,
+        color,
+      ],
+      stops: [
+        0,
+        1,
+      ],
+    ),
+    backgroundBlendMode: BlendMode.srcOver,
+  ),
+  child: PlasmaRenderer(
+    type: PlasmaType.bubbles,
+    particles: 21,
+    color: Color(0x6fffffff),
+    blur: 0.03,
+    size: 0.39,
+    speed: 1.35,
+    offset: 0,
+    blendMode: BlendMode.screen,
+    particleType: ParticleType.atlas,
+    variation1: 0.31,
+    variation2: 0.3,
+    variation3: 0.13,
+    rotation: -0.0,
+  ),
+);
   }
 
+/*
   Widget buildParticles(BuildContext context) {
     return Rendering(
       startTime: Duration(seconds: 30),
@@ -148,17 +153,21 @@ class _IntroductionViewState extends State<IntroductionView> {
     );
   }
 
+  */
+
   int get currentPage => _currentPage;
   set currentPage(int currentPage) {
     _currentPage = currentPage;
     setState(() {});
   }
 
+/*
   _simulateParticles(Duration time) {
     particles.forEach((particle) => particle.maintainRestart(time));
-  }
+  } */
 }
 
+/*
 class ParticleModel {
   Animatable tween;
   double size;
@@ -193,6 +202,7 @@ class ParticleModel {
   }
 }
 
+
 class ParticlePainter extends CustomPainter {
   List<ParticleModel> particles;
   Duration time;
@@ -212,6 +222,8 @@ class ParticlePainter extends CustomPainter {
     });
   }
 
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
-}
+  */
+
+ // @override
+ // bool shouldRepaint(CustomPainter oldDelegate) => true;
+

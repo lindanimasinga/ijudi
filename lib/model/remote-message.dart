@@ -6,7 +6,7 @@ part 'remote-message.g.dart';
 @JsonSerializable(includeIfNull: false)
 class RemoteMessage {
     
-    MessageType messageType;
+    MessageType? messageType;
     dynamic messageContent;
 
     RemoteMessage();

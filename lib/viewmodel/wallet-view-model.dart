@@ -1,11 +1,8 @@
 import 'package:ijudi/api/api-service.dart';
-import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
-import 'package:ijudi/util/topup-status-checker.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
-class WalletViewModel extends BaseViewModel with TopTupStatusChecker {
-  final ApiService apiService;
-  final UkhesheService ukhesheService;
+class WalletViewModel extends BaseViewModel {
+  final ApiService? apiService;
 
   String about =
       "Telkom Pay is a digital wallet that lets you send and received money without a need to have a" +
@@ -18,21 +15,11 @@ class WalletViewModel extends BaseViewModel with TopTupStatusChecker {
   String topupAmount = "0";
   bool notFicadShown = false;
 
-  WalletViewModel({this.apiService, this.ukhesheService});
+  WalletViewModel({this.apiService});
 
   @override
   initialize() {
-    this.ukhesheService.getAccountInformation().asStream().listen((data) {
-      this.wallet = data;
-      fetchPaymentCards().onData((data) {
-        this.paymentCards = data;
-        this.paymentCardselected = data.first;
-      });
-      generateAddPaymentCardUrl();
-    }, onError: (e) {
-      showError(error: e);
-    });
   }
 
-  String get baseUrl => ukhesheService.baseUrl;
+  String get baseUrl => "";
 }

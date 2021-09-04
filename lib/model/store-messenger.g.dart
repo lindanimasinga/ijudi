@@ -8,11 +8,11 @@ part of 'store-messenger.dart';
 
 StoreMessenger _$StoreMessengerFromJson(Map<String, dynamic> json) {
   return StoreMessenger(
-    json['id'] as String,
-    json['name'] as String,
-    (json['standardDeliveryPrice'] as num)?.toDouble(),
-    (json['standardDeliveryKm'] as num)?.toDouble(),
-    (json['ratePerKm'] as num)?.toDouble(),
+    json['id'] as String?,
+    json['name'] as String?,
+    (json['standardDeliveryPrice'] as num?)?.toDouble(),
+    (json['standardDeliveryKm'] as num?)?.toDouble(),
+    (json['ratePerKm'] as num?)?.toDouble(),
   );
 }
 

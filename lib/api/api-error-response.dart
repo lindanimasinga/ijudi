@@ -5,9 +5,9 @@ part 'api-error-response.g.dart';
 @JsonSerializable()
 class ApiErrorResponse {
 
-    DateTime timestamp;
+    DateTime? timestamp;
     dynamic message;
-    String path;
+    String? path;
 
     ApiErrorResponse();
 

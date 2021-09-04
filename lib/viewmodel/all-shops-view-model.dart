@@ -13,7 +13,7 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AllShopsViewModel extends BaseViewModel {
-  List<Shop> _shops;
+  List<Shop>? _shops;
   List<Shop> _featuredShops = [];
   List<Advert> _ads = [];
   Set<String> filters = HashSet();
@@ -24,46 +24,50 @@ class AllShopsViewModel extends BaseViewModel {
       "Location Services is not enabled. Showing shops and resturants within Durban region.";
 
   final ApiService apiService;
-  final StorageManager storageManager;
-  final SupportedLocation supportedLocation;
+  final StorageManager? storageManager;
+  final SupportedLocation? supportedLocation;
 
   AllShopsViewModel(
-      {@required this.supportedLocation,
-      @required this.apiService,
-      @required this.storageManager});
+      {required this.supportedLocation,
+      required this.apiService,
+      required this.storageManager});
 
-  get isLoggedIn => storageManager.isLoggedIn;
+  get isLoggedIn => storageManager!.isLoggedIn;
 
   @override
   void initialize() {
-    _radiusText = Config.currentConfig.rangeMap.keys.first;
+    _radiusText = Config.currentConfig!.rangeMap.keys.first;
     log("showing all shops");
     loadDataFromLastPosition(radiusText);
   }
 
-  void loadDataFromLastPosition(String radius) {
-    var range = Config.currentConfig.rangeMap[radiusText];
-    log("location is ${supportedLocation.latitude} ${supportedLocation.longitude}");
-    loadDataFrom(range, supportedLocation.latitude, supportedLocation.longitude)
-        .listen((data) {
-          
-        });
+  get dataAvailable {
+    return shops != null;
   }
 
-  Stream loadDataFrom(double range, double latitude, double longitude) {
+  void loadDataFromLastPosition(String? radius) {
+    var range = Config.currentConfig!.rangeMap[radiusText];
+    log("location is ${supportedLocation!.latitude} ${supportedLocation!.longitude}");
+    loadDataFrom(
+            range, supportedLocation!.latitude, supportedLocation!.longitude)
+        .listen((data) {});
+  }
+
+  Stream loadDataFrom(double? range, double latitude, double longitude) {
     return Rx.merge([
       apiService
           .findFeaturedShopByLocation(latitude, longitude, range, 20)
           .asStream()
           .map((resp) => featuredShops = resp),
-      apiService
-          .findAllShopByLocation(latitude, longitude, range, 20)
+      Future.delayed(Duration(milliseconds: 1500))
           .asStream()
+          .asyncMap((event) =>
+              apiService.findAllShopByLocation(latitude, longitude, range, 20))
           .map((resp) => shops = resp),
       apiService
           .findAllAdsByLocation(latitude, longitude, range, 20)
           .asStream()
-          .map((resp) => ads = resp)
+          .map((resp) => ads = resp),
     ]);
   }
 
@@ -86,7 +90,7 @@ class AllShopsViewModel extends BaseViewModel {
   }
 
   addShop(Shop shop) {
-    shops.add(shop);
+    shops!.add(shop);
     notifyChanged();
   }
 
@@ -102,14 +106,14 @@ class AllShopsViewModel extends BaseViewModel {
     notifyChanged();
   }
 
-  List<Shop> get shops => _shops;
-  set shops(List<Shop> shops) {
+  List<Shop>? get shops => _shops;
+  set shops(List<Shop>? shops) {
     _shops = shops;
     notifyChanged();
   }
 
   bool get showNoShopsAvailable {
-    var show = shops != null && shops.isEmpty && !notAvailMessageShown;
+    var show = shops != null && shops!.isEmpty && !notAvailMessageShown;
     notAvailMessageShown = show || notAvailMessageShown;
     return show;
   }

@@ -15,9 +15,9 @@ class WalletCardSmall extends StatelessWidget with MessageDialogs {
   final String depositMessage = "";
 
   const WalletCardSmall(
-      {@required this.wallet,
-      @required this.onTopUp,
-      @required this.onWithdraw});
+      {required this.wallet,
+      required this.onTopUp,
+      required this.onWithdraw});
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +50,9 @@ class WalletCardSmall extends StatelessWidget with MessageDialogs {
   }
 
   onDeposit(BuildContext context,
-      {@required String nedbankAccount,
-      @required String fnbAccount,
-      @required String ukhesheAccount}) {
+      {required String nedbankAccount,
+      required String fnbAccount,
+      required String ukhesheAccount}) {
     final Brightness brightnessValue =
         MediaQuery.of(context).platformBrightness;
     bool isLight = brightnessValue == Brightness.light;

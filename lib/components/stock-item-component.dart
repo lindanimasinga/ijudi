@@ -11,7 +11,7 @@ class StockItemComponent extends StatefulWidget {
   final Stock item;
   final Function addAction;
 
-  const StockItemComponent({@required this.item, @required this.addAction});
+  const StockItemComponent({required this.item, required this.addAction});
 
   @override
   _StockItemComponentState createState() =>
@@ -102,7 +102,7 @@ class _StockItemComponentState extends State<StockItemComponent>
                       child: Container(
                           height: 200,
                           child: CarouselSlider(
-                              items: item.images
+                              items: item.images!
                                   .map((url) => Container(
                                           decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(25),
@@ -140,7 +140,7 @@ class _StockItemComponentState extends State<StockItemComponent>
                         Text("R ${Utils.formatToCurrency(item.price)}")
                       ],
                     ),
-                    item.description == null || item.description.isEmpty
+                    item.description == null || item.description!.isEmpty
                         ? TableRow(children: [Container(), Container()])
                         : TableRow(
                             children: [

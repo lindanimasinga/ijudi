@@ -4,7 +4,7 @@ import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 
 class OrderReviewComponent extends StatelessWidget {
-  final Order order;
+  final Order? order;
   final includeFees;
   final isCustomerView;
 
@@ -14,7 +14,7 @@ class OrderReviewComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> basketWidget = <Widget>[];
-    order.basket.items.forEach((item) {
+    order!.basket!.items.forEach((item) {
       basketWidget.add(Container(
         padding: EdgeInsets.only(left: 16, top: 16, bottom: 8),
         decoration: BoxDecoration(
@@ -39,7 +39,7 @@ class OrderReviewComponent extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: item.options == null
                             ? []
-                            : item.options
+                            : item.options!
                                 .map((choice) => choice?.selected != "None"
                                     ? Text(
                                         "${choice.name}:  ${choice.selected}",
@@ -55,8 +55,8 @@ class OrderReviewComponent extends StatelessWidget {
                 width: 70,
                 child: Text(
                   this.isCustomerView || item.storePrice == null
-                      ? "R${Utils.formatToCurrency(item.price * item.quantity)}"
-                      : "R${Utils.formatToCurrency(item.storePrice * item.quantity)}",
+                      ? "R${Utils.formatToCurrency(item.price * item.quantity!)}"
+                      : "R${Utils.formatToCurrency(item.storePrice * item.quantity!)}",
                   style: Forms.INPUT_TEXT_STYLE,
                 ))
           ],
@@ -84,7 +84,7 @@ class OrderReviewComponent extends StatelessWidget {
             Container(
                 width: 70,
                 child: Text(
-                  "R${Utils.formatToCurrency(order.serviceFee)}",
+                  "R${Utils.formatToCurrency(order!.serviceFee)}",
                   style: Forms.INPUT_TEXT_STYLE,
                 ))
           ],
@@ -92,7 +92,7 @@ class OrderReviewComponent extends StatelessWidget {
       ));
     }
 
-    if (includeFees && order.shippingFee > 0) {
+    if (includeFees && order!.shippingFee > 0) {
       basketWidget.add(Container(
         padding: EdgeInsets.only(left: 16, top: 16, bottom: 8),
         decoration: BoxDecoration(
@@ -106,13 +106,13 @@ class OrderReviewComponent extends StatelessWidget {
                 margin: EdgeInsets.only(left: 0),
                 width: 145,
                 child: Text(
-                  "Delivery Fee (${order.shippingData.distance}km)",
+                  "Delivery Fee (${order!.shippingData!.distance}km)",
                   style: Forms.INPUT_TEXT_STYLE,
                 )),
             Container(
                 width: 70,
                 child: Text(
-                  "R${Utils.formatToCurrency(order.shippingData.fee)}",
+                  "R${Utils.formatToCurrency(order!.shippingData!.fee)}",
                   style: Forms.INPUT_TEXT_STYLE,
                 ))
           ],
@@ -133,18 +133,18 @@ class OrderReviewComponent extends StatelessWidget {
               margin: EdgeInsets.only(left: 0),
               width: 145,
               child: Text(
-                order.hasVat ? "Total(incl VAT)" : "Total(excl VAT)",
+                order!.hasVat! ? "Total(incl VAT)" : "Total(excl VAT)",
                 style: IjudiStyles.HEADER_TEXT,
               )),
           Container(
               width: 70,
               child: Text(
                 includeFees
-                    ? "R${Utils.formatToCurrency(order.totalAmount)}"
+                    ? "R${Utils.formatToCurrency(order!.totalAmount)}"
                     : isCustomerView ||
-                            order.basket.items.first.storePrice == null
-                        ? "R${Utils.formatToCurrency(order.basket.getBasketTotalAmount())}"
-                        : "R${Utils.formatToCurrency(order.basket.getBasketStorePriceTotalAmount())}",
+                            order!.basket!.items.first.storePrice == null
+                        ? "R${Utils.formatToCurrency(order!.basket!.getBasketTotalAmount())}"
+                        : "R${Utils.formatToCurrency(order!.basket!.getBasketStorePriceTotalAmount())}",
                 style: IjudiStyles.HEADER_TEXT,
               )),
         ],

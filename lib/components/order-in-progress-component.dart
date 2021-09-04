@@ -12,13 +12,13 @@ import 'package:lottie/lottie.dart';
 
 class OrderProgressStageComponent
     extends MvStatefulWidget<OrderProgressViewModel> {
-  OrderProgressStageComponent({@required OrderProgressViewModel viewModel})
+  OrderProgressStageComponent({required OrderProgressViewModel viewModel})
       : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
-    int xValue = Utils.onlineDeliveryStages[viewModel.stage] -
-        Utils.onlineDeliveryStages[viewModel.currentStage];
+    int xValue = Utils.onlineDeliveryStages[viewModel.stage!]! -
+        Utils.onlineDeliveryStages[viewModel.currentStage!]!;
     double cardWidth = (-(44 / 3) * pow(xValue, 2)) + 352.0;
     cardWidth = cardWidth < 180 ? 180 : cardWidth;
     double elevation = ((-0.5 * pow(xValue, 2)) + 5.0).abs();
@@ -46,7 +46,7 @@ class OrderProgressStageComponent
                   children: <Widget>[
                     cardWidth <= 220
                         ? Container()
-                        : Lottie.asset(Utils.LOTTIE_BY_STAGE[viewModel.stage],
+                        : Lottie.asset(Utils.LOTTIE_BY_STAGE[viewModel.stage!]!,
                             animate: viewModel.isCurrentStage,
                             fit: BoxFit.fill,
                             width: 90),

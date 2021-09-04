@@ -5,12 +5,12 @@ import 'package:ijudi/util/order-status-checker.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class MessengerOrdersViewModel extends BaseViewModel with OrderStatusChecker {
-  List<Order> _orders = [];
+  List<Order>? _orders = [];
   final ApiService apiService;
-  final String messengerId;
+  final String? messengerId;
 
   MessengerOrdersViewModel(
-      {@required this.apiService, @required this.messengerId});
+      {required this.apiService, required this.messengerId});
 
   @override
   void initialize() {
@@ -24,10 +24,10 @@ class MessengerOrdersViewModel extends BaseViewModel with OrderStatusChecker {
   }
 
   @override
-  List<Order> get orders => _orders;
+  List<Order>? get orders => _orders;
 
   @override
-  set orders(List<Order> orders) {
+  set orders(List<Order>? orders) {
     _orders = orders;
     notifyChanged();
   }

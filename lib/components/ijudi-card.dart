@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class IJudiCard extends StatelessWidget {
-  final Widget child;
+  final Widget? child;
   final double width;
-  final Color color;
-  final double elevation;
+  final Color? color;
+  final double? elevation;
 
   IJudiCard({this.child, this.width = 352, this.color, this.elevation});
 
@@ -20,7 +20,7 @@ class IJudiCard extends StatelessWidget {
       elevation: elevation,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(25),
-        side: color == null ? BorderSide.none : BorderSide(color: color, width: 10)
+        side: color == null ? BorderSide.none : BorderSide(color: color!, width: 10)
         ),
       child: Container(width: width, height: null, child: child),
     ));

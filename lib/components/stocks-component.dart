@@ -6,16 +6,16 @@ import 'package:ijudi/util/util.dart';
 class StocksComponent extends StatelessWidget {
   
   final Function action;
-  final List<Stock> stocks;
-  final String actionName;
+  final List<Stock>? stocks;
+  final String? actionName;
   final bool enabledAction;
 
-  StocksComponent({@required this.stocks, @required this.action, this.actionName, this.enabledAction = true});
+  StocksComponent({required this.stocks, required this.action, this.actionName, this.enabledAction = true});
 
   @override
   Widget build(BuildContext context) {
 
-    if (stocks == null || stocks.isEmpty)
+    if (stocks == null || stocks!.isEmpty)
     return 
         Card(
           margin: EdgeInsets.only(left: 0),
@@ -31,7 +31,7 @@ class StocksComponent extends StatelessWidget {
           ));
 
     List<Widget> stockWidget = <Widget>[];
-    stocks.forEach((item) {
+    stocks!.forEach((item) {
       stockWidget.add(Container(
         height: 52,
         padding: EdgeInsets.only(left: 16),
@@ -53,7 +53,7 @@ class StocksComponent extends StatelessWidget {
             Container(
               child: FlatButton(
                 onPressed: enabledAction ? ()=> action(item) : null, 
-                child: Text(actionName)
+                child: Text(actionName!)
               ) 
             )
           ],

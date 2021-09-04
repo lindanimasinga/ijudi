@@ -7,10 +7,10 @@ import 'package:ijudi/util/theme-utils.dart';
 
 class ProfileHeaderComponent extends StatelessWidget {
   final Color profilePicBorder;
-  final Profile profile;
+  final Profile? profile;
 
   ProfileHeaderComponent(
-      {@required this.profile, @required this.profilePicBorder});
+      {required this.profile, required this.profilePicBorder});
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +22,10 @@ class ProfileHeaderComponent extends StatelessWidget {
             margin: EdgeInsets.only(right: 16),
             child: BreadCrumb(
                 lowerCase: false,
-                color: (profile as Shop).storeOffline
+                color: (profile as Shop).storeOffline!
                     ? IjudiColors.color2
                     : IjudiColors.color1,
-                name: (profile as Shop).storeOffline ? "OFFLINE" : "ONLINE"))
+                name: (profile as Shop).storeOffline! ? "OFFLINE" : "ONLINE"))
         : Container();
 
     Widget contacts = Row(
@@ -36,7 +36,7 @@ class ProfileHeaderComponent extends StatelessWidget {
           padding: EdgeInsets.only(right: 8),
           child: Icon(Icons.phone_android, color: IjudiColors.backgroud),
         ),
-        Text(profile.mobileNumber, style: IjudiStyles.HEADER_2_WHITE)
+        Text(profile!.mobileNumber!, style: IjudiStyles.HEADER_2_WHITE)
       ],
     );
 
@@ -51,7 +51,7 @@ class ProfileHeaderComponent extends StatelessWidget {
             width: 3,
           ),
           image: DecorationImage(
-            image: NetworkImage(profile.imageUrl),
+            image: NetworkImage(profile!.imageUrl!),
             fit: BoxFit.cover,
           ),
         ));
@@ -65,11 +65,11 @@ class ProfileHeaderComponent extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(profile.name, style: IjudiStyles.HEADER_1),
+                  Text(profile!.name!, style: IjudiStyles.HEADER_1),
                   profileStatus
                 ],
               ),
-              Text("${describeEnum(profile.role)}",
+              Text("${describeEnum(profile!.role!)}",
                   style: IjudiStyles.SUBTITLE_1),
               Padding(padding: EdgeInsets.only(top: 0)),
               Row(
@@ -87,7 +87,7 @@ class ProfileHeaderComponent extends StatelessWidget {
                               Container(
                                   margin: EdgeInsets.only(top: 16),
                                   width: 180,
-                                  child: Text(profile.address,
+                                  child: Text(profile!.address!,
                                       style: IjudiStyles.HEADER_2_WHITE,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis))

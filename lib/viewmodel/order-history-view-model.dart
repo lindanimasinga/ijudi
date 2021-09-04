@@ -7,7 +7,7 @@ class OrderHistoryViewModel extends BaseViewModel {
   List<Order> _orders = [];
   final ApiService apiService;
 
-  OrderHistoryViewModel({@required this.apiService});
+  OrderHistoryViewModel({required this.apiService});
 
   @override
   void initialize() {

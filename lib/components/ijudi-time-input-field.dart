@@ -4,14 +4,14 @@ import 'package:ijudi/util/theme-utils.dart';
 class IjudiTimeInput extends StatelessWidget {
   final String hint;
   final Color color;
-  final TextInputType type;
+  final TextInputType? type;
   final String text;
-  final Function onChanged;
-  final bool enabled;
-  Iterable<String> autofillHints;
+  final Function? onChanged;
+  final bool? enabled;
+  Iterable<String>? autofillHints;
 
   IjudiTimeInput(
-      {@required this.hint,
+      {required this.hint,
       this.autofillHints,
       this.enabled,
       this.color = IjudiColors.color5,
@@ -52,13 +52,13 @@ class IjudiTimeInput extends StatelessWidget {
                 keyboardType: type,
                 onTap: () => timeIput(context).listen((value) {
                   if (value != null) {
-                    onChanged(value);
+                    onChanged!(value);
                   }
                 }),
                 autofillHints: autofillHints,
                 enabled: enabled,
                 readOnly: true,
-                onChanged: (value) => onChanged(value),
+                onChanged: (value) => onChanged!(value),
                 decoration: InputDecoration(
                     hintText: hint,
                     enabledBorder: UnderlineInputBorder(
@@ -70,7 +70,7 @@ class IjudiTimeInput extends StatelessWidget {
   }
 
   Stream<DateTime> timeIput(BuildContext context) {
-    DateTime dateTime = DateTime.now();
+    DateTime? dateTime = DateTime.now();
 
     return showDatePicker(
             context: context,
@@ -84,14 +84,14 @@ class IjudiTimeInput extends StatelessWidget {
         .asyncMap((dateTime) => showTimePicker(
             context: context,
             initialTime: TimeOfDay(hour: 12, minute: 00),
-            builder: (BuildContext context, Widget child) {
+            builder: (BuildContext context, Widget? child) {
               return MediaQuery(
                 data: MediaQuery.of(context)
                     .copyWith(alwaysUse24HourFormat: false),
-                child: child,
+                child: child!,
               );
             }))
-        .map((timeofDay) => DateTime(dateTime.year, dateTime.month,
-            dateTime.day, timeofDay.hour, timeofDay.minute));
+        .map((timeofDay) => DateTime(dateTime!.year, dateTime!.month,
+            dateTime!.day, timeofDay!.hour, timeofDay.minute));
   }
 }

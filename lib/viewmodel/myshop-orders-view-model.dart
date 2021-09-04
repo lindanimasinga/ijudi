@@ -6,11 +6,11 @@ import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class MyShopOrdersViewModel extends BaseViewModel with OrderStatusChecker {
-  List<Order> _orders = [];
+  List<Order>? _orders = [];
   final ApiService apiService;
-  final String shopId;
+  final String? shopId;
 
-  MyShopOrdersViewModel({@required this.apiService, @required this.shopId});
+  MyShopOrdersViewModel({required this.apiService, required this.shopId});
 
   @override
   void initialize() {
@@ -23,18 +23,18 @@ class MyShopOrdersViewModel extends BaseViewModel with OrderStatusChecker {
     startOrdersStatusCheck(storeId: shopId);
   }
 
-  List<Order> get orders => _orders;
+  List<Order>? get orders => _orders;
 
-  set orders(List<Order> orders) {
+  set orders(List<Order>? orders) {
     _orders = orders;
     notifyChanged();
   }
 
   bool isCurrentOrder(Order order) {
-    if (order.shippingData.type == ShippingType.DELIVERY) {
+    if (order.shippingData!.type == ShippingType.DELIVERY) {
       return true;
     }
-    var pickUpDateTime = order.shippingData.pickUpTime;
+    var pickUpDateTime = order.shippingData!.pickUpTime!;
     var anHourAgo = DateTime.now().subtract(Duration(hours: 1));
     return pickUpDateTime.isAtSameMomentAs(anHourAgo) ||
         (pickUpDateTime.isAfter(anHourAgo) && Utils.isSameDay(pickUpDateTime, anHourAgo));

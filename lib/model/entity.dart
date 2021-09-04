@@ -1,4 +1,4 @@
 abstract class Entity {
 
-  String id;
+  String? id;
 }

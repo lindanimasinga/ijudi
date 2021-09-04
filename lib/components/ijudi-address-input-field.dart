@@ -1,61 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:ijudi/util/theme-utils.dart';
-
-import 'package:flutter_places/flutter_places.dart';
 import 'package:google_maps_webservice/places.dart';
 
 class IjudiAddressInputField extends StatelessWidget {
-  
   static const kGoogleApiKey = "AIzaSyAZbvE4NBcJIplfzmy8cSEdSpbocBggylc";
   final GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
   final String hint;
   final Color color;
-  final TextInputType type;
-  final String text;
+  final TextInputType? type;
+  final String? text;
   final Function onTap;
-  final bool enabled;
+  final bool? enabled;
 
   IjudiAddressInputField(
-      {@required this.hint,
+      {required this.hint,
       this.enabled,
       this.color = IjudiColors.color5,
       this.type,
-      @required this.text,
-      @required this.onTap});
+      required this.text,
+      required this.onTap});
 
-  TextField addressField;
+  TextField? addressField;
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = text == null? null : TextEditingController.fromValue(TextEditingValue(
-        text: text,
-        selection:
-            TextSelection.fromPosition(TextPosition(offset: text.length))));
+    TextEditingController? controller = text == null
+        ? null
+        : TextEditingController.fromValue(TextEditingValue(
+            text: text!,
+            selection: TextSelection.fromPosition(
+                TextPosition(offset: text!.length))));
     double width = MediaQuery.of(context).size.width > 360 ? 166 : 126;
     double width2 = MediaQuery.of(context).size.width > 360 ? 114 : 114;
 
     addressField = TextField(
-                controller: controller,
-                keyboardType: type,
-                enabled: enabled,
-                readOnly: true,
-                maxLines: 4,
-                onTap: () => openAddressFinder(context),
-                onChanged: (value) {
-                  print("changed here");
-                },
-                onSubmitted: (value) {
-                  print("submitted");
-                  onTap(value);
-                },
-                decoration: InputDecoration(
-                    hintText: hint,
-                    enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                      width: 0.01,
-                    ))),
-              );
+      controller: controller,
+      keyboardType: type,
+      enabled: enabled,
+      readOnly: true,
+      maxLines: 4,
+      onTap: () => openAddressFinder(context),
+      onChanged: (value) {
+        print("changed here");
+      },
+      onSubmitted: (value) {
+        print("submitted");
+        onTap(value);
+      },
+      decoration: InputDecoration(
+          hintText: hint,
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none),
+    );
 
     return Row(children: <Widget>[
       Container(
@@ -81,15 +79,23 @@ class IjudiAddressInputField extends StatelessWidget {
   openAddressFinder(BuildContext context) async {
     print("finding address....");
 
-    Place p = await FlutterPlaces.show(
+    /*  Place p = await FlutterPlaces.show(
                     context: context,
                     apiKey: kGoogleApiKey,
                     modeType: ModeType.OVERLAY,
-                  );    
+                  );   */
+
+    Prediction? p = await PlacesAutocomplete.show(
+        context: context,
+        apiKey: kGoogleApiKey,
+        mode: Mode.overlay,
+        language: "en",
+        components: [Component(Component.country, "za")]);
 
     if (p != null) {
-      // get detail (lat/lng)
-      addressField.onSubmitted(p.placeDetails.formattedAddress);
+      var placeDetails = await _places.getDetailsByPlaceId(p.placeId!);
+      print("address is ${placeDetails.result.formattedAddress!}");
+      addressField!.onSubmitted!(placeDetails.result.formattedAddress!);
     }
   }
 }

@@ -1,19 +1,16 @@
 import 'package:ijudi/api/api-service.dart';
-import 'package:ijudi/api/ukheshe/ukheshe-service.dart';
 import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class ProfileViewModel extends BaseViewModel {
-  UserProfile _userProfile;
+  UserProfile? _userProfile;
+  final ApiService? apiService;
 
-  final ApiService apiService;
-  final UkhesheService ukhesheService;
-
-  ProfileViewModel({this.apiService, this.ukhesheService});
+  ProfileViewModel({this.apiService});
 
   @override
   void initialize() {
-    apiService.findUserByPhone(apiService.currentUserPhone).asStream()
+    apiService!.findUserByPhone(apiService!.currentUserPhone).asStream()
     .listen((resp) {
       userProfile = resp;
     }, onError: (e) {
@@ -21,9 +18,9 @@ class ProfileViewModel extends BaseViewModel {
     });
   }
 
-  UserProfile get userProfile => _userProfile;
+  UserProfile? get userProfile => _userProfile;
 
-  set userProfile(UserProfile userProfile) {
+  set userProfile(UserProfile? userProfile) {
     _userProfile = userProfile;
     notifyChanged();
   }
