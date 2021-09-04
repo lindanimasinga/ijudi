@@ -78,7 +78,7 @@ class NavigatorService {
       print("args is $args");
       if (args == null) {
         var geocord = sharedPrefStorageManager!.selectedLocation?.split(":");
-        if (geocord == null) {
+        if (geocord == null || geocord.length < 2) {
           routeName = ChooseLocationView.ROUTE_NAME;
         }
         args = SupportedLocation("Change Location",
