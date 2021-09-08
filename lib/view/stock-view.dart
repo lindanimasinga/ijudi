@@ -12,7 +12,8 @@ import 'package:ijudi/viewmodel/stock-management-view-mode.dart';
 class StockManagementView extends MvStatefulWidget<StockManagementViewModel> {
   static const ROUTE_NAME = "/stock";
 
-  StockManagementView({required StockManagementViewModel viewModel}) : super(viewModel);
+  StockManagementView({required StockManagementViewModel viewModel})
+      : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class StockManagementView extends MvStatefulWidget<StockManagementViewModel> {
               Padding(
                   padding: EdgeInsets.only(left: 16, right: 16),
                   child: ProfileHeaderComponent(
-                      profile: viewModel.shop,
+                      profile: viewModel.shop!,
                       profilePicBorder: IjudiColors.color3)),
               Container(
                   alignment: Alignment.topLeft,
@@ -45,7 +46,8 @@ class StockManagementView extends MvStatefulWidget<StockManagementViewModel> {
                               viewModel: viewModel.progressMv,
                               onPressed: () => Navigator.pushNamed(
                                   context, StockAddNewView.ROUTE_NAME,
-                                  arguments: StockAddNewInput(viewModel.shop, null)),
+                                  arguments:
+                                      StockAddNewInput(viewModel.shop, null)),
                               child: Icon(Icons.add),
                             ))
                       ])),
@@ -61,10 +63,11 @@ class StockManagementView extends MvStatefulWidget<StockManagementViewModel> {
                   child: StocksComponent(
                       stocks: viewModel.stocks,
                       actionName: "Edit",
-                      enabledAction : true,
+                      enabledAction: true,
                       action: (stockItem) => Navigator.pushNamed(
-                                  context, StockAddNewView.ROUTE_NAME,
-                                  arguments: StockAddNewInput(viewModel.shop, stockItem))))
+                          context, StockAddNewView.ROUTE_NAME,
+                          arguments:
+                              StockAddNewInput(viewModel.shop, stockItem))))
             ],
           )
         ]));

@@ -22,10 +22,10 @@ class ProfileHeaderComponent extends StatelessWidget {
             margin: EdgeInsets.only(right: 16),
             child: BreadCrumb(
                 lowerCase: false,
-                color: (profile as Shop).storeOffline!
+                color: (profile as Shop).storeOffline
                     ? IjudiColors.color2
                     : IjudiColors.color1,
-                name: (profile as Shop).storeOffline! ? "OFFLINE" : "ONLINE"))
+                name: (profile as Shop).storeOffline ? "OFFLINE" : "ONLINE"))
         : Container();
 
     Widget contacts = Row(

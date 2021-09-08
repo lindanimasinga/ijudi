@@ -40,7 +40,7 @@ class OrderReviewComponent extends StatelessWidget {
                         children: item.options == null
                             ? []
                             : item.options!
-                                .map((choice) => choice?.selected != "None"
+                                .map((choice) => choice.selected != "None"
                                     ? Text(
                                         "${choice.name}:  ${choice.selected}",
                                         style: IjudiStyles.ITEM_INCLUDED,

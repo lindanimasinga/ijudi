@@ -9,6 +9,7 @@ import 'package:ijudi/config.dart';
 import 'package:ijudi/model/business-hours.dart';
 import 'package:ijudi/model/day.dart';
 import 'package:ijudi/model/order.dart';
+import 'package:ijudi/model/supported-location.dart';
 import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/util/message-dialogs.dart';
@@ -21,6 +22,7 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
   final ApiService apiService;
   final StorageManager? storageManager;
   bool fetchingMessangers = false;
+  late SupportedLocation _location;
 
   BuildingType _buildingType = BuildingType.HOUSE;
   String _buildingName = "";
@@ -80,11 +82,18 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
     notifyChanged();
   }
 
-  get deliveryAddress => order!.shippingData!.toAddress;
-  set deliveryAddress(deliveryAddress) {
+  String? get deliveryAddress => order!.shippingData!.toAddress;
+  set deliveryAddress(String? deliveryAddress) {
     order!.shippingData!.toAddress = deliveryAddress;
     notifyChanged();
     findMessengers();
+  }
+
+  SupportedLocation get location => _location;
+
+  set location(SupportedLocation supportedLocation) {
+    _location = supportedLocation;
+    deliveryAddress = supportedLocation.name;
   }
 
   get isDeliveryNow {
@@ -95,7 +104,6 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
 
   List<BusinessHours> get businessHours {
     var hours = order!.shop!.businessHours;
-    if (hours != null) return hours;
 
     hours = [
       BusinessHours(
@@ -116,13 +124,15 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
 
   bool get isValidDeliveryTime {
     var pickUpDateTime = order!.shippingData!.pickUpTime;
-    var businessDay = businessHours.firstWhereOrNull((day) =>
-        DateFormat('EEEE').format(pickUpDateTime!).toUpperCase() ==
-        describeEnum(day.day!), );
+    var businessDay = businessHours.firstWhereOrNull(
+      (day) =>
+          DateFormat('EEEE').format(pickUpDateTime!).toUpperCase() ==
+          describeEnum(day.day!),
+    );
 
-    if(businessDay == null) {
+    if (businessDay == null) {
       return false;
-    }    
+    }
 
     int openTime = int.parse("${DateFormat('HHmm').format(businessDay.open!)}");
     int pickUpTime = int.parse("${DateFormat('HHmm').format(pickUpDateTime!)}");
@@ -151,10 +161,18 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
     order!.shippingData!.buildingType = BuildingType.HOUSE;
     order!.shippingData!.fromAddress = order!.shop!.name;
     order!.shippingData!.fee = 0;
-    order!.shippingData!.type = order!.shop!.scheduledDeliveryAllowed!
+    order!.shippingData!.type = order!.shop!.scheduledDeliveryAllowed
         ? ShippingType.SCHEDULED_DELIVERY
         : ShippingType.DELIVERY;
-    findMessengers();
+
+    print("address is $deliveryAddress");
+    if (deliveryAddress != null && deliveryAddress!.isNotEmpty) {
+      locationFromAddress(deliveryAddress!).asStream().listen((location) {
+        _location = SupportedLocation(deliveryAddress!, "region",
+            location[0].latitude, location[0].longitude);
+        findMessengers();
+      });
+    }
   }
 
   startOrder() {
@@ -205,7 +223,7 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
       order!.shippingData!.messenger = oldOrder.shippingData!.messenger;
       order!.description =
           "Payment from ${order!.customer!.mobileNumber}: order ${resp.id}";
-    }).listen((customerResponse) {
+    }).listen((r) {
       BaseViewModel.analytics.logEvent(name: "order.start", parameters: {
         "shop": order!.shop!.name,
         "Order Id": order!.id,
@@ -215,7 +233,7 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
 
       Navigator.popAndPushNamed(context, PaymentView.ROUTE_NAME,
           arguments: order);
-    } as void Function(Null)?, onError: (handleError) {
+    }, onError: (handleError) {
       showError(error: handleError);
       log("handleError", error: handleError);
     }, onDone: () {
@@ -226,13 +244,10 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
   findMessengers() {
     log("searching for messengers");
     fetchingMessangers = true;
-    locationFromAddress(order!.shippingData!.toAddress!)
+    apiService
+        .findNearbyMessangers(location.latitude, location.longitude,
+            Config.currentConfig!.rangeMap["15km"])
         .asStream()
-        .map((data) => data[0])
-        .asyncExpand((position) => apiService
-            .findNearbyMessangers(position.latitude, position.longitude,
-                Config.currentConfig!.rangeMap["15km"])
-            .asStream())
         .listen((messa) {
       messangers = messa;
     }, onDone: () {

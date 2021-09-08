@@ -19,7 +19,6 @@ class ChooseLocationView extends MvStatefulWidget<ChooseLocationViewModel> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: IjudiColors.clear,
-          title: Image.asset("assets/images/izinga-logo.png", width: 130),
         ),
         body: buildStep(context,
             index: 1,
@@ -64,18 +63,23 @@ class ChooseLocationView extends MvStatefulWidget<ChooseLocationViewModel> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-                margin: EdgeInsets.only(left: 16, bottom: 16, right: 16),
+                alignment: Alignment.center,
+                child:
+                    Image.asset("assets/images/izinga-logo.png", width: 150)),
+            Container(
+                margin:
+                    EdgeInsets.only(left: 16, bottom: 16, right: 16, top: 48),
                 child: Text(
                   "Enter your address to find nearest stores",
-                  style: IjudiStyles.HEADER_LG,
+                  style: IjudiStyles.HEADER_2,
                 )),
             IjudiForm(
                 child: IjudiAddressInputField(
-                    hint: "i.e Durban North, KwaMashu, Newlands",
+                    hint: "Street Address",
                     enabled: true,
-                    text: viewModel.deliveryAddress,
+                    text: viewModel.supportedLocation?.name,
                     color: IjudiColors.color5,
-                    onTap: (value) => viewModel.deliveryAddress = value)),
+                    onTap: (value) => viewModel.supportedLocation = value)),
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 16),
@@ -101,16 +105,16 @@ class ChooseLocationView extends MvStatefulWidget<ChooseLocationViewModel> {
         type: PlasmaType.circle,
         particles: 6,
         color: pickedColor,
-        blur: 0,
+        blur: 0.0,
         size: 0.18,
-        speed: 1.75,
+        speed: 2.75,
         offset: 0,
         blendMode: BlendMode.srcOver,
         particleType: ParticleType.atlas,
         variation1: 0.31,
         variation2: 0.02,
         variation3: 0.05,
-        rotation: 0.9 * numberOfParticles);
+        rotation: 0.9123 * numberOfParticles);
   }
 /*
   Future.delayed(Duration(milliseconds: 500), () {

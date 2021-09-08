@@ -149,7 +149,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                         : Text("Promotions", style: IjudiStyles.HEADER_2),
                     BreadCrumb(
                         color: IjudiColors.color4,
-                        name: viewModel.supportedLocation!.name,
+                        name: viewModel.supportedLocation!.region,
                         lowerCase: false,
                         onPressed: (name) {
                           Navigator.pushNamed(
@@ -166,8 +166,8 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                         items: adsComponets,
                         options: CarouselOptions(
                           aspectRatio: 4 / 3,
-                          viewportFraction: 0.56,
-                          height: MediaQuery.of(context).size.height * 0.27,
+                          viewportFraction: 0.46,
+                          height: MediaQuery.of(context).size.height * 0.22,
                           initialPage: 0,
                           enableInfiniteScroll: true,
                           autoPlay: true,
@@ -249,7 +249,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-              Image.asset("assets/images/izinga-logo.png", width: 180),
+              Image.asset("assets/images/izinga-logo.png", width: 150),
               Lottie.asset("assets/lottie/pan.json",
                   animate: true, fit: BoxFit.fill, width: 250),
               Padding(padding: EdgeInsets.only(bottom: 16)),

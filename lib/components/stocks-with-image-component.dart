@@ -12,7 +12,7 @@ class StocksWithImageComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (stocks == null || stocks.isEmpty)
+    if (stocks.isEmpty)
       return Card(
           margin: EdgeInsets.only(left: 0),
           child: Container(

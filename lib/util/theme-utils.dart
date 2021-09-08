@@ -361,8 +361,7 @@ class IjudiStyles {
     fontFamily: "Roboto",
   );
 
-  static const HEADER_LG = TextStyle(
-      fontSize: 22, fontFamily: "Roboto", fontWeight: FontWeight.w500);
+  static const HEADER_LG = TextStyle(fontSize: 18, fontFamily: "Roboto");
 
   static const HEADER_2_WHITE = TextStyle(
     fontSize: 18,

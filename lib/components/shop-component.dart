@@ -26,11 +26,11 @@ class ShopComponent extends StatelessWidget with MessageDialogs {
           child: IJudiCard(
         width: deviceWidth >= 360 ? 157 : 127,
         child: Banner(
-            message: shop.stockList == null || shop.stockList!.isEmpty
+            message: shop.stockList.isEmpty
                 ? "In Store"
                 : "Delivers",
             location: BannerLocation.topStart,
-            color: shop.stockList == null || shop.stockList!.isEmpty
+            color: shop.stockList.isEmpty
                 ? IjudiColors.color2
                 : IjudiColors.color1,
             child: Column(

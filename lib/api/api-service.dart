@@ -77,7 +77,7 @@ class ApiService {
     return Shop.fromJson(json.decode(event.body));
   }
 
-  Future<UserProfile> findUserByPhone(String? phone) async {
+  Future<UserProfile?> findUserByPhone(String? phone) async {
     logger.log("finding user by phone $phone");
     var url = Uri.parse('$apiUrl/user/$phone');
     var event = await http.get(url).timeout(Duration(seconds: TIMEOUT_SEC));

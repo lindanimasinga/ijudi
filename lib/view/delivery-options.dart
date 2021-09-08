@@ -11,6 +11,7 @@ import 'package:ijudi/components/messager-preview-component.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/model/order.dart';
+import 'package:ijudi/model/supported-location.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/delivery-option-view-model.dart';
@@ -46,8 +47,8 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
                     padding: EdgeInsets.only(
                         bottom: 16, left: 0, right: 16, top: 16),
                     alignment: Alignment.center,
-                    child:
-                        BasketViewOnlyComponent(basket: viewModel.order!.basket),
+                    child: BasketViewOnlyComponent(
+                        basket: viewModel.order!.basket),
                   ),
                   IjudiForm(
                       child: Row(
@@ -61,10 +62,11 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
                       Text('Deliver Later', style: Forms.INPUT_TEXT_STYLE),
                       Radio(
                         value: ShippingType.DELIVERY,
-                        toggleable: viewModel.order!.shop!.deliverNowAllowed!,
+                        toggleable: viewModel.order!.shop!.deliverNowAllowed,
                         groupValue: viewModel.order!.shippingData!.type,
-                        onChanged: viewModel.order!.shop!.deliverNowAllowed!
-                            ? (dynamic selection) => viewModel.shippingType = selection
+                        onChanged: viewModel.order!.shop!.deliverNowAllowed
+                            ? (dynamic selection) =>
+                                viewModel.shippingType = selection
                             : (dynamic selection) => {},
                       ),
                       Text('Deliver Now', style: Forms.INPUT_TEXT_STYLE)
@@ -125,7 +127,7 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
               enabled: true,
               text: viewModel.deliveryAddress,
               color: IjudiColors.color5,
-              onTap: (value) => viewModel.deliveryAddress = value),
+              onTap: (value) => viewModel.location = value),
         ],
       )),
       Padding(padding: EdgeInsets.only(top: 16)),

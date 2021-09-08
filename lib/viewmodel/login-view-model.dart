@@ -1,6 +1,4 @@
-import 'dart:developer';
 
-import 'package:flutter/services.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/advert.dart';
 import 'package:ijudi/model/shop.dart';
@@ -10,7 +8,6 @@ import 'package:ijudi/services/impl/shared-pref-storage-manager.dart';
 import 'package:ijudi/services/local-notification-service.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/util/util.dart';
-import 'package:ijudi/view/all-shops-view.dart';
 import 'package:ijudi/view/forgot-password-view.dart';
 import 'package:ijudi/view/register-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';

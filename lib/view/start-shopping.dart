@@ -28,11 +28,9 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    Padding(
-                        padding: EdgeInsets.only(left: 16, right: 16),
-                        child: ProfileHeaderComponent(
-                            profile: viewModel.shop,
-                            profilePicBorder: IjudiColors.color2)),
+                    ProfileHeaderComponent(
+                        profile: viewModel.shop!,
+                        profilePicBorder: IjudiColors.color2),
                     Padding(
                         padding: EdgeInsets.only(top: 24, bottom: 16),
                         child: Forms.searchField(context,

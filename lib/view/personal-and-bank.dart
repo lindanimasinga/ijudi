@@ -53,7 +53,7 @@ class _PersonalAndBankViewState extends State<PersonalAndBankView> {
                 Padding(
                   padding: EdgeInsets.only(left: 16),
                   child: ProfileHeaderComponent(
-                    profile: userProfile,
+                    profile: userProfile!,
                     profilePicBorder: IjudiColors.color3
                   )
                 ),

@@ -78,14 +78,15 @@ class NavigatorService {
       print("args is $args");
       if (args == null) {
         var geocord = sharedPrefStorageManager!.selectedLocation?.split(":");
-        if (geocord == null || geocord.length < 2) {
+        if (geocord == null || geocord.length < 4) {
           routeName = ChooseLocationView.ROUTE_NAME;
+        } else {
+          args = SupportedLocation(
+              geocord[2],geocord[3], double.parse(geocord[0]), double.parse(geocord[1]));
         }
-        args = SupportedLocation("Change Location",
-            double.parse(geocord!.first), double.parse(geocord.last));
       } else {
         sharedPrefStorageManager!.selectedLocation =
-            "${(args as SupportedLocation).latitude}:${args.longitude}";
+            "${(args as SupportedLocation).latitude}:${args.longitude}:${args.name}:${args.region}";
       }
     }
 

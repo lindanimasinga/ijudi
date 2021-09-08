@@ -33,7 +33,7 @@ class ShopProfileView extends MvStatefulWidget<ShopProfileViewModel> {
                     Padding(
                         padding: EdgeInsets.only(left: 16, right: 16),
                         child: ProfileHeaderComponent(
-                            profile: viewModel.shop,
+                            profile: viewModel.shop!,
                             profilePicBorder: IjudiColors.color1)),
                     Padding(
                       padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
@@ -72,7 +72,7 @@ class ShopProfileView extends MvStatefulWidget<ShopProfileViewModel> {
                     ),
                     IjudiForm(
                       child: IjudiSwitchInputField(
-                          active: !viewModel.shop!.storeOffline!,
+                          active: !viewModel.shop!.storeOffline,
                           label: "Active",
                           onChanged: (bool online) {
                                 viewModel.shop!.storeOffline = !online;

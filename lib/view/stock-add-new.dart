@@ -71,7 +71,7 @@ class StockAddNewView extends MvStatefulWidget<StockAddNewViewModel> {
             Padding(
                 padding: EdgeInsets.only(left: 16, right: 16),
                 child: ProfileHeaderComponent(
-                    profile: viewModel.inputData!.shop,
+                    profile: viewModel.inputData!.shop!,
                     profilePicBorder: IjudiColors.color3)),
             from1,
             Column(children: options),

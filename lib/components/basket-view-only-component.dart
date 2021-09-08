@@ -64,7 +64,7 @@ class _BasketViewOnlyComponentState extends State<BasketViewOnlyComponent> {
                             ? []
                             : item.options!
                                 .map((choice) =>
-                                    choice?.selected != "None" ?
+                                    choice.selected != "None" ?
                                     Text("${choice.name}:  ${choice.selected}", style: IjudiStyles.ITEM_INCLUDED,) :
                                     Text("${choice.name}:  ${choice.selected}", style: IjudiStyles.ITEM_EXCLUDED))
                                 .toList(),

@@ -64,11 +64,7 @@ class _StockItemComponentState extends State<StockItemComponent>
     ]);
 
     return GestureDetector(
-        onTap: item.itemsAvailable <= 0
-            ? null
-            : item.shouldSelectOptions
-                ? () => openSeletionDialog()
-                : () => addAction(item),
+        onTap: item.itemsAvailable <= 0 ? null : () => openSeletionDialog(),
         child: Container(
             //height: 62,
             padding: EdgeInsets.only(left: 16, top: 4, bottom: 4),
@@ -92,6 +88,10 @@ class _StockItemComponentState extends State<StockItemComponent>
         title: item.name,
         child: Container(
             width: MediaQuery.of(context).size.width,
+            height: item.mandatorySelection == null ||
+                    item.mandatorySelection!.isEmpty
+                ? MediaQuery.of(context).size.height / 2
+                : MediaQuery.of(context).size.height,
             child: ListView(children: [
               item.images == null
                   ? Container(
@@ -149,7 +149,8 @@ class _StockItemComponentState extends State<StockItemComponent>
                             ],
                           )
                   ])),
-              item.mandatorySelection == null
+              item.mandatorySelection == null ||
+                      item.mandatorySelection!.isEmpty
                   ? Container()
                   : Container(
                       margin: EdgeInsets.all(16),

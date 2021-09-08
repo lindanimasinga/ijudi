@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+import 'package:ijudi/model/supported-location.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:google_maps_webservice/places.dart';
 
@@ -79,12 +80,6 @@ class IjudiAddressInputField extends StatelessWidget {
   openAddressFinder(BuildContext context) async {
     print("finding address....");
 
-    /*  Place p = await FlutterPlaces.show(
-                    context: context,
-                    apiKey: kGoogleApiKey,
-                    modeType: ModeType.OVERLAY,
-                  );   */
-
     Prediction? p = await PlacesAutocomplete.show(
         context: context,
         apiKey: kGoogleApiKey,
@@ -94,8 +89,17 @@ class IjudiAddressInputField extends StatelessWidget {
 
     if (p != null) {
       var placeDetails = await _places.getDetailsByPlaceId(p.placeId!);
-      print("address is ${placeDetails.result.formattedAddress!}");
-      addressField!.onSubmitted!(placeDetails.result.formattedAddress!);
+      var lat = placeDetails.result.geometry!.location.lat;
+      var long = placeDetails.result.geometry!.location.lng;
+      var address = placeDetails.result.formattedAddress!;
+      var region =
+          "${placeDetails.result.addressComponents[2].shortName}/${placeDetails.result.addressComponents[3].shortName}";
+      if (placeDetails.result.types[0] != "street_address") {
+        region = placeDetails.result.addressComponents[1].shortName;
+      }
+      var supportedLocation = SupportedLocation(address, region, lat, long);
+      //addressField!.onSubmitted!(supportedLocation);
+      onTap(supportedLocation);
     }
   }
 }

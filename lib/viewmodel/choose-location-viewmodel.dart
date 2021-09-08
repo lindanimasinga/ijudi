@@ -6,26 +6,21 @@ import 'package:ijudi/view/all-shops-view.dart';
 import 'base-view-model.dart';
 
 class ChooseLocationViewModel extends BaseViewModel {
-  var _deliveryAddress;
+  SupportedLocation? _supportedLocation;
 
-  get deliveryAddress => _deliveryAddress;
+  SupportedLocation? get supportedLocation => _supportedLocation;
 
-  set deliveryAddress(deliveryAddress) {
-    _deliveryAddress = deliveryAddress;
+  set supportedLocation(supportedLocation) {
+    _supportedLocation = supportedLocation;
     notifyChanged();
   }
 
   viewShops() {
-    progressMv!.isBusy = true;
-    locationFromAddress(deliveryAddress).asStream().listen((location) {
-      Future.delayed(Duration(milliseconds: 500), () {
-        Navigator.pushNamedAndRemoveUntil(
-            context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false,
-            arguments: SupportedLocation("Change Location",
-                location[0].latitude, location[0].longitude));
-      });
-    }, onDone: () {
-      progressMv!.isBusy = false;
-    });
+    if (supportedLocation != null) {
+      progressMv!.isBusy = true;
+      Navigator.pushNamedAndRemoveUntil(
+          context, AllShopsView.ROUTE_NAME, (Route<dynamic> route) => false,
+          arguments: supportedLocation);
+    }
   }
 }
