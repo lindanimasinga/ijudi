@@ -57,6 +57,7 @@ class ProfileHeaderComponent extends StatelessWidget {
         ));
 
     return Container(
+        margin: EdgeInsets.symmetric(horizontal: 16),
         height: 207,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
