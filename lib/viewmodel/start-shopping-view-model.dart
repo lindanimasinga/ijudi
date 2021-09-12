@@ -1,12 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/basket-item.dart';
+import 'package:ijudi/model/business-hours.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/stock.dart';
 import 'package:ijudi/util/message-dialogs.dart';
 import 'package:ijudi/view/delivery-options.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
+import 'package:intl/intl.dart';
 
 class StartShoppingViewModel extends BaseViewModel with MessageDialogs {
   final Shop? shop;
@@ -111,5 +114,19 @@ class StartShoppingViewModel extends BaseViewModel with MessageDialogs {
   set stocks(List<Stock>? stocks) {
     _stocks = stocks;
     notifyChanged();
+  }
+
+  String? nextOpenTime() {
+    var datetime = shop?.businessHours
+        .firstWhere(
+          (day) =>
+              DateFormat('EEEE')
+                  .format(DateTime.now().add(Duration(days: 1)))
+                  .toUpperCase() ==
+              describeEnum(day.day!),
+        )
+        .open;
+
+    return datetime != null ? DateFormat('HH:mm').format(datetime) : null;
   }
 }

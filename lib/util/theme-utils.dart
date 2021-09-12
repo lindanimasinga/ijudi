@@ -21,6 +21,9 @@ class JudiTheme {
       cardColor: IjudiColors.cardDark,
       dialogBackgroundColor: IjudiColors.cardDark,
       scaffoldBackgroundColor: IjudiColors.backgroundDark,
+      appBarTheme: AppBarTheme(
+          iconTheme: IconThemeData.fallback(),
+          color: IjudiColors.backgroundDark),
       floatingActionButtonTheme:
           FloatingActionButtonThemeData(backgroundColor: IjudiColors.color1),
       buttonTheme: ButtonThemeData(buttonColor: IjudiColors.color5));

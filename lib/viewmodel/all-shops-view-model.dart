@@ -113,7 +113,7 @@ class AllShopsViewModel extends BaseViewModel {
   }
 
   bool get showNoShopsAvailable {
-    var show = shops != null && shops!.isEmpty && !notAvailMessageShown;
+    var show = shops != null && shops!.isEmpty == true && !notAvailMessageShown;
     notAvailMessageShown = show || notAvailMessageShown;
     return show;
   }

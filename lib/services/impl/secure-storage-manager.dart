@@ -53,13 +53,13 @@ class SecureStorageManager extends StorageManager {
 
   @override
   void saveIjudiAccessToken(String token) {
-    if (token == null || token.isEmpty) return null;
+    if (token.isEmpty) return null;
     _save(StorageManager.ACCESS_TOKEN_IJUDI, token);
   }
 
   @override
   void saveUkhesheAccessToken(String token) {
-    if (token == null || token.isEmpty) return null;
+    if (token.isEmpty) return null;
     _save(StorageManager.ACCESS_TOKEN_UKHESHE, token);
   }
 

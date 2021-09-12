@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/config.dart';
@@ -113,49 +112,8 @@ mixin MessageDialogs {
     );
   }
 
-  showFicaMessage(BuildContext context) {
-    final Brightness brightnessValue =
-        MediaQuery.of(context).platformBrightness;
-    bool isLight = brightnessValue == Brightness.light;
-    var style = isLight ? IjudiStyles.DIALOG_DARK : IjudiStyles.DIALOG_WHITE;
-    var styleBold =
-        isLight ? IjudiStyles.DIALOG_DARK_BOLD : IjudiStyles.DIALOG_WHITE_BOLD;
-    var importantText = IjudiStyles.DIALOG_IMPORTANT_TEXT;
-    showMessageDialog(context,
-        title: "ID Photo Required",
-        actionName: "FICA Now",
-        action: () => launch(Config.currentConfig!.ukhesheSupportUrl),
-        child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        RichText(
-                            strutStyle: StrutStyle.fromTextStyle(style),
-                            text: TextSpan(children: [
-                              TextSpan(
-                                  text:
-                                      "To get unlimited access and great benefits of your wallet, you will need to FICA. ",
-                                  style: style),
-                              TextSpan(
-                                  text:
-                                      "Please take a picture of your ID and a selfie of yourself ",
-                                  style: styleBold),
-                              TextSpan(
-                                  text: "and send it to us via ", style: style),
-                              TextSpan(
-                                  text: "Whatsapp number 068 483 5566.",
-                                  style: styleBold),
-                            ]))
-                      ]))
-            ]));
-  }
-
-  showLoginMessage(BuildContext context, {Object? params, void Function()? onLogin}) {
+  showLoginMessage(BuildContext context,
+      {Object? params, void Function()? onLogin}) {
     final Brightness brightnessValue =
         MediaQuery.of(context).platformBrightness;
     bool isLight = brightnessValue == Brightness.light;

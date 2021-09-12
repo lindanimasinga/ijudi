@@ -15,6 +15,14 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
 
   @override
   Widget build(BuildContext context) {
+    if (viewModel.shop!.storeOffline) {
+      var errorMessage = viewModel.shop?.availability == "OFFLINE"
+          ? "${viewModel.shop?.name} is temporarily offline. We will let you know when it is available."
+          : "${viewModel.shop?.name} is now offline and will open tomorrow at ${viewModel.nextOpenTime()}";
+      Future.delayed(
+          Duration(seconds: 1), () => showError(context, errorMessage));
+    }
+
     return ScrollableParent(
         hasDrawer: false,
         appBarColor: IjudiColors.color3,

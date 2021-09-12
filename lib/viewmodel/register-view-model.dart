@@ -115,7 +115,7 @@ class RegisterViewModel extends BaseViewModel {
       storage!.profileRole = data.role;
       log("user Id is ${data.id}");
       storage!.saveIjudiUserId(data.id);
-      notificationService!.updateDeviceUser();
+      notificationService!.updateDeviceUser(data.id!);
 
       Navigator.pop(context);
     }, onError: (e) {

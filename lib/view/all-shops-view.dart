@@ -124,10 +124,10 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: Text(
-                    "Izinga is not available in your area yet. Please subscribe and mention your favourite shop")),
+                    "Izinga is not available in your area yet. Please subscribe and mention your favourite shops")),
             actionName: "Subscribe",
             action: () => Utils.launchURLInCustomeTab(context,
-                url: "https://www.izinga.co.za#features"));
+                url: "http://eepurl.com/gxY53D"));
       });
     }
 

@@ -155,18 +155,17 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
   @override
   void initialize() {
     //
-    order!.shippingData = Shipping();
-    order!.shippingData!.toAddress =
-        order!.customer != null ? order!.customer!.address : "";
-    order!.shippingData!.buildingType = BuildingType.HOUSE;
-    order!.shippingData!.fromAddress = order!.shop!.name;
-    order!.shippingData!.fee = 0;
-    order!.shippingData!.type = order!.shop!.scheduledDeliveryAllowed
+    order?.shippingData = Shipping();
+    order?.shippingData?.toAddress = order?.customer?.address;
+    order?.shippingData?.buildingType = BuildingType.HOUSE;
+    order?.shippingData?.fromAddress = order!.shop!.name;
+    order?.shippingData?.fee = 0;
+    order?.shippingData?.type = order?.shop?.scheduledDeliveryAllowed == true
         ? ShippingType.SCHEDULED_DELIVERY
         : ShippingType.DELIVERY;
 
     print("address is $deliveryAddress");
-    if (deliveryAddress != null && deliveryAddress!.isNotEmpty) {
+    if (deliveryAddress != null) {
       locationFromAddress(deliveryAddress!).asStream().listen((location) {
         _location = SupportedLocation(deliveryAddress!, "region",
             location[0].latitude, location[0].longitude);

@@ -24,22 +24,16 @@ class NotificationService {
     //push notification
     FirebaseMessaging.onBackgroundMessage(_onBackgroundPushMessageHandler);
     FirebaseMessaging.onMessage.listen(_onForegroundPushMessageHandler);
-    
+
     _firebaseMessaging = FirebaseMessaging.instance;
     _firebaseMessaging.requestPermission();
     _firebaseMessaging.getToken().then((value) {
       log("token: $value");
-      if (apiService.storageManager!.deviceId == null) {
+      if (apiService.storageManager?.deviceId == null) {
         var device = Device(value);
         apiService
             .registerDevice(device)
             .then((value) => log("device registered."));
-        _token = value;
-      } else {
-        var device = Device(value);
-        device.id = apiService.storageManager!.deviceId;
-        device.userId = apiService.currentUserId;
-        apiService.updateDevice(device).then((value) => log("device updated."));
         _token = value;
       }
     });
@@ -55,18 +49,19 @@ class NotificationService {
         onSelectNotification: _onSelectNotification);
   }
 
-  void updateDeviceUser() {
+  void updateDeviceUser(String userId) {
     _firebaseMessaging.getToken().then((value) {
       var device = Device(value);
       device.id = apiService.storageManager!.deviceId;
-      device.userId = apiService.currentUserId;
+      device.userId = userId;
+      log("user is ${apiService.currentUserId}");
       apiService.updateDevice(device).then((value) => log("device updated."));
       _token = value;
     });
   }
 
   Future _onSelectNotification(String? payload) async {
-    log("notification selected");
+    log("notification selected $payload");
   }
 
   Future scheduleLocalMessage(
