@@ -6,6 +6,7 @@ import 'package:ijudi/components/profile-header-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/stocks-with-image-component.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/start-shopping-view-model.dart';
 
 class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
@@ -18,7 +19,7 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
     if (viewModel.shop!.storeOffline) {
       var errorMessage = viewModel.shop?.availability == "OFFLINE"
           ? "${viewModel.shop?.name} is temporarily offline. We will let you know when it is available."
-          : "${viewModel.shop?.name} is now offline and will open tomorrow at ${viewModel.nextOpenTime()}";
+          : "${viewModel.shop?.name} is offline and will open ${Utils.openDay(viewModel.nextOpenTime, context)}";
       Future.delayed(
           Duration(seconds: 1), () => showError(context, errorMessage));
     }

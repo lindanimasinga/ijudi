@@ -85,6 +85,6 @@ class QuickPayViewModel extends BaseViewModel {
 
   bool itemsSelected() {
     var items = itemName.split(", ").toSet();
-    return shop!.tags!.intersection(items).length > 0;
+    return shop!.tags.intersection(items).length > 0;
   }
 }

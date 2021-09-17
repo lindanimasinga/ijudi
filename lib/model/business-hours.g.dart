@@ -8,17 +8,17 @@ part of 'business-hours.dart';
 
 BusinessHours _$BusinessHoursFromJson(Map<String, dynamic> json) {
   return BusinessHours(
-    _$enumDecodeNullable(_$DayEnumMap, json['day']),
-    json['open'] == null ? null : DateTime.parse(json['open'] as String),
-    json['close'] == null ? null : DateTime.parse(json['close'] as String),
+    _$enumDecode(_$DayEnumMap, json['day']),
+    DateTime.parse(json['open'] as String),
+    DateTime.parse(json['close'] as String),
   );
 }
 
 Map<String, dynamic> _$BusinessHoursToJson(BusinessHours instance) =>
     <String, dynamic>{
       'day': _$DayEnumMap[instance.day],
-      'open': instance.open?.toIso8601String(),
-      'close': instance.close?.toIso8601String(),
+      'open': instance.open.toIso8601String(),
+      'close': instance.close.toIso8601String(),
     };
 
 K _$enumDecode<K, V>(
@@ -45,17 +45,6 @@ K _$enumDecode<K, V>(
       return MapEntry(unknownValue, enumValues.values.first);
     },
   ).key;
-}
-
-K? _$enumDecodeNullable<K, V>(
-  Map<K, V> enumValues,
-  dynamic source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$DayEnumMap = {

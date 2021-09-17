@@ -127,6 +127,17 @@ class Utils {
             : DateFormat("dd MMM yy 'at' HH:mm").format(dateTime);
   }
 
+  static String openDay(DateTime dateTime, BuildContext context) {
+    var isToday = DateTime.now().day == dateTime.day;
+    var isTomorrow = DateTime.now().day + 1 == dateTime.day;
+    var timeOfDay = TimeOfDay.fromDateTime(dateTime);
+    return isToday
+        ? "Today at ${timeOfDay.format(context)}"
+        : isTomorrow
+            ? "Tomorrow at ${timeOfDay.format(context)}"
+            : DateFormat("EEE 'at' HH:mm").format(dateTime);
+  }
+
   static DateTime createPickUpDay(TimeOfDay time) {
     var date = DateTime.now();
     var pickupDate =

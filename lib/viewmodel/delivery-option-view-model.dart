@@ -102,7 +102,7 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
 
   bool get isLoggedIn => storageManager!.isLoggedIn;
 
-  List<BusinessHours> get businessHours {
+  List<BusinessHours?> get businessHours {
     var hours = order!.shop!.businessHours;
 
     hours = [
@@ -127,17 +127,17 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
     var businessDay = businessHours.firstWhereOrNull(
       (day) =>
           DateFormat('EEEE').format(pickUpDateTime!).toUpperCase() ==
-          describeEnum(day.day!),
+          describeEnum(day!.day),
     );
 
     if (businessDay == null) {
       return false;
     }
 
-    int openTime = int.parse("${DateFormat('HHmm').format(businessDay.open!)}");
+    int openTime = int.parse("${DateFormat('HHmm').format(businessDay.open)}");
     int pickUpTime = int.parse("${DateFormat('HHmm').format(pickUpDateTime!)}");
     int closeTime =
-        int.parse("${DateFormat('HHmm').format(businessDay.close!)}");
+        int.parse("${DateFormat('HHmm').format(businessDay.close)}");
     log("open $openTime, delivery $pickUpTime, close $closeTime");
     return openTime <= pickUpTime && closeTime >= pickUpTime;
   }

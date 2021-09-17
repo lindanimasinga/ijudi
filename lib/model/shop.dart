@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/stock.dart';
 import 'package:ijudi/model/store-messenger.dart';
@@ -18,7 +17,7 @@ class Shop extends Profile with GeoLocation {
   String storeType;
   String? registrationNumber;
   @JsonKey(ignore: false, toJson: businessHoursToJson)
-  List<BusinessHours> businessHours;
+  List<BusinessHours?> businessHours;
   @JsonKey(ignore: false, toJson: listToJson)
   List<Stock> stockList;
   Set<String> tags;
@@ -98,9 +97,9 @@ class Shop extends Profile with GeoLocation {
   }
 
   static List<Map<String, dynamic>> businessHoursToJson(
-      List<BusinessHours> list) {
+      List<BusinessHours?> list) {
     print("converting to json 2");
-    var jsonString = list.map((f) => f.toJson()).toList();
+    var jsonString = list.map((f) => f!.toJson()).toList();
     print("converting to json 2 passed");
     print(jsonString);
     return jsonString;
