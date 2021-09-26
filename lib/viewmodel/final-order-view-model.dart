@@ -7,7 +7,8 @@ import 'package:ijudi/util/order-status-checker.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class FinalOrderViewModel extends BaseViewModel with OrderStatusChecker {
-  Order? currentOrder;
+  
+  Order currentOrder;
 
   final ApiService apiService;
   final NotificationService? localNotificationService;
@@ -19,25 +20,25 @@ class FinalOrderViewModel extends BaseViewModel with OrderStatusChecker {
 
   @override
   void initialize() {
-    if (currentOrder!.shop != null) {
+    if (currentOrder.shop != null) {
       var dateTime = DateTime.now().add(Duration(minutes: 10));
       localNotificationService!
-          .scheduleLocalMessage(dateTime, "${currentOrder!.shop!.name}",
+          .scheduleLocalMessage(dateTime, "${currentOrder.shop!.name}",
               "Dont forget about your order. Please check progress in the app.")
           .asStream()
           .listen((event) {});
 
       dateTime = DateTime.now().add(Duration(minutes: 20));
       localNotificationService!
-          .scheduleLocalMessage(dateTime, "${currentOrder!.shop!.name}",
+          .scheduleLocalMessage(dateTime, "${currentOrder.shop!.name}",
               "Dont forget about your order. Please check progress in the app.")
           .asStream()
           .listen((event) {});
     }
 
-    if (currentOrder!.shop == null) {
+    if (currentOrder.shop == null) {
       apiService
-          .findShopById(currentOrder!.shopId)
+          .findShopById(currentOrder.shopId)
           .asStream()
           .listen((shp) => shop = shp, onError: (e) {
         showError(error: e);
@@ -47,19 +48,19 @@ class FinalOrderViewModel extends BaseViewModel with OrderStatusChecker {
     startOrderStatusCheck();
   }
 
-  Shop? get shop => currentOrder!.shop;
+  Shop? get shop => currentOrder.shop;
   set shop(Shop? shop) {
-    currentOrder!.shop = shop;
+    currentOrder.shop = shop;
     notifyChanged();
   }
 
-  OrderStage? get currentStage => currentOrder!.stage;
+  OrderStage? get currentStage => currentOrder.stage;
   set currentStage(OrderStage? stage) {
-    currentOrder!.stage = stage;
+    currentOrder.stage = stage;
     notifyChanged();
   }
 
-  OrderStage? get stage => currentOrder!.stage;
+  OrderStage? get stage => currentOrder.stage;
 
   @override
   void dispose() {

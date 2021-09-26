@@ -176,7 +176,7 @@ class NavigatorService {
             builder: (context) => PaymentWebView(url: url, doneAction: onDone));
       case FinalOrderView.ROUTE_NAME:
         viewmodel = FinalOrderViewModel(
-            currentOrder: args as Order?,
+            currentOrder: args as Order,
             apiService: apiService,
             localNotificationService: localNotificationService);
         return MaterialPageRoute(

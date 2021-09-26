@@ -51,7 +51,7 @@ android {
         targetSdkVersion 30
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
-        versionName     
+        versionName flutterVersionName    
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
        /* ndk {

@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/ijudi-card.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
-import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/quick-payment-success.dart';
@@ -17,7 +16,7 @@ class OrderProgressStageComponent
 
   @override
   Widget build(BuildContext context) {
-    int xValue = Utils.onlineDeliveryStages[viewModel.stage!]! -
+    int xValue = Utils.onlineDeliveryStages[viewModel.stage]! -
         Utils.onlineDeliveryStages[viewModel.currentStage!]!;
     double cardWidth = (-(44 / 3) * pow(xValue, 2)) + 352.0;
     cardWidth = cardWidth < 180 ? 180 : cardWidth;
@@ -46,7 +45,7 @@ class OrderProgressStageComponent
                   children: <Widget>[
                     cardWidth <= 220
                         ? Container()
-                        : Lottie.asset(Utils.LOTTIE_BY_STAGE[viewModel.stage!]!,
+                        : Lottie.asset(Utils.LOTTIE_BY_STAGE[viewModel.stage]!,
                             animate: viewModel.isCurrentStage,
                             fit: BoxFit.fill,
                             width: 90),
@@ -56,7 +55,7 @@ class OrderProgressStageComponent
                               ? 0.4
                               : 0.5),
                       child: Text(
-                        viewModel.messageMap[viewModel.stage],
+                        viewModel.messageMap[viewModel.stage]!,
                         style: IjudiStyles.CARD_SHOP_DISCR,
                         maxLines: 4,
                         overflow: TextOverflow.ellipsis,

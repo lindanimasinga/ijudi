@@ -8,6 +8,7 @@ import 'package:ijudi/services/local-notification-service.dart';
 import 'package:ijudi/util/navigator-service.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/all-shops-view.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'config.dart';
 
@@ -27,7 +28,6 @@ main() {
       .asyncExpand(((event) => SharedPrefStorageManager.singleton().asStream()))
       .map((event) {
         sharedPref = event as SharedPrefStorageManager?;
-        //config = sharedPref.testEnvironment ? Config.getUATConfig() : Config.getProConfig();
         sharedPref!.testEnvironment = false;
         return sharedPref;
       })
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'iJudi',
+      title: 'iZinga',
       debugShowCheckedModeBanner: false,
       theme: JudiTheme().theme,
       darkTheme: JudiTheme().dark,

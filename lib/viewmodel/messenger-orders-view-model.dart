@@ -5,6 +5,7 @@ import 'package:ijudi/util/order-status-checker.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class MessengerOrdersViewModel extends BaseViewModel with OrderStatusChecker {
+  
   List<Order>? _orders = [];
   final ApiService apiService;
   final String? messengerId;

@@ -52,12 +52,12 @@ class Utils {
     OrderStage.STAGE_7_ALL_PAID: 7
   };
 
-  static messageMap(Shop shop) => {
+  static Map<OrderStage, String> messageMap(Shop? shop) => {
         OrderStage.STAGE_0_CUSTOMER_NOT_PAID: "assets/lottie/loading.json",
         OrderStage.STAGE_1_WAITING_STORE_CONFIRM:
-            "Waiting for shop ${shop.name} to accept your order. This may take a few minutes.",
+            "Waiting for shop ${shop?.name} to accept your order. This may take a few minutes.",
         OrderStage.STAGE_2_STORE_PROCESSING:
-            "${shop.name} is now processing your order",
+            "${shop?.name} is now processing your order",
         OrderStage.STAGE_3_READY_FOR_COLLECTION:
             "The driver is now collecting your. Brace yourself..",
         OrderStage.STAGE_4_ON_THE_ROAD: "The driver is on his way",

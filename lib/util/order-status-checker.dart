@@ -6,13 +6,14 @@ import 'package:ijudi/model/order.dart';
 mixin OrderStatusChecker {
   late Timer _timer;
   late ApiService apiService;
-  Order? currentOrder;
   List<Order>? orders;
+
+  Order? get currentOrder => null;
 
   startOrderStatusCheck() {
     _timer = Timer.periodic(Duration(seconds: 10), (time) {
-      apiService.findOrderById(currentOrder!.id).asStream().listen((respo) {
-        currentOrder!.stage = respo.stage;
+      apiService.findOrderById(currentOrder?.id).asStream().listen((respo) {
+        currentOrder?.stage = respo.stage;
         notifyChanged();
       }, onError: (e) {
         showError(error: e);
