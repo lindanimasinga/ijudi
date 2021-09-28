@@ -31,8 +31,11 @@ class ApiService {
 
   get currentUserId => storageManager!.getIjudiUserId();
 
-  Map<String, String> get defaultHeaders =>
-      {"Content-type": "application/json", "app-version": appVersion};
+  Map<String, String> get defaultHeaders => {
+        "Content-type": "application/json",
+        "app-version": appVersion,
+        "origin": "app://izinga"
+      };
 
   String get apiUrl => Config.currentConfig!.iZingaApiUrl;
 
