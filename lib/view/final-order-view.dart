@@ -29,7 +29,7 @@ class FinalOrderView extends MvStatefulWidget<FinalOrderViewModel> {
                       viewModel: OrderProgressViewModel(
                           order: viewModel.currentOrder,
                           stage: OrderStage.STAGE_1_WAITING_STORE_CONFIRM,
-                      label: "Order Number ${viewModel.currentOrder!.id}")),
+                      label: "Order Number ${viewModel.currentOrder.id}")),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
                           order: viewModel.currentOrder,
