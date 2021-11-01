@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/basket-component.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
@@ -19,7 +20,7 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
     if (viewModel.shop!.storeOffline) {
       var errorMessage = viewModel.shop?.availability == "OFFLINE"
           ? "${viewModel.shop?.name} is temporarily offline. We will let you know when it is available."
-          : "${viewModel.shop?.name} is offline and will open ${Utils.openDay(viewModel.nextOpenTime, context)}";
+          : "${viewModel.shop?.name} is offline and will open ${describeEnum(viewModel.nextOpenTime.day)} at ${Utils.openDay(viewModel.nextOpenTime.open, context)}";
       Future.delayed(
           Duration(seconds: 1), () => showError(context, errorMessage));
     }

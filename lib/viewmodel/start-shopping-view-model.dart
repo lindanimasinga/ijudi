@@ -116,11 +116,12 @@ class StartShoppingViewModel extends BaseViewModel with MessageDialogs {
     notifyChanged();
   }
 
-  DateTime get nextOpenTime {
+  BusinessHours get nextOpenTime {
     var index = shop!.businessHours.indexWhere((day) =>
         DateFormat('EEEE').format(DateTime.now()).toUpperCase() ==
         describeEnum(day.day));
-    var nextOpenDayIndex = index >= shop!.businessHours.length - 1 ? 0 : index;
-    return shop!.businessHours.elementAt(nextOpenDayIndex).open;
+    var nextOpenDayIndex =
+        index >= shop!.businessHours.length - 1 ? 0 : index + 1;
+    return shop!.businessHours.elementAt(nextOpenDayIndex);
   }
 }
