@@ -104,19 +104,6 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
 
   List<BusinessHours?> get businessHours {
     var hours = order!.shop!.businessHours;
-
-    hours = [
-      BusinessHours(
-          Day.MONDAY, DateTime(2021, 1, 1, 8, 0), DateTime(2021, 1, 1, 17, 0)),
-      BusinessHours(
-          Day.TUESDAY, DateTime(2021, 1, 1, 8, 0), DateTime(2021, 1, 1, 17, 0)),
-      BusinessHours(Day.WEDNESDAY, DateTime(2021, 1, 1, 8, 0),
-          DateTime(2021, 1, 1, 17, 0)),
-      BusinessHours(Day.THURSDAY, DateTime(2021, 1, 1, 8, 0),
-          DateTime(2021, 1, 1, 17, 0)),
-      BusinessHours(
-          Day.FRIDAY, DateTime(2021, 1, 1, 8, 0), DateTime(2021, 1, 1, 17, 0)),
-    ];
     return hours;
   }
 

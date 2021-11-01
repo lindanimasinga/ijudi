@@ -19,6 +19,8 @@ class AllShopsViewModel extends BaseViewModel {
   Set<String> filters = HashSet();
   String _search = "";
   bool notAvailMessageShown = false;
+  bool _loadingFailed = false;
+
   var _radiusText;
   String locationDenied =
       "Location Services is not enabled. Showing shops and resturants within Durban region.";
@@ -36,9 +38,16 @@ class AllShopsViewModel extends BaseViewModel {
 
   @override
   void initialize() {
-    _radiusText = Config.currentConfig!.rangeMap.keys.first;
+    radiusText = Config.currentConfig!.rangeMap.keys.first;
     log("showing all shops");
     loadDataFromLastPosition(radiusText);
+  }
+
+  bool get loadingFailed => _loadingFailed;
+
+  set loadingFailed(bool loadingFailed) {
+    _loadingFailed = loadingFailed;
+    notifyChanged();
   }
 
   get dataAvailable {
@@ -54,16 +63,20 @@ class AllShopsViewModel extends BaseViewModel {
   }
 
   Stream loadDataFrom(double? range, double latitude, double longitude) {
+    loadingFailed = false;
     return Rx.merge([
+      apiService
+          .findAllShopByLocation(latitude, longitude, range, 20)
+          .asStream()
+          .doOnError((p0, p1) => loadingFailed = true)
+          .map((resp) {
+        print("shops response received.");
+        shops = resp;
+      }),
       apiService
           .findFeaturedShopByLocation(latitude, longitude, range, 20)
           .asStream()
           .map((resp) => featuredShops = resp),
-      Future.delayed(Duration(milliseconds: 1500))
-          .asStream()
-          .asyncMap((event) =>
-              apiService.findAllShopByLocation(latitude, longitude, range, 20))
-          .map((resp) => shops = resp),
       apiService
           .findAllAdsByLocation(latitude, longitude, range, 20)
           .asStream()

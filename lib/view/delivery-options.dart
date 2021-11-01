@@ -147,7 +147,7 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
     List<Widget> textSpans = [];
     viewModel.businessHours.forEach((time) {
       textSpans.add(Text(
-          "${DateFormat('HH:mm').format(time!.open)} - ${DateFormat('HH:mm').format(time.close!)} ${describeEnum(time.day!)}",
+          "${DateFormat('HH:mm').format(time!.open)} - ${DateFormat('HH:mm').format(time.close)} ${describeEnum(time.day)}",
           style: IjudiStyles.CONTENT_TEXT));
       textSpans.add(Padding(padding: EdgeInsets.only(top: 8)));
     });

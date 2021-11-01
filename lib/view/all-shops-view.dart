@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/components/ads-card-component.dart';
 import 'package:ijudi/components/bread-crumb.dart';
 import 'package:ijudi/components/featured-shop.dart';
+import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/components/shop-component.dart';
@@ -22,9 +23,11 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    if (!viewModel.dataAvailable) {
+    if (!viewModel.dataAvailable && !viewModel.loadingFailed) {
       return showLoadingScreen(context);
     }
+
+    if (viewModel.loadingFailed) return showLoadingFailedRetry(context);
 
     double deviceWidth = MediaQuery.of(context).size.width;
     var colorPickCount = 0;
@@ -257,6 +260,34 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 "Cooking...",
                 style: IjudiStyles.HEADER_LG,
               )
+            ])));
+  }
+
+  Widget showLoadingFailedRetry(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(elevation: 0, backgroundColor: IjudiColors.clear),
+        body: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              Image.asset("assets/images/izinga-logo.png", width: 150),
+              Container(
+                  margin:
+                      EdgeInsets.only(bottom: 32, left: 16, right: 16, top: 32),
+                  child: FloatingActionButtonWithProgress(
+                    viewModel: viewModel.progressMv,
+                    onPressed: () => viewModel
+                        .loadDataFromLastPosition(viewModel.radiusText),
+                    child: Icon(Icons.refresh),
+                  )),
+              Padding(
+                  padding: EdgeInsets.only(bottom: 16, left: 16, right: 16),
+                  child: Text(
+                    "Opps! is something wrong. Try Again?",
+                    style: IjudiStyles.HEADER_LG,
+                    textAlign: TextAlign.center,
+                  ))
             ])));
   }
 }
