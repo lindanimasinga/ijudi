@@ -16,7 +16,7 @@ import 'package:ijudi/services/storage-manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class ApiService {
-  static const TIMEOUT_SEC = 20;
+  static const TIMEOUT_SEC = 60;
   final StorageManager? storageManager;
   String appVersion = "0";
 
