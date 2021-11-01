@@ -17,7 +17,7 @@ class Shop extends Profile with GeoLocation {
   String storeType;
   String? registrationNumber;
   @JsonKey(ignore: false, toJson: businessHoursToJson)
-  List<BusinessHours?> businessHours;
+  List<BusinessHours> businessHours;
   @JsonKey(ignore: false, toJson: listToJson)
   List<Stock> stockList;
   Set<String> tags;

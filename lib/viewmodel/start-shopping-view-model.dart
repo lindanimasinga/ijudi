@@ -117,17 +117,10 @@ class StartShoppingViewModel extends BaseViewModel with MessageDialogs {
   }
 
   DateTime get nextOpenTime {
-    BusinessHours? datetime;
-    var days = 1;
-    do {
-      datetime = shop?.businessHours.firstWhere(
-          (day) =>
-              DateFormat('EEEE')
-                  .format(DateTime.now().add(Duration(days: days++)))
-                  .toUpperCase() ==
-              describeEnum(day!.day),
-          orElse: () => null);
-    } while (datetime == null);
-    return datetime.open;
+    var index = shop!.businessHours.indexWhere((day) =>
+        DateFormat('EEEE').format(DateTime.now()).toUpperCase() ==
+        describeEnum(day.day));
+    var nextOpenDayIndex = index >= shop!.businessHours.length - 1 ? 0 : index;
+    return shop!.businessHours.elementAt(nextOpenDayIndex).open;
   }
 }

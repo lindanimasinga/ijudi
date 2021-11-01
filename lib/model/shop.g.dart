@@ -21,9 +21,7 @@ Shop _$ShopFromJson(Map<String, dynamic> json) {
     featured: json['featured'] as bool,
     ownerId: json['ownerId'] as String,
     businessHours: (json['businessHours'] as List<dynamic>)
-        .map((e) => e == null
-            ? null
-            : BusinessHours.fromJson(e as Map<String, dynamic>))
+        .map((e) => BusinessHours.fromJson(e as Map<String, dynamic>))
         .toList(),
     featuredExpiry: Utils.dateFromJson(json['featuredExpiry'] as String?),
     storeOffline: json['storeOffline'] as bool,
