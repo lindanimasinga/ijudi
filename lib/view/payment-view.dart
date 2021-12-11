@@ -90,17 +90,18 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
   showPOSPaymentOption(BuildContext context) {
     showMessageDialog(context,
         title: "Pay with card on delivery",
-        actionName: "Continue",
+        actionName: "Place Order",
         child: Padding(
             padding: EdgeInsets.all(16),
             child: Container(
+                height: 450,
                 child: Column(children: [
-              Lottie.asset("assets/lottie/pos.json",
-                  animate: true, fit: BoxFit.fill, width: 550),
-              Text(
-                  "Are you struggling to pay in the app?\n\nYou can also pay with your card upon delivery. Please continue if you have your bank card with you.",
-                  style: IjudiStyles.HEADING3)
-            ]))),
+                  Lottie.asset("assets/lottie/pos.json",
+                      animate: true, fit: BoxFit.fill, width: 550),
+                  Text(
+                      "Are you struggling to pay in the app? You can also pay with your card upon delivery.\n\nPlease continue if you have your bank card with you.",
+                      style: IjudiStyles.HEADING3)
+                ]))),
         action: () => viewModel.processPOSPayment());
   }
 
@@ -113,14 +114,16 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
         payment = Container(
             alignment: Alignment.center,
             padding: EdgeInsets.only(bottom: 24, top: 32),
-            child: FloatingActionButtonWithProgress(
-              viewModel: viewModel.progressMv,
-              onPressed: () {
-                payNowWebView(context);
-                return;
-              },
-              child: Icon(Icons.arrow_forward),
-            ));
+            child: GestureDetector(
+                onLongPress: () => showPOSPaymentOption(context),
+                child: FloatingActionButtonWithProgress(
+                  viewModel: viewModel.progressMv,
+                  onPressed: () {
+                    payNowWebView(context);
+                    return;
+                  },
+                  child: Icon(Icons.arrow_forward),
+                )));
         break;
       case PaymentType.CASH:
         double width = MediaQuery.of(context).size.width > 360 ? 280 : 240;
@@ -157,7 +160,8 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
       if (status.toLowerCase() == "complete") {
         viewModel.processPayment();
       } else {
-        showPOSPaymentOption(context);
+        Future.delayed(
+            Duration(seconds: 2), () => showPOSPaymentOption(context));
       }
     };
     var args = [
