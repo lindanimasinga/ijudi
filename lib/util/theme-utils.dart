@@ -378,6 +378,12 @@ class IjudiStyles {
     fontWeight: FontWeight.w500,
   );
 
+  static const HEADING3 = TextStyle(
+    fontSize: 16,
+    fontFamily: "Roboto",
+    fontWeight: FontWeight.w500,
+  );
+
   static const SUBTITLE_1 =
       TextStyle(fontSize: 14, fontFamily: "Roboto", color: Colors.white);
 

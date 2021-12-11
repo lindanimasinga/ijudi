@@ -11,6 +11,7 @@ import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
 import 'package:ijudi/view/payment-webview.dart';
 import 'package:ijudi/viewmodel/payment-view-model.dart';
+import 'package:lottie/lottie.dart';
 
 class PaymentView extends MvStatefulWidget<PaymentViewModel> {
   static const String ROUTE_NAME = "payment";
@@ -86,6 +87,23 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
         action: () => viewModel.processCashPayment());
   }
 
+  showPOSPaymentOption(BuildContext context) {
+    showMessageDialog(context,
+        title: "Pay with card on delivery",
+        actionName: "Continue",
+        child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Container(
+                child: Column(children: [
+              Lottie.asset("assets/lottie/pos.json",
+                  animate: true, fit: BoxFit.fill, width: 550),
+              Text(
+                  "Are you struggling to pay in the app?\n\nYou can also pay with your card upon delivery. Please continue if you have your bank card with you.",
+                  style: IjudiStyles.HEADING3)
+            ]))),
+        action: () => viewModel.processPOSPayment());
+  }
+
   Widget paymentWidget(BuildContext context) {
     var payment;
     double deviceWidth = MediaQuery.of(context).size.width;
@@ -138,6 +156,8 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
     var doneAction = (String status) {
       if (status.toLowerCase() == "complete") {
         viewModel.processPayment();
+      } else {
+        showPOSPaymentOption(context);
       }
     };
     var args = [

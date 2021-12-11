@@ -95,6 +95,7 @@ const _$PaymentTypeEnumMap = {
   PaymentType.CASH: 'CASH',
   PaymentType.OZOW: 'OZOW',
   PaymentType.PAYFAST: 'PAYFAST',
+  PaymentType.SPEED_POINT: 'SPEED_POINT',
 };
 
 const _$OrderTypeEnumMap = {

@@ -15,9 +15,7 @@ class PaymentViewModel extends BaseViewModel {
   String? topupAmount;
   bool paymentSuccessful = false;
 
-  PaymentViewModel(
-      {required this.apiService,
-      required this.order});
+  PaymentViewModel({required this.apiService, required this.order});
 
   get paymentUrl => Config.currentConfig!.paymentUrl;
 
@@ -92,8 +90,27 @@ class PaymentViewModel extends BaseViewModel {
 
   processCashPayment() {
     progressMv!.isBusy = true;
-    var subscr = apiService.completeOrderPayment(order!).asStream().listen(null);
+    var subscr =
+        apiService.completeOrderPayment(order!).asStream().listen(null);
 
+    subscr.onData((data) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, FinalOrderView.ROUTE_NAME, (Route<dynamic> route) => false,
+          arguments: order);
+    });
+
+    subscr.onDone(() {
+      progressMv!.isBusy = false;
+    });
+  }
+
+  processPOSPayment() {
+    progressMv!.isBusy = true;
+
+    order!.paymentType = PaymentType.SPEED_POINT;
+    paymentSuccessful = true;
+    var subscr =
+        apiService.completeOrderPayment(order!).asStream().listen(null);
     subscr.onData((data) {
       Navigator.pushNamedAndRemoveUntil(
           context, FinalOrderView.ROUTE_NAME, (Route<dynamic> route) => false,
