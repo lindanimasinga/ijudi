@@ -8,7 +8,6 @@ import 'package:ijudi/services/local-notification-service.dart';
 import 'package:ijudi/util/navigator-service.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/all-shops-view.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 import 'config.dart';
 
@@ -16,7 +15,7 @@ main() {
   WidgetsFlutterBinding.ensureInitialized();
   var localNotifications;
   SharedPrefStorageManager? sharedPref;
-  Config? config = Config.getProConfig();
+  Config? config = Config.getUATConfig();
   Config.currentConfig = config;
   Firebase.initializeApp()
       .asStream()

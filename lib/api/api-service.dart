@@ -216,6 +216,17 @@ class ApiService {
     return Order.fromJson(json.decode(event.body));
   }
 
+  Future reassignOrder(String orderId, String messengerPhoneNumber) async {
+    var request = {"mobileNumber": messengerPhoneNumber, "orderId": orderId};
+    logger.log(json.encode(request));
+    var url = Uri.parse('$apiUrl/orderassign');
+    var event = await http
+        .post(url, headers: defaultHeaders, body: json.encode(request))
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    logger.log(event.body);
+    return event.body;
+  }
+
   Future<Order> completeOrderPayment(Order order) async {
     var request = json.encode(order);
     print(request);
@@ -246,7 +257,6 @@ class ApiService {
     var event = await http
         .get(url, headers: defaultHeaders)
         .timeout(Duration(seconds: TIMEOUT_SEC));
-    logger.log(event.body);
     if (event.statusCode != 200)
       throw (ApiErrorResponse.fromJson(json.decode(event.body)).message);
 
@@ -256,7 +266,7 @@ class ApiService {
 
   Future<List<Shop>> findShopByOwnerId(String? ownerId) async {
     logger.log("fetching owner shops");
-    logger.log("http headers are $defaultHeaders");
+    logger.log("http headers for $apiUrl are $defaultHeaders");
     var url = Uri.parse('$apiUrl/store?ownerId=$ownerId');
     var event = await http
         .get(url, headers: defaultHeaders)
@@ -275,7 +285,6 @@ class ApiService {
     var event = await http
         .get(url, headers: defaultHeaders)
         .timeout(Duration(seconds: TIMEOUT_SEC));
-    logger.log(event.body);
     if (event.statusCode != 200)
       throw (ApiErrorResponse.fromJson(json.decode(event.body)).message);
 
@@ -326,7 +335,6 @@ class ApiService {
     var event = await http
         .get(url, headers: defaultHeaders)
         .timeout(Duration(seconds: TIMEOUT_SEC));
-    logger.log(event.body);
     if (event.statusCode != 200)
       throw (ApiErrorResponse.fromJson(json.decode(event.body)).message);
 

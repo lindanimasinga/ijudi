@@ -29,7 +29,7 @@ class Shop extends Profile with GeoLocation {
   bool markUpPrice;
   @JsonKey(fromJson: Utils.dateFromJson, toJson: Utils.dateToJson)
   DateTime? featuredExpiry;
-  StoreMessenger? storeMessenger;
+  List<StoreMessenger>? storeMessenger;
   bool storeOffline;
   String availability;
   String? shortName;

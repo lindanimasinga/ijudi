@@ -14,6 +14,7 @@ import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/viewmodel/messenger-order-update-view-model.dart';
+import 'package:lottie/lottie.dart' as LotLib;
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -40,6 +41,12 @@ class MessengerOrderUpdateView
 
   @override
   Widget build(BuildContext context) {
+    if (viewModel.showSpeedPointRequired) {
+      Future.delayed(
+          Duration(seconds: 2), () => showPOSPaymentReminder(context));
+      viewModel.speedPointMessageShown = true;
+    }
+
     CameraPosition _kGooglePlex = CameraPosition(
       target: LatLng(viewModel.currentLatitude!, viewModel.currentLongitude!),
       zoom: 15,
@@ -52,8 +59,8 @@ class MessengerOrderUpdateView
                 markerId: MarkerId(viewModel.shop!.name!),
                 // onTap: () => launchMaps(latitude, longitude),
                 infoWindow: InfoWindow(title: viewModel.shop!.name),
-                position:
-                    LatLng(viewModel.shop!.latitude!, viewModel.shop!.longitude!)),
+                position: LatLng(
+                    viewModel.shop!.latitude!, viewModel.shop!.longitude!)),
             Marker(
                 markerId: MarkerId(viewModel.customer!.name!),
                 infoWindow: InfoWindow(title: viewModel.customer!.name),
@@ -116,10 +123,11 @@ class MessengerOrderUpdateView
                                       color: Colors.white))
                             ])),
                             onTap: () => launch(
-                                "https:${viewModel.customer?.mobileNumber}"))),
+                                "tel:${viewModel.customer?.mobileNumber}"))),
                     Container(
                         margin: EdgeInsets.only(right: 16),
-                        child: OrderReviewComponent(order: viewModel.order, isCustomerView: false)),
+                        child: OrderReviewComponent(
+                            order: viewModel.order, isCustomerView: false)),
                     Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
                       Container(
                           alignment: Alignment.topLeft,
@@ -128,7 +136,8 @@ class MessengerOrderUpdateView
                               child: Container(
                                   alignment: Alignment.center,
                                   height: 140,
-                                  child: Text(statusText[viewModel.order!.stage!]!,
+                                  child: Text(
+                                      statusText[viewModel.order!.stage!]!,
                                       style: IjudiStyles.HEADER_2,
                                       textAlign: TextAlign.center)))),
                       Container(margin: EdgeInsets.only(top: 32)),
@@ -173,7 +182,8 @@ class MessengerOrderUpdateView
                             : IjudiInputField(
                                 hint: "Building Name",
                                 enabled: false,
-                                text: viewModel.order!.shippingData!.buildingName,
+                                text:
+                                    viewModel.order!.shippingData!.buildingName,
                                 color: IjudiColors.color5),
                         IjudiAddressInputField(
                             hint: "To Address",
@@ -195,7 +205,7 @@ class MessengerOrderUpdateView
                           Container(
                               alignment: Alignment.center,
                               child: IJudiCard(
-                                  color: IjudiColors.color5,
+                                  color: IjudiColors.color1,
                                   child: Container(
                                       margin: EdgeInsets.all(10),
                                       height:
@@ -238,13 +248,33 @@ class MessengerOrderUpdateView
 
   startNavigationShop() async {
     print("location is ${viewModel.shopLatitude}, ${viewModel.shopLongitude}");
-    MapsLauncher.launchCoordinates(
-        viewModel.shopLatitude!, viewModel.shopLongitude!, viewModel.shop!.name);
+    MapsLauncher.launchCoordinates(viewModel.shopLatitude!,
+        viewModel.shopLongitude!, viewModel.shop!.name);
   }
 
   startNavigationCustomer() async {
     print("location is ${viewModel.shopLatitude}, ${viewModel.shopLongitude}");
     MapsLauncher.launchCoordinates(viewModel.customerLatitude!,
         viewModel.customerLongitude!, viewModel.customer!.name);
+  }
+
+  showPOSPaymentReminder(BuildContext context) {
+    showMessageDialog(context,
+        title: "Speed Point Required On Delivery.",
+        actionName: "OK",
+        child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Container(
+                height: MediaQuery.of(context).size.height,
+                child: Column(children: [
+                  LotLib.Lottie.asset("assets/lottie/pos.json",
+                      animate: true, fit: BoxFit.fill, width: 250),
+                  Text(
+                      "Please ensure you bring the speed point when delivering for the customer to pay.",
+                      style: IjudiStyles.HEADING3),
+                  OrderReviewComponent(
+                      order: viewModel.order, isCustomerView: true)
+                ]))),
+        action: () => {});
   }
 }

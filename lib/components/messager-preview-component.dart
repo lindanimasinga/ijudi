@@ -4,18 +4,20 @@ import 'package:ijudi/util/theme-utils.dart';
 
 class MessagerPreviewComponent extends StatefulWidget {
   final UserProfile? messenger;
+  Function? selected = () => false;
 
-  MessagerPreviewComponent({this.messenger});
+  MessagerPreviewComponent({this.messenger, this.selected});
 
   @override
   _MessagerPreviewComponentState createState() =>
-      _MessagerPreviewComponentState(messenger);
+      _MessagerPreviewComponentState(messenger, selected);
 }
 
 class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
   UserProfile? messanger;
+  Function? selected;
 
-  _MessagerPreviewComponentState(this.messanger);
+  _MessagerPreviewComponentState(this.messanger, this.selected);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,9 @@ class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
       height: 86,
       padding: EdgeInsets.only(left: 16),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
+        color: selected != null && selected!()
+            ? IjudiColors.color5
+            : Theme.of(context).cardColor,
         border: Border.all(color: IjudiColors.color5, width: 0.05),
       ),
       child: Row(
@@ -71,7 +75,7 @@ class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(61),
                 color: Colors.white,
-                border: Border.all(width: 3, color: IjudiColors.color1),
+                border: Border.all(width: 1, color: IjudiColors.color1),
                 image: DecorationImage(
                   image: NetworkImage(messanger!.imageUrl!),
                   fit: BoxFit.cover,
@@ -84,20 +88,12 @@ class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
               ratings,
             ],
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Icon(Icons.check_circle, color: IjudiColors.color1),
-              Container(
-                width: 73,
-                child: Text(
-                  "Responds in 3 min",
-                  style: IjudiStyles.RATING_LABEL_DARK,
-                  textAlign: TextAlign.center,
-                ),
-              )
-            ],
-          )
+          selected != null && selected!()
+              ? Center(
+                  child:
+                      Icon(Icons.check_circle, size: 26, color: Colors.white),
+                )
+              : Container()
         ],
       ),
     );

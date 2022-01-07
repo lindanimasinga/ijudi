@@ -9,6 +9,22 @@ class UserProfile extends Profile {
   String? idNumber;
   SignUpReason? signUpReason;
 
+  UserProfile.empty()
+      : super(
+            id: "id",
+            name: "name",
+            description: "description",
+            yearsInService: 20,
+            address: "address",
+            imageUrl: "imageUrl",
+            likes: 0,
+            servicesCompleted: 0,
+            badges: 0,
+            mobileNumber: "mobileNumber",
+            verificationCode: "verificationCode",
+            role: ProfileRoles.MESSENGER,
+            bank: Bank());
+
   UserProfile(
       {String? id,
       required String? name,

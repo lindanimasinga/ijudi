@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/config.dart';
 import 'package:ijudi/model/advert.dart';
@@ -13,13 +12,13 @@ import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AllShopsViewModel extends BaseViewModel {
-  List<Shop>? _shops;
   List<Shop> _featuredShops = [];
   List<Advert> _ads = [];
   Set<String> filters = HashSet();
   String _search = "";
   bool notAvailMessageShown = false;
   bool _loadingFailed = false;
+  List<Shop>? _shops = null;
 
   var _radiusText;
   String locationDenied =

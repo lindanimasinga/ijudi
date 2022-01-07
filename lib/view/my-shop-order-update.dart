@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-form.dart';
+import 'package:ijudi/components/messager-preview-component.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/order-review-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
@@ -72,7 +73,10 @@ class MyShopOrderUpdateView
                     Container(
                         margin: EdgeInsets.only(right: 16),
                         child: OrderReviewComponent(
-                            order: viewModel.order, includeFees: false, isCustomerView: false,)),
+                          order: viewModel.order,
+                          includeFees: false,
+                          isCustomerView: false,
+                        )),
                     (viewModel.orderReadyForCollection &&
                                 viewModel.isDelivery) ||
                             viewModel.isInstoreOrder
@@ -111,7 +115,24 @@ class MyShopOrderUpdateView
                                               viewModel.progressNextStage()),
                                       Padding(padding: EdgeInsets.only(top: 8)),
                                     ])
-                              ])
+                              ]),
+                    Container(
+                        margin: EdgeInsets.only(left: 16, top: 16, bottom: 16),
+                        child: Text("Messengers Available",
+                            style: IjudiStyles.CONTENT_TEXT)),
+                    Container(
+                        margin: EdgeInsets.only(right: 16, top: 16, bottom: 16),
+                        child: Column(
+                            children: viewModel.messengers
+                                .map((e) => GestureDetector(
+                                      child: MessagerPreviewComponent(
+                                          messenger: e,
+                                          selected: () =>
+                                              e == viewModel.selectedMessenger),
+                                      onTap: () =>
+                                          viewModel.selectedMessenger = e,
+                                    ))
+                                .toList()))
                   ]))
         ]));
   }

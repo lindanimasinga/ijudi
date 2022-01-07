@@ -46,10 +46,9 @@ Shop _$ShopFromJson(Map<String, dynamic> json) {
     ..latitude = (json['latitude'] as num?)?.toDouble()
     ..longitude = (json['longitude'] as num?)?.toDouble()
     ..responseTimeMinutes = json['responseTimeMinutes'] as int?
-    ..storeMessenger = json['storeMessenger'] == null
-        ? null
-        : StoreMessenger.fromJson(
-            json['storeMessenger'] as Map<String, dynamic>);
+    ..storeMessenger = (json['storeMessenger'] as List<dynamic>?)
+        ?.map((e) => StoreMessenger.fromJson(e as Map<String, dynamic>))
+        .toList();
 }
 
 Map<String, dynamic> _$ShopToJson(Shop instance) {

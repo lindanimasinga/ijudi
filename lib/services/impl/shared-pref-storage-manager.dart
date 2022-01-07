@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/semantics.dart';
 import 'package:ijudi/model/profile.dart';
+import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -138,4 +140,20 @@ class SharedPrefStorageManager extends StorageManager {
 
   @override
   ProfileRoles? profileRole;
+
+    @override
+  List<Shop>? get shops {
+    String? shopsJson = _prefs.getString(StorageManager.SHOPS);
+    if (shopsJson != null) {
+      return null;
+    }
+    Iterable list = json.decode(shopsJson!);
+    return list.map((f) => Shop.fromJson(f)).toList();
+  }
+
+  @override
+  set shops(List<Shop>? shops) {
+    if (shops == null || shops.isEmpty) return null;
+    _prefs.setString(StorageManager.SELECTED_LOCATION, json.encode(shops));
+  }
 }

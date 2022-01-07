@@ -133,13 +133,12 @@ class RegisterViewModel extends BaseViewModel {
     passwordValid = password != null &&
         password!.isNotEmpty &&
         (hasUkheshe || passwordConfirm == password);
-    mobileNumberValid = mobileNumber != null &&
-        mobileNumber.isNotEmpty &&
+    mobileNumberValid = mobileNumber.isNotEmpty &&
         Utils.validSANumber(mobileNumber);
-    nameValid = name != null && name.isNotEmpty && name.length > 3;
+    nameValid = name.isNotEmpty && name.length > 3;
     lastNameValid =
-        lastname != null && lastname.isNotEmpty && lastname.length > 3;
-    idNumberValid = idNumberValid != null && idNumber.length == 13;
+        lastname.isNotEmpty && lastname.length > 3;
+    idNumberValid = idNumber.length == 13;
     notifyChanged();
     return mobileNumberValid && nameValid && lastNameValid;
   }

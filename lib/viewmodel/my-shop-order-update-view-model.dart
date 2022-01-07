@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
@@ -12,6 +14,8 @@ class MyShopOrderUpdateViewModel extends BaseViewModel {
 
   final ApiService apiService;
   UserProfile? _customer;
+  List<UserProfile> _messengers = [];
+  UserProfile? _selectedMessenger;
 
   MyShopOrderUpdateViewModel({required Order? order, required this.apiService})
       : this._order = order;
@@ -24,6 +28,17 @@ class MyShopOrderUpdateViewModel extends BaseViewModel {
         .asStream()
         .listen((customer) {
       this.customer = customer;
+    });
+
+    this
+        .apiService
+        .findNearbyMessangers(0, 0, 100)
+        .asStream()
+        .listen((messengers) {
+      this.messengers = messengers;
+      _selectedMessenger = messengers.firstWhere(
+          (m) => m.id == this.order?.shippingData?.messengerId,
+          orElse: () => UserProfile.empty());
     });
   }
 
@@ -44,6 +59,33 @@ class MyShopOrderUpdateViewModel extends BaseViewModel {
   set customer(UserProfile? customer) {
     _customer = customer;
     notifyChanged();
+  }
+
+  List<UserProfile> get messengers => _messengers;
+
+  set messengers(List<UserProfile> messengers) {
+    _messengers = messengers;
+    notifyChanged();
+  }
+
+  UserProfile? get selectedMessenger => _selectedMessenger;
+
+  set selectedMessenger(UserProfile? selectedMessenger) {
+    _selectedMessenger = selectedMessenger;
+    order?.shippingData?.messengerId = selectedMessenger?.id;
+    updateMessengerForOrder(this.order!, selectedMessenger!);
+    notifyChanged();
+  }
+
+  updateMessengerForOrder(Order order, UserProfile messenger) {
+    apiService
+        .reassignOrder(order.id!, messenger.mobileNumber!)
+        .asStream()
+        .listen((event) {
+      showError(error: "${messenger.name} will now be delivering this order.");
+    }, onError: (e) {
+      showError(error: e);
+    });
   }
 
   rejectOrder() {

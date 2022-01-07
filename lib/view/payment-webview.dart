@@ -26,6 +26,7 @@ class PaymentWebView extends StatelessWidget {
               Expanded(
                   child: WebView(
                       initialUrl: url,
+                      gestureNavigationEnabled: true,
                       onPageStarted: (url) {
                         if (url.startsWith("https://www.izinga.co.za")) {
                           var status = Uri.parse(url).pathSegments[0];

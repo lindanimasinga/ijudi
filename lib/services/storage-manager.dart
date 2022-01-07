@@ -1,5 +1,5 @@
 import 'package:ijudi/model/profile.dart';
-import 'package:ijudi/model/supported-location.dart';
+import 'package:ijudi/model/shop.dart';
 
 abstract class StorageManager {
   static const ACCESS_TOKEN_IJUDI = "wewhhghtiie";
@@ -13,6 +13,7 @@ abstract class StorageManager {
   static const FIRST_TIME = "wer45234hhjdf";
   static const IS_TEST_ENV = "aksdhewewhkdfs";
   static const SELECTED_LOCATION = "wewhhghtiie";
+  static const SHOPS = "bnbmnbhklwe";
 
   bool? viewedIntro;
   late bool testEnvironment;
@@ -49,6 +50,10 @@ abstract class StorageManager {
   void saveIjudiUserId(String? id);
 
   String? getIjudiUserId();
+
+  List<Shop>? get shops;
+
+  set shops(List<Shop>? shops);
 
 /*
   void save<T extends Entity>(T entity);

@@ -1,7 +1,6 @@
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/shop.dart';
-import 'package:ijudi/util/util.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class ReceiptViewModel extends BaseViewModel {

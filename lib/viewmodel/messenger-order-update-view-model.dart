@@ -16,6 +16,7 @@ class MessengerOrderUpdateViewModel extends BaseViewModel {
   Shop? _shop;
   double? _currentLatitude = Config.currentConfig!.centreLatitude;
   double? _currentLongitude = Config.currentConfig!.centrelongitude;
+  bool speedPointMessageShown = false;
 
   final ApiService apiService;
 
@@ -36,6 +37,11 @@ class MessengerOrderUpdateViewModel extends BaseViewModel {
 
   List<double?> get lngBounds =>
       [_customerLongitude, _currentLongitude, shopLongitude]..sort();
+
+  bool get showSpeedPointRequired =>
+      order?.paymentType == PaymentType.SPEED_POINT &&
+      order?.stage != OrderStage.STAGE_7_ALL_PAID &&
+      !speedPointMessageShown;
 
   @override
   initialize() {
@@ -72,7 +78,8 @@ class MessengerOrderUpdateViewModel extends BaseViewModel {
     apiService.progressOrderNextStage(order!.id).asStream().listen((data) {
       order = data;
 
-      BaseViewModel.analytics.logEvent(name: "order.status.changed", parameters: {
+      BaseViewModel.analytics
+          .logEvent(name: "order.status.changed", parameters: {
         "shop": order!.shopId,
         "orderId": order!.id,
         "Delivery": order!.shippingData!.type,

@@ -80,8 +80,7 @@ class Shipping {
   double? distance = 0;
   UserProfile? messenger;
   DateTime? pickUpTime = DateTime.now();
-
-  var messengerId;
+  String? messengerId;
 
   Shipping();
 

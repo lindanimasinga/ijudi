@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:ijudi/model/profile.dart';
+import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/services/storage-manager.dart';
 
 class SecureStorageManager extends StorageManager {
@@ -154,5 +155,21 @@ class SecureStorageManager extends StorageManager {
   set selectedLocation(String? name) {
     if (name == null || name.isEmpty) return null;
     _save(StorageManager.SELECTED_LOCATION, name);
+  }
+
+  @override
+  List<Shop>? get shops {
+    String? shopsJson = _storeMap[StorageManager.SHOPS];
+    if (shopsJson == null) {
+      return null;
+    }
+    Iterable list = json.decode(shopsJson);
+    return list.map((f) => Shop.fromJson(f)).toList();
+  }
+
+  @override
+  set shops(List<Shop>? shops) {
+    if (shops == null || shops.isEmpty) return null;
+    _save(StorageManager.SHOPS, json.encode(shops));
   }
 }
