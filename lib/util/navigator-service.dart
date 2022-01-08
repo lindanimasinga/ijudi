@@ -208,7 +208,7 @@ class NavigatorService {
             builder: (context) => MessengerOrdersView(viewModel: viewmodel));
       case MyShopOrderUpdateView.ROUTE_NAME:
         viewmodel = MyShopOrderUpdateViewModel(
-            apiService: apiService, order: args as Order?);
+            apiService: apiService, order: args as Order);
         return MaterialPageRoute(
             builder: (context) => MyShopOrderUpdateView(viewModel: viewmodel));
       case MessengerOrderUpdateView.ROUTE_NAME:

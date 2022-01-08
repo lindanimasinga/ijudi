@@ -41,7 +41,7 @@ class ApiService {
 
   Future<List<Shop>> findAllShopByLocation(
       double latitude, double longitude, double? rage, int size) async {
-    logger.log("fetching all shops in range $rage");
+    logger.log("fetching all shops in range $rage from $apiUrl");
     var url = Uri.parse(
         '$apiUrl/store?latitude=$latitude&longitude=$longitude&range=$rage&size=$size&storeType=FOOD');
     var event = await http
