@@ -184,11 +184,11 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                         ))),
             Padding(padding: EdgeInsets.only(top: 0, bottom: 8)),
             Forms.searchField(context,
-                hint: "shop name, burger, usu",
+                hint: "Search shop name or dish",
                 onChanged: (value) => viewModel.search = value),
             Container(
                 height: 35,
-                margin: EdgeInsets.only(top: 8, bottom: 8),
+                margin: EdgeInsets.only(top: 8),
                 child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: filterComponents)),
@@ -204,7 +204,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 ? Container()
                 : Container(
                     alignment: Alignment.topLeft,
-                    padding: EdgeInsets.only(left: 16, top: 32, bottom: 8),
+                    padding: EdgeInsets.only(left: 16, top: 16, bottom: 8),
                     child: Text("Restaurants", style: IjudiStyles.HEADER_2),
                   ),
             shopComponets.isEmpty
@@ -218,7 +218,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 ? Container()
                 : Container(
                     alignment: Alignment.topLeft,
-                    padding: EdgeInsets.only(left: 16, top: 32, bottom: 8),
+                    padding: EdgeInsets.only(left: 16, top: 16, bottom: 8),
                     child: Text("Groceries", style: IjudiStyles.HEADER_2),
                   ),
             groceries.isEmpty
@@ -284,7 +284,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
               Padding(
                   padding: EdgeInsets.only(bottom: 16, left: 16, right: 16),
                   child: Text(
-                    "Opps! is something wrong. Try Again?",
+                    "There is a problem loading the screen. Check internet connection and try again.",
                     style: IjudiStyles.HEADER_LG,
                     textAlign: TextAlign.center,
                   ))

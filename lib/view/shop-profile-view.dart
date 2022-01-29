@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ijudi/components/bread-crumb.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-address-input-field.dart';
 import 'package:ijudi/components/ijudi-form.dart';
@@ -19,7 +20,7 @@ class ShopProfileView extends MvStatefulWidget<ShopProfileViewModel> {
   Widget build(BuildContext context) {
     return ScrollableParent(
         hasDrawer: false,
-        appBarColor: IjudiColors.color3,
+        appBarColor: BreadCrumb.statusColors[2],
         title: "My Shops",
         child: Stack(
           children: <Widget>[
@@ -75,9 +76,10 @@ class ShopProfileView extends MvStatefulWidget<ShopProfileViewModel> {
                           active: !viewModel.shop!.storeOffline,
                           label: "Active",
                           onChanged: (bool online) {
-                                viewModel.shop!.storeOffline = !online;
-                                viewModel.shop!.availability = online ? "SPECIFIC_HOURS" : "OFFLINE";
-                              }),
+                            viewModel.shop!.storeOffline = !online;
+                            viewModel.shop!.availability =
+                                online ? "SPECIFIC_HOURS" : "OFFLINE";
+                          }),
                     ),
                     Container(
                       alignment: Alignment.center,

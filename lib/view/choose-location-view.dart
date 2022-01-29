@@ -57,7 +57,7 @@ class ChooseLocationView extends MvStatefulWidget<ChooseLocationViewModel> {
         backgroundBlendMode: BlendMode.srcOver,
       ),
       child: Stack(children: [
-        buildParticles(context, 4),
+        Buttons.buildParticles(context, 5),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,28 +93,6 @@ class ChooseLocationView extends MvStatefulWidget<ChooseLocationViewModel> {
         )
       ]),
     );
-  }
-
-  Widget buildParticles(BuildContext context, int numberOfParticles) {
-    var pickedColor = BreadCrumb.statusColors[numberOfParticles - 1];
-
-    return PlasmaRenderer(
-        child: numberOfParticles > 1
-            ? buildParticles(context, numberOfParticles - 1)
-            : null,
-        type: PlasmaType.circle,
-        particles: 6,
-        color: pickedColor,
-        blur: 0.0,
-        size: 0.18,
-        speed: 2.75,
-        offset: 0,
-        blendMode: BlendMode.srcOver,
-        particleType: ParticleType.atlas,
-        variation1: 0.31,
-        variation2: 0.02,
-        variation3: 0.05,
-        rotation: 0.9123 * numberOfParticles);
   }
 /*
   Future.delayed(Duration(milliseconds: 500), () {

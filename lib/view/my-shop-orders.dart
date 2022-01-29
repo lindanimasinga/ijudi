@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:ijudi/components/bread-crumb.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/order-history-item-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
@@ -10,7 +13,8 @@ import 'package:ijudi/viewmodel/myshop-orders-view-model.dart';
 class MyShopOrdersView extends MvStatefulWidget<MyShopOrdersViewModel> {
   static const ROUTE_NAME = "myshop-orders";
 
-  MyShopOrdersView({required MyShopOrdersViewModel viewModel}) : super(viewModel);
+  MyShopOrdersView({required MyShopOrdersViewModel viewModel})
+      : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +49,9 @@ class MyShopOrdersView extends MvStatefulWidget<MyShopOrdersViewModel> {
 
     viewModel.orders!
         .where((order) => order.stage != OrderStage.STAGE_7_ALL_PAID)
-        .where((order) => order.shippingData!.type == ShippingType.SCHEDULED_DELIVERY)
         .where((order) =>
-            !viewModel.isCurrentOrder(order))
+            order.shippingData!.type == ShippingType.SCHEDULED_DELIVERY)
+        .where((order) => !viewModel.isCurrentOrder(order))
         .forEach((order) =>
             scheduledOrderItemsComponents.add(OrderHistoryItemComponent(
                 order: order,
@@ -68,8 +72,8 @@ class MyShopOrdersView extends MvStatefulWidget<MyShopOrdersViewModel> {
 
     return ScrollableParent(
         title: "Orders",
-        appBarColor: IjudiColors.color3,
         hasDrawer: false,
+        appBarColor: BreadCrumb.statusColors[3],
         child: Stack(children: <Widget>[
           Headers.getShopHeader(context),
           Column(children: [

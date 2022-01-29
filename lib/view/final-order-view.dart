@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:ijudi/components/bread-crumb.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/order-in-progress-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
@@ -16,7 +19,7 @@ class FinalOrderView extends MvStatefulWidget<FinalOrderViewModel> {
   Widget build(BuildContext context) {
     return ScrollableParent(
         hasDrawer: true,
-        appBarColor: IjudiColors.color3,
+        appBarColor: BreadCrumb.statusColors[2],
         title: "Order Status",
         child: Stack(children: <Widget>[
           Headers.getShopHeader(context),
@@ -29,7 +32,7 @@ class FinalOrderView extends MvStatefulWidget<FinalOrderViewModel> {
                       viewModel: OrderProgressViewModel(
                           order: viewModel.currentOrder,
                           stage: OrderStage.STAGE_1_WAITING_STORE_CONFIRM,
-                      label: "Order Number ${viewModel.currentOrder.id}")),
+                          label: "Order Number ${viewModel.currentOrder.id}")),
                   OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
                           order: viewModel.currentOrder,
@@ -42,15 +45,14 @@ class FinalOrderView extends MvStatefulWidget<FinalOrderViewModel> {
                       viewModel: OrderProgressViewModel(
                           order: viewModel.currentOrder,
                           stage: OrderStage.STAGE_4_ON_THE_ROAD)),
-                                   OrderProgressStageComponent(
+                  OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
                           order: viewModel.currentOrder,
                           stage: OrderStage.STAGE_5_ARRIVED)),
-                                            OrderProgressStageComponent(
+                  OrderProgressStageComponent(
                       viewModel: OrderProgressViewModel(
                           order: viewModel.currentOrder,
                           stage: OrderStage.STAGE_6_WITH_CUSTOMER)),
-                      
                 ],
               ))
         ]));

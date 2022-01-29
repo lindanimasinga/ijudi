@@ -1,6 +1,8 @@
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:ijudi/components/bread-crumb.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -14,11 +16,11 @@ class PaymentWebView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(url!);
+    //log(url!);
     return ScrollableParent(
         hasDrawer: false,
+        appBarColor: BreadCrumb.statusColors[Random().nextInt(1)],
         title: "Payment",
-        appBarColor: IjudiColors.color3,
         child: Container(
           height: MediaQuery.of(context).size.height,
           child: Column(

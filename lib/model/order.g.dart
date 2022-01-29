@@ -132,7 +132,7 @@ Shipping _$ShippingFromJson(Map<String, dynamic> json) {
     ..pickUpTime = json['pickUpTime'] == null
         ? null
         : DateTime.parse(json['pickUpTime'] as String)
-    ..messengerId = json['messengerId'];
+    ..messengerId = json['messengerId'] as String?;
 }
 
 Map<String, dynamic> _$ShippingToJson(Shipping instance) {

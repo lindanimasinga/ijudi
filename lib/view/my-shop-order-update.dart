@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ijudi/components/bread-crumb.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/messager-preview-component.dart';
@@ -23,7 +26,7 @@ class MyShopOrderUpdateView
   Widget build(BuildContext context) {
     return ScrollableParent(
         title: "Order Status",
-        appBarColor: IjudiColors.color3,
+        appBarColor: BreadCrumb.statusColors[3],
         hasDrawer: false,
         child: Stack(children: <Widget>[
           Headers.getShopHeader(context),

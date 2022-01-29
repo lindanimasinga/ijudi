@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:ijudi/components/bread-crumb.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-time-input-field.dart';
@@ -22,7 +25,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
   Widget build(BuildContext context) {
     return ScrollableParent(
         hasDrawer: false,
-        appBarColor: IjudiColors.color3,
+        appBarColor: BreadCrumb.statusColors[3],
         title: "Payment",
         child: Stack(children: <Widget>[
           Headers.getShopHeader(context),
@@ -99,7 +102,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                   Lottie.asset("assets/lottie/pos.json",
                       animate: true, fit: BoxFit.fill, width: 550),
                   Text(
-                      "Are you struggling to pay in the app? You can also pay with your card upon delivery.\n\nPlease continue if you have your bank card with you.",
+                      "Are you struggling to pay on the app? You can also pay with your card upon delivery.\n\nPlease continue if you have your bank card with you.",
                       style: IjudiStyles.HEADING3)
                 ]))),
         action: () => viewModel.processPOSPayment());

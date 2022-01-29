@@ -21,10 +21,6 @@ class StackedThumbnails extends StatelessWidget {
               height: 65,
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(
-                  color: IjudiColors.color3,
-                  width: 1,
-                ),
                 image: DecorationImage(
                   image: NetworkImage(urls![k]),
                   fit: BoxFit.cover,

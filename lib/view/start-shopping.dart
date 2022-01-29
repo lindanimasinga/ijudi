@@ -1,10 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/basket-component.dart';
+import 'package:ijudi/components/bread-crumb.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/profile-header-component.dart';
 import 'package:ijudi/components/scrollable-parent-container.dart';
+import 'package:ijudi/components/shop-header-component.dart';
 import 'package:ijudi/components/stocks-with-image-component.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
@@ -24,10 +28,10 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
       Future.delayed(
           Duration(seconds: 1), () => showError(context, errorMessage));
     }
-
+    var appBarColor = BreadCrumb.statusColors[2];
     return ScrollableParent(
         hasDrawer: false,
-        appBarColor: IjudiColors.color3,
+        appBarColor: appBarColor,
         title: "Shopping",
         child: Stack(
           children: <Widget>[
@@ -38,13 +42,13 @@ class StartShoppingView extends MvStatefulWidget<StartShoppingViewModel> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
-                    ProfileHeaderComponent(
+                    ShopHeaderComponent(
                         profile: viewModel.shop!,
-                        profilePicBorder: IjudiColors.color2),
+                        profilePicBorder: IjudiColors.color1),
                     Padding(
-                        padding: EdgeInsets.only(top: 24, bottom: 16),
+                        padding: EdgeInsets.only(top: 0, bottom: 16),
                         child: Forms.searchField(context,
-                            hint: "Chips, Wings, Burger",
+                            hint: "Search for meal here",
                             onChanged: (value) => viewModel.search = value)),
                     Padding(
                         padding:

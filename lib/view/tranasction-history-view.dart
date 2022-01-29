@@ -25,7 +25,6 @@ class TransactionHistoryView
 
     return ScrollableParent(
         title: "Transaction History",
-        appBarColor: IjudiColors.color3,
         hasDrawer: false,
         child: Stack(children: <Widget>[
           Headers.getShopHeader(context),

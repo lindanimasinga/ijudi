@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:ijudi/components/bread-crumb.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-address-input-field.dart';
 import 'package:ijudi/components/ijudi-card.dart';
@@ -76,7 +78,7 @@ class MessengerOrderUpdateView
 
     return ScrollableParent(
         title: "Order Status",
-        appBarColor: IjudiColors.color3,
+        appBarColor: BreadCrumb.statusColors[2],
         hasDrawer: false,
         child: Stack(children: <Widget>[
           Headers.getShopHeader(context),

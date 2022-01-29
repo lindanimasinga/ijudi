@@ -4,9 +4,10 @@ import 'package:ijudi/util/theme-utils.dart';
 class BreadCrumb extends StatelessWidget {
   static const statusColors = [
     IjudiColors.color2,
+    IjudiColors.color1,
     IjudiColors.color3,
-    IjudiColors.color4,
-    IjudiColors.color1
+    IjudiColors.color3,
+    IjudiColors.color4
   ];
 
   final String name;
@@ -26,15 +27,15 @@ class BreadCrumb extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: 35,
-        margin: EdgeInsets.only(left: 8, bottom: 8),
+        margin: EdgeInsets.only(left: 8),
         child: FilterChip(
           label: Text(lowerCase ? name.toLowerCase() : name,
-              style: IjudiStyles.HEADER_TEXT),
+              style: IjudiStyles.BREAD_CRUMB),
           onSelected: (value) => onPressed!(name),
           backgroundColor: color,
           selectedColor: IjudiColors.color5,
           selected: selected,
-          padding: EdgeInsets.only(left: 8, right: 8, bottom: 4),
+          padding: EdgeInsets.only(left: 8, right: 8),
         ));
   }
 }

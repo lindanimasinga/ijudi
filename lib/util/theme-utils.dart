@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ijudi/components/bread-crumb.dart';
 import 'package:ijudi/components/custom-clip-path.dart';
 import 'package:ijudi/util/util.dart';
+import 'package:simple_animations/simple_animations.dart';
 
 class JudiTheme {
   final ThemeData theme = ThemeData.light().copyWith(
@@ -67,10 +69,15 @@ class Headers {
   }
 
   static getShopHeader(BuildContext context) {
-    return getHeader(context,
-        color3: IjudiColors.color3,
-        color1: IjudiColors.color1,
-        color2: IjudiColors.color2);
+    return Container(
+        height: MediaQuery.of(context).size.height * 1.3,
+        width: MediaQuery.of(context).size.width,
+        child: Buttons.buildParticles(context, 4,
+            type: PlasmaType.circle,
+            size: 0.35,
+            speed: 0.5,
+            blur: 0.03,
+            particlesPerColor: 100));
   }
 
   static getMenuHeader(BuildContext context) {
@@ -328,6 +335,37 @@ class Buttons {
                   )
                 ])));
   }
+
+  static Widget buildParticles(BuildContext context, int colors,
+      {PlasmaType type = PlasmaType.circle,
+      double size = 0.18,
+      double speed = 2.75,
+      double blur = 0,
+      int particlesPerColor = 6}) {
+    var pickedColor = BreadCrumb.statusColors[colors - 1];
+
+    return PlasmaRenderer(
+        child: colors > 1
+            ? buildParticles(context, colors - 1,
+                type: type,
+                size: size,
+                speed: speed,
+                blur: blur,
+                particlesPerColor: particlesPerColor)
+            : null,
+        type: type,
+        particles: particlesPerColor,
+        color: pickedColor,
+        blur: blur,
+        size: size,
+        speed: speed,
+        blendMode: BlendMode.srcOver,
+        particleType: ParticleType.circle,
+        variation1: 0.31,
+        variation2: 0.02,
+        variation3: 0.05,
+        rotation: 0.9123 * colors);
+  }
 }
 
 class IjudiColors {
@@ -497,6 +535,9 @@ class IjudiStyles {
     fontSize: 14,
     fontFamily: "Roboto",
   );
+
+  static const BREAD_CRUMB =
+      TextStyle(fontSize: 14, fontFamily: "Roboto", color: Colors.white);
 
   static const CARD_ICON_BUTTON = TextStyle(fontSize: 12, fontFamily: "Roboto");
 
