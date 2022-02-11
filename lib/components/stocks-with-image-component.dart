@@ -8,7 +8,8 @@ class StocksWithImageComponent extends StatelessWidget {
   final List<Stock> stocks;
   final String label;
 
-  StocksWithImageComponent({required this.label, required this.stocks, required this.addAction});
+  StocksWithImageComponent(
+      {required this.label, required this.stocks, required this.addAction});
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +36,12 @@ class StocksWithImageComponent extends StatelessWidget {
       Container(
           alignment: Alignment.topLeft,
           padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-          child: Text(label , style: IjudiStyles.SUBTITLE_2)),
+          child: Text(label, style: IjudiStyles.SUBTITLE_2)),
       Card(
+          margin: EdgeInsets.all(0),
           child: Column(
-        children: stockWidget,
-      ))
+            children: stockWidget,
+          ))
     ]);
   }
 }

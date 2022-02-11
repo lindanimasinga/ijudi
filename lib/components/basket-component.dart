@@ -33,7 +33,6 @@ class BasketComponent extends StatelessWidget {
         padding: EdgeInsets.only(left: 0),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          border: Border.all(color: IjudiColors.color5, width: 0.05),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -64,7 +63,6 @@ class BasketComponent extends StatelessWidget {
       padding: EdgeInsets.only(left: 0),
       decoration: BoxDecoration(
         color: IjudiColors.color2,
-        border: Border.all(color: IjudiColors.color5, width: 0.05),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

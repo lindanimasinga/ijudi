@@ -70,7 +70,6 @@ class _StockItemComponentState extends State<StockItemComponent>
             padding: EdgeInsets.only(left: 16, top: 4, bottom: 4),
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              border: Border.all(color: IjudiColors.color5, width: 0.05),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
