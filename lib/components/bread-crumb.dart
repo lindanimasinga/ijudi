@@ -7,6 +7,7 @@ class BreadCrumb extends StatelessWidget {
     IjudiColors.color1,
     IjudiColors.color3,
     IjudiColors.color3,
+    IjudiColors.color4,
     IjudiColors.color4
   ];
 
@@ -29,7 +30,7 @@ class BreadCrumb extends StatelessWidget {
         height: 35,
         margin: EdgeInsets.only(left: 8),
         child: FilterChip(
-          label: Text(lowerCase ? name.toLowerCase() : name,
+          label: Text(name[0].toUpperCase() + name.substring(1),
               style: IjudiStyles.BREAD_CRUMB),
           onSelected: (value) => onPressed!(name),
           backgroundColor: color,

@@ -24,6 +24,7 @@ class AdsCardComponent extends StatelessWidget {
           }
         },
         child: Card(
+            elevation: 0,
             color: color,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),

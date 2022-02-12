@@ -20,6 +20,7 @@ class OrderHistoryItemComponent extends StatelessWidget {
         child: Container(
           margin: EdgeInsets.only(left: 0, right: 8, top: 1),
           child: Card(
+              elevation: 0,
               margin: EdgeInsets.only(left: 0),
               child: Container(
                   color: Theme.of(context).cardColor,

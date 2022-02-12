@@ -25,6 +25,7 @@ class _BasketViewOnlyComponentState extends State<BasketViewOnlyComponent> {
   Widget build(BuildContext context) {
   if (basket == null || basket!.items.isEmpty)
     return Card(
+            elevation: 0,
             child:Container(
               height: 52,
               alignment: Alignment.center,
@@ -105,6 +106,7 @@ basketWidget.add(Container(
 
     return Card(
       margin: EdgeInsets.only(left: 0),
+      elevation: 0,
       child:Column(
       children: basketWidget,
     ));

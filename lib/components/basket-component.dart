@@ -15,14 +15,12 @@ class BasketComponent extends StatelessWidget {
     if (basket == null || basket!.items.isEmpty)
       return Card(
           margin: EdgeInsets.only(left: 0),
+          elevation: 0,
           child: Container(
             height: 52,
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.only(left: 16),
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              border: Border.all(color: IjudiColors.color5, width: 0.25),
-            ),
+            decoration: BoxDecoration(color: Theme.of(context).cardColor),
             child: Text("Basket empty", style: Forms.INPUT_TEXT_STYLE),
           ));
 
@@ -91,6 +89,7 @@ class BasketComponent extends StatelessWidget {
 
     return Card(
         margin: EdgeInsets.only(left: 0),
+        elevation: 0,
         child: Column(
           children: basketWidget,
         ));

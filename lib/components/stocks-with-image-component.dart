@@ -39,6 +39,7 @@ class StocksWithImageComponent extends StatelessWidget {
           child: Text(label, style: IjudiStyles.SUBTITLE_2)),
       Card(
           margin: EdgeInsets.all(0),
+          elevation: 0,
           child: Column(
             children: stockWidget,
           ))

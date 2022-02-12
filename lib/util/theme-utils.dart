@@ -125,6 +125,7 @@ class Forms {
   static Widget searchField(BuildContext context,
       {String? hint, Function? onChanged}) {
     return Card(
+        elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         child: Padding(
             padding: EdgeInsets.only(left: 16, right: 16),
