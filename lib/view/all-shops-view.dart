@@ -30,7 +30,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
     if (viewModel.loadingFailed) return showLoadingFailedRetry(context);
 
     double deviceWidth = MediaQuery.of(context).size.width;
-    var colorPickCount = 0;
+    var colorPickCount = 3;
     List<FeaturedShop> featuredShopComponents = [];
     List<ShopComponent> shopComponets = [];
     List<Widget> filterComponents = [];
@@ -58,7 +58,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 viewModel.addFilter(name);
               }
             }));
-        if (colorPickCount > 3) colorPickCount = 0;
+        if (colorPickCount > 4) colorPickCount = 0;
       }
     }
 
@@ -184,7 +184,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                         ))),
             Padding(padding: EdgeInsets.only(top: 0, bottom: 8)),
             Forms.searchField(context,
-                hint: "Search shop name or dish",
+                hint: "Search shop name or meal",
                 onChanged: (value) => viewModel.search = value),
             Container(
                 height: 35,
