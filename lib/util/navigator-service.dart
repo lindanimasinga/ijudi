@@ -13,6 +13,7 @@ import 'package:ijudi/view/choose-location-view.dart';
 import 'package:ijudi/view/delivery-options.dart';
 import 'package:ijudi/view/final-order-view.dart';
 import 'package:ijudi/view/forgot-password-view.dart';
+import 'package:ijudi/view/franchise-shops-view.dart';
 import 'package:ijudi/view/introduction-view.dart';
 import 'package:ijudi/view/login-view.dart';
 import 'package:ijudi/view/messenger-order-update.dart';
@@ -38,6 +39,7 @@ import 'package:ijudi/viewmodel/choose-location-viewmodel.dart';
 import 'package:ijudi/viewmodel/delivery-option-view-model.dart';
 import 'package:ijudi/viewmodel/final-order-view-model.dart';
 import 'package:ijudi/viewmodel/forgot-password-view-model.dart';
+import 'package:ijudi/viewmodel/franchise-shops-view-model.dart';
 import 'package:ijudi/viewmodel/messenger-order-update-view-model.dart';
 import 'package:ijudi/viewmodel/messenger-orders-view-model.dart';
 import 'package:ijudi/viewmodel/my-shop-order-update-view-model.dart';
@@ -81,8 +83,8 @@ class NavigatorService {
         if (geocord == null || geocord.length < 4) {
           routeName = ChooseLocationView.ROUTE_NAME;
         } else {
-          args = SupportedLocation(
-              geocord[2],geocord[3], double.parse(geocord[0]), double.parse(geocord[1]));
+          args = SupportedLocation(geocord[2], geocord[3],
+              double.parse(geocord[0]), double.parse(geocord[1]));
         }
       } else {
         sharedPrefStorageManager!.selectedLocation =
@@ -223,6 +225,10 @@ class NavigatorService {
         return MaterialPageRoute(
             builder: (context) => ReceiptView(viewModel: viewmodel),
             fullscreenDialog: true);
+      case FranchiseShopsView.ROUTE_NAME:
+        viewmodel = FranchiseShopsViewModel(shops: args as List<Shop>);
+        return MaterialPageRoute(
+            builder: (context) => FranchiseShopsView(viewModel: viewmodel));
       default:
         viewmodel = AllShopsViewModel(
             apiService: apiService,
