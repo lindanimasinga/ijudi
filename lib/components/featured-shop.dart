@@ -5,10 +5,16 @@ import 'package:ijudi/util/message-dialogs.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/start-shopping.dart';
 
+import '../view/franchise-shops-view.dart';
+
 class FeaturedShop extends StatelessWidget with MessageDialogs {
   final Shop shop;
+  final hasMoreStores;
 
-  FeaturedShop({required this.shop});
+  FeaturedShop({
+    required this.shop,
+    this.hasMoreStores = false
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +22,16 @@ class FeaturedShop extends StatelessWidget with MessageDialogs {
     double height = deviceWidth >= 360 ? 140 : 120;
 
     return GestureDetector(
-        onTap: () => Navigator.pushNamed(context, StartShoppingView.ROUTE_NAME,
-            arguments: shop),
+        onTap: () {
+          if (hasMoreStores) {
+            var newList = List.of(shop.franchises!)..add(shop);
+            Navigator.pushNamed(context, FranchiseShopsView.ROUTE_NAME,
+                arguments: newList);
+          } else {
+            Navigator.pushNamed(context, StartShoppingView.ROUTE_NAME,
+                arguments: shop);
+          }
+        },
         child: Container(
             child: IJudiCard(
           child: Row(
@@ -45,7 +59,8 @@ class FeaturedShop extends StatelessWidget with MessageDialogs {
                     children: <Widget>[
                       Padding(
                           padding: EdgeInsets.only(right: 4, top: 8),
-                          child: Text(shop.name!,
+                          child: Text(
+                              hasMoreStores ? shop.franchiseName! : shop.name!,
                               style: IjudiStyles.CARD_SHOP_HEADER,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis)),

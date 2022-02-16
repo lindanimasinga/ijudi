@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/featured-shop.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
@@ -10,7 +9,8 @@ import '../viewmodel/franchise-shops-view-model.dart';
 class FranchiseShopsView extends MvStatefulWidget<FranchiseShopsViewModel> {
   static const ROUTE_NAME = "franchise";
 
-  FranchiseShopsView({required FranchiseShopsViewModel viewModel}) : super(viewModel);
+  FranchiseShopsView({required FranchiseShopsViewModel viewModel})
+      : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +18,8 @@ class FranchiseShopsView extends MvStatefulWidget<FranchiseShopsViewModel> {
         viewModel.shops.map((shop) => FeaturedShop(shop: shop)).toList();
 
     return ScrollableParent(
-        hasDrawer: true,
-        title: "Shops",
+        hasDrawer: false,
+        title: viewModel.shops.first.franchiseName!,
         child: Column(
           children: <Widget>[
             featuredShopComponents.isEmpty
@@ -27,7 +27,7 @@ class FranchiseShopsView extends MvStatefulWidget<FranchiseShopsViewModel> {
                 : Container(
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
-                    child: Text("Featured", style: IjudiStyles.HEADER_2),
+                    child: Text("Shops", style: IjudiStyles.HEADER_2),
                   ),
             Column(children: featuredShopComponents),
           ],

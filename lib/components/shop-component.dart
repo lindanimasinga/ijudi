@@ -4,31 +4,35 @@ import 'package:ijudi/components/ijudi-card.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/util/message-dialogs.dart';
 import 'package:ijudi/util/theme-utils.dart';
+import 'package:ijudi/view/franchise-shops-view.dart';
 import 'package:ijudi/view/start-shopping.dart';
 
 class ShopComponent extends StatelessWidget with MessageDialogs {
   final Shop shop;
-  final Function isLoggedIn;
+  final hasMoreStores;
 
-  ShopComponent({required this.shop, required this.isLoggedIn});
+  ShopComponent({required this.shop, this.hasMoreStores = false});
 
   @override
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
-    double height = deviceWidth >= 360 ? 120 : 100;
 
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, StartShoppingView.ROUTE_NAME,
-            arguments: shop);
+        if (hasMoreStores) {
+          var newList = List.of(shop.franchises!)..add(shop);
+          Navigator.pushNamed(context, FranchiseShopsView.ROUTE_NAME,
+              arguments: newList);
+        } else {
+          Navigator.pushNamed(context, StartShoppingView.ROUTE_NAME,
+              arguments: shop);
+        }
       },
       child: Container(
           child: IJudiCard(
         width: deviceWidth >= 360 ? 157 : 127,
         child: Banner(
-            message: shop.stockList.isEmpty
-                ? "In Store"
-                : "Delivers",
+            message: shop.stockList.isEmpty ? "In Store" : "Delivers",
             location: BannerLocation.topStart,
             color: shop.stockList.isEmpty
                 ? IjudiColors.color2
@@ -57,7 +61,10 @@ class ShopComponent extends StatelessWidget with MessageDialogs {
                       children: <Widget>[
                         Padding(
                             padding: EdgeInsets.all(8),
-                            child: Text(shop.name!,
+                            child: Text(
+                                hasMoreStores
+                                    ? shop.franchiseName!
+                                    : shop.name!,
                                 style: IjudiStyles.CARD_SHOP_HEADER2,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis)),

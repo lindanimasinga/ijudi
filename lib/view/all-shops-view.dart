@@ -77,7 +77,10 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             (viewModel.filters.isEmpty ||
                 viewModel.filters.intersection(shop.tags).length > 0))
         .forEach((shop) {
-      featuredShopComponents.add(FeaturedShop(shop: shop));
+      featuredShopComponents.add(FeaturedShop(
+        shop: shop,
+        hasMoreStores: shop.franchises != null && shop.franchises!.length > 0,
+      ));
     });
 
     viewModel.shops!
@@ -90,9 +93,9 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             shop.tags.contains("restaurant"))
         .forEach((shop) {
       shopComponets.add(ShopComponent(
-        shop: shop,
-        isLoggedIn: () => viewModel.isLoggedIn,
-      ));
+          shop: shop,
+          hasMoreStores:
+              shop.franchises != null && shop.franchises!.length > 0));
     });
 
     var groceries = viewModel.shops!
@@ -102,9 +105,9 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 shop.name!.toLowerCase().contains(viewModel.search)) &&
             (shop.tags.contains("groceries")))
         .map((shop) => ShopComponent(
-              shop: shop,
-              isLoggedIn: () => viewModel.isLoggedIn,
-            ))
+            shop: shop,
+            hasMoreStores:
+                shop.franchises != null && shop.franchises!.length > 0))
         .toList();
 
     var medicine = viewModel.shops!
@@ -114,9 +117,9 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 shop.name!.toLowerCase().contains(viewModel.search)) &&
             (shop.tags.contains("medicine")))
         .map((shop) => ShopComponent(
-              shop: shop,
-              isLoggedIn: () => viewModel.isLoggedIn,
-            ))
+            shop: shop,
+            hasMoreStores:
+                shop.franchises != null && shop.franchises!.length > 0))
         .toList();
 
     if (viewModel.showNoShopsAvailable) {

@@ -33,6 +33,8 @@ class Shop extends Profile with GeoLocation {
   bool storeOffline;
   String availability;
   String? shortName;
+  String? franchiseName;
+  List<Shop>? franchises;
 
   Shop(
       {required String id,
@@ -62,6 +64,7 @@ class Shop extends Profile with GeoLocation {
       String? verificationCode,
       required String? mobileNumber,
       required ProfileRoles? role,
+      this.franchiseName,
       required Bank? bank})
       : super(
             id: id,

@@ -39,6 +39,7 @@ Shop _$ShopFromJson(Map<String, dynamic> json) {
     verificationCode: json['verificationCode'] as String?,
     mobileNumber: json['mobileNumber'] as String?,
     role: _$enumDecodeNullable(_$ProfileRolesEnumMap, json['role']),
+    franchiseName: json['franchiseName'] as String?,
     bank: json['bank'] == null
         ? null
         : Bank.fromJson(json['bank'] as Map<String, dynamic>),
@@ -48,6 +49,9 @@ Shop _$ShopFromJson(Map<String, dynamic> json) {
     ..responseTimeMinutes = json['responseTimeMinutes'] as int?
     ..storeMessenger = (json['storeMessenger'] as List<dynamic>?)
         ?.map((e) => StoreMessenger.fromJson(e as Map<String, dynamic>))
+        .toList()
+    ..franchises = (json['franchises'] as List<dynamic>?)
+        ?.map((e) => Shop.fromJson(e as Map<String, dynamic>))
         .toList();
 }
 
@@ -93,6 +97,8 @@ Map<String, dynamic> _$ShopToJson(Shop instance) {
   val['storeOffline'] = instance.storeOffline;
   val['availability'] = instance.availability;
   writeNotNull('shortName', instance.shortName);
+  writeNotNull('franchiseName', instance.franchiseName);
+  writeNotNull('franchises', instance.franchises);
   return val;
 }
 

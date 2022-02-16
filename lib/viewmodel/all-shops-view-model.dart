@@ -70,12 +70,12 @@ class AllShopsViewModel extends BaseViewModel {
           .doOnError((p0, p1) => loadingFailed = true)
           .map((resp) {
         print("shops response received.");
-        shops = resp;
+        groupShopsIntoFranchises(resp);
       }),
       apiService
           .findFeaturedShopByLocation(latitude, longitude, range, 20)
           .asStream()
-          .map((resp) => featuredShops = resp),
+          .map((resp) => groupFeaturedShopsIntoFranchises(resp)),
       apiService
           .findAllAdsByLocation(latitude, longitude, range, 20)
           .asStream()
@@ -143,5 +143,61 @@ class AllShopsViewModel extends BaseViewModel {
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void groupShopsIntoFranchises(List<Shop> resp) {
+    shops = [];
+    resp.forEach((itemToAdd) {
+      //if franchise not added yet
+      var sameShops = shops
+          ?.where((addedShop) =>
+              itemToAdd.franchiseName != null &&
+              addedShop.franchiseName == itemToAdd.franchiseName)
+          .toList();
+
+      sameShops?.forEach((franchise) {
+        if (franchise.franchises == null) {
+          franchise.franchises = [];
+        }
+        franchise.franchises?.add(itemToAdd);
+      });
+
+      if (sameShops == null || sameShops.isEmpty) {
+        shops?.add(itemToAdd);
+      }
+    });
+  }
+
+  void groupFeaturedShopsIntoFranchises(List<Shop> resp) {
+    featuredShops = [];
+    print("feashop shops is ${featuredShops.length}");
+    resp.forEach((itemToAdd) {
+      //if franchise not added yet
+      var sameShops = featuredShops
+          .where((addedShop) =>
+              itemToAdd.franchiseName != null &&
+              addedShop.franchiseName == itemToAdd.franchiseName)
+          .toList();
+
+      sameShops.forEach((franchise) {
+        if (franchise.franchises == null) {
+          franchise.franchises = [];
+        }
+        franchise.franchises?.add(itemToAdd);
+      });
+
+      if (sameShops.isEmpty) {
+        if (itemToAdd.franchises == null && shops != null) {
+          itemToAdd.franchises = [];
+          var sameNonFeaturedShops = shops?.where((item) =>
+              item.franchiseName == itemToAdd.franchiseName &&
+              item.name != itemToAdd.name);
+          if (sameNonFeaturedShops != null) {
+            itemToAdd.franchises?.addAll(sameNonFeaturedShops);
+          }
+        }
+        featuredShops.add(itemToAdd);
+      }
+    });
   }
 }
