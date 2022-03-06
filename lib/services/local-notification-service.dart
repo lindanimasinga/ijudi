@@ -67,7 +67,7 @@ class NotificationService {
   Future scheduleLocalMessage(
       DateTime dateTime, String title, String body) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'your channel id', 'your channel name', 'your channel description',
+        'your channel id', 'your channel name',
         importance: Importance.max, priority: Priority.high);
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
@@ -128,7 +128,7 @@ class NotificationService {
 
       log("showing notification");
       var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-          'your channel id', 'your channel name', 'your channel description',
+          'your channel id', 'your channel name',
           importance: Importance.max, priority: Priority.high);
       var iOSPlatformChannelSpecifics =
           IOSNotificationDetails(presentAlert: true, presentSound: true);

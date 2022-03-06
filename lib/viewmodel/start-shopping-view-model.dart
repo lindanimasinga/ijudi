@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
@@ -24,7 +25,7 @@ class StartShoppingViewModel extends BaseViewModel with MessageDialogs {
   @override
   void initialize() {
     BaseViewModel.analytics
-        .logViewItemList(itemCategory: shop!.name!)
+        .logViewItemList(itemListName: shop!.name!)
         .then((value) => null);
 
     order = Order();
@@ -80,11 +81,13 @@ class StartShoppingViewModel extends BaseViewModel with MessageDialogs {
 
     BaseViewModel.analytics
         .logRemoveFromCart(
-            itemCategory: shop!.name!,
+            items: [
+            AnalyticsEventItem(itemCategory: shop!.name!,
             itemId: "${basketItem.hashCode}",
             itemName: basketItem.name!,
-            quantity: basketItem.quantity!,
-            price: basketItem.price)
+            quantity: basketItem.quantity!)],
+            currency: "ZAR",
+            value: basketItem.price)
         .then((value) => null);
   }
 
@@ -93,11 +96,14 @@ class StartShoppingViewModel extends BaseViewModel with MessageDialogs {
     notifyChanged();
     BaseViewModel.analytics
         .logAddToCart(
+          items: [
+            AnalyticsEventItem(
             itemCategory: shop!.name!,
             itemId: basketItem.name!,
             itemName: basketItem.name!,
-            quantity: basketItem.quantity!,
-            price: basketItem.price)
+            quantity: basketItem.quantity!)],
+            currency: "ZAR",
+            value: basketItem.price)
         .then((value) => null);
   }
 

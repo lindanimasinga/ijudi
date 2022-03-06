@@ -6,7 +6,7 @@ import 'package:ijudi/api/api-error-response.dart';
 import 'package:ijudi/viewmodel/progress-view-model.dart';
 
 abstract class BaseViewModel extends State {
-  static final FirebaseAnalytics analytics = FirebaseAnalytics();
+  static final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   ProgressViewModel? progressMv;
   bool _hasError = false;
