@@ -12,7 +12,8 @@ import 'quick-payment-success.dart';
 class OrderHistoryView extends MvStatefulWidget<OrderHistoryViewModel> {
   static const ROUTE_NAME = "order-history";
 
-  OrderHistoryView({required OrderHistoryViewModel viewModel}) : super(viewModel);
+  OrderHistoryView({required OrderHistoryViewModel viewModel})
+      : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +47,8 @@ class OrderHistoryView extends MvStatefulWidget<OrderHistoryViewModel> {
                   }
                 })));
 
+    viewModel.orders
+        .sort((first, second) => first.date!.isBefore(second.date!) ? 1 : -1);
     viewModel.orders
         .where((order) => order.stage == OrderStage.STAGE_7_ALL_PAID)
         .forEach((order) =>

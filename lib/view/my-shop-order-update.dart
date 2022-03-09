@@ -57,6 +57,19 @@ class MyShopOrderUpdateView
                         child: Text("Customer: ${viewModel.customer?.name}",
                             style: IjudiStyles.HEADER_TEXT)),
                     Container(
+                      alignment: Alignment.topLeft,
+                      padding: EdgeInsets.only(bottom: 8, left: 16),
+                      child: Row(children: [
+                        Text("Chat Here: ", style: IjudiStyles.HEADER_TEXT),
+                        Padding(padding: EdgeInsets.only(right: 8)),
+                        GestureDetector(
+                            child: Image.asset("assets/images/whatsapp.png",
+                                width: 24),
+                            onTap: () => launch(
+                                "https://api.whatsapp.com/send?phone=${viewModel.customer?.mobileNumber}&text=Hello%20from%20iZinga"))
+                      ]),
+                    ),
+                    Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 32, left: 16),
                         child: InkWell(
