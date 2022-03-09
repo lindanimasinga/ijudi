@@ -101,7 +101,7 @@ class NotificationService {
       switch (remoteMessage.messageType) {
         case FirebaseContent.MessageType.NEW_ORDER:
           title = "New Order Recieved";
-          body = "Please confirm the order :)";
+          body = remoteMessage.messageContent;
           break;
         case FirebaseContent.MessageType.NEW_ORDER_UPDATE:
           title = "Order Status";
