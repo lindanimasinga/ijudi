@@ -66,7 +66,7 @@ class MyShopOrderUpdateView
                             child: Image.asset("assets/images/whatsapp.png",
                                 width: 24),
                             onTap: () => launch(
-                                "https://api.whatsapp.com/send?phone=${viewModel.customer?.mobileNumber}&text=Hello%20from%20iZinga"))
+                                "https://api.whatsapp.com/send?phone=${Utils.saFormatNumber(viewModel.customer!.mobileNumber!)}&text=Hello%20from%20iZinga"))
                       ]),
                     ),
                     Container(

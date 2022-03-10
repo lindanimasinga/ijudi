@@ -232,4 +232,8 @@ class Utils {
         time1.month == time2.month &&
         time1.day == time2.day;
   }
+
+  static String saFormatNumber(String number) {
+    return number.startsWith("0") ? number.replaceFirst("0", "+27") : number.startsWith("27") ? number.replaceFirst("27", "+27") : number;
+  }
 }

@@ -112,6 +112,12 @@ class PaymentViewModel extends BaseViewModel {
     var subscr =
         apiService.completeOrderPayment(order!).asStream().listen(null);
     subscr.onData((data) {
+      BaseViewModel.analytics
+          .logEcommercePurchase(
+              transactionId: order!.id,
+              value: order!.totalAmount,
+              currency: "ZAR")
+          .then((value) => {});
       Navigator.pushNamedAndRemoveUntil(
           context, FinalOrderView.ROUTE_NAME, (Route<dynamic> route) => false,
           arguments: order);

@@ -20,6 +20,8 @@ import 'package:lottie/lottie.dart' as LotLib;
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../util/util.dart';
+
 class MessengerOrderUpdateView
     extends MvStatefulWidget<MessengerOrderUpdateViewModel> {
   static const String ROUTE_NAME = "messenger-order-update";
@@ -119,7 +121,7 @@ class MessengerOrderUpdateView
                             child: Image.asset("assets/images/whatsapp.png",
                                 width: 24),
                             onTap: () => launch(
-                                "https://api.whatsapp.com/send?phone=${viewModel.customer?.mobileNumber}&text=Hello%20from%20iZinga"))
+                                "https://api.whatsapp.com/send?phone=${Utils.saFormatNumber(viewModel.customer!.mobileNumber!)}&text=Hello%20from%20iZinga"))
                       ]),
                     ),
                     Container(
