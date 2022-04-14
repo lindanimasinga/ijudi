@@ -6,14 +6,13 @@ part of 'selection-option.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SelectionOption _$SelectionOptionFromJson(Map<String, dynamic> json) {
-  return SelectionOption()
-    ..name = json['name'] as String?
-    ..price = (json['price'] as num?)?.toDouble()
-    ..values =
-        (json['values'] as List<dynamic>?)?.map((e) => e as String).toList()
-    ..selected = json['selected'] as String?;
-}
+SelectionOption _$SelectionOptionFromJson(Map<String, dynamic> json) =>
+    SelectionOption()
+      ..name = json['name'] as String?
+      ..price = (json['price'] as num?)?.toDouble()
+      ..values =
+          (json['values'] as List<dynamic>?)?.map((e) => e as String).toList()
+      ..selected = json['selected'] as String?;
 
 Map<String, dynamic> _$SelectionOptionToJson(SelectionOption instance) =>
     <String, dynamic>{

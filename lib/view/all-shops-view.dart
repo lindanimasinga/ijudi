@@ -90,7 +90,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 shop.name!.toLowerCase().contains(viewModel.search)) &&
             (viewModel.filters.isEmpty ||
                 viewModel.filters.intersection(shop.tags).length > 0) &&
-            shop.tags.contains("restaurant"))
+            shop.tags.map((item) => item.toLowerCase()).contains("restaurant"))
         .forEach((shop) {
       shopComponets.add(ShopComponent(
           shop: shop,

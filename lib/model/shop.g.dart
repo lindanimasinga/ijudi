@@ -6,54 +6,53 @@ part of 'shop.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Shop _$ShopFromJson(Map<String, dynamic> json) {
-  return Shop(
-    id: json['id'] as String,
-    name: json['name'] as String,
-    registrationNumber: json['registrationNumber'] as String?,
-    stockList: (json['stockList'] as List<dynamic>)
-        .map((e) => Stock.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    hasVat: json['hasVat'] as bool?,
-    scheduledDeliveryAllowed: json['scheduledDeliveryAllowed'] as bool,
-    deliverNowAllowed: json['deliverNowAllowed'] as bool,
-    tags: (json['tags'] as List<dynamic>).map((e) => e as String).toSet(),
-    featured: json['featured'] as bool,
-    ownerId: json['ownerId'] as String,
-    businessHours: (json['businessHours'] as List<dynamic>)
-        .map((e) => BusinessHours.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    featuredExpiry: Utils.dateFromJson(json['featuredExpiry'] as String?),
-    storeOffline: json['storeOffline'] as bool,
-    availability: json['availability'] as String,
-    markUpPrice: json['markUpPrice'] as bool,
-    shortName: json['shortName'] as String?,
-    storeType: json['storeType'] as String,
-    description: json['description'] as String?,
-    yearsInService: json['yearsInService'] as int?,
-    address: json['address'] as String?,
-    imageUrl: json['imageUrl'] as String?,
-    likes: json['likes'] as int?,
-    servicesCompleted: json['servicesCompleted'] as int?,
-    badges: json['badges'] as int?,
-    verificationCode: json['verificationCode'] as String?,
-    mobileNumber: json['mobileNumber'] as String?,
-    role: _$enumDecodeNullable(_$ProfileRolesEnumMap, json['role']),
-    franchiseName: json['franchiseName'] as String?,
-    bank: json['bank'] == null
-        ? null
-        : Bank.fromJson(json['bank'] as Map<String, dynamic>),
-  )
-    ..latitude = (json['latitude'] as num?)?.toDouble()
-    ..longitude = (json['longitude'] as num?)?.toDouble()
-    ..responseTimeMinutes = json['responseTimeMinutes'] as int?
-    ..storeMessenger = (json['storeMessenger'] as List<dynamic>?)
-        ?.map((e) => StoreMessenger.fromJson(e as Map<String, dynamic>))
-        .toList()
-    ..franchises = (json['franchises'] as List<dynamic>?)
-        ?.map((e) => Shop.fromJson(e as Map<String, dynamic>))
-        .toList();
-}
+Shop _$ShopFromJson(Map<String, dynamic> json) => Shop(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      registrationNumber: json['registrationNumber'] as String?,
+      stockList: (json['stockList'] as List<dynamic>)
+          .map((e) => Stock.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      hasVat: json['hasVat'] as bool? ?? false,
+      scheduledDeliveryAllowed:
+          json['scheduledDeliveryAllowed'] as bool? ?? false,
+      deliverNowAllowed: json['deliverNowAllowed'] as bool? ?? true,
+      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toSet(),
+      featured: json['featured'] as bool,
+      ownerId: json['ownerId'] as String,
+      businessHours: (json['businessHours'] as List<dynamic>)
+          .map((e) => BusinessHours.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      featuredExpiry: Utils.dateFromJson(json['featuredExpiry'] as String?),
+      storeOffline: json['storeOffline'] as bool,
+      availability: json['availability'] as String,
+      markUpPrice: json['markUpPrice'] as bool? ?? true,
+      shortName: json['shortName'] as String?,
+      storeType: json['storeType'] as String,
+      description: json['description'] as String?,
+      yearsInService: json['yearsInService'] as int?,
+      address: json['address'] as String?,
+      imageUrl: json['imageUrl'] as String?,
+      likes: json['likes'] as int?,
+      servicesCompleted: json['servicesCompleted'] as int?,
+      badges: json['badges'] as int?,
+      verificationCode: json['verificationCode'] as String?,
+      mobileNumber: json['mobileNumber'] as String?,
+      role: $enumDecodeNullable(_$ProfileRolesEnumMap, json['role']),
+      franchiseName: json['franchiseName'] as String?,
+      bank: json['bank'] == null
+          ? null
+          : Bank.fromJson(json['bank'] as Map<String, dynamic>),
+    )
+      ..latitude = (json['latitude'] as num?)?.toDouble()
+      ..longitude = (json['longitude'] as num?)?.toDouble()
+      ..responseTimeMinutes = json['responseTimeMinutes'] as int?
+      ..storeMessenger = (json['storeMessenger'] as List<dynamic>?)
+          ?.map((e) => StoreMessenger.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..franchises = (json['franchises'] as List<dynamic>?)
+          ?.map((e) => Shop.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$ShopToJson(Shop instance) {
   final val = <String, dynamic>{};
@@ -100,43 +99,6 @@ Map<String, dynamic> _$ShopToJson(Shop instance) {
   writeNotNull('franchiseName', instance.franchiseName);
   writeNotNull('franchises', instance.franchises);
   return val;
-}
-
-K _$enumDecode<K, V>(
-  Map<K, V> enumValues,
-  Object? source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError(
-      'A value must be provided. Supported values: '
-      '${enumValues.values.join(', ')}',
-    );
-  }
-
-  return enumValues.entries.singleWhere(
-    (e) => e.value == source,
-    orElse: () {
-      if (unknownValue == null) {
-        throw ArgumentError(
-          '`$source` is not one of the supported values: '
-          '${enumValues.values.join(', ')}',
-        );
-      }
-      return MapEntry(unknownValue, enumValues.values.first);
-    },
-  ).key;
-}
-
-K? _$enumDecodeNullable<K, V>(
-  Map<K, V> enumValues,
-  dynamic source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ProfileRolesEnumMap = {

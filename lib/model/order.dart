@@ -11,7 +11,7 @@ part 'order.g.dart';
 class Order {
   String? id;
   Shipping? shippingData;
-  PaymentType? paymentType = PaymentType.PAYFAST;
+  PaymentType? paymentType = PaymentType.YOCO;
   OrderType? orderType = OrderType.ONLINE;
   bool? hasVat;
   Basket? basket = Basket();
@@ -63,7 +63,7 @@ enum ShippingType { SCHEDULED_DELIVERY, DELIVERY }
 
 enum BuildingType { HOUSE, OFFICE, APARTMENT }
 
-enum PaymentType { UKHESHE, CASH, OZOW, PAYFAST, SPEED_POINT }
+enum PaymentType { UKHESHE, CASH, OZOW, PAYFAST, SPEED_POINT, YOCO }
 
 enum OrderType { ONLINE, INSTORE }
 

@@ -6,28 +6,26 @@ part of 'userProfile.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserProfile _$UserProfileFromJson(Map<String, dynamic> json) {
-  return UserProfile(
-    id: json['id'] as String?,
-    name: json['name'] as String?,
-    signUpReason:
-        _$enumDecodeNullable(_$SignUpReasonEnumMap, json['signUpReason']),
-    idNumber: json['idNumber'] as String?,
-    description: json['description'] as String?,
-    yearsInService: json['yearsInService'] as int?,
-    address: json['address'] as String?,
-    imageUrl: json['imageUrl'] as String?,
-    likes: json['likes'] as int?,
-    servicesCompleted: json['servicesCompleted'] as int?,
-    badges: json['badges'] as int?,
-    verificationCode: json['verificationCode'] as String?,
-    mobileNumber: json['mobileNumber'] as String?,
-    role: _$enumDecodeNullable(_$ProfileRolesEnumMap, json['role']),
-    bank: json['bank'] == null
-        ? null
-        : Bank.fromJson(json['bank'] as Map<String, dynamic>),
-  )..responseTimeMinutes = json['responseTimeMinutes'] as int?;
-}
+UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      signUpReason:
+          $enumDecodeNullable(_$SignUpReasonEnumMap, json['signUpReason']),
+      idNumber: json['idNumber'] as String?,
+      description: json['description'] as String?,
+      yearsInService: json['yearsInService'] as int?,
+      address: json['address'] as String?,
+      imageUrl: json['imageUrl'] as String?,
+      likes: json['likes'] as int?,
+      servicesCompleted: json['servicesCompleted'] as int?,
+      badges: json['badges'] as int?,
+      verificationCode: json['verificationCode'] as String?,
+      mobileNumber: json['mobileNumber'] as String?,
+      role: $enumDecodeNullable(_$ProfileRolesEnumMap, json['role']),
+      bank: json['bank'] == null
+          ? null
+          : Bank.fromJson(json['bank'] as Map<String, dynamic>),
+    )..responseTimeMinutes = json['responseTimeMinutes'] as int?;
 
 Map<String, dynamic> _$UserProfileToJson(UserProfile instance) {
   final val = <String, dynamic>{};
@@ -55,43 +53,6 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) {
   writeNotNull('idNumber', instance.idNumber);
   writeNotNull('signUpReason', _$SignUpReasonEnumMap[instance.signUpReason]);
   return val;
-}
-
-K _$enumDecode<K, V>(
-  Map<K, V> enumValues,
-  Object? source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError(
-      'A value must be provided. Supported values: '
-      '${enumValues.values.join(', ')}',
-    );
-  }
-
-  return enumValues.entries.singleWhere(
-    (e) => e.value == source,
-    orElse: () {
-      if (unknownValue == null) {
-        throw ArgumentError(
-          '`$source` is not one of the supported values: '
-          '${enumValues.values.join(', ')}',
-        );
-      }
-      return MapEntry(unknownValue, enumValues.values.first);
-    },
-  ).key;
-}
-
-K? _$enumDecodeNullable<K, V>(
-  Map<K, V> enumValues,
-  dynamic source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$SignUpReasonEnumMap = {

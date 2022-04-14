@@ -48,7 +48,7 @@ class PaymentViewModel extends BaseViewModel {
       HapticFeedback.vibrate();
       return Future.delayed(Duration(seconds: 2)).asStream();
     }).asyncExpand((event) {
-      order!.paymentType = PaymentType.PAYFAST;
+      order!.paymentType = PaymentType.YOCO;
       paymentSuccessful = true;
       return apiService.completeOrderPayment(order!).asStream();
     }).listen((data) {

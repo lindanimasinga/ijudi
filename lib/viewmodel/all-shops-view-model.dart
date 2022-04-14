@@ -65,7 +65,7 @@ class AllShopsViewModel extends BaseViewModel {
     loadingFailed = false;
     return Rx.merge([
       apiService
-          .findAllShopByLocation(latitude, longitude, range, 20)
+          .findAllShopByLocation(latitude, longitude, range, 40)
           .asStream()
           .doOnError((p0, p1) => loadingFailed = true)
           .map((resp) {

@@ -6,18 +6,16 @@ part of 'profile.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Bank _$BankFromJson(Map<String, dynamic> json) {
-  return Bank(
-    name: json['name'] as String?,
-    idNumber: json['idNumber'] as String?,
-    accountId: json['accountId'] as String?,
-    type: json['type'] as String?,
-    currentBalance: (json['currentBalance'] as num?)?.toDouble(),
-    availableBalance: (json['availableBalance'] as num?)?.toDouble(),
-    phone: json['phone'] as String?,
-    customerId: json['customerId'] as int?,
-  );
-}
+Bank _$BankFromJson(Map<String, dynamic> json) => Bank(
+      name: json['name'] as String?,
+      idNumber: json['idNumber'] as String?,
+      accountId: json['accountId'] as String? ?? "- - -",
+      type: json['type'] as String?,
+      currentBalance: (json['currentBalance'] as num?)?.toDouble() ?? 0,
+      availableBalance: (json['availableBalance'] as num?)?.toDouble() ?? 0,
+      phone: json['phone'] as String? ?? "- - -",
+      customerId: json['customerId'] as int?,
+    );
 
 Map<String, dynamic> _$BankToJson(Bank instance) {
   final val = <String, dynamic>{};

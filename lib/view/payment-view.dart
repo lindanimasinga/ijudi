@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -113,7 +114,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
     double deviceWidth = MediaQuery.of(context).size.width;
 
     switch (viewModel.paymentType) {
-      case PaymentType.PAYFAST:
+      case PaymentType.YOCO:
         payment = Container(
             alignment: Alignment.center,
             padding: EdgeInsets.only(bottom: 24, top: 32),
@@ -171,6 +172,8 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
       "${viewModel.paymentUrl}/?Status=init&type=payfast&TransactionReference=${viewModel.order!.id}&callback=https://www.izinga.co.za",
       doneAction
     ];
-    Navigator.pushNamed(context, PaymentWebView.ROUTE_NAME, arguments: args);
+    print(args[0]);
+    Utils.launchURLInCustomeTab(context, url: args[0].toString());
+    //Navigator.pushNamed(context, PaymentWebView.ROUTE_NAME, arguments: args);
   }
 }

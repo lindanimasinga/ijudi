@@ -6,14 +6,13 @@ part of 'api-error-response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ApiErrorResponse _$ApiErrorResponseFromJson(Map<String, dynamic> json) {
-  return ApiErrorResponse()
-    ..timestamp = json['timestamp'] == null
-        ? null
-        : DateTime.parse(json['timestamp'] as String)
-    ..message = json['message']
-    ..path = json['path'] as String?;
-}
+ApiErrorResponse _$ApiErrorResponseFromJson(Map<String, dynamic> json) =>
+    ApiErrorResponse()
+      ..timestamp = json['timestamp'] == null
+          ? null
+          : DateTime.parse(json['timestamp'] as String)
+      ..message = json['message']
+      ..path = json['path'] as String?;
 
 Map<String, dynamic> _$ApiErrorResponseToJson(ApiErrorResponse instance) =>
     <String, dynamic>{

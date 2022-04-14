@@ -6,9 +6,8 @@ part of 'basket.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Basket _$BasketFromJson(Map<String, dynamic> json) {
-  return Basket()..items = Basket.listFromJson(json['items'] as List);
-}
+Basket _$BasketFromJson(Map<String, dynamic> json) =>
+    Basket()..items = Basket.listFromJson(json['items'] as List);
 
 Map<String, dynamic> _$BasketToJson(Basket instance) {
   final val = <String, dynamic>{};
