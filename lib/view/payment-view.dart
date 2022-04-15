@@ -169,9 +169,9 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
       }
     };
     var args = [
-      "${viewModel.paymentUrl}/?Status=init&type=yoco&TransactionReference=${viewModel.currentOrder.id}&callback=https://shop.izinga.co.za/${viewModel.currentOrder.shopId}",
+      "${viewModel.paymentUrl}/?Status=init&type=yoco&TransactionReference=${viewModel.currentOrder.id}",
       doneAction
-    ];
+    ]; //&callback=https://shop.izinga.co.za/${viewModel.currentOrder.shopId}
     print(args[0]);
     Utils.launchURLInCustomeTab(context, url: args[0].toString());
     //Navigator.pushNamed(context, PaymentWebView.ROUTE_NAME, arguments: args);
