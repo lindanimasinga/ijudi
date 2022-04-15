@@ -38,14 +38,14 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 8, left: 16),
-                        child: Text("${viewModel.order!.shop!.name}",
+                        child: Text("${viewModel.currentOrder.shop!.name}",
                             style: IjudiStyles.HEADER_TEXT)),
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 16, left: 16),
-                        child: Text("Order: ${viewModel.order!.id}",
+                        child: Text("Order: ${viewModel.currentOrder.id}",
                             style: IjudiStyles.HEADER_TEXT)),
-                    OrderReviewComponent(order: viewModel.order),
+                    OrderReviewComponent(order: viewModel.currentOrder),
                     Container(
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(bottom: 16, top: 16, left: 16),
@@ -53,7 +53,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                             style: IjudiStyles.HEADER_TEXT)),
                     viewModel.isDelivery
                         ? MessagerPreviewComponent(
-                            messenger: viewModel.order!.shippingData!.messenger)
+                            messenger: viewModel.currentOrder.shippingData!.messenger)
                         : Container(
                             alignment: Alignment.topLeft,
                             child: IjudiForm(
@@ -61,7 +61,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
                                     hint: "Delivery Time",
                                     enabled: false,
                                     text:
-                                        "${Utils.pickUpDay(viewModel.order!.shippingData!.pickUpTime!, context)}"))),
+                                        "${Utils.pickUpDay(viewModel.currentOrder.shippingData!.pickUpTime!, context)}"))),
                     paymentWidget(context)
                   ]))
         ]));
@@ -74,7 +74,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
         child: Padding(
             padding: EdgeInsets.all(16),
             child: Text(
-                "Please click pay to confirm your order of R${viewModel.order!.totalAmount}",
+                "Please click pay to confirm your order of R${viewModel.currentOrder.totalAmount}",
                 style: Forms.INPUT_TEXT_STYLE)),
         action: () => viewModel.processPayment());
   }
@@ -86,7 +86,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
         child: Padding(
             padding: EdgeInsets.all(16),
             child: Text(
-                "Please proceed to confirm your order of cash payment amount R${viewModel.order!.totalAmount}.",
+                "Please proceed to confirm your order of cash payment amount R${viewModel.currentOrder.totalAmount}.",
                 style: Forms.INPUT_TEXT_STYLE)),
         action: () => viewModel.processCashPayment());
   }
@@ -169,7 +169,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
       }
     };
     var args = [
-      "${viewModel.paymentUrl}/?Status=init&type=payfast&TransactionReference=${viewModel.order!.id}&callback=https://www.izinga.co.za",
+      "${viewModel.paymentUrl}/?Status=init&type=yoco&TransactionReference=${viewModel.currentOrder.id}&callback=https://shop.izinga.co.za/${viewModel.currentOrder.shopId}",
       doneAction
     ];
     print(args[0]);

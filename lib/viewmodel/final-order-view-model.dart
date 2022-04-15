@@ -7,7 +7,7 @@ import 'package:ijudi/util/order-status-checker.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 
 class FinalOrderViewModel extends BaseViewModel with OrderStatusChecker {
-  
+
   Order currentOrder;
 
   final ApiService apiService;

@@ -7,13 +7,12 @@ mixin OrderStatusChecker {
   late Timer _timer;
   late ApiService apiService;
   List<Order>? orders;
-
-  Order? get currentOrder => null;
+  late Order currentOrder;
 
   startOrderStatusCheck() {
     _timer = Timer.periodic(Duration(seconds: 10), (time) {
-      apiService.findOrderById(currentOrder?.id).asStream().listen((respo) {
-        currentOrder?.stage = respo.stage;
+      apiService.findOrderById(currentOrder.id).asStream().listen((respo) {
+        currentOrder.stage = respo.stage;
         notifyChanged();
       }, onError: (e) {
         showError(error: e);

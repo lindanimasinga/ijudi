@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/services.dart';
 import 'package:ijudi/config.dart';
@@ -8,37 +9,64 @@ import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/view/final-order-view.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
+import '../util/order-status-checker.dart';
 
-class PaymentViewModel extends BaseViewModel {
-  final Order? order;
+class PaymentViewModel extends BaseViewModel with OrderStatusChecker {
+  Order currentOrder;
   final ApiService apiService;
-  String? topupAmount;
   bool paymentSuccessful = false;
 
-  PaymentViewModel({required this.apiService, required this.order});
+  PaymentViewModel({required this.apiService, required this.currentOrder});
+
+  @override
+  void initialize() {
+    startOrderStatusCheck();
+  }
 
   get paymentUrl => Config.currentConfig!.paymentUrl;
 
-  @override
-  void initialize() {}
-
   bool get isBalanceLow =>
-      order!.customer!.bank!.availableBalance! < order!.totalAmount!;
+      currentOrder.customer!.bank!.availableBalance! < currentOrder.totalAmount!;
 
   String get collectionInstructions =>
-      "Please produce your order number ${order!.id} when collecting your order at ${order!.shop!.name}. Contact Number : ${order!.shop!.mobileNumber}";
+      "Please produce your order number ${currentOrder.id} when collecting your order at ${currentOrder.shop!.name}. Contact Number : ${currentOrder.shop!.mobileNumber}";
 
   String get deliveryHeader => isDelivery ? "Delivery By" : "Delivery on";
 
-  bool get isDelivery => order!.shippingData!.type == ShippingType.DELIVERY;
+  bool get isDelivery => currentOrder.shippingData!.type == ShippingType.DELIVERY;
 
-  PaymentType? get paymentType => order!.paymentType;
+  PaymentType? get paymentType => currentOrder.paymentType;
 
-  Bank? get wallet => order!.customer!.bank;
+  Bank? get wallet => currentOrder.customer!.bank;
 
   set paymentType(PaymentType? paymentType) {
-    order!.paymentType = paymentType;
+    currentOrder.paymentType = paymentType;
     notifyChanged();
+  }
+
+
+  @override notifyChanged() {
+    if(currentOrder.stage != OrderStage.STAGE_0_CUSTOMER_NOT_PAID) {
+
+      BaseViewModel.analytics
+          .logEcommercePurchase(
+          transactionId: currentOrder.id,
+          value: currentOrder.totalAmount,
+          currency: "ZAR")
+          .then((value) => {});
+
+      BaseViewModel.analytics
+          .logEvent(name: "order.purchase.leg.1", parameters: {
+        "shop": currentOrder.shop!.name,
+        "Order Id": currentOrder.id,
+        "Delivery": currentOrder.shippingData!.type,
+        "Total Amount": currentOrder.totalAmount
+      }).then((value) => {});
+
+      Navigator.pushNamedAndRemoveUntil(
+          context, FinalOrderView.ROUTE_NAME, (Route<dynamic> route) => false,
+          arguments: currentOrder);
+    }
   }
 
   processPayment() {
@@ -48,30 +76,30 @@ class PaymentViewModel extends BaseViewModel {
       HapticFeedback.vibrate();
       return Future.delayed(Duration(seconds: 2)).asStream();
     }).asyncExpand((event) {
-      order!.paymentType = PaymentType.YOCO;
+      currentOrder.paymentType = PaymentType.YOCO;
       paymentSuccessful = true;
-      return apiService.completeOrderPayment(order!).asStream();
+      return apiService.completeOrderPayment(currentOrder).asStream();
     }).listen((data) {
-      order!.stage = data.stage;
+      currentOrder.stage = data.stage;
 
       BaseViewModel.analytics
           .logEcommercePurchase(
-              transactionId: order!.id,
-              value: order!.totalAmount,
+              transactionId: currentOrder.id,
+              value: currentOrder.totalAmount,
               currency: "ZAR")
           .then((value) => {});
 
       BaseViewModel.analytics
           .logEvent(name: "order.purchase.leg.1", parameters: {
-        "shop": order!.shop!.name,
-        "Order Id": order!.id,
-        "Delivery": order!.shippingData!.type,
-        "Total Amount": order!.totalAmount
+        "shop": currentOrder.shop!.name,
+        "Order Id": currentOrder.id,
+        "Delivery": currentOrder.shippingData!.type,
+        "Total Amount": currentOrder.totalAmount
       }).then((value) => {});
 
       Navigator.pushNamedAndRemoveUntil(
           context, FinalOrderView.ROUTE_NAME, (Route<dynamic> route) => false,
-          arguments: order);
+          arguments: currentOrder);
     }, onError: (e) {
       showError(error: e.toString());
 
@@ -79,8 +107,8 @@ class PaymentViewModel extends BaseViewModel {
           ? "error.order.purchase.leg.1"
           : "error.order.payment.verify";
       BaseViewModel.analytics.logEvent(name: failedPaymentLeg, parameters: {
-        "shop": order!.shop!.name,
-        "order": order!.id,
+        "shop": currentOrder.shop!.name,
+        "order": currentOrder.id,
         "error": e.toString()
       }).then((value) => {});
     }, onDone: () {
@@ -91,12 +119,12 @@ class PaymentViewModel extends BaseViewModel {
   processCashPayment() {
     progressMv!.isBusy = true;
     var subscr =
-        apiService.completeOrderPayment(order!).asStream().listen(null);
+        apiService.completeOrderPayment(currentOrder).asStream().listen(null);
 
     subscr.onData((data) {
       Navigator.pushNamedAndRemoveUntil(
           context, FinalOrderView.ROUTE_NAME, (Route<dynamic> route) => false,
-          arguments: order);
+          arguments: currentOrder);
     });
 
     subscr.onDone(() {
@@ -107,24 +135,30 @@ class PaymentViewModel extends BaseViewModel {
   processPOSPayment() {
     progressMv!.isBusy = true;
 
-    order!.paymentType = PaymentType.SPEED_POINT;
+    currentOrder.paymentType = PaymentType.SPEED_POINT;
     paymentSuccessful = true;
     var subscr =
-        apiService.completeOrderPayment(order!).asStream().listen(null);
+        apiService.completeOrderPayment(currentOrder).asStream().listen(null);
     subscr.onData((data) {
       BaseViewModel.analytics
           .logEcommercePurchase(
-              transactionId: order!.id,
-              value: order!.totalAmount,
+              transactionId: currentOrder.id,
+              value: currentOrder.totalAmount,
               currency: "ZAR")
           .then((value) => {});
       Navigator.pushNamedAndRemoveUntil(
           context, FinalOrderView.ROUTE_NAME, (Route<dynamic> route) => false,
-          arguments: order);
+          arguments: currentOrder);
     });
 
     subscr.onDone(() {
       progressMv!.isBusy = false;
     });
+  }
+
+  @override
+  void dispose() {
+    super.destroy();
+    super.dispose();
   }
 }

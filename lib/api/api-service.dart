@@ -347,7 +347,8 @@ class ApiService {
     var event = await http
         .get(url, headers: defaultHeaders)
         .timeout(Duration(seconds: TIMEOUT_SEC));
-    logger.log(event.body);
+    //logger.log(event.body);
+    logger.log("order id $id fetched");
     if (event.statusCode != 200)
       throw (ApiErrorResponse.fromJson(json.decode(event.body)).message);
     return Order.fromJson(json.decode(event.body));

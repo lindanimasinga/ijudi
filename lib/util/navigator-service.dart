@@ -167,7 +167,7 @@ class NavigatorService {
             builder: (context) => DeliveryOptionsView(viewModel: viewmodel));
       case PaymentView.ROUTE_NAME:
         viewmodel =
-            PaymentViewModel(order: args as Order?, apiService: apiService);
+            PaymentViewModel(currentOrder: args as Order, apiService: apiService);
         return MaterialPageRoute(
             builder: (context) => PaymentView(viewModel: viewmodel));
       case PaymentWebView.ROUTE_NAME:
