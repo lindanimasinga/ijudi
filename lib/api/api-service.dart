@@ -353,4 +353,16 @@ class ApiService {
       throw (ApiErrorResponse.fromJson(json.decode(event.body)).message);
     return Order.fromJson(json.decode(event.body));
   }
+
+  Future<Order> cancelOrder(String id) async {
+    var url = Uri.parse('$apiUrl/order/$id');
+    var event = await http
+        .delete(url, headers: defaultHeaders)
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    //logger.log(event.body);
+    logger.log("order id $id fetched");
+    if (event.statusCode != 200)
+      throw (ApiErrorResponse.fromJson(json.decode(event.body)).message);
+    return Order.fromJson(json.decode(event.body));
+  }
 }

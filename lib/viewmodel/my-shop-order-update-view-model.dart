@@ -95,11 +95,15 @@ class MyShopOrderUpdateViewModel extends BaseViewModel {
   }
 
   rejectOrder() {
-    if (order.stage == OrderStage.STAGE_1_WAITING_STORE_CONFIRM) {
-      //reject order
-    } else {
-      Navigator.pop(context);
-    }
+    progressMv!.isBusy = true;
+    apiService.cancelOrder(order.id!).asStream()
+        .listen((event) {
+        Navigator.pop(context);
+    }, onError: (e) {
+      showError(error: e);
+    }, onDone: () {
+      progressMv!.isBusy = false;
+    });
   }
 
   progressNextStage() {

@@ -73,6 +73,7 @@ const _$OrderStageEnumMap = {
   OrderStage.STAGE_5_ARRIVED: 'STAGE_5_ARRIVED',
   OrderStage.STAGE_6_WITH_CUSTOMER: 'STAGE_6_WITH_CUSTOMER',
   OrderStage.STAGE_7_ALL_PAID: 'STAGE_7_ALL_PAID',
+  OrderStage.CANCELLED: 'CANCELLED',
 };
 
 Shipping _$ShippingFromJson(Map<String, dynamic> json) => Shipping()

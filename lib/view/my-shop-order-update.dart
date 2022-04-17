@@ -120,7 +120,7 @@ class MyShopOrderUpdateView
                                       Buttons.iconButton(Icon(Icons.close),
                                           color: IjudiColors.color2,
                                           onPressed: () =>
-                                              viewModel.rejectOrder()),
+                                              cancelConfirmation(context)),
                                       Padding(
                                           padding: EdgeInsets.only(top: 16)),
                                       FloatingActionButtonWithProgress(
@@ -151,5 +151,17 @@ class MyShopOrderUpdateView
                                 .toList()))
                   ]))
         ]));
+  }
+
+  cancelConfirmation(BuildContext context) {
+    showMessageDialog(context,
+        title: "Confirm Cancellation",
+        actionName: "Continue",
+        child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Text(
+                "Please Continue to cancel the order.",
+                style: Forms.INPUT_TEXT_STYLE)),
+        action: () => viewModel.rejectOrder());
   }
 }
