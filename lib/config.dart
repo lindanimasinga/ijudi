@@ -53,7 +53,7 @@ class ProdConfig extends Config {
   final String ukhesheSupportUrl =
       "https://api.whatsapp.com/send?phone=270684835566&text=Hello";
 
-  final String paymentUrl = "https://pay-izinga.web.app";
+  final String paymentUrl = "https://pay.izinga.co.za";
 }
 
 class UATConfig extends Config {

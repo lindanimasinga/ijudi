@@ -10,14 +10,15 @@ import 'package:intl/intl.dart';
 
 class Utils {
   static const orderStatusColors = {
-    OrderStage.STAGE_0_CUSTOMER_NOT_PAID: IjudiColors.color2,
-    OrderStage.STAGE_1_WAITING_STORE_CONFIRM: IjudiColors.color2,
+    OrderStage.STAGE_0_CUSTOMER_NOT_PAID: Colors.brown,
+    OrderStage.STAGE_1_WAITING_STORE_CONFIRM: Colors.orange,
     OrderStage.STAGE_2_STORE_PROCESSING: IjudiColors.color3,
     OrderStage.STAGE_3_READY_FOR_COLLECTION: IjudiColors.color4,
     OrderStage.STAGE_4_ON_THE_ROAD: IjudiColors.color1,
     OrderStage.STAGE_5_ARRIVED: IjudiColors.color5,
     OrderStage.STAGE_6_WITH_CUSTOMER: IjudiColors.color6,
-    OrderStage.STAGE_7_ALL_PAID: IjudiColors.color4
+    OrderStage.STAGE_7_ALL_PAID: IjudiColors.color4,
+    OrderStage.CANCELLED: IjudiColors.color2
   };
 
   static const statusText = {
@@ -28,7 +29,8 @@ class Utils {
     OrderStage.STAGE_4_ON_THE_ROAD: "Arriving",
     OrderStage.STAGE_5_ARRIVED: "Arrived",
     OrderStage.STAGE_6_WITH_CUSTOMER: "Delivered",
-    OrderStage.STAGE_7_ALL_PAID: "Completed"
+    OrderStage.STAGE_7_ALL_PAID: "Completed",
+    OrderStage.CANCELLED: "Cancelled"
   };
 
   static const LOTTIE_BY_STAGE = {
@@ -38,7 +40,8 @@ class Utils {
     OrderStage.STAGE_3_READY_FOR_COLLECTION: "assets/lottie/food.json",
     OrderStage.STAGE_4_ON_THE_ROAD: "assets/lottie/delivery.json",
     OrderStage.STAGE_5_ARRIVED: "assets/lottie/loading.json",
-    OrderStage.STAGE_6_WITH_CUSTOMER: "assets/lottie/food.json"
+    OrderStage.STAGE_6_WITH_CUSTOMER: "assets/lottie/food.json",
+    OrderStage.CANCELLED: "assets/lottie/food.json"
   };
 
   static const onlineDeliveryStages = {
@@ -49,7 +52,8 @@ class Utils {
     OrderStage.STAGE_4_ON_THE_ROAD: 4,
     OrderStage.STAGE_5_ARRIVED: 5,
     OrderStage.STAGE_6_WITH_CUSTOMER: 6,
-    OrderStage.STAGE_7_ALL_PAID: 7
+    OrderStage.STAGE_7_ALL_PAID: 7,
+    OrderStage.CANCELLED: -1
   };
 
   static Map<OrderStage, String> messageMap(Shop? shop) => {
