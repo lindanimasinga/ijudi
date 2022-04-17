@@ -148,7 +148,15 @@ class MyShopOrderUpdateView
                                       onTap: () =>
                                           viewModel.selectedMessenger = e,
                                     ))
-                                .toList()))
+                                .toList())),
+                    Container(
+                      margin: EdgeInsets.only(right: 16, top: 16, bottom: 16),
+                      alignment: Alignment.center,
+                      child: Buttons.iconButton(Icon(Icons.delete),
+                          color: IjudiColors.color2,
+                          onPressed: () =>
+                              cancelConfirmation(context)),
+                    )
                   ]))
         ]));
   }

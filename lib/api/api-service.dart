@@ -360,7 +360,7 @@ class ApiService {
         .delete(url, headers: defaultHeaders)
         .timeout(Duration(seconds: TIMEOUT_SEC));
     //logger.log(event.body);
-    logger.log("order id $id fetched");
+    logger.log("order id $id deleted");
     if (event.statusCode != 200)
       throw (ApiErrorResponse.fromJson(json.decode(event.body)).message);
     return Order.fromJson(json.decode(event.body));
