@@ -68,17 +68,45 @@ class Headers {
         ));
   }
 
-  static getShopHeader(BuildContext context) {
-    return Container(
-        height: MediaQuery.of(context).size.height * 1.3,
-        width: MediaQuery.of(context).size.width,
-        child: Buttons.buildParticles(context, 4,
-            type: PlasmaType.circle,
-            size: 0.35,
-            speed: 0.5,
-            blur: 0.03,
-            particlesPerColor: 100));
+  static Widget getShopHeader(BuildContext context,
+      {Color color1 = IjudiColors.color1,
+        Color color2 = IjudiColors.color2,
+        Color color3 = IjudiColors.color3}) {
+    return ClipPath(
+        clipper: IjudyHeaderClipPath(
+            part: Parts.FIRST, waves: Utils.generateWaveNumber(3), height: 260),
+        child: Container(
+          color: color1,
+          height: 444.9 + 19.8,
+          width: MediaQuery.of(context).size.width,
+          child: ClipPath(
+            clipper: IjudyHeaderClipPath(
+                part: Parts.SECOND,
+                waves: Utils.generateWaveNumber(3),
+                height: 220),
+            child: Container(
+              color: color2,
+              height: 384,
+              width: 375,
+              child: ClipPath(
+                clipper: IjudyHeaderClipPath(
+                    part: Parts.THIRD,
+                    waves: Utils.generateWaveNumber(3),
+                    height: 120),
+                child: Container(
+                  color: color3,
+                  height: 183,
+                  width: 375,
+                ),
+              ),
+            ),
+          ),
+        ));
   }
+
+/*  static getShopHeader(BuildContext context) {
+    return getHeader(context);
+  }*/
 
   static getMenuHeader(BuildContext context) {
     return ClipPath(

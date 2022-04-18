@@ -95,14 +95,18 @@ class MyShopOrderUpdateViewModel extends BaseViewModel {
   }
 
   rejectOrder() {
-    progressMv!.isBusy = true;
+    if(progressMv?.mounted == true) {
+      progressMv?.isBusy = true;
+    }
     apiService.cancelOrder(order.id!).asStream()
         .listen((event) {
         Navigator.pop(context);
     }, onError: (e) {
       showError(error: e);
     }, onDone: () {
-      progressMv!.isBusy = false;
+      if(progressMv?.isBusy) {
+        progressMv?.isBusy = progressMv?.isBusy;
+      }
     });
   }
 

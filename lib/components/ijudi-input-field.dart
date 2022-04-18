@@ -23,7 +23,7 @@ class IjudiInputField extends StatefulWidget {
       this.text = "",
       this.error,
       this.onChanged,
-      this.lines = 1});
+      this.lines = 0});
 
   @override
   _IjudiInputFieldState createState() => _IjudiInputFieldState(
@@ -81,7 +81,7 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
             ? IjudiColors.color2
             : color,
         width: width2,
-        height: 52.0 * lines!,
+        height: 52.0 + 15 * lines!,
         alignment: Alignment.centerLeft,
         child: Padding(
             padding: EdgeInsets.only(left: 16, right: 4),
@@ -96,7 +96,7 @@ class _IjudiInputFieldState extends State<IjudiInputField> {
               padding: EdgeInsets.only(left: 8, top: 4, bottom: 0),
               child: Stack(children: [
                 TextField(
-                  maxLines: lines,
+                  maxLines: lines == 0 ? 1 : lines,
                   controller: controller,
                   keyboardType: type,
                   autofillHints: enabled? autofillHints : null,

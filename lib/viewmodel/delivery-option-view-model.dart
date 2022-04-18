@@ -24,7 +24,7 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
   bool fetchingMessangers = false;
   late SupportedLocation _location;
 
-  BuildingType _buildingType = BuildingType.HOUSE;
+  BuildingType _buildingType = BuildingType.APARTMENT;
   String _buildingName = "";
   String _unitNumner = "";
   List<UserProfile> _messangers = [];
@@ -77,7 +77,7 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
     }
     if (order!.shippingData!.type == ShippingType.DELIVERY &&
         order!.shippingData!.buildingType == null) {
-      order!.shippingData!.buildingType = BuildingType.HOUSE;
+      order!.shippingData!.buildingType = BuildingType.APARTMENT;
     }
     notifyChanged();
   }
@@ -144,7 +144,7 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
     //
     order?.shippingData = Shipping();
     order?.shippingData?.toAddress = order?.customer?.address;
-    order?.shippingData?.buildingType = BuildingType.HOUSE;
+    order?.shippingData?.buildingType = BuildingType.APARTMENT;
     order?.shippingData?.fromAddress = order!.shop!.name;
     order?.shippingData?.fee = 0;
     order?.shippingData?.type = order?.shop?.scheduledDeliveryAllowed == true

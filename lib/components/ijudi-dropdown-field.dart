@@ -12,6 +12,7 @@ class IjudiDropDownField<T> extends StatefulWidget {
   final bool? enabled;
   final Function? error;
   final Iterable<String>? autofillHints;
+  T? initial;
 
   IjudiDropDownField(
       {required this.hint,
@@ -21,6 +22,7 @@ class IjudiDropDownField<T> extends StatefulWidget {
       this.type,
       this.options = const [],
       this.error,
+      this.initial,
       this.onSelected});
 
   @override
@@ -30,6 +32,7 @@ class IjudiDropDownField<T> extends StatefulWidget {
       color: color,
       autofillHints: autofillHints,
       onSelected: onSelected,
+      initial: initial,
       type: type,
       error: error,
       options: options);
@@ -40,6 +43,7 @@ class _IjudiDropDownFieldState<T> extends State<IjudiDropDownField> {
   Color color;
   final TextInputType? type;
   List<T> options;
+  T? initial;
   Function? onSelected;
   bool? enabled;
   Function? error;
@@ -55,9 +59,10 @@ class _IjudiDropDownFieldState<T> extends State<IjudiDropDownField> {
       this.type,
       this.options = const [],
       this.error,
+      this.initial,
       this.onSelected}) {
     if (selected == null) {
-      _selected = options[0];
+      _selected = initial;
     }
   }
 

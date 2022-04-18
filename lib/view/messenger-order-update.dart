@@ -145,6 +145,15 @@ class MessengerOrderUpdateView
                         margin: EdgeInsets.only(right: 16),
                         child: OrderReviewComponent(
                             order: viewModel.order, isCustomerView: false)),
+                    viewModel.order?.shippingData?.additionalInstructions == null ? Container() :
+                      IjudiForm(
+                        child: IjudiInputField(
+                        hint: "Instructions",
+                        enabled: false,
+                        lines: 7,
+                        text: viewModel.order?.shippingData?.additionalInstructions,
+                        color: IjudiColors.color5),
+                    ),
                     Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
                       Container(
                           alignment: Alignment.topLeft,

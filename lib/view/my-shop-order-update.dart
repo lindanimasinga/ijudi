@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/components/bread-crumb.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-form.dart';
+import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/messager-preview-component.dart';
 import 'package:ijudi/components/mv-stateful-widget.dart';
 import 'package:ijudi/components/order-review-component.dart';
@@ -93,6 +94,15 @@ class MyShopOrderUpdateView
                           includeFees: false,
                           isCustomerView: false,
                         )),
+                    viewModel.order.shippingData?.additionalInstructions == null ? Container() :
+                    IjudiForm(
+                      child: IjudiInputField(
+                          hint: "Instructions",
+                          enabled: false,
+                          lines: 7,
+                          text: viewModel.order.shippingData?.additionalInstructions,
+                          color: IjudiColors.color5),
+                    ),
                     (viewModel.orderReadyForCollection &&
                                 viewModel.isDelivery) ||
                             viewModel.isInstoreOrder
@@ -103,7 +113,7 @@ class MyShopOrderUpdateView
                                 Container(
                                     alignment: Alignment.topLeft,
                                     padding:
-                                        EdgeInsets.only(top: 76, right: 16),
+                                        EdgeInsets.only(top: 16, right: 16),
                                     child: IjudiForm(
                                         child: Container(
                                             alignment: Alignment.center,
@@ -154,6 +164,7 @@ class MyShopOrderUpdateView
                       alignment: Alignment.center,
                       child: Buttons.iconButton(Icon(Icons.delete),
                           color: IjudiColors.color2,
+                          tag: Icons.delete.toString(),
                           onPressed: () =>
                               cancelConfirmation(context)),
                     )

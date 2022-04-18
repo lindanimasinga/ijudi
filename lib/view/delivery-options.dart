@@ -108,6 +108,7 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
               enabled: true,
               options: BuildingType.values,
               color: IjudiColors.color5,
+              initial: viewModel.buildingType,
               onSelected: (value) => viewModel.buildingType = value),
           !viewModel.isBuildingInfoRequired
               ? Container()
@@ -131,6 +132,13 @@ class DeliveryOptionsView extends MvStatefulWidget<DeliveryOptionsViewModel> {
               text: viewModel.deliveryAddress,
               color: IjudiColors.color5,
               onTap: (value) => viewModel.location = value),
+          IjudiInputField(
+              hint: "Instructions",
+              enabled: true,
+              lines: 6,
+              text: viewModel.order?.shippingData?.additionalInstructions,
+              onChanged: (value) => viewModel.order?.shippingData?.additionalInstructions = value,
+              color: IjudiColors.color5)
         ],
       )),
       Padding(padding: EdgeInsets.only(top: 16)),
