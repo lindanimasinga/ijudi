@@ -29,7 +29,7 @@ class OrderHistoryView extends MvStatefulWidget<OrderHistoryViewModel> {
     ];
 
     viewModel.orders
-        .where((order) => order.stage != OrderStage.STAGE_7_ALL_PAID)
+        .where((order) => order.stage != OrderStage.STAGE_7_ALL_PAID && order.stage != OrderStage.CANCELLED)
         .where((order) => order.orderType != OrderType.INSTORE)
         .forEach((order) =>
             pendingOrderItemsComponents.add(OrderHistoryItemComponent(
@@ -50,7 +50,7 @@ class OrderHistoryView extends MvStatefulWidget<OrderHistoryViewModel> {
     viewModel.orders
         .sort((first, second) => first.date!.isBefore(second.date!) ? 1 : -1);
     viewModel.orders
-        .where((order) => order.stage == OrderStage.STAGE_7_ALL_PAID)
+        .where((order) => order.stage == OrderStage.STAGE_7_ALL_PAID || order.stage == OrderStage.CANCELLED)
         .forEach((order) =>
             finishedOrderItemsComponents.add(OrderHistoryItemComponent(
               order: order,
