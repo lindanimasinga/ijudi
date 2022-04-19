@@ -32,7 +32,9 @@ class MessengerOrdersView extends MvStatefulWidget<MessengerOrdersViewModel> {
     ];
 
     viewModel.orders!
-        .where((order) => order.stage != OrderStage.STAGE_7_ALL_PAID)
+        .sort((first, second) => first.date!.isBefore(second.date!) ? 1 : -1);
+    viewModel.orders!
+        .where((order) => order.stage != OrderStage.STAGE_7_ALL_PAID && order.stage != OrderStage.CANCELLED)
         .forEach((order) =>
             pendingOrderItemsComponents.add(OrderHistoryItemComponent(
                 order: order,
@@ -45,7 +47,7 @@ class MessengerOrdersView extends MvStatefulWidget<MessengerOrdersViewModel> {
                 })));
 
     viewModel.orders!
-        .where((order) => order.stage == OrderStage.STAGE_7_ALL_PAID)
+        .where((order) => order.stage == OrderStage.STAGE_7_ALL_PAID || order.stage == OrderStage.CANCELLED)
         .forEach((order) =>
             finishedOrderItemsComponents.add(OrderHistoryItemComponent(
                 order: order,
