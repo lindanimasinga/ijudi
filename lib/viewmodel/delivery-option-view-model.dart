@@ -167,6 +167,12 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
       return;
     }
 
+    if (!isBuildingInfoValid) {
+      showError(
+          error: "Please make sure your address and building type is correct.");
+      return;
+    }
+
     if (order!.shippingData!.type == ShippingType.SCHEDULED_DELIVERY &&
         !isValidDeliveryTime) {
       showError(
@@ -239,5 +245,11 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
     }, onDone: () {
       fetchingMessangers = false;
     });
+  }
+
+  bool get isBuildingInfoValid {
+    return !isBuildingInfoRequired ||
+        (order!.shippingData!.unitNumber?.isNotEmpty == true &&
+            order!.shippingData!.buildingName?.isNotEmpty == true);
   }
 }
