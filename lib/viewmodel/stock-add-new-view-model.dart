@@ -24,7 +24,7 @@ class StockAddNewViewModel extends BaseViewModel {
   initialize() {
     if (inputData!.stock != null) {
       newItemName = inputData!.stock!.name;
-      newItemPrice = inputData!.stock!.price;
+      newItemPrice = inputData!.stock!.storePrice!;
       newItemQuantity = inputData!.stock!.quantity;
       newItemDescription = inputData!.stock!.description;
       options = inputData!.stock!.mandatorySelection != null
@@ -43,10 +43,8 @@ class StockAddNewViewModel extends BaseViewModel {
       ..mandatorySelection = options
       ..description = newItemDescription;
 
-    apiService
-        .addStockItem(inputData!.shop!.id, stock)
-        .asStream()
-        .listen((newStock) {
+    apiService.addStockItem(inputData!.shop!.id, stock).asStream().listen(
+        (newStock) {
       Future.delayed(Duration(seconds: 1))
           .then((value) => Navigator.pop(context));
     }, onError: (e) {
