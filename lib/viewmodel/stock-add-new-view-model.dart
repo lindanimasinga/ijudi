@@ -36,17 +36,17 @@ class StockAddNewViewModel extends BaseViewModel {
   addNewItem() {
     log("otions are ${options!.map((e) => e.name).toList().toString()}");
     progressMv!.isBusy = true;
-    var stock = Stock(
-      name: newItemName,
-      storePrice: newItemPrice,
-      quantity: newItemQuantity,
-    )
-      ..id = inputData!.stock?.id
+    var stock = inputData!.stock!
+      ..name = newItemName
+      ..storePrice = newItemPrice
+      ..quantity = newItemQuantity
       ..mandatorySelection = options
       ..description = newItemDescription;
 
-    apiService.addStockItem(inputData!.shop!.id, stock).asStream().listen(
-        (newStock) {
+    apiService
+        .addStockItem(inputData!.shop!.id, stock)
+        .asStream()
+        .listen((newStock) {
       Future.delayed(Duration(seconds: 1))
           .then((value) => Navigator.pop(context));
     }, onError: (e) {
