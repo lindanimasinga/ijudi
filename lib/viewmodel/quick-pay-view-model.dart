@@ -24,8 +24,7 @@ class QuickPayViewModel extends BaseViewModel {
   QuickPayViewModel({this.apiService, this.shop});
 
   @override
-  initialize() {
-  }
+  initialize() {}
 
   String get baseUrl => "";
 
@@ -40,8 +39,7 @@ class QuickPayViewModel extends BaseViewModel {
     _payAmount = payAmount;
   }
 
-  pay() {
-  }
+  pay() {}
 
   bool get isBalanceLow {
     return order.customer!.bank!.availableBalance! < order.totalAmount!;
@@ -56,8 +54,11 @@ class QuickPayViewModel extends BaseViewModel {
     order.basket = Basket();
     order.description = "Payment from ${order.customer!.mobileNumber}";
     order.basket!.clear();
-    var basketItem =
-        BasketItem(name: itemName, quantity: quantity, price: payAmount, storePrice: payAmount);
+    var basketItem = BasketItem(
+        name: itemName,
+        quantity: quantity,
+        price: payAmount,
+        storePrice: payAmount);
     order.basket!.addItem(basketItem);
     var subscr = apiService!.startOrder(order).asStream().map((newOrder) {
       var oldOrder = order;
@@ -85,6 +86,6 @@ class QuickPayViewModel extends BaseViewModel {
 
   bool itemsSelected() {
     var items = itemName.split(", ").toSet();
-    return shop!.tags.intersection(items).length > 0;
+    return shop!.tags!.intersection(items).length > 0;
   }
 }

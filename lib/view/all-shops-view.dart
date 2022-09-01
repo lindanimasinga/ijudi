@@ -38,14 +38,14 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
     if (viewModel.shops != null && viewModel.shops!.isNotEmpty) {
       var tags =
           viewModel.shops!.map((shop) => shop.tags).reduce((current, next) {
-        Set<String> tagsSet = HashSet();
-        tagsSet.addAll(current);
-        tagsSet.addAll(next);
+        Set<String>? tagsSet = HashSet();
+        tagsSet.addAll(current!);
+        tagsSet.addAll(next!);
         return tagsSet;
-      }).toList();
+      })?.toList();
 
-      tags.sort();
-      for (var filterName in tags) {
+      tags?.sort();
+      for (var filterName in tags!) {
         var color = BreadCrumb.statusColors[colorPickCount++];
         filterComponents.add(BreadCrumb(
             color: color,
@@ -75,7 +75,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 shop.containsStockItem(viewModel.search) ||
                 shop.name!.toLowerCase().contains(viewModel.search)) &&
             (viewModel.filters.isEmpty ||
-                viewModel.filters.intersection(shop.tags).length > 0))
+                viewModel.filters.intersection(shop.tags!).length > 0))
         .forEach((shop) {
       featuredShopComponents.add(FeaturedShop(
         shop: shop,
@@ -89,8 +89,9 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 shop.containsStockItem(viewModel.search) ||
                 shop.name!.toLowerCase().contains(viewModel.search)) &&
             (viewModel.filters.isEmpty ||
-                viewModel.filters.intersection(shop.tags).length > 0) &&
-            shop.tags.map((item) => item.toLowerCase()).contains("restaurant"))
+                viewModel.filters.intersection(shop.tags!).length > 0) &&
+            shop.tags!.map((item) => item.toLowerCase()).contains("restaurant")
+            )
         .forEach((shop) {
       shopComponets.add(ShopComponent(
           shop: shop,
@@ -103,7 +104,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             (viewModel.search.isEmpty ||
                 shop.containsStockItem(viewModel.search) ||
                 shop.name!.toLowerCase().contains(viewModel.search)) &&
-            (shop.tags.contains("groceries")))
+            (shop.tags!.contains("groceries")))
         .map((shop) => ShopComponent(
             shop: shop,
             hasMoreStores:
@@ -115,7 +116,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
             (viewModel.search.isEmpty ||
                 shop.containsStockItem(viewModel.search) ||
                 shop.name!.toLowerCase().contains(viewModel.search)) &&
-            (shop.tags.contains("medicine")))
+            (shop.tags!.contains("medicine")))
         .map((shop) => ShopComponent(
             shop: shop,
             hasMoreStores:

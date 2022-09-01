@@ -17,7 +17,7 @@ Shop _$ShopFromJson(Map<String, dynamic> json) => Shop(
       scheduledDeliveryAllowed:
           json['scheduledDeliveryAllowed'] as bool? ?? false,
       deliverNowAllowed: json['deliverNowAllowed'] as bool? ?? true,
-      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toSet(),
+      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toSet(),
       featured: json['featured'] as bool,
       ownerId: json['ownerId'] as String,
       businessHours: (json['businessHours'] as List<dynamic>)
@@ -25,7 +25,7 @@ Shop _$ShopFromJson(Map<String, dynamic> json) => Shop(
           .toList(),
       featuredExpiry: Utils.dateFromJson(json['featuredExpiry'] as String?),
       storeOffline: json['storeOffline'] as bool,
-      availability: json['availability'] as String,
+      availability: json['availability'] as String?,
       markUpPrice: json['markUpPrice'] as bool? ?? true,
       shortName: json['shortName'] as String?,
       storeType: json['storeType'] as String,
@@ -84,7 +84,7 @@ Map<String, dynamic> _$ShopToJson(Shop instance) {
   writeNotNull(
       'businessHours', Shop.businessHoursToJson(instance.businessHours));
   writeNotNull('stockList', Shop.listToJson(instance.stockList));
-  val['tags'] = instance.tags.toList();
+  writeNotNull('tags', instance.tags?.toList());
   writeNotNull('hasVat', instance.hasVat);
   val['scheduledDeliveryAllowed'] = instance.scheduledDeliveryAllowed;
   val['deliverNowAllowed'] = instance.deliverNowAllowed;
@@ -94,7 +94,7 @@ Map<String, dynamic> _$ShopToJson(Shop instance) {
   writeNotNull('featuredExpiry', Utils.dateToJson(instance.featuredExpiry));
   writeNotNull('storeMessenger', instance.storeMessenger);
   val['storeOffline'] = instance.storeOffline;
-  val['availability'] = instance.availability;
+  writeNotNull('availability', instance.availability);
   writeNotNull('shortName', instance.shortName);
   writeNotNull('franchiseName', instance.franchiseName);
   writeNotNull('franchises', instance.franchises);
@@ -106,4 +106,5 @@ const _$ProfileRolesEnumMap = {
   ProfileRoles.STORE_ADMIN: 'STORE_ADMIN',
   ProfileRoles.STORE: 'STORE',
   ProfileRoles.MESSENGER: 'MESSENGER',
+  ProfileRoles.ADMIN: 'ADMIN',
 };

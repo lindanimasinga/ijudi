@@ -20,18 +20,18 @@ class Shop extends Profile with GeoLocation {
   List<BusinessHours> businessHours;
   @JsonKey(ignore: false, toJson: listToJson)
   List<Stock> stockList;
-  Set<String> tags;
+  Set<String>? tags;
   bool? hasVat;
   bool scheduledDeliveryAllowed;
   bool deliverNowAllowed;
-  String ownerId;
+  String? ownerId;
   bool featured;
   bool markUpPrice;
   @JsonKey(fromJson: Utils.dateFromJson, toJson: Utils.dateToJson)
   DateTime? featuredExpiry;
   List<StoreMessenger>? storeMessenger;
   bool storeOffline;
-  String availability;
+  String? availability;
   String? shortName;
   String? franchiseName;
   List<Shop>? franchises;

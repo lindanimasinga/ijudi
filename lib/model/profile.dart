@@ -14,6 +14,7 @@ abstract class Profile {
   int? servicesCompleted;
   int? badges;
   String? mobileNumber;
+  String? emailAddress;
   ProfileRoles? role;
   int? responseTimeMinutes;
   String? verificationCode;
@@ -61,4 +62,4 @@ class Bank {
   Map<String, dynamic> toJson() => _$BankToJson(this);
 }
 
-enum ProfileRoles { CUSTOMER, STORE_ADMIN, STORE, MESSENGER }
+enum ProfileRoles { CUSTOMER, STORE_ADMIN, STORE, MESSENGER, ADMIN }

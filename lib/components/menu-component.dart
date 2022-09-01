@@ -78,7 +78,8 @@ class _MenuComponentState extends State<MenuComponent>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Buttons.menu(children: <Widget>[
-                profileRole != ProfileRoles.MESSENGER
+                profileRole != ProfileRoles.MESSENGER &&
+                        profileRole != ProfileRoles.ADMIN
                     ? Container()
                     : Buttons.menuItem(
                         text: "Collections",
@@ -88,7 +89,8 @@ class _MenuComponentState extends State<MenuComponent>
                             MessengerOrdersView.ROUTE_NAME,
                             (Route<dynamic> route) => false,
                             arguments: _userId)),
-                profileRole != ProfileRoles.STORE_ADMIN
+                profileRole != ProfileRoles.STORE_ADMIN &&
+                        profileRole != ProfileRoles.ADMIN
                     ? Container()
                     : Buttons.menuItem(
                         text: "My Shops",

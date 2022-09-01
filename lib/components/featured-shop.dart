@@ -11,10 +11,7 @@ class FeaturedShop extends StatelessWidget with MessageDialogs {
   final Shop shop;
   final hasMoreStores;
 
-  FeaturedShop({
-    required this.shop,
-    this.hasMoreStores = false
-  });
+  FeaturedShop({required this.shop, this.hasMoreStores = false});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +57,9 @@ class FeaturedShop extends StatelessWidget with MessageDialogs {
                       Padding(
                           padding: EdgeInsets.only(right: 4, top: 8),
                           child: Text(
-                              hasMoreStores ? shop.franchiseName! : shop.name!,
+                              hasMoreStores && shop.franchiseName != null
+                                  ? shop.franchiseName!
+                                  : shop.name!,
                               style: IjudiStyles.CARD_SHOP_HEADER,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis)),

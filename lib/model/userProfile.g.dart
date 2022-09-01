@@ -66,4 +66,5 @@ const _$ProfileRolesEnumMap = {
   ProfileRoles.STORE_ADMIN: 'STORE_ADMIN',
   ProfileRoles.STORE: 'STORE',
   ProfileRoles.MESSENGER: 'MESSENGER',
+  ProfileRoles.ADMIN: 'ADMIN',
 };

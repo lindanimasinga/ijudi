@@ -64,6 +64,8 @@ class ApiService {
         .get(url, headers: defaultHeaders)
         .timeout(Duration(seconds: TIMEOUT_SEC));
 
+    logger.log(event.body);
+
     if (event.statusCode != 200)
       throw (ApiErrorResponse.fromJson(json.decode(event.body)).message);
 
@@ -267,7 +269,7 @@ class ApiService {
   Future<List<Shop>> findShopByOwnerId(String? ownerId) async {
     logger.log("fetching owner shops");
     logger.log("http headers for $apiUrl are $defaultHeaders");
-    var url = Uri.parse('$apiUrl/store?ownerId=$ownerId');
+    var url = Uri.parse('$apiUrl/store?ownerId=$ownerId&storeType=FOOD');
     var event = await http
         .get(url, headers: defaultHeaders)
         .timeout(Duration(seconds: TIMEOUT_SEC));
