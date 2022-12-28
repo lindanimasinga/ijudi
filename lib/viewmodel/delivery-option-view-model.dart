@@ -9,6 +9,7 @@ import 'package:ijudi/config.dart';
 import 'package:ijudi/model/business-hours.dart';
 import 'package:ijudi/model/day.dart';
 import 'package:ijudi/model/order.dart';
+import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/supported-location.dart';
 import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/services/storage-manager.dart';
@@ -61,7 +62,8 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
 
   get allowedOrder =>
       fetchingMessangers ||
-      messangers.length > 0 ||
+      (messangers.any(
+          (e) => e.availabilityStatus == ProfileAvailabilityStatus.ONLINE)) ||
       order!.shippingData!.type == ShippingType.SCHEDULED_DELIVERY;
 
   set messangers(List<UserProfile> messangers) {
@@ -163,7 +165,9 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
 
   startOrder() {
     if (!allowedOrder) {
-      showError(error: "No drivers available on your area at the moment.");
+      showError(
+          error:
+              "Drivers are offline or there are no drivers available on your area at the moment.");
       return;
     }
 
@@ -187,12 +191,14 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
     }
 
     if (order!.shippingData!.type == ShippingType.DELIVERY) {
-      var storeMessengeId = order!.shop!.storeMessenger?.first.id;
+      var storeMessengeId = order?.shop?.storeMessenger?.isNotEmpty == true
+          ? order?.shop?.storeMessenger?.first.id
+          : "";
       var messenger = messangers.firstWhere(
           (item) => item.id == storeMessengeId,
           orElse: () => messangers[0]);
-      order!.shippingData!.messenger = messenger;
-      order!.shippingData!.messengerId = messenger.id;
+      order?.shippingData?.messenger = messenger;
+      order?.shippingData?.messengerId = messenger.id;
     }
 
     var userId = apiService.currentUserPhone;

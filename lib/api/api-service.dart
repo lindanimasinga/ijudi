@@ -185,6 +185,18 @@ class ApiService {
     return event.body;
   }
 
+  Future<String> updateUser(UserProfile user) async {
+    var request = json.encode(user);
+    logger.log(request);
+    var url = Uri.parse('$apiUrl/user/${user.id}');
+    var event = await http
+        .patch(url, headers: defaultHeaders, body: request)
+        .timeout(Duration(seconds: TIMEOUT_SEC));
+    if (event.statusCode != 200)
+      throw (ApiErrorResponse.fromJson(json.decode(event.body)).message);
+    return event.body;
+  }
+
   Future<String> addStockItem(String? id, Stock stock) async {
     logger.log("adding stock..");
 

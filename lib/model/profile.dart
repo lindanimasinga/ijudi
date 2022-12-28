@@ -19,6 +19,7 @@ abstract class Profile {
   int? responseTimeMinutes;
   String? verificationCode;
   Bank? bank = Bank();
+  ProfileAvailabilityStatus? availabilityStatus;
 
   Profile(
       {required this.name,
@@ -33,7 +34,8 @@ abstract class Profile {
       required this.mobileNumber,
       required this.role,
       required this.id,
-      required this.bank});
+      required this.bank, 
+      this.availabilityStatus});
 }
 
 @JsonSerializable(includeIfNull: false)
@@ -41,8 +43,9 @@ class Bank {
   String? name;
   String? phone;
   String? accountId;
+  BankAccType? type;
+  String? branchCode;
   int? customerId;
-  String? type;
   double? currentBalance = 0;
   double? availableBalance = 0;
   String? idNumber;
@@ -63,3 +66,7 @@ class Bank {
 }
 
 enum ProfileRoles { CUSTOMER, STORE_ADMIN, STORE, MESSENGER, ADMIN }
+
+enum BankAccType { CHEQUE, EWALLET, SAVINGS, TRANSMISSION }
+
+enum ProfileAvailabilityStatus { ONLINE, OFFLINE, AWAY }

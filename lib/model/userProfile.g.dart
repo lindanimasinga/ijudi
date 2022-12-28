@@ -25,7 +25,11 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
       bank: json['bank'] == null
           ? null
           : Bank.fromJson(json['bank'] as Map<String, dynamic>),
-    )..responseTimeMinutes = json['responseTimeMinutes'] as int?;
+      availabilityStatus: $enumDecodeNullable(
+          _$ProfileAvailabilityStatusEnumMap, json['availabilityStatus']),
+    )
+      ..emailAddress = json['emailAddress'] as String?
+      ..responseTimeMinutes = json['responseTimeMinutes'] as int?;
 
 Map<String, dynamic> _$UserProfileToJson(UserProfile instance) {
   final val = <String, dynamic>{};
@@ -46,10 +50,13 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) {
   writeNotNull('servicesCompleted', instance.servicesCompleted);
   writeNotNull('badges', instance.badges);
   writeNotNull('mobileNumber', instance.mobileNumber);
+  writeNotNull('emailAddress', instance.emailAddress);
   writeNotNull('role', _$ProfileRolesEnumMap[instance.role]);
   writeNotNull('responseTimeMinutes', instance.responseTimeMinutes);
   writeNotNull('verificationCode', instance.verificationCode);
   writeNotNull('bank', instance.bank);
+  writeNotNull('availabilityStatus',
+      _$ProfileAvailabilityStatusEnumMap[instance.availabilityStatus]);
   writeNotNull('idNumber', instance.idNumber);
   writeNotNull('signUpReason', _$SignUpReasonEnumMap[instance.signUpReason]);
   return val;
@@ -67,4 +74,10 @@ const _$ProfileRolesEnumMap = {
   ProfileRoles.STORE: 'STORE',
   ProfileRoles.MESSENGER: 'MESSENGER',
   ProfileRoles.ADMIN: 'ADMIN',
+};
+
+const _$ProfileAvailabilityStatusEnumMap = {
+  ProfileAvailabilityStatus.ONLINE: 'ONLINE',
+  ProfileAvailabilityStatus.OFFLINE: 'OFFLINE',
+  ProfileAvailabilityStatus.AWAY: 'AWAY',
 };

@@ -41,6 +41,7 @@ class UserProfile extends Profile {
       required String? mobileNumber,
       required ProfileRoles? role,
       Bank? bank,
+      ProfileAvailabilityStatus? availabilityStatus,
       String? surname})
       : super(
             id: id,
@@ -54,6 +55,7 @@ class UserProfile extends Profile {
             badges: badges,
             mobileNumber: mobileNumber,
             verificationCode: verificationCode,
+            availabilityStatus: availabilityStatus,
             role: role,
             bank: bank);
 

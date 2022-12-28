@@ -76,7 +76,7 @@ class DevConfig extends Config {
   final String depositingFnbBankAccountNumber = "62544036850";
   final String depositingNedBankAccountNumber = "1196782040";
   final String ukhesheBaseURL = "https://ukheshe-sandbox.jini.rocks";
-  final String iZingaApiUrl = "http://192.168.1.19/";
+  final String iZingaApiUrl = "http://192.168.0.109/";
   final rangeMap = {'15km': 0.066666, '16500km': 110.0};
   final double centreLatitude = -29.991591;
   final double centrelongitude = 30.885905;

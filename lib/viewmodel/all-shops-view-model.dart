@@ -5,8 +5,10 @@ import 'dart:developer';
 import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/config.dart';
 import 'package:ijudi/model/advert.dart';
+import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/supported-location.dart';
+import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/services/storage-manager.dart';
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:rxdart/rxdart.dart';
@@ -19,6 +21,7 @@ class AllShopsViewModel extends BaseViewModel {
   bool notAvailMessageShown = false;
   bool _loadingFailed = false;
   List<Shop>? _shops = null;
+  UserProfile? currentUser;
 
   var _radiusText;
   String locationDenied =
@@ -27,6 +30,9 @@ class AllShopsViewModel extends BaseViewModel {
   final ApiService apiService;
   final StorageManager? storageManager;
   final SupportedLocation? supportedLocation;
+  final String offlineMessage =
+      "You are currently offline. Please turn your profile online to receive notifications.";
+  bool offlineMessageShown = false;
 
   AllShopsViewModel(
       {required this.supportedLocation,
@@ -35,11 +41,17 @@ class AllShopsViewModel extends BaseViewModel {
 
   get isLoggedIn => storageManager!.isLoggedIn;
 
+  bool get isUserOffline =>
+      currentUser?.availabilityStatus == ProfileAvailabilityStatus.OFFLINE;
+
   @override
   void initialize() {
     radiusText = Config.currentConfig!.rangeMap.keys.first;
     log("showing all shops");
     loadDataFromLastPosition(radiusText);
+    apiService
+        .findUserById(storageManager?.mobileNumber)
+        .then((value) => currentUser = value);
   }
 
   bool get loadingFailed => _loadingFailed;

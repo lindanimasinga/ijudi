@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/model/userProfile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 
@@ -25,40 +27,43 @@ class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Padding(
-            padding: EdgeInsets.only(left: 4, right: 4),
-            child: Column(
-              children: <Widget>[
-                Text("10", style: IjudiStyles.RATING_DARK),
-                Text("Likes", style: IjudiStyles.RATING_LABEL_DARK)
-              ],
-            )),
-        Padding(
-            padding: EdgeInsets.only(left: 4, right: 4),
-            child: Column(
-              children: <Widget>[
-                Text("50", style: IjudiStyles.RATING_DARK),
-                Text("Served", style: IjudiStyles.RATING_LABEL_DARK)
-              ],
-            )),
-        Padding(
-            padding: EdgeInsets.only(left: 4),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("3", style: IjudiStyles.RATING_DARK),
-                Image.asset(
-                  "assets/images/badge.png",
-                  width: 40,
-                )
-              ],
-            )),
+        Column(
+          children: <Widget>[
+            Text("10", style: IjudiStyles.RATING_DARK),
+            Text("Likes", style: IjudiStyles.RATING_LABEL_DARK)
+          ],
+        ),
+        Padding(padding: EdgeInsets.only(right: 8)),
+        Column(
+          children: <Widget>[
+            Text("50", style: IjudiStyles.RATING_DARK),
+            Text("Served", style: IjudiStyles.RATING_LABEL_DARK)
+          ],
+        ),
+        Padding(padding: EdgeInsets.only(right: 8)),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("3", style: IjudiStyles.RATING_DARK),
+            Image.asset(
+              "assets/images/badge.png",
+            )
+          ],
+        ),
+        Padding(padding: EdgeInsets.only(right: 8)),
+        Text(
+          describeEnum(messanger!.availabilityStatus!),
+          style: messanger!.availabilityStatus! ==
+                  ProfileAvailabilityStatus.OFFLINE
+              ? IjudiStyles.DIALOG_IMPORTANT_TEXT
+              : IjudiStyles.CARD_DISCR_ITAL,
+        )
       ],
     );
 
     return Container(
-      height: 86,
-      padding: EdgeInsets.only(left: 16),
+      height: 90,
+      padding: EdgeInsets.only(left: 0),
       decoration: BoxDecoration(
         color: selected != null && selected!()
             ? IjudiColors.color5
@@ -66,7 +71,7 @@ class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
         border: Border.all(color: IjudiColors.color5, width: 0.05),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
@@ -84,16 +89,11 @@ class _MessagerPreviewComponentState extends State<MessagerPreviewComponent> {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
+              Padding(padding: EdgeInsets.only(top: 8)),
               Text(messanger!.name!, style: Forms.INPUT_TEXT_STYLE),
               ratings,
             ],
-          ),
-          selected != null && selected!()
-              ? Center(
-                  child:
-                      Icon(Icons.check_circle, size: 26, color: Colors.white),
-                )
-              : Container()
+          )
         ],
       ),
     );

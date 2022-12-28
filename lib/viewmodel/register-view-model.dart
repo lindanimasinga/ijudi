@@ -84,9 +84,9 @@ class RegisterViewModel extends BaseViewModel {
   signupUser() {
     if (!allFieldsValid) return;
 
-    _bank.name = "Ukheshe";
+    _bank.name = "FNB";
     _bank.phone = mobileNumber;
-    _bank.type = "wallet";
+    _bank.type = BankAccType.EWALLET;
 
     var user = UserProfile(
         name: name,

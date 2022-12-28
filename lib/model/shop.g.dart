@@ -19,7 +19,7 @@ Shop _$ShopFromJson(Map<String, dynamic> json) => Shop(
       deliverNowAllowed: json['deliverNowAllowed'] as bool? ?? true,
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toSet(),
       featured: json['featured'] as bool,
-      ownerId: json['ownerId'] as String,
+      ownerId: json['ownerId'] as String?,
       businessHours: (json['businessHours'] as List<dynamic>)
           .map((e) => BusinessHours.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -46,7 +46,10 @@ Shop _$ShopFromJson(Map<String, dynamic> json) => Shop(
     )
       ..latitude = (json['latitude'] as num?)?.toDouble()
       ..longitude = (json['longitude'] as num?)?.toDouble()
+      ..emailAddress = json['emailAddress'] as String?
       ..responseTimeMinutes = json['responseTimeMinutes'] as int?
+      ..availabilityStatus = $enumDecodeNullable(
+          _$ProfileAvailabilityStatusEnumMap, json['availabilityStatus'])
       ..storeMessenger = (json['storeMessenger'] as List<dynamic>?)
           ?.map((e) => StoreMessenger.fromJson(e as Map<String, dynamic>))
           .toList()
@@ -75,10 +78,13 @@ Map<String, dynamic> _$ShopToJson(Shop instance) {
   writeNotNull('servicesCompleted', instance.servicesCompleted);
   writeNotNull('badges', instance.badges);
   writeNotNull('mobileNumber', instance.mobileNumber);
+  writeNotNull('emailAddress', instance.emailAddress);
   writeNotNull('role', _$ProfileRolesEnumMap[instance.role]);
   writeNotNull('responseTimeMinutes', instance.responseTimeMinutes);
   writeNotNull('verificationCode', instance.verificationCode);
   writeNotNull('bank', instance.bank);
+  writeNotNull('availabilityStatus',
+      _$ProfileAvailabilityStatusEnumMap[instance.availabilityStatus]);
   val['storeType'] = instance.storeType;
   writeNotNull('registrationNumber', instance.registrationNumber);
   writeNotNull(
@@ -88,7 +94,7 @@ Map<String, dynamic> _$ShopToJson(Shop instance) {
   writeNotNull('hasVat', instance.hasVat);
   val['scheduledDeliveryAllowed'] = instance.scheduledDeliveryAllowed;
   val['deliverNowAllowed'] = instance.deliverNowAllowed;
-  val['ownerId'] = instance.ownerId;
+  writeNotNull('ownerId', instance.ownerId);
   val['featured'] = instance.featured;
   val['markUpPrice'] = instance.markUpPrice;
   writeNotNull('featuredExpiry', Utils.dateToJson(instance.featuredExpiry));
@@ -107,4 +113,10 @@ const _$ProfileRolesEnumMap = {
   ProfileRoles.STORE: 'STORE',
   ProfileRoles.MESSENGER: 'MESSENGER',
   ProfileRoles.ADMIN: 'ADMIN',
+};
+
+const _$ProfileAvailabilityStatusEnumMap = {
+  ProfileAvailabilityStatus.ONLINE: 'ONLINE',
+  ProfileAvailabilityStatus.OFFLINE: 'OFFLINE',
+  ProfileAvailabilityStatus.AWAY: 'AWAY',
 };

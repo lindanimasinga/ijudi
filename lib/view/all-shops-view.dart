@@ -29,6 +29,12 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
 
     if (viewModel.loadingFailed) return showLoadingFailedRetry(context);
 
+    if (viewModel.isUserOffline && !viewModel.offlineMessageShown) {
+      Future.delayed(Duration(seconds: 2),
+          () => showError(context, viewModel.offlineMessage));
+      viewModel.offlineMessageShown = true;
+    }
+
     double deviceWidth = MediaQuery.of(context).size.width;
     var colorPickCount = 3;
     List<FeaturedShop> featuredShopComponents = [];
@@ -90,8 +96,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
                 shop.name!.toLowerCase().contains(viewModel.search)) &&
             (viewModel.filters.isEmpty ||
                 viewModel.filters.intersection(shop.tags!).length > 0) &&
-            shop.tags!.map((item) => item.toLowerCase()).contains("restaurant")
-            )
+            shop.tags!.map((item) => item.toLowerCase()).contains("restaurant"))
         .forEach((shop) {
       shopComponets.add(ShopComponent(
           shop: shop,
