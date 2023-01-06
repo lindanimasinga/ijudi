@@ -37,6 +37,8 @@ class UserProfile extends Profile {
       int? likes,
       int? servicesCompleted,
       int? badges,
+      double? latitude,
+      double? longitude,
       String? verificationCode,
       required String? mobileNumber,
       required ProfileRoles? role,
@@ -56,6 +58,8 @@ class UserProfile extends Profile {
             mobileNumber: mobileNumber,
             verificationCode: verificationCode,
             availabilityStatus: availabilityStatus,
+            latitude: latitude,
+            longitude: longitude,
             role: role,
             bank: bank);
 

@@ -19,6 +19,8 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
       likes: json['likes'] as int?,
       servicesCompleted: json['servicesCompleted'] as int?,
       badges: json['badges'] as int?,
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
       verificationCode: json['verificationCode'] as String?,
       mobileNumber: json['mobileNumber'] as String?,
       role: $enumDecodeNullable(_$ProfileRolesEnumMap, json['role']),
@@ -54,6 +56,8 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) {
   writeNotNull('role', _$ProfileRolesEnumMap[instance.role]);
   writeNotNull('responseTimeMinutes', instance.responseTimeMinutes);
   writeNotNull('verificationCode', instance.verificationCode);
+  writeNotNull('latitude', instance.latitude);
+  writeNotNull('longitude', instance.longitude);
   writeNotNull('bank', instance.bank);
   writeNotNull('availabilityStatus',
       _$ProfileAvailabilityStatusEnumMap[instance.availabilityStatus]);

@@ -58,6 +58,8 @@ class Shop extends Profile with GeoLocation {
       required int? yearsInService,
       required String? address,
       required String? imageUrl,
+      double? latitude,
+      double? longitude,
       int? likes,
       required int? servicesCompleted,
       int? badges,
@@ -78,6 +80,8 @@ class Shop extends Profile with GeoLocation {
             badges: badges,
             mobileNumber: mobileNumber,
             verificationCode: verificationCode,
+            latitude: latitude,
+            longitude: longitude,
             role: role,
             bank: bank);
 

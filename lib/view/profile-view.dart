@@ -87,9 +87,14 @@ class ProfileView extends MvStatefulWidget<ProfileViewModel> {
                                   type: TextInputType.text),
                               IjudiAddressInputField(
                                   text: viewModel.userProfile!.address,
-                                  onTap: (SupportedLocation address) =>
-                                      viewModel.userProfile!.address =
-                                          address.name,
+                                  onTap: (SupportedLocation address) {
+                                    viewModel.userProfile?.address =
+                                        address.name;
+                                    viewModel.userProfile?.latitude =
+                                        address.latitude;
+                                    viewModel.userProfile?.longitude =
+                                        address.longitude;
+                                  },
                                   hint: 'Physical Address',
                                   type: TextInputType.number),
                               IjudiForm(

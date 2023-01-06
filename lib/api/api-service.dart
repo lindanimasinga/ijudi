@@ -134,12 +134,14 @@ class ApiService {
       double latitude, double longitude, double? range) async {
     var url = Uri.parse(
         '$apiUrl/user?latitude=$latitude&longitude=$longitude&range=$range&role=${describeEnum(ProfileRoles.MESSENGER)}');
+    logger.log(url.toString());
     var event = await http
         .get(url, headers: defaultHeaders)
         .timeout(Duration(seconds: TIMEOUT_SEC));
     if (event.statusCode != 200)
       throw (ApiErrorResponse.fromJson(json.decode(event.body)).message);
     Iterable list = json.decode(event.body);
+    logger.log(event.body);
     return list.map((f) => UserProfile.fromJson(f)).toList();
   }
 
