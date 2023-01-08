@@ -193,10 +193,11 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
     if (order!.shippingData!.type == ShippingType.DELIVERY) {
       var storeMessengeId = order?.shop?.storeMessenger?.isNotEmpty == true
           ? order?.shop?.storeMessenger?.first.id
-          : "";
+          : messangers[0].id;
       var messenger = messangers.firstWhere(
           (item) => item.id == storeMessengeId,
           orElse: () => messangers[0]);
+      log("messanger is ${messenger.id}");
       order?.shippingData?.messenger = messenger;
       order?.shippingData?.messengerId = messenger.id;
     }

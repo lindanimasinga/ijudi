@@ -42,6 +42,8 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) {
     }
   }
 
+  writeNotNull('latitude', instance.latitude);
+  writeNotNull('longitude', instance.longitude);
   writeNotNull('id', instance.id);
   writeNotNull('name', instance.name);
   writeNotNull('description', instance.description);
@@ -56,8 +58,6 @@ Map<String, dynamic> _$UserProfileToJson(UserProfile instance) {
   writeNotNull('role', _$ProfileRolesEnumMap[instance.role]);
   writeNotNull('responseTimeMinutes', instance.responseTimeMinutes);
   writeNotNull('verificationCode', instance.verificationCode);
-  writeNotNull('latitude', instance.latitude);
-  writeNotNull('longitude', instance.longitude);
   writeNotNull('bank', instance.bank);
   writeNotNull('availabilityStatus',
       _$ProfileAvailabilityStatusEnumMap[instance.availabilityStatus]);

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import 'geo-location.dart';
+
 part 'userProfile.g.dart';
 
 @JsonSerializable(includeIfNull: false)
-class UserProfile extends Profile {
+class UserProfile extends Profile with GeoLocation {
   String? idNumber;
   SignUpReason? signUpReason;
 
@@ -58,8 +60,6 @@ class UserProfile extends Profile {
             mobileNumber: mobileNumber,
             verificationCode: verificationCode,
             availabilityStatus: availabilityStatus,
-            latitude: latitude,
-            longitude: longitude,
             role: role,
             bank: bank);
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
 import 'package:ijudi/components/ijudi-address-input-field.dart';
+import 'package:ijudi/components/ijudi-dropdown-field.dart';
 import 'package:ijudi/components/ijudi-form.dart';
 import 'package:ijudi/components/ijudi-input-field.dart';
 import 'package:ijudi/components/ijudi-switch-input-field.dart';
@@ -97,21 +98,60 @@ class ProfileView extends MvStatefulWidget<ProfileViewModel> {
                                   },
                                   hint: 'Physical Address',
                                   type: TextInputType.number),
-                              IjudiForm(
-                                  child: IjudiSwitchInputField(
-                                      active: viewModel.userProfile!
-                                              .availabilityStatus ==
-                                          ProfileAvailabilityStatus.ONLINE,
-                                      label: "Active",
-                                      onChanged: (bool online) {
-                                        viewModel.userProfile!
-                                                .availabilityStatus =
-                                            online
-                                                ? ProfileAvailabilityStatus
-                                                    .ONLINE
-                                                : ProfileAvailabilityStatus
-                                                    .OFFLINE;
-                                      }))
+                              IjudiSwitchInputField(
+                                  active: viewModel
+                                          .userProfile!.availabilityStatus ==
+                                      ProfileAvailabilityStatus.ONLINE,
+                                  label: "Active",
+                                  onChanged: (bool online) {
+                                    viewModel.userProfile!.availabilityStatus =
+                                        online
+                                            ? ProfileAvailabilityStatus.ONLINE
+                                            : ProfileAvailabilityStatus.OFFLINE;
+                                  })
+                            ],
+                          )),
+                        ),
+                        Padding(
+                          padding:
+                              EdgeInsets.only(left: 16, top: 16, bottom: 16),
+                          child: Text("Bank Information",
+                              style: IjudiStyles.HEADER_TEXT),
+                        ),
+                        IjudiForm(
+                          child: AutofillGroup(
+                              child: Column(
+                            children: <Widget>[
+                              IjudiInputField(
+                                hint: 'Bank Name',
+                                autofillHints: [AutofillHints.name],
+                                text: viewModel.userProfile?.bank?.name,
+                                onChanged: (number) =>
+                                    viewModel.userProfile?.bank?.name = number,
+                                type: TextInputType.phone,
+                              ),
+                              IjudiInputField(
+                                  text: viewModel.userProfile?.bank?.accountId,
+                                  onChanged: (name) => viewModel
+                                      .userProfile?.bank?.accountId = name,
+                                  autofillHints: [AutofillHints.name],
+                                  hint: 'Account No.',
+                                  type: TextInputType.text),
+                              IjudiInputField(
+                                  text: viewModel.userProfile!.bank?.branchCode,
+                                  onChanged: (name) => viewModel
+                                      .userProfile!.bank?.branchCode = name,
+                                  autofillHints: [AutofillHints.name],
+                                  hint: 'Branch Code',
+                                  type: TextInputType.text),
+                              IjudiDropDownField(
+                                  hint: "Account Type",
+                                  enabled: true,
+                                  options: BankAccType.values,
+                                  color: IjudiColors.color5,
+                                  initial: viewModel.userProfile?.bank?.type,
+                                  onSelected: (value) => viewModel
+                                      .userProfile?.bank?.type = value),
                             ],
                           )),
                         ),

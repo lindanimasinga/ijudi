@@ -33,8 +33,6 @@ Shop _$ShopFromJson(Map<String, dynamic> json) => Shop(
       yearsInService: json['yearsInService'] as int?,
       address: json['address'] as String?,
       imageUrl: json['imageUrl'] as String?,
-      latitude: (json['latitude'] as num?)?.toDouble(),
-      longitude: (json['longitude'] as num?)?.toDouble(),
       likes: json['likes'] as int?,
       servicesCompleted: json['servicesCompleted'] as int?,
       badges: json['badges'] as int?,
@@ -46,6 +44,8 @@ Shop _$ShopFromJson(Map<String, dynamic> json) => Shop(
           ? null
           : Bank.fromJson(json['bank'] as Map<String, dynamic>),
     )
+      ..latitude = (json['latitude'] as num?)?.toDouble()
+      ..longitude = (json['longitude'] as num?)?.toDouble()
       ..emailAddress = json['emailAddress'] as String?
       ..responseTimeMinutes = json['responseTimeMinutes'] as int?
       ..availabilityStatus = $enumDecodeNullable(

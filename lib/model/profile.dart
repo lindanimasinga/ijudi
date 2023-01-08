@@ -18,8 +18,6 @@ abstract class Profile {
   ProfileRoles? role;
   int? responseTimeMinutes;
   String? verificationCode;
-  double? latitude;
-  double? longitude;
   Bank? bank = Bank();
   ProfileAvailabilityStatus? availabilityStatus;
 
@@ -37,8 +35,6 @@ abstract class Profile {
       required this.role,
       required this.id,
       required this.bank,
-      this.latitude,
-      this.longitude,
       this.availabilityStatus});
 }
 

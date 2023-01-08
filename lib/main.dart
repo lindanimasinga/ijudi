@@ -15,7 +15,7 @@ main() {
   WidgetsFlutterBinding.ensureInitialized();
   var localNotifications;
   SharedPrefStorageManager? sharedPref;
-  Config? config = Config.getProConfig();
+  Config? config = Config.getDEVConfig();
   Config.currentConfig = config;
   Firebase.initializeApp()
       .asStream()
