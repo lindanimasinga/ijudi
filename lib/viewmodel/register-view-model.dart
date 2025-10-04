@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -100,11 +101,10 @@ class RegisterViewModel extends BaseViewModel {
         bank: _bank);
 
     progressMv!.isBusy = true;
-    apiService
-        .findUserByPhone(mobileNumber)
-        .catchError((error) => log("user does not exist."))
-        .asStream()
-        .asyncExpand((existingUser) => existingUser != null
+    apiService.findUserByPhone(mobileNumber).catchError((error) {
+      log("user does not exist.");
+      return null;
+    }).asStream().asyncExpand((existingUser) => existingUser != null
             ? Stream.value(existingUser)
             : apiService.registerUser(user).asStream())
         .listen((data) {

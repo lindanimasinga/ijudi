@@ -8,15 +8,15 @@ import 'package:ijudi/services/storage-manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefStorageManager extends StorageManager {
-  SharedPreferences _prefs;
-  static StorageManager? _storageManager;
+  late SharedPreferences _prefs;
+  static SharedPrefStorageManager? _storageManager;
 
-  static Future<StorageManager?> singleton() async {
+  static Future<SharedPrefStorageManager> singleton() async {
     if (_storageManager == null) {
       var prefs = await SharedPreferences.getInstance();
       _storageManager = SharedPrefStorageManager._(prefs);
     }
-    return _storageManager;
+    return _storageManager!;
   }
 
   SharedPrefStorageManager._(this._prefs);
@@ -33,13 +33,13 @@ class SharedPrefStorageManager extends StorageManager {
 
   @override
   void saveIjudiAccessToken(String token) {
-    if (token == null || token.isEmpty) return null;
+    if (token.isEmpty) return;
     _prefs.setString(StorageManager.ACCESS_TOKEN_IJUDI, token);
   }
 
   @override
   void saveUkhesheAccessToken(String token) {
-    if (token == null || token.isEmpty) return null;
+    if (token.isEmpty) return;
     _prefs.setString(StorageManager.ACCESS_TOKEN_UKHESHE, token);
   }
 
@@ -58,7 +58,7 @@ class SharedPrefStorageManager extends StorageManager {
 
   @override
   set mobileNumber(String? value) {
-    if (value == null || value.isEmpty) return null;
+    if (value == null || value.isEmpty) return;
     _prefs.setString(StorageManager.MOBILE, value);
   }
 
@@ -70,7 +70,7 @@ class SharedPrefStorageManager extends StorageManager {
 
   @override
   set viewedIntro(bool? value) {
-    if (value == null) return null;
+    if (value == null) return;
     _prefs.setBool(StorageManager.FIRST_TIME, value);
   }
 
@@ -81,7 +81,7 @@ class SharedPrefStorageManager extends StorageManager {
 
   @override
   void saveUkhesheTokenExpiryDate(String value) {
-    if (value == null || value.isEmpty) return null;
+    if (value.isEmpty) return;
     _prefs.setString(StorageManager.UKHESHE_EXPIRY, value);
   }
 
@@ -96,7 +96,7 @@ class SharedPrefStorageManager extends StorageManager {
 
   @override
   void saveIjudiUserId(String? id) {
-    if (id == null || id.isEmpty) return null;
+    if (id == null || id.isEmpty) return;
     _prefs.setString(StorageManager.IJUDI_USER_ID, id);
   }
 
@@ -110,7 +110,7 @@ class SharedPrefStorageManager extends StorageManager {
 
   @override
   set deviceId(String? id) {
-    if (id == null || id.isEmpty) return null;
+    if (id == null || id.isEmpty) return;
     _prefs.setString(StorageManager.IJUDI_DEVICE_ID, id);
   }
 
@@ -120,7 +120,7 @@ class SharedPrefStorageManager extends StorageManager {
 
   @override
   set selectedLocation(String? name) {
-    if (name == null || name.isEmpty) return null;
+    if (name == null || name.isEmpty) return;
     _prefs.setString(StorageManager.SELECTED_LOCATION, name);
   }
 
@@ -141,19 +141,19 @@ class SharedPrefStorageManager extends StorageManager {
   @override
   ProfileRoles? profileRole;
 
-    @override
+  @override
   List<Shop>? get shops {
     String? shopsJson = _prefs.getString(StorageManager.SHOPS);
-    if (shopsJson != null) {
+    if (shopsJson == null) {
       return null;
     }
-    Iterable list = json.decode(shopsJson!);
+    Iterable list = json.decode(shopsJson);
     return list.map((f) => Shop.fromJson(f)).toList();
   }
 
   @override
   set shops(List<Shop>? shops) {
-    if (shops == null || shops.isEmpty) return null;
+    if (shops == null || shops.isEmpty) return;
     _prefs.setString(StorageManager.SELECTED_LOCATION, json.encode(shops));
   }
 }

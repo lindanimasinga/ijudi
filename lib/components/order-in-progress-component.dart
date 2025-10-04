@@ -67,9 +67,9 @@ class OrderProgressStageComponent
                             width: 50,
                           )
                         : viewModel.stage == viewModel.currentStage
-                            ? FlatButton(
+                            ? TextButton(
                                 child: Text("Invoice"),
-                                textColor: IjudiColors.color2,
+                                style: TextButton.styleFrom(foregroundColor: IjudiColors.color2),
                                 onPressed: () => Navigator.pushNamed(
                                     context, ReceiptView.ROUTE_NAME,
                                     arguments: viewModel.order))

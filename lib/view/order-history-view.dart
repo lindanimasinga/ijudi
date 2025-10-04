@@ -5,9 +5,8 @@ import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/final-order-view.dart';
+import 'package:ijudi/view/quick-payment-success.dart';
 import 'package:ijudi/viewmodel/order-history-view-model.dart';
-
-import 'quick-payment-success.dart';
 
 class OrderHistoryView extends MvStatefulWidget<OrderHistoryViewModel> {
   static const ROUTE_NAME = "order-history";
@@ -29,7 +28,9 @@ class OrderHistoryView extends MvStatefulWidget<OrderHistoryViewModel> {
     ];
 
     viewModel.orders
-        .where((order) => order.stage != OrderStage.STAGE_7_ALL_PAID && order.stage != OrderStage.CANCELLED)
+        .where((order) =>
+            order.stage != OrderStage.STAGE_7_ALL_PAID &&
+            order.stage != OrderStage.CANCELLED)
         .where((order) => order.orderType != OrderType.INSTORE)
         .forEach((order) =>
             pendingOrderItemsComponents.add(OrderHistoryItemComponent(
@@ -47,10 +48,12 @@ class OrderHistoryView extends MvStatefulWidget<OrderHistoryViewModel> {
                   }
                 })));
 
+    viewModel.orders.sort((first, second) => (second.date ?? DateTime(0))
+        .compareTo(first.date ?? DateTime(0)));
     viewModel.orders
-        .sort((first, second) => first.date!.isBefore(second.date!) ? 1 : -1);
-    viewModel.orders
-        .where((order) => order.stage == OrderStage.STAGE_7_ALL_PAID || order.stage == OrderStage.CANCELLED)
+        .where((order) =>
+            order.stage == OrderStage.STAGE_7_ALL_PAID ||
+            order.stage == OrderStage.CANCELLED)
         .forEach((order) =>
             finishedOrderItemsComponents.add(OrderHistoryItemComponent(
               order: order,

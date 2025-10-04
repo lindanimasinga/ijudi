@@ -35,10 +35,8 @@ class ProfileView extends MvStatefulWidget<ProfileViewModel> {
                       mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
                         Padding(
-                          padding:
-                              EdgeInsets.only(left: 16, top: 24, bottom: 16),
-                          child: Text("Profile Picture",
-                              style: IjudiStyles.SUBTITLE_1),
+                          padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
+                          child: Text("Profile Picture", style: IjudiStyles.SUBTITLE_1),
                         ),
                         FittedBox(
                             fit: BoxFit.contain,
@@ -56,16 +54,13 @@ class ProfileView extends MvStatefulWidget<ProfileViewModel> {
                                     width: 4,
                                   ),
                                   image: DecorationImage(
-                                    image: NetworkImage(
-                                        viewModel.userProfile!.imageUrl!),
+                                    image: NetworkImage(viewModel.userProfile!.imageUrl!),
                                     fit: BoxFit.contain,
                                   ),
                                 ))),
                         Padding(
-                          padding:
-                              EdgeInsets.only(left: 16, top: 24, bottom: 16),
-                          child:
-                              Text("Personal", style: IjudiStyles.HEADER_TEXT),
+                          padding: EdgeInsets.only(left: 16, top: 24, bottom: 16),
+                          child: Text("Personal", style: IjudiStyles.HEADER_TEXT),
                         ),
                         IjudiForm(
                           child: AutofillGroup(
@@ -75,48 +70,39 @@ class ProfileView extends MvStatefulWidget<ProfileViewModel> {
                                 hint: 'Cell Number',
                                 autofillHints: [AutofillHints.telephoneNumber],
                                 text: viewModel.userProfile!.mobileNumber,
-                                onChanged: (number) => viewModel
-                                    .userProfile!.mobileNumber = number,
+                                onChanged: (number) => viewModel.userProfile!.mobileNumber = number,
                                 type: TextInputType.phone,
                               ),
                               IjudiInputField(
                                   text: viewModel.userProfile!.name,
-                                  onChanged: (name) =>
-                                      viewModel.userProfile!.name = name,
+                                  onChanged: (name) => viewModel.userProfile!.name = name,
                                   autofillHints: [AutofillHints.name],
                                   hint: 'Name',
                                   type: TextInputType.text),
                               IjudiAddressInputField(
                                   text: viewModel.userProfile!.address,
                                   onTap: (SupportedLocation address) {
-                                    viewModel.userProfile?.address =
-                                        address.name;
-                                    viewModel.userProfile?.latitude =
-                                        address.latitude;
-                                    viewModel.userProfile?.longitude =
-                                        address.longitude;
+                                    viewModel.userProfile?.address = address.name;
+                                    viewModel.userProfile?.latitude = address.latitude;
+                                    viewModel.userProfile?.longitude = address.longitude;
                                   },
                                   hint: 'Physical Address',
                                   type: TextInputType.number),
                               IjudiSwitchInputField(
-                                  active: viewModel
-                                          .userProfile!.availabilityStatus ==
+                                  active: viewModel.userProfile!.availabilityStatus ==
                                       ProfileAvailabilityStatus.ONLINE,
                                   label: "Active",
                                   onChanged: (bool online) {
-                                    viewModel.userProfile!.availabilityStatus =
-                                        online
-                                            ? ProfileAvailabilityStatus.ONLINE
-                                            : ProfileAvailabilityStatus.OFFLINE;
+                                    viewModel.userProfile!.availabilityStatus = online
+                                        ? ProfileAvailabilityStatus.ONLINE
+                                        : ProfileAvailabilityStatus.OFFLINE;
                                   })
                             ],
                           )),
                         ),
                         Padding(
-                          padding:
-                              EdgeInsets.only(left: 16, top: 16, bottom: 16),
-                          child: Text("Bank Information",
-                              style: IjudiStyles.HEADER_TEXT),
+                          padding: EdgeInsets.only(left: 16, top: 16, bottom: 16),
+                          child: Text("Bank Information", style: IjudiStyles.HEADER_TEXT),
                         ),
                         IjudiForm(
                           child: AutofillGroup(
@@ -126,21 +112,18 @@ class ProfileView extends MvStatefulWidget<ProfileViewModel> {
                                 hint: 'Bank Name',
                                 autofillHints: [AutofillHints.name],
                                 text: viewModel.userProfile?.bank?.name,
-                                onChanged: (number) =>
-                                    viewModel.userProfile?.bank?.name = number,
+                                onChanged: (number) => viewModel.userProfile?.bank?.name = number,
                                 type: TextInputType.phone,
                               ),
                               IjudiInputField(
                                   text: viewModel.userProfile?.bank?.accountId,
-                                  onChanged: (name) => viewModel
-                                      .userProfile?.bank?.accountId = name,
+                                  onChanged: (name) => viewModel.userProfile?.bank?.accountId = name,
                                   autofillHints: [AutofillHints.name],
                                   hint: 'Account No.',
                                   type: TextInputType.text),
                               IjudiInputField(
-                                  text: viewModel.userProfile!.bank?.branchCode,
-                                  onChanged: (name) => viewModel
-                                      .userProfile!.bank?.branchCode = name,
+                                  text: viewModel.userProfile!.bank!.branchCode,
+                                  onChanged: (name) => viewModel.userProfile!.bank!.branchCode = name,
                                   autofillHints: [AutofillHints.name],
                                   hint: 'Branch Code',
                                   type: TextInputType.text),
@@ -150,8 +133,7 @@ class ProfileView extends MvStatefulWidget<ProfileViewModel> {
                                   options: BankAccType.values,
                                   color: IjudiColors.color5,
                                   initial: viewModel.userProfile?.bank?.type,
-                                  onSelected: (value) => viewModel
-                                      .userProfile?.bank?.type = value),
+                                  onSelected: (value) => viewModel.userProfile?.bank?.type = value as BankAccType?),
                             ],
                           )),
                         ),
@@ -159,7 +141,7 @@ class ProfileView extends MvStatefulWidget<ProfileViewModel> {
                           margin: EdgeInsets.only(top: 16),
                           alignment: Alignment.center,
                           child: FloatingActionButtonWithProgress(
-                            viewModel: viewModel.progressMv,
+                            viewModel: viewModel.progressMv!,
                             child: Icon(Icons.check),
                             onPressed: () => {viewModel.updareUser()},
                           ),

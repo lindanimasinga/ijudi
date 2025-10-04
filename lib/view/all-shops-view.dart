@@ -30,8 +30,7 @@ class AllShopsView extends MvStatefulWidget<AllShopsViewModel> {
     if (viewModel.loadingFailed) return showLoadingFailedRetry(context);
 
     if (viewModel.isUserOffline && !viewModel.offlineMessageShown) {
-      Future.delayed(Duration(seconds: 2),
-          () => showError(context, viewModel.offlineMessage));
+      Future.microtask(() => showError(context, viewModel.offlineMessage));
       viewModel.offlineMessageShown = true;
     }
 

@@ -57,7 +57,6 @@ class ChooseLocationView extends MvStatefulWidget<ChooseLocationViewModel> {
         backgroundBlendMode: BlendMode.srcOver,
       ),
       child: Stack(children: [
-        Buttons.buildParticles(context, 6),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,

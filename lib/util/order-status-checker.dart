@@ -11,12 +11,12 @@ mixin OrderStatusChecker {
 
   startOrderStatusCheck() {
     _timer = Timer.periodic(Duration(seconds: 10), (time) {
-      apiService.findOrderById(currentOrder.id).asStream().listen((respo) {
+      apiService.findOrderById(currentOrder.id!).asStream().listen((respo) {
         currentOrder.stage = respo.stage;
         notifyChanged();
       }, onError: (e) {
         showError(error: e);
-      }, onDone: () {});
+      });
     });
   }
 
@@ -30,11 +30,11 @@ mixin OrderStatusChecker {
                   ? apiService.findOrdersByShopId(storeId)
                   : Future.value([]);
 
-    orderStream.asStream().listen((respo) {
+      orderStream.asStream().listen((respo) {
         orders = respo;
       }, onError: (e) {
         showError(error: e);
-      }, onDone: () {});
+      });
     });
   }
 
@@ -45,5 +45,4 @@ mixin OrderStatusChecker {
   void destroy() {
     _timer.cancel();
   }
-
 }

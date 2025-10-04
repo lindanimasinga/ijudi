@@ -1,12 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:ijudi/services/impl/shared-pref-storage-manager.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/view/all-shops-view.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
-import 'package:simple_animations/simple_animations.dart';
 
 class IntroductionView extends StatefulWidget {
   static const ROUTE_NAME = "introduction";
@@ -21,14 +19,10 @@ class _IntroductionViewState extends State<IntroductionView> {
   );
   int _currentPage = 0;
   final Random random = Random();
- // final List<ParticleModel> particles = [];
   SharedPrefStorageManager? sharedPrefStorageManager;
 
   @override
   void initState() {
-    /*List.generate(30, (index) {
-      particles.add(ParticleModel(random));
-    }); */
     SharedPrefStorageManager.singleton()
         .then((value) => sharedPrefStorageManager = value as SharedPrefStorageManager?);
     super.initState();
@@ -94,136 +88,44 @@ class _IntroductionViewState extends State<IntroductionView> {
   }
 
   Container buildStep(
-      {required int index, required String img, required String title,
-       required String message, required Color color}) {
-    final Brightness brightnessValue =
-        MediaQuery.of(context).platformBrightness;
-    bool isLight = brightnessValue == Brightness.light;
-    var background = isLight
-        ? color
-        : index % 2 == 0
-            ? Theme.of(context).scaffoldBackgroundColor
-            : IjudiColors.color5;
+      {required int index, required String img, required String title, required String message, required Color color}) {
     return Container(
-  decoration: BoxDecoration(
-    gradient: LinearGradient(
-      tileMode: TileMode.mirror,
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        color,
-        color,
-      ],
-      stops: [
-        0,
-        1,
-      ],
-    ),
-    backgroundBlendMode: BlendMode.srcOver,
-  ),
-  child: PlasmaRenderer(
-    type: PlasmaType.bubbles,
-    particles: 21,
-    color: Color(0x6fffffff),
-    blur: 0.03,
-    size: 0.39,
-    speed: 1.35,
-    offset: 0,
-    blendMode: BlendMode.screen,
-    particleType: ParticleType.atlas,
-    variation1: 0.31,
-    variation2: 0.3,
-    variation3: 0.13,
-    rotation: -0.0,
-  ),
-);
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            tileMode: TileMode.mirror,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              color,
+              color,
+            ],
+            stops: [
+              0,
+              1,
+            ],
+          ),
+          backgroundBlendMode: BlendMode.srcOver,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Image.asset(img, width: 250),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(title, style: IjudiStyles.HEADER_2_WHITE),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(message, style: IjudiStyles.SUBTITLE_1),
+            ),
+          ],
+        ));
   }
-
-/*
-  Widget buildParticles(BuildContext context) {
-    return Rendering(
-      startTime: Duration(seconds: 30),
-      onTick: _simulateParticles,
-      builder: (context, time) {
-        _simulateParticles(time);
-        return CustomPaint(
-          painter: ParticlePainter(particles, time),
-        );
-      },
-    );
-  }
-
-  */
 
   int get currentPage => _currentPage;
   set currentPage(int currentPage) {
     _currentPage = currentPage;
     setState(() {});
   }
-
-/*
-  _simulateParticles(Duration time) {
-    particles.forEach((particle) => particle.maintainRestart(time));
-  } */
 }
-
-/*
-class ParticleModel {
-  Animatable tween;
-  double size;
-  AnimationProgress animationProgress;
-  Random random;
-
-  ParticleModel(this.random) {
-    restart();
-  }
-
-  restart({Duration time = Duration.zero}) {
-    final startPosition = Offset(-0.2 + 1.4 * random.nextDouble(), 1.2);
-    final endPosition = Offset(-0.2 + 1.4 * random.nextDouble(), -0.2);
-    final duration = Duration(milliseconds: 1000 + random.nextInt(20000));
-
-    tween = MultiTrackTween([
-      Track("x").add(
-          duration, Tween(begin: startPosition.dx, end: endPosition.dx),
-          curve: Curves.easeInOutSine),
-      Track("y").add(
-          duration, Tween(begin: startPosition.dy, end: endPosition.dy),
-          curve: Curves.easeIn),
-    ]);
-    animationProgress = AnimationProgress(duration: duration, startTime: time);
-    size = 0.05 + random.nextDouble() * 0.1;
-  }
-
-  maintainRestart(Duration time) {
-    if (animationProgress.progress(time) == 1.0) {
-      restart(time: time);
-    }
-  }
-}
-
-
-class ParticlePainter extends CustomPainter {
-  List<ParticleModel> particles;
-  Duration time;
-
-  ParticlePainter(this.particles, this.time);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = Colors.white.withAlpha(50);
-
-    particles.forEach((particle) {
-      var progress = particle.animationProgress.progress(time);
-      final animation = particle.tween.transform(progress);
-      final position =
-          Offset(animation["x"] * size.width, animation["y"] * size.height);
-      canvas.drawCircle(position, size.width * 0.2 * particle.size, paint);
-    });
-  }
-
-  */
-
- // @override
- // bool shouldRepaint(CustomPainter oldDelegate) => true;
-

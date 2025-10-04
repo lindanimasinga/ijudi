@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ijudi/api/api-service.dart';
-import 'package:ijudi/config.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/supported-location.dart';
@@ -71,13 +70,8 @@ class NavigatorService {
     var args = settings.arguments;
     var viewmodel;
     var routeName = settings.name;
-    /*if (settings.name == IntroductionView.ROUTE_NAME &&
-        sharedPrefStorageManager!.viewedIntro) {
-      routeName = AllShopsView.ROUTE_NAME;
-    }*/
 
     if (routeName == AllShopsView.ROUTE_NAME) {
-      print("args is $args");
       if (args == null) {
         var geocord = sharedPrefStorageManager!.selectedLocation?.split(":");
         if (geocord == null || geocord.length < 4) {
@@ -102,15 +96,6 @@ class NavigatorService {
             builder: (context) => ChooseLocationView(ChooseLocationViewModel()),
             fullscreenDialog: true);
       case LoginView.ROUTE_NAME:
-      /*viewmodel = LoginViewModel(
-            sharedPrefs: sharedPrefStorageManager,
-            storage: storageManager,
-            ukhesheService: ukhesheService,
-            apiService: apiService,
-            notificationService: localNotificationService);
-        return MaterialPageRoute(
-            builder: (context) => LoginView(viewModel: viewmodel),
-            fullscreenDialog: true);*/
       case RegisterView.ROUTE_NAME:
         viewmodel = RegisterViewModel(
             apiService: apiService,
@@ -166,8 +151,10 @@ class NavigatorService {
         return MaterialPageRoute(
             builder: (context) => DeliveryOptionsView(viewModel: viewmodel));
       case PaymentView.ROUTE_NAME:
-        viewmodel =
-            PaymentViewModel(currentOrder: args as Order, apiService: apiService);
+        viewmodel = PaymentViewModel(
+          order: args as Order,
+          apiService: apiService,
+        );
         return MaterialPageRoute(
             builder: (context) => PaymentView(viewModel: viewmodel));
       case PaymentWebView.ROUTE_NAME:

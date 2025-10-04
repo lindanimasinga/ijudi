@@ -1,6 +1,3 @@
-import 'dart:developer';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:ijudi/components/bread-crumb.dart';
 import 'package:ijudi/components/floating-action-button-with-progress.dart';
@@ -13,14 +10,13 @@ import 'package:ijudi/components/scrollable-parent-container.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:ijudi/util/util.dart';
-import 'package:ijudi/view/payment-webview.dart';
 import 'package:ijudi/viewmodel/payment-view-model.dart';
 import 'package:lottie/lottie.dart';
 
 class PaymentView extends MvStatefulWidget<PaymentViewModel> {
   static const String ROUTE_NAME = "payment";
 
-  PaymentView({@required viewModel}) : super(viewModel);
+  PaymentView({required PaymentViewModel viewModel}) : super(viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +107,6 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
 
   Widget paymentWidget(BuildContext context) {
     var payment;
-    double deviceWidth = MediaQuery.of(context).size.width;
 
     switch (viewModel.paymentType) {
       case PaymentType.YOCO:
@@ -121,7 +116,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
             child: GestureDetector(
                 onLongPress: () => showPOSPaymentOption(context),
                 child: FloatingActionButtonWithProgress(
-                  viewModel: viewModel.progressMv,
+                  viewModel: viewModel.progressMv!,
                   onPressed: () {
                     payNowWebView(context);
                     return;
@@ -146,7 +141,7 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
             Padding(
                 padding: EdgeInsets.only(left: 16, bottom: 16),
                 child: FloatingActionButtonWithProgress(
-                  viewModel: viewModel.progressMv,
+                  viewModel: viewModel.progressMv!,
                   onPressed: () {
                     showConfirmCashOrder(context);
                   },
@@ -155,6 +150,8 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
           ],
         );
         break;
+      default:
+        payment = Container();
     }
     return payment;
   }
@@ -171,9 +168,8 @@ class PaymentView extends MvStatefulWidget<PaymentViewModel> {
     var args = [
       "${viewModel.paymentUrl}/?Status=init&type=yoco&TransactionReference=${viewModel.currentOrder.id}",
       doneAction
-    ]; //&callback=https://shop.izinga.co.za/${viewModel.currentOrder.shopId}
+    ]; 
     print(args[0]);
     Utils.launchURLInCustomeTab(context, url: args[0].toString());
-    //Navigator.pushNamed(context, PaymentWebView.ROUTE_NAME, arguments: args);
   }
 }

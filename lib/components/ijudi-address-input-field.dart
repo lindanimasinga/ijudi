@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:ijudi/model/supported-location.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:google_maps_webservice/places.dart';
@@ -23,8 +23,6 @@ class IjudiAddressInputField extends StatelessWidget {
       required this.text,
       required this.onTap});
 
-  TextField? addressField;
-
   @override
   Widget build(BuildContext context) {
     TextEditingController? controller = text == null
@@ -36,7 +34,7 @@ class IjudiAddressInputField extends StatelessWidget {
     double width = MediaQuery.of(context).size.width > 360 ? 166 : 126;
     double width2 = MediaQuery.of(context).size.width > 360 ? 114 : 114;
 
-    addressField = TextField(
+    TextField addressField = TextField(
       controller: controller,
       keyboardType: type,
       enabled: enabled,
@@ -79,7 +77,6 @@ class IjudiAddressInputField extends StatelessWidget {
 
   openAddressFinder(BuildContext context) async {
     print("finding address....");
-
     Prediction? p = await PlacesAutocomplete.show(
         context: context,
         apiKey: kGoogleApiKey,
@@ -98,7 +95,6 @@ class IjudiAddressInputField extends StatelessWidget {
         region = placeDetails.result.addressComponents[1].shortName;
       }
       var supportedLocation = SupportedLocation(address, region, lat, long);
-      //addressField!.onSubmitted!(supportedLocation);
       onTap(supportedLocation);
     }
   }

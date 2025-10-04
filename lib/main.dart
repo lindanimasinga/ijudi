@@ -11,40 +11,34 @@ import 'package:ijudi/view/all-shops-view.dart';
 
 import 'config.dart';
 
-main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  // Pass all uncaught errors from the framework to Crashlytics.
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
   var localNotifications;
-  SharedPrefStorageManager? sharedPref;
+  SharedPrefStorageManager sharedPref;
   Config? config = Config.getProConfig();
   Config.currentConfig = config;
-  Firebase.initializeApp()
-      .asStream()
-      .map((event) {
-        // Pass all uncaught errors from the framework to Crashlytics.
-        FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-      })
-      // .asyncExpand((event) => RemoteConfig.instance.asStream())
-      .asyncExpand(((event) => SharedPrefStorageManager.singleton().asStream()))
-      .map((event) {
-        sharedPref = event as SharedPrefStorageManager?;
-        sharedPref!.testEnvironment = false;
-        return sharedPref;
-      })
-      .asyncExpand(((event) => SecureStorageManager.singleton().asStream()))
-      .listen((storage) {
-        var apiService = ApiService(storageManager: storage);
-        localNotifications = NotificationService(apiService: apiService);
-        localNotifications
-            .initialize()
-            .then((value) => print("notification initialized $value"));
 
-        var navigation = NavigatorService(
-            sharedPrefStorageManager: sharedPref,
-            storageManager: storage,
-            apiService: apiService,
-            localNotificationService: localNotifications);
-        runApp(MyApp(navigation: navigation));
-      });
+  sharedPref = await SharedPrefStorageManager.singleton();
+  sharedPref.testEnvironment = false;
+
+  var storage = await SecureStorageManager.singleton();
+
+  var apiService = ApiService(storageManager: storage);
+  localNotifications = NotificationService(apiService: apiService);
+  await localNotifications.initialize();
+  print("notification initialized");
+
+  var navigation = NavigatorService(
+      sharedPrefStorageManager: sharedPref,
+      storageManager: storage,
+      apiService: apiService,
+      localNotificationService: localNotifications);
+  runApp(MyApp(navigation: navigation));
 }
 
 class MyApp extends StatelessWidget {

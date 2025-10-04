@@ -7,12 +7,8 @@ import 'package:simple_animations/simple_animations.dart';
 
 class JudiTheme {
   final ThemeData theme = ThemeData.light().copyWith(
-      backgroundColor: IjudiColors.backgroud,
       scaffoldBackgroundColor: IjudiColors.backgroud,
       primaryColor: IjudiColors.color2,
-      accentColor: IjudiColors.color2,
-      accentColorBrightness: Brightness.light,
-      primaryColorBrightness: Brightness.light,
       appBarTheme: AppBarTheme(
           iconTheme: IconThemeData.fallback(), color: IjudiColors.backgroud),
       floatingActionButtonTheme:
@@ -70,8 +66,8 @@ class Headers {
 
   static Widget getShopHeader(BuildContext context,
       {Color color1 = IjudiColors.color1,
-        Color color2 = IjudiColors.color2,
-        Color color3 = IjudiColors.color3}) {
+      Color color2 = IjudiColors.color2,
+      Color color3 = IjudiColors.color3}) {
     return ClipPath(
         clipper: IjudyHeaderClipPath(
             part: Parts.FIRST, waves: Utils.generateWaveNumber(3), height: 260),
@@ -208,10 +204,9 @@ class Buttons {
       Function? action}) {
     return Container(
         margin: EdgeInsets.only(bottom: 4),
-        child: FlatButton(
-            color: IjudiColors.clear,
+        child: TextButton(
+            style: TextButton.styleFrom(backgroundColor: IjudiColors.clear),
             onPressed: () => action!(),
-            shape: RoundedRectangleBorder(),
             child: Container(
                 height: height,
                 child: Row(
@@ -228,13 +223,14 @@ class Buttons {
   static Widget account({required String text, Function? action}) {
     return Container(
         margin: EdgeInsets.only(bottom: 4),
-        child: RaisedButton(
-            padding: EdgeInsets.all(0),
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.all(0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(25.0),
+                        bottomRight: Radius.circular(25.0)))),
             onPressed: () => action!(),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(25.0),
-                    bottomRight: Radius.circular(25.0))),
             child: Container(
                 height: 51,
                 width: 128,
@@ -252,13 +248,14 @@ class Buttons {
   static Widget accountFlat({required String text, Function? action}) {
     return Container(
         margin: EdgeInsets.only(bottom: 4),
-        child: FlatButton(
-            padding: EdgeInsets.all(0),
+        child: TextButton(
+            style: TextButton.styleFrom(
+                padding: EdgeInsets.all(0),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(25.0),
+                        bottomRight: Radius.circular(25.0)))),
             onPressed: () => action!(),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(25.0),
-                    bottomRight: Radius.circular(25.0))),
             child: Container(
                 height: 51,
                 width: 128,
@@ -324,10 +321,11 @@ class Buttons {
   }
 
   static mapsNavigate({IconData? label, Color? color, Function? action}) {
-    return RaisedButton(
+    return ElevatedButton(
         onPressed: action as void Function()?,
-        color: color,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+        style: ElevatedButton.styleFrom(
+            backgroundColor: color,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25))),
         child: Container(
             margin: EdgeInsets.symmetric(vertical: 8),
             child: Row(
@@ -343,14 +341,15 @@ class Buttons {
   }
 
   static flat({required String label, Function()? action, Color? color}) {
-    return FlatButton(
-        padding: EdgeInsets.all(0),
-        color: color,
+    return TextButton(
+        style: TextButton.styleFrom(
+            padding: EdgeInsets.all(0),
+            backgroundColor: color,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(25.0),
+                    bottomRight: Radius.circular(25.0)))),
         onPressed: () => action!(),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(25.0),
-                bottomRight: Radius.circular(25.0))),
         child: Container(
             height: 51,
             width: 128,
@@ -363,37 +362,6 @@ class Buttons {
                     style: IjudiStyles.DIALOG_WHITE,
                   )
                 ])));
-  }
-
-  static Widget buildParticles(BuildContext context, int colors,
-      {PlasmaType type = PlasmaType.circle,
-      double size = 0.18,
-      double speed = 2.75,
-      double blur = 0,
-      int particlesPerColor = 6}) {
-    var pickedColor = BreadCrumb.statusColors[colors - 1];
-
-    return PlasmaRenderer(
-        child: colors > 1
-            ? buildParticles(context, colors - 1,
-                type: type,
-                size: size,
-                speed: speed,
-                blur: blur,
-                particlesPerColor: particlesPerColor)
-            : null,
-        type: type,
-        particles: particlesPerColor,
-        color: pickedColor,
-        blur: blur,
-        size: size,
-        speed: speed,
-        blendMode: BlendMode.srcOver,
-        particleType: ParticleType.circle,
-        variation1: 0.31,
-        variation2: 0.02,
-        variation3: 0.05,
-        rotation: 0.9123 * colors);
   }
 }
 

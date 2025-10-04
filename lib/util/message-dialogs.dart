@@ -35,7 +35,7 @@ mixin MessageDialogs {
                 title: Text(title!),
                 content: child,
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text("Cancel", style: Forms.INPUT_TEXT_STYLE),
                     onPressed: () {
                       cancel!();
@@ -43,7 +43,7 @@ mixin MessageDialogs {
                     },
                   ),
                   action is Function
-                      ? FlatButton(
+                      ? TextButton(
                           child:
                               Text(actionName!, style: Forms.INPUT_TEXT_STYLE),
                           onPressed: () {
@@ -62,6 +62,22 @@ mixin MessageDialogs {
   void showWebViewDialog(BuildContext context,
       {Widget? header, String? url, Function? doneAction}) {
     print(url);
+    final WebViewController controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageStarted: (String newUrl) {
+            if (newUrl.startsWith("https://www.izinga.co.za")) {
+              var status = Uri.parse(newUrl).pathSegments[0];
+              print("status is $status");
+              Navigator.of(context).pop();
+              doneAction!(status);
+            }
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(url!));
+
     showDialog(
       barrierDismissible: false,
       useSafeArea: true,
@@ -80,22 +96,14 @@ mixin MessageDialogs {
                 children: [
                   header != null ? header : Container(),
                   Expanded(
-                      child: WebView(
-                          initialUrl: url,
-                          onPageStarted: (url) {
-                            if (url.startsWith("https://www.izinga.co.za")) {
-                              var status = Uri.parse(url).pathSegments[0];
-                              print("status is $status");
-                              Navigator.of(context).pop();
-                              doneAction!(status);
-                            }
-                          },
-                          javascriptMode: JavascriptMode.unrestricted)),
+                      child: WebViewWidget(
+                          controller: controller,
+                      )
+                  ),
                   Container(
                       alignment: Alignment.bottomRight,
                       margin: EdgeInsets.symmetric(horizontal: 12),
-                      child: FlatButton(
-                        padding: EdgeInsets.symmetric(vertical: 0),
+                      child: TextButton(
                         child: Text(
                           "Close",
                           style: IjudiStyles.CONTENT_TEXT,

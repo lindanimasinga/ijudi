@@ -47,7 +47,7 @@ class BasketComponent extends StatelessWidget {
               style: Forms.INPUT_TEXT_STYLE,
             )),
             Container(
-                child: FlatButton(
+                child: TextButton(
                     onPressed:
                         removeAction == null ? null : () => removeAction!(item),
                     child: removeAction == null ? Text("") : Text("REMOVE")))

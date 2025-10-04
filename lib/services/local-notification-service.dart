@@ -8,6 +8,8 @@ import 'package:ijudi/api/api-service.dart';
 import 'package:ijudi/model/device.dart';
 import 'package:ijudi/model/remote-message.dart' as FirebaseContent;
 import 'package:ijudi/viewmodel/base-view-model.dart';
+import 'package:timezone/timezone.dart';
+import 'package:timezone/data/latest.dart';
 
 class NotificationService {
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
@@ -21,6 +23,7 @@ class NotificationService {
   String? get firebaseToken => _token;
 
   Future<bool?> initialize() async {
+    initializeTimeZones();
     //push notification
     FirebaseMessaging.onBackgroundMessage(_onBackgroundPushMessageHandler);
     FirebaseMessaging.onMessage.listen(_onForegroundPushMessageHandler);
@@ -40,13 +43,13 @@ class NotificationService {
     //local notification
     var initializationSettingsAndroid =
         AndroidInitializationSettings('ic_launcher');
-    var initializationSettingsIOS = IOSInitializationSettings();
+    var initializationSettingsIOS = DarwinInitializationSettings();
     var initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
     return flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: _onSelectNotification);
+        onDidReceiveNotificationResponse: _onSelectNotification);
   }
 
   void updateDeviceUser(String userId) {
@@ -60,8 +63,8 @@ class NotificationService {
     });
   }
 
-  Future _onSelectNotification(String? payload) async {
-    log("notification selected $payload");
+  Future _onSelectNotification(NotificationResponse? payload) async {
+    log("notification selected ${payload?.payload}");
   }
 
   Future scheduleLocalMessage(
@@ -69,15 +72,15 @@ class NotificationService {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'your channel id', 'your channel name',
         importance: Importance.max, priority: Priority.high);
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var iOSPlatformChannelSpecifics = DarwinNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
 
     log("showing notification");
-    await flutterLocalNotificationsPlugin.schedule(
-        notificationCount++, title, body, dateTime, platformChannelSpecifics,
-        androidAllowWhileIdle: true);
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        notificationCount++, title, body, TZDateTime.from(dateTime, local), platformChannelSpecifics,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
   }
 
   static Future _onBackgroundPushMessageHandler(RemoteMessage message) async {
@@ -113,32 +116,34 @@ class NotificationService {
           break;
         case FirebaseContent.MessageType.MARKETING:
           break;
+        case null:
+          break;
       }
 
       var initializationSettingsAndroid =
           AndroidInitializationSettings('ic_launcher');
-      var initializationSettingsIOS = IOSInitializationSettings();
+      var initializationSettingsIOS = DarwinInitializationSettings();
       var initializationSettings = InitializationSettings(
           android: initializationSettingsAndroid,
           iOS: initializationSettingsIOS);
       var flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
       await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-          onSelectNotification: (value) async => {});
+          onDidReceiveNotificationResponse: (value) async => {});
 
       log("showing notification");
       var androidPlatformChannelSpecifics = AndroidNotificationDetails(
           'your channel id', 'your channel name',
           importance: Importance.max, priority: Priority.high);
       var iOSPlatformChannelSpecifics =
-          IOSNotificationDetails(presentAlert: true, presentSound: true);
+          DarwinNotificationDetails(presentAlert: true, presentSound: true);
       var platformChannelSpecifics = NotificationDetails(
           android: androidPlatformChannelSpecifics,
           iOS: iOSPlatformChannelSpecifics);
 
-      await flutterLocalNotificationsPlugin.schedule(notificationCount++, title,
-          body, DateTime.now(), platformChannelSpecifics,
-          androidAllowWhileIdle: true);
+      await flutterLocalNotificationsPlugin.zonedSchedule(notificationCount++, title,
+          body, TZDateTime.from(DateTime.now(), local), platformChannelSpecifics,
+          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
     }
   }
 
@@ -146,5 +151,9 @@ class NotificationService {
     RemoteNotification notification = message.notification!;
     flutterLocalNotificationsPlugin.show(notification.hashCode,
         notification.title, notification.body, NotificationDetails());
+  }
+
+  void initializeTimeZones() {
+    initializeTimeZones();
   }
 }

@@ -14,6 +14,19 @@ class FranchiseShopsView extends MvStatefulWidget<FranchiseShopsViewModel> {
 
   @override
   Widget build(BuildContext context) {
+    if (viewModel.shops.isEmpty) {
+      return ScrollableParent(
+          hasDrawer: false,
+          title: "Franchise Shops",
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text("There are no shops available for this franchise.",
+                  style: IjudiStyles.HEADER_2),
+            ),
+          ));
+    }
+
     var featuredShopComponents =
         viewModel.shops.map((shop) => FeaturedShop(shop: shop)).toList();
 
@@ -22,13 +35,11 @@ class FranchiseShopsView extends MvStatefulWidget<FranchiseShopsViewModel> {
         title: viewModel.shops.first.franchiseName!,
         child: Column(
           children: <Widget>[
-            featuredShopComponents.isEmpty
-                ? Container()
-                : Container(
-                    alignment: Alignment.topLeft,
-                    padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
-                    child: Text("Shops", style: IjudiStyles.HEADER_2),
-                  ),
+            Container(
+              alignment: Alignment.topLeft,
+              padding: EdgeInsets.only(left: 16, top: 8, bottom: 8),
+              child: Text("Shops", style: IjudiStyles.HEADER_2),
+            ),
             Column(children: featuredShopComponents),
           ],
         ));

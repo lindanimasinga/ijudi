@@ -51,7 +51,7 @@ class StocksComponent extends StatelessWidget {
               child: Text("R${Utils.formatToCurrency(item.storePrice)}", style: Forms.INPUT_TEXT_STYLE,)
             ),
             Container(
-              child: FlatButton(
+              child: TextButton(
                 onPressed: enabledAction ? ()=> action(item) : null, 
                 child: Text(actionName!)
               ) 

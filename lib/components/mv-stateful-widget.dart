@@ -8,15 +8,15 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget
     with MessageDialogs {
   final T viewModel;
 
-  MvStatefulWidget(T viewModel) : this.viewModel = viewModel {
-    this.viewModel.buildFunction = build;
-    this.viewModel.initWidgetFunction = initialize;
-    this.viewModel.errorBuildFunction = showError;
-    this.viewModel.loginBuildFunction = showLogin;
+  MvStatefulWidget(this.viewModel) {
+    viewModel.buildFunction = build;
+    viewModel.initWidgetFunction = initialize;
+    viewModel.errorBuildFunction = showError;
+    viewModel.loginBuildFunction = showLogin;
   }
 
   @override
-  T createState() => viewModel;
+  State<StatefulWidget> createState() => viewModel;
 
   Widget build(BuildContext context);
 
@@ -35,8 +35,7 @@ abstract class MvStatefulWidget<T extends BaseViewModel> extends StatefulWidget
           title: Text("Message"),
           content: Text(errorMessage),
           actions: <Widget>[
-            FlatButton(
-              textColor: Theme.of(context).primaryColor,
+            TextButton(
               child: Text("Close", style: Forms.INPUT_TEXT_STYLE),
               onPressed: () {
                 Navigator.of(context).pop();

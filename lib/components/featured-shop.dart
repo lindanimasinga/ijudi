@@ -77,7 +77,7 @@ class FeaturedShop extends StatelessWidget with MessageDialogs {
                               top: deviceWidth >= 360 ? 18 : 8)),
                       Container(
                           alignment: Alignment.centerRight,
-                          child: FlatButton(
+                          child: TextButton(
                               onPressed: () => Navigator.pushNamed(
                                   context, StartShoppingView.ROUTE_NAME,
                                   arguments: shop),
@@ -87,6 +87,5 @@ class FeaturedShop extends StatelessWidget with MessageDialogs {
             ],
           ),
         )));
-    ;
   }
 }
