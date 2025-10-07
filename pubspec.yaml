@@ -23,7 +23,7 @@ dependencies:
   flutter_google_places: ^0.3.0
   geolocator: ^10.1.0
   geocoding: ^2.1.0
-  firebase_core: ^2.24.2
+  firebase_core: ^2.32.0
   firebase_analytics: ^10.7.4
   firebase_crashlytics: ^3.4.8
   firebase_messaging: ^14.7.9
