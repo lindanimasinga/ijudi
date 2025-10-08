@@ -86,7 +86,7 @@ class NavigatorService {
       }
     }
 
-    BaseViewModel.analytics.setCurrentScreen(screenName: settings.name);
+    BaseViewModel.analytics.logScreenView(screenName: settings.name);
 
     switch (routeName) {
       case IntroductionView.ROUTE_NAME:

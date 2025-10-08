@@ -224,10 +224,10 @@ class DeliveryOptionsViewModel extends BaseViewModel with MessageDialogs {
           "Payment from ${order!.customer!.mobileNumber}: order ${resp.id}";
     }).listen((r) {
       BaseViewModel.analytics.logEvent(name: "order.start", parameters: {
-        "shop": order!.shop!.name,
-        "Order Id": order!.id,
+        "shop": order!.shop!.name ?? "",
+        "Order Id": order!.id ?? "",
         "Delivery": order!.shippingData!.type.toString(),
-        "Total Amount": order!.totalAmount
+        "Total Amount": order!.totalAmount ?? 0.0
       }).then((value) => {});
 
       Navigator.popAndPushNamed(context, PaymentView.ROUTE_NAME,

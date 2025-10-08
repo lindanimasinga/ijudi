@@ -48,16 +48,15 @@ class PaymentViewModel extends BaseViewModel with OrderStatusChecker {
   @override
   notifyChanged() {
     if (currentOrder.stage != OrderStage.STAGE_0_CUSTOMER_NOT_PAID) {
-      BaseViewModel.analytics.logEcommercePurchase(
-          transactionId: currentOrder.id,
-          value: currentOrder.totalAmount,
+      BaseViewModel.analytics.logPurchase(
+          value: currentOrder.totalAmount ?? 0.0,
           currency: "ZAR");
 
       BaseViewModel.analytics.logEvent(name: "order.purchase.leg.1", parameters: {
-        "shop": currentOrder.shop?.name,
-        "Order Id": currentOrder.id,
-        "Delivery": currentOrder.shippingData?.type.toString(),
-        "Total Amount": currentOrder.totalAmount
+        "shop": currentOrder.shop?.name ?? "",
+        "Order Id": currentOrder.id ?? "",
+        "Delivery": currentOrder.shippingData?.type.toString() ?? "",
+        "Total Amount": currentOrder.totalAmount ?? 0.0
       });
 
       Navigator.pushNamedAndRemoveUntil(
@@ -79,16 +78,15 @@ class PaymentViewModel extends BaseViewModel with OrderStatusChecker {
     }).listen((data) {
       currentOrder.stage = data.stage;
 
-      BaseViewModel.analytics.logEcommercePurchase(
-          transactionId: currentOrder.id,
-          value: currentOrder.totalAmount,
+      BaseViewModel.analytics.logPurchase(
+          value: currentOrder.totalAmount ?? 0.0,
           currency: "ZAR");
 
       BaseViewModel.analytics.logEvent(name: "order.purchase.leg.1", parameters: {
-        "shop": currentOrder.shop?.name,
-        "Order Id": currentOrder.id,
-        "Delivery": currentOrder.shippingData?.type.toString(),
-        "Total Amount": currentOrder.totalAmount
+        "shop": currentOrder.shop?.name ?? "",
+        "Order Id": currentOrder.id ?? "",
+        "Delivery": currentOrder.shippingData?.type.toString() ?? "",
+        "Total Amount": currentOrder.totalAmount ?? 0.0
       });
 
       Navigator.pushNamedAndRemoveUntil(
@@ -101,8 +99,8 @@ class PaymentViewModel extends BaseViewModel with OrderStatusChecker {
           ? "error.order.purchase.leg.1"
           : "error.order.payment.verify";
       BaseViewModel.analytics.logEvent(name: failedPaymentLeg, parameters: {
-        "shop": currentOrder.shop?.name,
-        "order": currentOrder.id,
+        "shop": currentOrder.shop?.name ?? "",
+        "order": currentOrder.id ?? "",
         "error": e.toString()
       });
     }, onDone: () {
@@ -134,9 +132,8 @@ class PaymentViewModel extends BaseViewModel with OrderStatusChecker {
     var subscr =
         apiService.completeOrderPayment(currentOrder).asStream().listen(null);
     subscr.onData((data) {
-      BaseViewModel.analytics.logEcommercePurchase(
-          transactionId: currentOrder.id,
-          value: currentOrder.totalAmount,
+      BaseViewModel.analytics.logPurchase(
+          value: currentOrder.totalAmount ?? 0.0,
           currency: "ZAR");
       Navigator.pushNamedAndRemoveUntil(
           context, FinalOrderView.ROUTE_NAME, (Route<dynamic> route) => false,
