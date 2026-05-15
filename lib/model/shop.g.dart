@@ -18,13 +18,13 @@ Shop _$ShopFromJson(Map<String, dynamic> json) => Shop(
           json['scheduledDeliveryAllowed'] as bool? ?? false,
       deliverNowAllowed: json['deliverNowAllowed'] as bool? ?? true,
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toSet(),
-      featured: json['featured'] as bool,
+      featured: json['featured'] as bool? ?? false,
       ownerId: json['ownerId'] as String?,
       businessHours: (json['businessHours'] as List<dynamic>)
           .map((e) => BusinessHours.fromJson(e as Map<String, dynamic>))
           .toList(),
       featuredExpiry: Utils.dateFromJson(json['featuredExpiry'] as String?),
-      storeOffline: json['storeOffline'] as bool,
+      storeOffline: json['storeOffline'] as bool? ?? false,
       availability: json['availability'] as String?,
       markUpPrice: json['markUpPrice'] as bool? ?? true,
       shortName: json['shortName'] as String?,

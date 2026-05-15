@@ -5,7 +5,9 @@ import 'package:ijudi/util/theme-utils.dart';
 import 'package:google_maps_webservice/places.dart';
 
 class IjudiAddressInputField extends StatelessWidget {
-  static const kGoogleApiKey = "AIzaSyAZbvE4NBcJIplfzmy8cSEdSpbocBggylc";
+  // Note: This key must match the one in AndroidManifest.xml for Android and AppDelegate.swift for iOS
+  // Using Android manifest key as primary since flutter_google_places reads from there on Android
+  static const kGoogleApiKey = "AIzaSyBp-6oglDWlbTL1fomlsLVVIQnQsiL_JT8";
   final GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
   final String hint;
@@ -82,6 +84,8 @@ class IjudiAddressInputField extends StatelessWidget {
         apiKey: kGoogleApiKey,
         mode: Mode.overlay,
         language: "en",
+        types: [],
+        strictbounds: false,
         components: [Component(Component.country, "za")]);
 
     if (p != null) {

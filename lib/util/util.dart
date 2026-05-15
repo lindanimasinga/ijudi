@@ -1,12 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:ijudi/model/order.dart';
 import 'package:ijudi/model/shop.dart';
 import 'package:ijudi/model/profile.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Utils {
   static const orderStatusColors = {
@@ -147,22 +147,8 @@ class Utils {
   static void launchURLInCustomeTab(BuildContext context,
       {required String url}) async {
     try {
-      await launch(
-        url,
-        customTabsOption: CustomTabsOption(
-          toolbarColor: IjudiColors.color3,
-          enableDefaultShare: true,
-          enableUrlBarHiding: true,
-          showPageTitle: true,
-          animation: CustomTabsSystemAnimation.slideIn(),
-          extraCustomTabs: <String>[
-            // ref. https://play.google.com/store/apps/details?id=org.mozilla.firefox
-            'org.mozilla.firefox',
-            // ref. https://play.google.com/store/apps/details?id=com.microsoft.emmx
-            'com.microsoft.emmx',
-          ],
-        ),
-      );
+      final uri = Uri.parse(url);
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
     } catch (e) {
       // An exception is thrown if browser app is not installed on Android device.
       debugPrint(e.toString());

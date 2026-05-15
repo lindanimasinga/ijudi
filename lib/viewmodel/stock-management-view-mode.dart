@@ -50,7 +50,11 @@ class StockManagementViewModel extends BaseViewModel
     });
 
     BaseViewModel.analytics
-        .logEvent(name: "shop.addStock", parameters: stock.toJson())
+        .logEvent(name: "shop.addStock", parameters: {
+          "name": stock.name ?? "",
+          "price": stock.price ?? 0.0,
+          "qty": stock.quantity ?? 0,
+        })
         .then((value) => null);
   }
 

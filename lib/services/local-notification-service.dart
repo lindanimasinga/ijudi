@@ -9,7 +9,7 @@ import 'package:ijudi/model/device.dart';
 import 'package:ijudi/model/remote-message.dart' as FirebaseContent;
 import 'package:ijudi/viewmodel/base-view-model.dart';
 import 'package:timezone/timezone.dart';
-import 'package:timezone/data/latest.dart';
+import 'package:timezone/data/latest.dart' as tzdata;
 
 class NotificationService {
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
@@ -79,8 +79,14 @@ class NotificationService {
 
     log("showing notification");
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        notificationCount++, title, body, TZDateTime.from(dateTime, local), platformChannelSpecifics,
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
+      notificationCount++,
+      title,
+      body,
+      TZDateTime.from(dateTime, local),
+      platformChannelSpecifics,
+      uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
   }
 
   static Future _onBackgroundPushMessageHandler(RemoteMessage message) async {
@@ -95,7 +101,7 @@ class NotificationService {
 
       BaseViewModel.analytics
           .logEvent(name: "notifications.push.type", parameters: {
-        "type": remoteMessage.messageType,
+        "type": remoteMessage.messageType?.name ?? "unknown",
       }).then((value) => {});
 
       var title;
@@ -143,7 +149,8 @@ class NotificationService {
 
       await flutterLocalNotificationsPlugin.zonedSchedule(notificationCount++, title,
           body, TZDateTime.from(DateTime.now(), local), platformChannelSpecifics,
-          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
+          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
     }
   }
 
@@ -154,6 +161,6 @@ class NotificationService {
   }
 
   void initializeTimeZones() {
-    initializeTimeZones();
+    tzdata.initializeTimeZones();
   }
 }

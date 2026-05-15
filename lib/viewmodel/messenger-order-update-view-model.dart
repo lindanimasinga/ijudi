@@ -80,10 +80,10 @@ class MessengerOrderUpdateViewModel extends BaseViewModel {
 
       BaseViewModel.analytics
           .logEvent(name: "order.status.changed", parameters: {
-        "shop": order!.shopId,
-        "orderId": order!.id,
-        "Delivery": order!.shippingData!.type,
-        "stage": order!.shippingData!.type
+        "shop": order!.shopId ?? "",
+        "orderId": order!.id ?? "",
+        "Delivery": order!.shippingData!.type?.name ?? "",
+        "stage": order!.stage?.name ?? ""
       }).then((value) => {});
 
       if (order!.stage == OrderStage.STAGE_6_WITH_CUSTOMER) {

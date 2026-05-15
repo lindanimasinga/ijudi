@@ -127,6 +127,7 @@ class ApiService {
       throw (ApiErrorResponse.fromJson(json.decode(event.body)).message);
     }
 
+    if (event.body.isEmpty) throw 'User not found';
     return UserProfile.fromJson(json.decode(event.body));
   }
 
