@@ -3,7 +3,7 @@
 <html lang="en" class="js cssanimations cssanimations"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="iZinga - Leading digital platform for food delivery, parcel services, and furniture moving in Durban and across South Africa. Fast, reliable delivery with secure payment solutions.">
+	<meta name="description" content="iZinga - Furniture and parcel delivery across South Africa. Move couches, appliances, and packages with a trusted iZinga driver. Fast, reliable, same-day delivery.">
 	<meta name="keywords" content="iZinga, food delivery Durban, parcel delivery Durban, furniture moving Durban, Durban delivery service, mobile payments, digital wallet, iZinga Pay, KwaZulu-Natal delivery, on-demand services South Africa">
 	<meta name="author" content="iZinga">
 	<meta name="robots" content="index, follow">
@@ -29,8 +29,8 @@
 	<meta name="twitter:creator" content="@iZingaApp">
 	
 	<!-- PWA Meta Tags -->
-	<meta name="theme-color" content="#d66247">
-	<meta name="msapplication-navbutton-color" content="#d66247">
+	<meta name="theme-color" content="#be833d">
+	<meta name="msapplication-navbutton-color" content="#be833d">
 	<meta name="apple-mobile-web-app-status-bar-style" content="default">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="mobile-web-app-capable" content="yes">
@@ -39,32 +39,102 @@
 	<link rel="manifest" href="https://www.izinga.co.za/manifest.json">
 	
 	<!-- Favicons and Icons -->
-	<link rel="icon" type="image/png" sizes="32x32" href="https://www.izinga.co.za/images/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="https://www.izinga.co.za/images/favicon-16x16.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="https://www.izinga.co.za/images/apple-touch-icon.png">
-	<link rel="mask-icon" href="https://www.izinga.co.za/images/safari-pinned-tab.svg" color="#d66247">
+	<link rel="icon" type="image/png" sizes="32x32" href="./assets/images/izinga-short.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="./assets/images/izinga-short.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="./assets/images/izinga-short.png">
+	<link rel="mask-icon" href="./assets/images/izinga-short.png" color="#be833d">
 	
-	<title>iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban | South Africa</title>
+	<title>iZinga - Furniture &amp; Parcel Delivery in South Africa | Move Anything, Anywhere</title>
 
 	<!-- Favicon
 	<link rel="shortcut icon" href="http://designwp.com/spacey/images/favicon.ico">  -->
 
 	<!-- Stylesheets -->
-	<link rel="stylesheet" href="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/bootstrap.css">
-	<link rel="stylesheet" href="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/style.css">
-	<link rel="stylesheet" href="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/mobile.css">
-	<link rel="stylesheet" href="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/all.min.css">
-	<link rel="stylesheet" href="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/updates.css">
+	<link rel="stylesheet" href="./css/bootstrap.css">
+	<link rel="stylesheet" href="./css/style.css">
+	<link rel="stylesheet" href="./css/mobile.css">
+	<link rel="stylesheet" href="./css/all.min.css">
+	<link rel="stylesheet" href="./css/updates.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Catamaran:wght@300;400;500;700;800&display=swap">
 
 	<!-- Floating Action Button Styles -->
 	<style>
+		:root {
+			--fd-text-color: #212121;
+			--fd-bkg-color: #f8f7f7;
+			--fd-card-color: #f3f2f2;
+			--fd-btn-bg-color: #be833d;
+			--fd-btn-hover-color: #a46f2f;
+			--fd-footer-bg-color: #be833d;
+			--fd-footer-text-color: #ffffff;
+		}
+
+		body,
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		p,
+		.navbar,
+		.btn,
+		.section-copy,
+		.fab-label {
+			font-family: Catamaran, Calibri, "Nunito Sans", sans-serif !important;
+		}
+
+		body {
+			background: var(--fd-bkg-color) !important;
+			color: var(--fd-text-color) !important;
+		}
 
 		.heading-button {
+			padding: 28px 24px;
+			border-radius: 5px;
+			background: var(--fd-text-color);
+			box-shadow: 0 20px 40px rgba(14, 16, 60, 0.3);
+			backdrop-filter: blur(3px);
 			z-index: 2000 !important;
+		}
+
+		.heading-button .hero-title {
+			margin: 0;
+			font-size: 2rem;
+			line-height: 1.2;
+			font-weight: 800;
+			letter-spacing: 0.01em;
+			color: #ffffff;
+			text-align: center;
+			text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+		}
+
+		.heading-button .header-lead {
+			max-width: 52ch;
+			margin-left: auto;
+			margin-right: auto;
+			font-size: 1.08rem;
+			line-height: 1.6;
+			font-weight: 500;
+			color: #f7f8ff;
+			text-align: center;
+			text-shadow: 0 1px 6px rgba(0, 0, 0, 0.28);
+		}
+
+		.heading-button .btn {
+			margin-top: 8px;
 		}
 		
 		.btn {
+			border-radius: 0 !important;
+			background: var(--fd-btn-bg-color) !important;
+			font-weight: 300 !important;
+			padding: 15px 18px !important;
+			width: auto !important;
 			z-index: 2000 !important;
+		}
+
+		.btn:hover {
+			background: var(--fd-btn-hover-color) !important;
 		}
 
 		.fab-container {
@@ -73,126 +143,44 @@
 			right: 30px;
 			z-index: 1000;
 			display: flex;
-			flex-direction: column;
-			align-items: flex-end;
 		}
 
-		.fab-main {
-			width: 60px;
-			height: 60px;
-			border-radius: 50%;
-			background: linear-gradient(135deg, #d66247, #ff6b35);
-			border: none;
-			box-shadow: 0 4px 20px rgba(214, 98, 71, 0.4);
-			cursor: pointer;
-			transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-			display: flex;
+		.whatsapp-fab {
+			display: inline-flex;
 			align-items: center;
-			justify-content: center;
-			position: relative;
-		}
-
-		.fab-main:hover {
-			transform: scale(1.1);
-			box-shadow: 0 6px 25px rgba(214, 98, 71, 0.6);
-		}
-
-		.fab-main.active {
-			transform: rotate(45deg);
-		}
-
-		.fab-icon {
-			color: white;
-			font-size: 24px;
-			transition: transform 0.3s ease;
-		}
-
-		.fab-menu {
-			display: flex;
-			flex-direction: column;
-			gap: 15px;
-			margin-bottom: 20px;
-			opacity: 0;
-			transform: translateY(20px);
-			transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-			pointer-events: none;
-		}
-
-		.fab-menu.active {
-			opacity: 1;
-			transform: translateY(0);
-			pointer-events: all;
-		}
-
-		.fab-option {
-			display: flex;
-			align-items: center;
-			gap: 12px;
-			padding: 12px 20px 12px 12px;
-			background: white;
+			gap: 10px;
+			padding: 12px 18px;
 			border-radius: 30px;
-			box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-			cursor: pointer;
-			transition: all 0.3s ease;
-			white-space: nowrap;
-			transform: scale(0.8);
-			opacity: 0;
-		}
-
-		.fab-menu.active .fab-option {
-			transform: scale(1);
-			opacity: 1;
-		}
-
-		.fab-menu.active .fab-option:nth-child(1) {
-			transition-delay: 0.1s;
-		}
-
-		.fab-menu.active .fab-option:nth-child(2) {
-			transition-delay: 0.15s;
-		}
-
-		.fab-menu.active .fab-option:nth-child(3) {
-			transition-delay: 0.2s;
-		}
-
-		.fab-option:hover {
-			transform: scale(1.05) translateX(-5px);
-			box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
-		}
-
-		.fab-option i {
-			width: 36px;
-			height: 36px;
-			border-radius: 50%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			color: white;
-			font-size: 16px;
-		}
-
-		.fab-option:nth-child(1) i {
-			background: #ff6b35;
-		}
-
-		.fab-option:nth-child(2) i {
-			background: #4caf50;
-		}
-
-		.fab-option:nth-child(3) i {
-			background: #2196f3;
-		}
-
-		.fab-label {
-			font-weight: 500;
-			color: #333;
+			background: #25d366;
+			color: #ffffff !important;
+			box-shadow: 0 6px 22px rgba(37, 211, 102, 0.38);
+			font-weight: 700;
 			font-size: 14px;
+			line-height: 1;
+			text-decoration: none !important;
+			transition: transform 0.2s ease, box-shadow 0.2s ease;
+		}
+
+		.whatsapp-fab:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 10px 28px rgba(37, 211, 102, 0.48);
+			color: #ffffff !important;
+		}
+
+		.whatsapp-icon {
+			font-size: 20px;
+			line-height: 1;
+		}
+
+		.whatsapp-label {
+			font-size: 14px;
+			font-weight: 700;
+			white-space: nowrap;
 		}
 
 
 		
-		#particles-js, #particles-js2, #particles-js3 {
+		#particles-js {
 			position: fixed;
 			top: 0;
 			left: 0;
@@ -202,38 +190,178 @@
 			z-index: 500;
 		}
 
-		#particles-js canvas, #particles-js2 canvas, #particles-js3 canvas {
+		#particles-js canvas {
 			width: 100% !important;
 			height: 100% !important;
 		}
 
+		.section-shell {
+			position: relative;
+			z-index: 2;
+			padding: 72px 0;
+		}
+
+		.section-heading {
+			font-size: 2rem;
+			font-weight: 800;
+			letter-spacing: 0.01em;
+			color: var(--fd-text-color);
+			margin-bottom: 14px;
+		}
+
+		.section-copy {
+			font-size: 1.05rem;
+			line-height: 1.7;
+			color: var(--fd-text-color);
+			max-width: 70ch;
+		}
+
+		.section-about {
+			background: linear-gradient(180deg, var(--fd-bkg-color) 0%, var(--fd-card-color) 100%);
+		}
+
+		.section-services {
+			background: var(--fd-bkg-color);
+		}
+
+		.service-grid {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 20px;
+		}
+
+		.service-card {
+			background: var(--fd-card-color);
+			border: none;
+			border-radius: 0;
+			padding: 24px;
+			box-shadow: none;
+		}
+
+		.service-title {
+			font-size: 1.25rem;
+			font-weight: 700;
+			color: var(--fd-text-color);
+			margin-bottom: 10px;
+		}
+
+		.service-text {
+			font-size: 0.98rem;
+			line-height: 1.6;
+			color: var(--fd-text-color);
+			margin-bottom: 18px;
+		}
+
+		.section-how {
+			background: var(--fd-text-color);
+		}
+
+		.section-how .section-heading,
+		.section-how .section-copy {
+			color: #f5f6ff;
+		}
+
+		.step-grid {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 18px;
+		}
+
+		.step-card {
+			background: rgba(255, 255, 255, 0.08);
+			border: 1px solid rgba(255, 255, 255, 0.18);
+			border-radius: 14px;
+			padding: 20px;
+		}
+
+		.step-number {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 34px;
+			height: 34px;
+			border-radius: 50%;
+			font-weight: 700;
+			background: var(--fd-btn-bg-color);
+			color: #ffffff;
+			margin-bottom: 10px;
+		}
+
+		.step-title {
+			font-size: 1.1rem;
+			font-weight: 700;
+			color: #ffffff;
+			margin-bottom: 8px;
+		}
+
+		.step-text {
+			font-size: 0.95rem;
+			line-height: 1.55;
+			color: #e8c8be;
+		}
+
+		.section-cta {
+			background: linear-gradient(135deg, var(--fd-bkg-color) 0%, var(--fd-card-color) 100%);
+		}
+
+		.cta-panel {
+			background: var(--fd-card-color);
+			border-radius: 0;
+			padding: 28px;
+			box-shadow: none;
+		}
+
+		.cta-panel .btn {
+			margin-right: 10px;
+		}
+
 		@media (max-width: 768px) {
+			.section-shell {
+				padding: 52px 0;
+			}
+
+			.section-heading {
+				font-size: 1.55rem;
+			}
+
+			.service-grid,
+			.step-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.cta-panel {
+				padding: 20px;
+			}
+
+			#about {
+				padding: 22px 16px;
+				border-radius: 14px;
+			}
+
+			.heading-button .hero-title {
+				font-size: 1.5rem;
+			}
+
+			.heading-button .header-lead {
+				font-size: 0.98rem;
+				line-height: 1.5;
+			}
+
 			.fab-container {
 				bottom: 20px;
 				right: 20px;
 			}
 
-			.fab-main {
-				width: 50px;
-				height: 50px;
+			.whatsapp-fab {
+				padding: 11px 14px;
+				gap: 8px;
 			}
 
-			.fab-icon {
-				font-size: 20px;
+			.whatsapp-icon {
+				font-size: 18px;
 			}
 
-			.fab-option {
-				padding: 10px 16px 10px 10px;
-				gap: 10px;
-			}
-
-			.fab-option i {
-				width: 32px;
-				height: 32px;
-				font-size: 14px;
-			}
-
-			.fab-label {
+			.whatsapp-label {
 				font-size: 12px;
 			}
 		}
@@ -241,10 +369,10 @@
 
 
 	<!-- Fonts -->
-	<link href="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/css" rel="stylesheet">
+	<link href="./css/google-fonts.css" rel="stylesheet">
 
 	<!-- Scripts -->
-	<script src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/565463741264864" async=""></script><script async="" src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/fbevents.js"></script><script src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/modernizr-custom.js"></script>
+	<script src="./js/fb-pixel-loader.js" async=""></script><script async="" src="./js/fbevents.js"></script><script src="./js/modernizr-custom.js"></script>
 
 	<!-- Facebook Pixel Code -->
 <script>
@@ -279,7 +407,7 @@
 		},
 		"contactPoint": {
 			"@type": "ContactPoint",
-			"telephone": "+27-81-281-5707",
+			"telephone": "+27-68-640-1157",
 			"contactType": "customer service",
 			"email": "admin@curiousoft.io"
 		},
@@ -341,7 +469,7 @@
 	<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
 		<div class="container">
 
-			<a class="navbar-brand nav-link js-scroll-trigger" href="https://www.izinga.co.za/#page-top"><img src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/izinga-logo-white.png" width="120px"></a>
+			<a class="navbar-brand nav-link js-scroll-trigger" href="#page-top"><img src="./assets/images/izinga-logo-white.png" width="120px"></a>
 
 			<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -350,13 +478,13 @@
 				<span class="icon-bar bottom-bar"></span>
 			</button>
 
-			<div class="navbar-collapse collapse" id="navbarResponsive" style="">
+			<div class="navbar-collapse collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="https://www.izinga.co.za/#page-top">HOME</a>
+						<a class="nav-link js-scroll-trigger" href="#page-top">HOME</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="https://www.izinga.co.za/#about">ABOUT</a>
+						<a class="nav-link js-scroll-trigger" href="#about">ABOUT</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link js-scroll-trigger" href="https://www.izinga.co.za/privacy.html">PRIVACY POLICY</a>
@@ -368,7 +496,7 @@
 	</nav>
 
 
-	<div id="particles-js" style=""><canvas class="particles-js-canvas-el" width="5130" height="2955" style="width: 100%; height: 100%;"></canvas></div>
+	<!--<div id="particles-js"><canvas class="particles-js-canvas-el" width="5130" height="2955" style="width: 100%; height: 100%;"></canvas></div> -->
 <!--
 	<div class="introduction-div common-bg" >
 		<div class="container">
@@ -380,106 +508,122 @@
 			<!-- /row 
 	</div>		-->
 
-	<div class="row">		
-				<div id="food-market" class="col-12 col-md-4">
+	<div id="food-market" class="col-12">
 			<header class="text-white box">
 				<div class="row head">
-					<div class="col-12 mx-auto">
-						<div id="circles">
-							<img class="float mobile" src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/izinga-deliveries.png" alt="header image" style="transform: matrix(1, 0, 0, 1, 14.45, 2.8);">
-						</div>
-						<div class="wave -one"></div>
-						<div class="wave -two"></div>
-						<div class="wave -three"></div>
-					</div><!-- /col-lg-6 mx-auto -->
-					<div class="col-12 mx-auto. mb-5 heading-button">
-						<div class="h4">Parcel and Furniture Delivery</div>
+					<div class="col-12 col-md-7 mx-auto mb-5 heading-button">
+						<img class="driver" src="./assets/images/bikeDriver.png" alt="iZinga delivery driver" class="float desktop" style="transform: matrix(1, 0, 0, 1, 14.45, 2.8);">
+						<h1 class="hero-title">Same Day Parcel & Furniture Delivery In South Africa</h1>
 						<p class="header-lead mb-3 mt-3 text-center">
-							Food delivery, parcel services, furniture moving, and secure payment solutions - 
-							all in one platform. Download iZinga and experience seamless digital services.
+							Move couches, appliances, and parcels with ease. iZinga connects you to trusted drivers for same-day furniture and parcel delivery.
 						</p>
 						<a href="https://delivery.izinga.co.za/">
-							<button class="btn shadow">Book Now</button>	
+							<button class="btn shadow">Book a Delivery</button>	
 						</a>
 						<a href="https://onboard.izinga.co.za?type=driver">
 							<button class="btn shadow driver-btn">Become A Driver</button>	
 						</a>
-					</div><!-- /col-lg-6 mx-auto -->
-				</div><!-- /row head -->
-			</header>
-		</div>
-	<div id="delivery-services" class="col-12 col-md-4">
-			<header class="text-white box">
-				<div class="row head">
-					<div class="col-12 mx-auto">
-						<div id="circles">
-							<img class="float mobile" src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/izinga-food.png" alt="header image" style="transform: matrix(1, 0, 0, 1, 14.45, 2.8);">
-						</div>
+					</div>
+					<div class="col-12 col-md-5 mx-auto">
+							<div class="parallax-circle">
+								<img class="float mobile" src="./assets/images/izinga-deliveries.png" alt="header image" style="transform: matrix(1, 0, 0, 1, 14.45, 2.8);">
+							</div>=
+					
 						<div class="wave -one"></div>
 						<div class="wave -two"></div>
 						<div class="wave -three"></div>
 					</div><!-- /col-lg-6 mx-auto -->
-					<div class="col-12 mx-auto mb-5">
-						<div class="h4">iZinga Food Market</div>
-						<p class="header-lead mb-3 mt-3 text-center">
-							Find the best local food and groceries with iZinga Food Market. Order from your favorite restaurants and stores, and enjoy fast, reliable delivery right to your door.
-						</p>
-						<a href="https://shop.izinga.co.za/">
-							<button class="btn shadow">Order Now</button>	
-						</a>
-						<a href="https://onboard.izinga.co.za?type=driver">
-							<button class="btn shadow driver-btn">Become A Driver</button>	
-						</a>
-					</div><!-- /col-lg-6 mx-auto -->
+					<!-- /col-lg-6 mx-auto -->
 				</div><!-- /row head -->
 			</header>
 		</div>
-		<div id="izinga-pay" class="col-12 col-md-4">
-			<header class="text-white box">
-				<div class="row head">
-					<div class="col-12 mx-auto">
-						<div id="circles">
-							<img class="float mobile" src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/izinga-pay.png" alt="header image" style="transform: matrix(1, 0, 0, 1, 14.45, 2.8);">
-						</div>
-						<div class="wave -one"></div>
-						<div class="wave -two"></div>
-						<div class="wave -three"></div>
-					</div><!-- /col-lg-6 mx-auto -->
-					<div class="col-12 mx-auto mb-5">
-						<div class="h4">iZinga Pay</div>
-						<p class="header-lead mb-3 mt-3 text-center">
-							Send payments and tips with iZinga Pay. Our secure payment gateway allows you to easily send money to friends, family, and businesses, all from your mobile device.
-						</p>
-						<a href="https://pay.izinga.co.za/">
-							<button class="btn shadow">Start Sending</button>	
-						</a>
-					</div><!-- /col-lg-6 mx-auto -->
-						<p></p>
-					</div><!-- /col-lg-6 mx-auto -->
-				</header></div><!-- /row head -->
-			
-		</div>	
+
+	<section id="about" class="section-shell section-about">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-12 col-md-7">
+					<h2 class="section-heading">The simplest way to move furniture and parcels</h2>
+					<p class="section-copy mb-3">iZinga connects you with vetted local drivers who can pick up and deliver your furniture, appliances, and parcels on the same day. No bakkie rentals, no hassle.</p>
+					<p class="section-copy mb-0">Available across Durban and growing fast in KwaZulu-Natal and beyond.</p>
+				</div>
+				<div class="col-12 col-md-5 mt-4 mt-md-0">
+					<div class="cta-panel">
+						<h3 class="service-title mb-2">Ready to move something?</h3>
+						<p class="service-text">Book a furniture or parcel delivery in minutes, or sign up to drive and earn.</p>
+						<a href="https://delivery.izinga.co.za/"><button class="btn shadow">Book Delivery</button></a>
+						<a href="https://onboard.izinga.co.za?type=driver"><button class="btn shadow driver-btn">Become A Driver</button></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section-shell section-services">
+		<div class="container">
+			<h2 class="section-heading text-center mb-2">What you can move with iZinga</h2>
+			<p class="section-copy text-center mx-auto mb-4">Whether you're moving a single parcel or an entire room of furniture, we have a driver ready.</p>
+			<div class="service-grid">
+				<div id="delivery-services" class="service-card">
+					<h3 class="service-title">Furniture Delivery</h3>
+					<p class="service-text">Move couches, beds, appliances, and large items with a vetted driver and a bakkie or truck — same day.</p>
+					<a href="https://delivery.izinga.co.za/"><button class="btn shadow">Book Furniture Move</button></a>
+				</div>
+				<div class="service-card">
+					<h3 class="service-title">Parcel Delivery</h3>
+					<p class="service-text">Send packages, documents, and goods across your city quickly and safely with GPS tracking.</p>
+					<a href="https://delivery.izinga.co.za/"><button class="btn shadow">Send a Parcel</button></a>
+				</div>
+				<div id="izinga-pay" class="service-card">
+					<h3 class="service-title">Drive &amp; Earn</h3>
+					<p class="service-text">Own a bakkie or truck? Sign up as a driver and start earning from furniture and parcel delivery jobs in your area.</p>
+					<a href="https://onboard.izinga.co.za?type=driver"><button class="btn shadow">Start Driving</button></a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section-shell section-how">
+		<div class="container">
+			<h2 class="section-heading text-center mb-2">Book a delivery in 3 easy steps</h2>
+			<p class="section-copy text-center mx-auto mb-4">Moving furniture or sending a parcel has never been this simple.</p>
+			<div class="step-grid">
+				<div class="step-card">
+					<div class="step-number">1</div>
+					<h3 class="step-title">Describe your delivery</h3>
+					<p class="step-text">Tell us what needs to move — a couch, appliance, parcel, or full room — and enter your pickup and drop-off addresses.</p>
+				</div>
+				<div class="step-card">
+					<div class="step-number">2</div>
+					<h3 class="step-title">Get a quote and confirm</h3>
+					<p class="step-text">A nearby driver accepts your job and you receive a transparent delivery quote before anything moves.</p>
+				</div>
+				<div class="step-card">
+					<div class="step-number">3</div>
+					<h3 class="step-title">Track and receive</h3>
+					<p class="step-text">Follow your driver in real time and receive your furniture or parcel safely at the destination.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section-shell section-cta">
+		<div class="container">
+			<div class="cta-panel text-center">
+				<h2 class="section-heading mb-2">Move something today with iZinga</h2>
+				<p class="section-copy mx-auto mb-4">Book a furniture or parcel delivery now, or sign up to drive and earn on your own schedule.</p>
+				<a href="https://delivery.izinga.co.za/"><button class="btn shadow">Book a Delivery</button></a>
+				<a href="https://onboard.izinga.co.za?type=driver"><button class="btn shadow driver-btn">Drive With iZinga</button></a>
+			</div>
+		</div>
+	</section>
 	
 
 	<!-- Floating Action Button -->
 	<div class="fab-container">
-		<div class="fab-menu" id="fabMenu">
-			<div class="fab-option" onclick="scrollToSection(&#39;food-market&#39;)">
-				<i class="fas fa-utensils"></i>
-				<span class="fab-label">Food Market</span>
-			</div>
-			<div class="fab-option" onclick="scrollToSection(&#39;delivery-services&#39;)">
-				<i class="fas fa-truck"></i>
-				<span class="fab-label">Delivery</span>
-			</div>
-			<div class="fab-option" onclick="scrollToSection(&#39;izinga-pay&#39;)">
-				<i class="fas fa-credit-card"></i>
-				<span class="fab-label">Pay</span>
-			</div>
-		</div>
-		<button class="fab-main" id="fabMain" onclick="toggleFabMenu()">
-			<i class="fas fa-plus fab-icon"></i>
-		</button>
+		<a class="whatsapp-fab" href="https://wa.me/27686401157?text=Hi%20iZinga%2C%20I%20want%20to%20get%20started." target="_blank" rel="noopener noreferrer" aria-label="Get started with WhatsApp">
+			<i class="fab fa-whatsapp whatsapp-icon" aria-hidden="true"></i>
+			<span class="whatsapp-label">No App Needed - Get Started On WhatsApp</span>
+		</a>
 	</div>
 
 
@@ -488,13 +632,14 @@
 		<div class="container">
 			<div class="row">
 					<dl class="col-4 contact-list text-center">
-						<dt>Email: <a href="mailto:#">admin@curiousoft.io</a></dt>
+						<dt>Email: <a href="mailto:admin@curiousoft.io">admin@curiousoft.io</a></dt>
 					</dl>
 					<dl class="col-4 contact-list text-center">
-						<dt>Phone: <a href="tel:#">+27 81 281 5707</a></dt>
+						<dt>Phone: <a href="tel:+27686401157">+27 68 640 1157</a></dt>
+						<dt>WhatsApp: <a href="https://wa.me/27686401157" target="_blank" rel="noopener noreferrer">Send to +27 68 640 1157</a></dt>
 					</dl>
 					<dl class="col-4 contact-list text-center">
-						<dt>Adress: Randburg, Johannesburg, Africa</dt>
+						<dt>Address: Randburg, Johannesburg, Africa</dt>
 					</dl>
 
 				<div class="col-md-1"></div>
@@ -504,7 +649,7 @@
 
 		<div id="copyright" class="copyright-bg">
 			<div class="container">
-				<p class="rights"><span>©&nbsp; </span><span class="copyright-year">2020</span><span>&nbsp;</span><span>Curiousoft</span><span>.&nbsp;</span><span>All
+				<p class="rights"><span>©&nbsp; </span><span class="copyright-year"></span><span>&nbsp;</span><span>Curiousoft</span><span>.&nbsp;</span><span>All
 						Rights Reserved.</span></p>
 			</div><!-- /container -->
 		</div><!-- /copyright -->
@@ -513,18 +658,14 @@
 
 
 	<!-- Scripts -->
-	<script src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/jquery-3.3.1.min.js"></script>
-	<script src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/bootstrap.bundle.min.js"></script>
-	<script src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/scrolling-nav.js"></script>
-	<script src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/jquery.easing.1.3.js"></script>
-	<script src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/main.js"></script>
-	<script src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/anime.min.js"></script>
-	<script src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/particles.min.js"></script>
-	<script src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/TweenMax.min.js"></script>
-	<script src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/jquery.waypoints.min.js"></script>
-	<script src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/jquery.countup.js"></script>
-	<script src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/owl.carousel.js"></script>
-	<script src="./iZinga - Food Delivery, Parcel &amp; Furniture Services in Durban _ South Africa_files/glider.min.js"></script>
+	<script src="./js/jquery-3.3.1.min.js"></script>
+	<script src="./js/bootstrap.bundle.min.js"></script>
+	<script src="./js/scrolling-nav.js"></script>
+	<script src="./js/jquery.easing.1.3.js"></script>
+	<script src="./js/main.js"></script>
+	<script src="./js/anime.min.js"></script>
+	<script src="./js/particles.min.js"></script>
+	<script src="./js/TweenMax.min.js"></script>
 
 	<script>
 		/* =================================
@@ -544,6 +685,9 @@
 			});
 		});
 
+		/* Dynamic copyright year */
+		$('.copyright-year').text(new Date().getFullYear());
+
 		/* Navigation link active state */
 		$('.navbar .nav-link').click(function () {
 			$('.navbar .nav-link').removeClass('active');
@@ -554,24 +698,22 @@
 		   PARALLAX MOUSE MOVEMENT EFFECT
 		   ================================= */
 		
-		var timeout;
-		$('#circles').mousemove(function (e) {
-			if (timeout) clearTimeout(timeout);
-			setTimeout(callParallax.bind(null, e), 200);
+		var parallaxTimeout;
+		$('.parallax-circle').on('mousemove', function (e) {
+			var $container = $(this);
+			if (parallaxTimeout) clearTimeout(parallaxTimeout);
+			parallaxTimeout = setTimeout(function () {
+				parallaxIt(e, $container, $container.find('.float'), -30);
+			}, 80);
 		});
 
-		function callParallax(e) {
-			parallaxIt(e, '.float', -30);
-		}
+		function parallaxIt(e, $container, $target, movement) {
+			var relX = e.pageX - $container.offset().left;
+			var relY = e.pageY - $container.offset().top;
 
-		function parallaxIt(e, target, movement) {
-			var $this = $('#circles');
-			var relX = e.pageX - $this.offset().left;
-			var relY = e.pageY - $this.offset().top;
-
-			TweenMax.to(target, 1, {
-				x: (relX - $this.width() / 2) / $this.width() * movement,
-				y: (relY - $this.height() / 2) / $this.height() * movement,
+			TweenMax.to($target, 1, {
+				x: (relX - $container.width() / 2) / $container.width() * movement,
+				y: (relY - $container.height() / 2) / $container.height() * movement,
 				ease: Power2.easeOut
 			});
 		}
@@ -591,7 +733,7 @@
 					}
 				},
 				"color": {
-					"value": "#EEE8B9"
+					"value": "#be833d"
 				},
 				"shape": {
 					"type": "circle",
@@ -631,7 +773,7 @@
 				"line_linked": {
 					"enable": false,
 					"distance": 150,
-					"color": "#383089",
+					"color": "#0e103c",
 					"opacity": 0.8,
 					"width": 1
 				},
@@ -690,285 +832,12 @@
 				}
 			},
 			"retina_detect": true
-		});
-		particlesJS("particles-js2", {
-			"particles": {
-				"number": {
-					"value": 80,
-					"density": {
-						"enable": true,
-						"value_area": 1000
-					}
-				},
-				"color": {
-					"value": "#EEE8B9"
-				},
-				"shape": {
-					"type": "circle",
-					"stroke": {
-						"width": 0,
-						"color": "#FFFFFF"
-					},
-					"polygon": {
-						"nb_sides": 5
-					},
-					"image": {
-						"src": "img/github.svg",
-						"width": 100,
-						"height": 100
-					}
-				},
-				"opacity": {
-					"value": 0.48927153781200905,
-					"random": false,
-					"anim": {
-						"enable": true,
-						"speed": 0.5,
-						"opacity_min": 0,
-						"sync": false
-					}
-				},
-				"size": {
-					"value": 3.5,
-					"random": true,
-					"anim": {
-						"enable": true,
-						"speed": 6,
-						"size_min": 1,
-						"sync": false
-					}
-				},
-				"line_linked": {
-					"enable": false,
-					"distance": 150,
-					"color": "#383089",
-					"opacity": 0.8,
-					"width": 1
-				},
-				"move": {
-					"enable": true,
-					"speed": 1,
-					"direction": "none",
-					"random": true,
-					"straight": false,
-					"out_mode": "out",
-					"bounce": false,
-					"attract": {
-						"enable": false,
-						"rotateX": 600,
-						"rotateY": 1200
-					}
-				}
-			},
-			"interactivity": {
-				"detect_on": "canvas",
-				"events": {
-					"onhover": {
-						"enable": true,
-						"mode": "bubble"
-					},
-					"onclick": {
-						"enable": true,
-						"mode": "push"
-					},
-					"resize": true
-				},
-				"modes": {
-					"grab": {
-						"distance": 400,
-						"line_linked": {
-							"opacity": 1
-						}
-					},
-					"bubble": {
-						"distance": 83.91608391608392,
-						"size": 1,
-						"duration": 3,
-						"opacity": 1,
-						"speed": 3
-					},
-					"repulse": {
-						"distance": 200,
-						"duration": 0.4
-					},
-					"push": {
-						"particles_nb": 4
-					},
-					"remove": {
-						"particles_nb": 2
-					}
-				}
-			},
-			"retina_detect": true
-		});
-		particlesJS("particles-js3", {
-			"particles": {
-				"number": {
-					"value": 80,
-					"density": {
-						"enable": true,
-						"value_area": 1000
-					}
-				},
-				"color": {
-					"value": "#EEE8B9"
-				},
-				"shape": {
-					"type": "circle",
-					"stroke": {
-						"width": 0,
-						"color": "#FFFFFF"
-					},
-					"polygon": {
-						"nb_sides": 5
-					},
-					"image": {
-						"src": "img/github.svg",
-						"width": 100,
-						"height": 100
-					}
-				},
-				"opacity": {
-					"value": 0.48927153781200905,
-					"random": false,
-					"anim": {
-						"enable": true,
-						"speed": 0.5,
-						"opacity_min": 0,
-						"sync": false
-					}
-				},
-				"size": {
-					"value": 3.5,
-					"random": true,
-					"anim": {
-						"enable": true,
-						"speed": 6,
-						"size_min": 1,
-						"sync": false
-					}
-				},
-				"line_linked": {
-					"enable": false,
-					"distance": 150,
-					"color": "#383089",
-					"opacity": 0.8,
-					"width": 1
-				},
-				"move": {
-					"enable": true,
-					"speed": 1,
-					"direction": "none",
-					"random": true,
-					"straight": false,
-					"out_mode": "out",
-					"bounce": false,
-					"attract": {
-						"enable": false,
-						"rotateX": 600,
-						"rotateY": 1200
-					}
-				}
-			},
-			"interactivity": {
-				"detect_on": "canvas",
-				"events": {
-					"onhover": {
-						"enable": true,
-						"mode": "bubble"
-					},
-					"onclick": {
-						"enable": true,
-						"mode": "push"
-					},
-					"resize": true
-				},
-				"modes": {
-					"grab": {
-						"distance": 400,
-						"line_linked": {
-							"opacity": 1
-						}
-					},
-					"bubble": {
-						"distance": 83.91608391608392,
-						"size": 1,
-						"duration": 3,
-						"opacity": 1,
-						"speed": 3
-					},
-					"repulse": {
-						"distance": 200,
-						"duration": 0.4
-					},
-					"push": {
-						"particles_nb": 4
-					},
-					"remove": {
-						"particles_nb": 2
-					}
-				}
-			},
-			"retina_detect": true
-		});
-
-		/* =================================
-		   OWL CAROUSEL SLIDER CONFIGURATION
-		   ================================= */
-		
-		$("#owl-demo").each(function () {
-			$(this).owlCarousel({
-				loop: true,
-				margin: 0,
-				width: 255,
-				nav: true,
-				navText: [
-					"<div class='nav-btn prev-slide'></div>", 
-					"<div class='nav-btn next-slide'></div>"
-				],
-				dots: false,
-				center: true,
-				autoplay: true,
-				responsiveClass: true,
-				responsive: {
-					0: {
-						items: 1,
-						nav: false,
-						loop: true,
-						center: true
-					},
-					568: {
-						items: 1,
-						nav: false,
-						loop: true
-					},
-					1024: {
-						items: 2,
-						nav: false,
-						loop: true
-					},
-					1336: {
-						items: 4,
-						nav: false,
-						loop: true
-					}
-				}
-			});
 		});
 
 		/* =================================
 		   UI INTERACTIONS & ANIMATIONS
 		   ================================= */
 		
-		/* Counter animation */
-		$('.counter').countUp();
-
-		/* Reviews slider */
-		$('#myCarousel').carousel({
-			interval: 3500,
-			cycle: true
-		});
-
 		/* Back to top button */
 		$(document).ready(function () {
 			$(window).scroll(function () {
@@ -1034,45 +903,6 @@
 			console.log('PWA was installed successfully');
 		});
 
-		/* =================================
-		   FLOATING ACTION BUTTON FUNCTIONS
-		   ================================= */
-
-		// Toggle floating action button menu
-		function toggleFabMenu() {
-			const fabMain = document.getElementById('fabMain');
-			const fabMenu = document.getElementById('fabMenu');
-			
-			fabMain.classList.toggle('active');
-			fabMenu.classList.toggle('active');
-		}
-
-		// Scroll to specific section
-		function scrollToSection(sectionId) {
-			const section = document.getElementById(sectionId);
-			if (section) {
-				section.scrollIntoView({
-					behavior: 'smooth',
-					block: 'start'
-				});
-				
-				// Close the FAB menu after clicking
-				setTimeout(() => {
-					toggleFabMenu();
-				}, 300);
-			}
-		}
-
-		// Close FAB menu when clicking outside
-		document.addEventListener('click', function(event) {
-			const fabContainer = document.querySelector('.fab-container');
-			const fabMain = document.getElementById('fabMain');
-			const fabMenu = document.getElementById('fabMenu');
-			
-			if (!fabContainer.contains(event.target) && fabMenu.classList.contains('active')) {
-				toggleFabMenu();
-			}
-		});
 	</script>
 
 

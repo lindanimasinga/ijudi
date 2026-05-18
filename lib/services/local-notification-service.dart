@@ -78,15 +78,11 @@ class NotificationService {
         iOS: iOSPlatformChannelSpecifics);
 
     log("showing notification");
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-      notificationCount++,
-      title,
-      body,
-      TZDateTime.from(dateTime, local),
-      platformChannelSpecifics,
-      uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
+    await flutterLocalNotificationsPlugin.zonedSchedule(notificationCount++,
+        title, body, TZDateTime.from(dateTime, local), platformChannelSpecifics,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
   }
 
   static Future _onBackgroundPushMessageHandler(RemoteMessage message) async {
@@ -147,9 +143,14 @@ class NotificationService {
           android: androidPlatformChannelSpecifics,
           iOS: iOSPlatformChannelSpecifics);
 
-      await flutterLocalNotificationsPlugin.zonedSchedule(notificationCount++, title,
-          body, TZDateTime.from(DateTime.now(), local), platformChannelSpecifics,
-          uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      await flutterLocalNotificationsPlugin.zonedSchedule(
+          notificationCount++,
+          title,
+          body,
+          TZDateTime.from(DateTime.now(), local),
+          platformChannelSpecifics,
+          uiLocalNotificationDateInterpretation:
+              UILocalNotificationDateInterpretation.absoluteTime,
           androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
     }
   }

@@ -26,9 +26,8 @@
 }
 
 img.mobile {
-	height: 375px;
+	height: 550px;
 	text-align: center;
-	margin-top: 120px;
     margin-bottom: 40px;
 }
 
@@ -43,7 +42,6 @@ img.mobile {
 	h1 {
 		font-size: 2.5em !important;
 		margin: 20px 0 15px 0;
-		padding-top: 90px;
 	}
 	
 	h2 {
@@ -61,7 +59,7 @@ img.mobile {
 	
 	p {
 		font-size: 1.05em;
-		color: #7f8497;
+		color: #717894;
 		font-weight: 400;
 		line-height: 1.4;
 		margin: 0 10px;
@@ -108,7 +106,7 @@ img.mobile {
 		height: 90px;
 		top:0;
 		z-index: 9;
-		background-color: #1C1D22;
+		background-color: #0e103c;
 	}
 	
 	.brand {
@@ -174,7 +172,7 @@ img.mobile {
 	.nav ul li {
 		margin: 55px 10px;
 		list-style-type: none;
-		color: #CECECE;
+		color: #f5f6ff;
 		font-size: 14px;
 		text-decoration: none;
 		display: inline-block;	
@@ -183,7 +181,7 @@ img.mobile {
 	.nav li a {
 		font-family: 'Nunito Sans', sans-serif;
 		font-weight: 700;
-		color: #CECECE;
+		color: #f5f6ff;
 	}
 
 	.nav a {
@@ -250,12 +248,12 @@ img.mobile {
 	}
 	
 	.navbar-collapse {
-		background-color: #291C36;
+		background-color: #0e103c;
 	}
 	
 	#about {
 		overflow-y: hidden;
-		padding: 80px 0 40px 0 !important;
+		padding: 52px 0 !important;
 	}
 	
 	.stats {
@@ -277,7 +275,7 @@ img.mobile {
 	#features {
 		overflow-y: hidden;
 		padding: 80px 0 80px 0 !important;
-		background: #d66247;
+		background: #be833d;
 	}
 	
 	.features-bg {
@@ -554,7 +552,6 @@ img.mobile {
 	h1 {
 		font-size: 2.5em !important;
 		margin: 20px 0 15px 0;
-		padding-top: 90px;
 	}
 	
 	h2 {
@@ -572,7 +569,7 @@ img.mobile {
 	
 	p {
 		font-size: 1.05em;
-		color: #7f8497;
+		color: #717894;
 		font-weight: 400;
 		line-height: 1.4;
 		margin: 0 10px;
@@ -616,7 +613,7 @@ img.mobile {
 		height: 90px;
 		top:0;
 		z-index: 9;
-		background-color: #1C1D22;
+		background-color: #0e103c;
 	}
 	
 	.brand {
@@ -682,7 +679,7 @@ img.mobile {
 	.nav ul li {
 		margin: 55px 10px;
 		list-style-type: none;
-		color: #CECECE;
+		color: #f5f6ff;
 		font-size: 14px;
 		text-decoration: none;
 		display: inline-block;	
@@ -691,7 +688,7 @@ img.mobile {
 	.nav li a {
 		font-family: 'Nunito Sans', sans-serif;
 		font-weight: 700;
-		color: #CECECE;
+		color: #f5f6ff;
 	}
 
 	.nav a {
@@ -766,12 +763,12 @@ img.mobile {
 	}
 	
 	.navbar-collapse {
-		background-color: #291C36;
+		background-color: #0e103c;
 	}
 	
 	#about {
 		overflow-y: hidden;
-		padding: 100px 0 50px 0 !important;
+		padding: 50px 0 50px 0 !important;
 	}
 	
 	.stats {
@@ -793,7 +790,7 @@ img.mobile {
 	#features {
 		overflow-y: hidden;
 		padding: 150px 0 100px 0 !important;
-		background: #d66247;
+		background: #be833d;
 	}
 	
 	.features-bg {
@@ -1073,7 +1070,6 @@ img.mobile {
 	h1 {
 		font-size: 3em !important;
 		margin: 20px 0 15px 0;
-		padding-top: 90px;
 	}
 	
 	h2 {
@@ -1091,7 +1087,7 @@ img.mobile {
 	
 	p {
 		font-size: 1.1em;
-		color: #7f8497;
+		color: #717894;
 		font-weight: 400;
 		line-height: 1.4;
 		margin: 0 10px;
@@ -1142,7 +1138,7 @@ img.mobile {
 		height: 90px;
 		top:0;
 		z-index: 9;
-		background-color: #1C1D22;
+		background-color: #0e103c;
 	}
 	
 	.brand {
@@ -1208,7 +1204,7 @@ img.mobile {
 	.nav ul li {
 		margin: 55px 10px;
 		list-style-type: none;
-		color: #CECECE;
+		color: #f5f6ff;
 		font-size: 14px;
 		text-decoration: none;
 		display: inline-block;	
@@ -1217,7 +1213,7 @@ img.mobile {
 	.nav li a {
 		font-family: 'Nunito Sans', sans-serif;
 		font-weight: 700;
-		color: #CECECE;
+		color: #f5f6ff;
 	}
 
 	.nav a {
@@ -1276,12 +1272,12 @@ img.mobile {
 	}
 	
 	.navbar-collapse {
-		background-color: #291C36;
+		background-color: #0e103c;
 	}
 	
 	#about {
 		overflow-y: hidden;
-		padding: 120px 0 60px 0 !important;
+		padding: 50px 0 60px 0 !important;
 	}
 	
 	.stats {
@@ -1303,7 +1299,7 @@ img.mobile {
 	#features {
 		overflow-y: hidden;
 		padding: 150px 0 150px 0 !important;
-		background: #d66247;
+		background: #be833d;
 	}
 	
 	.features-bg {
@@ -1592,7 +1588,6 @@ img.mobile {
 	h1 {
 		font-size: 3.3em !important;
 		margin: 20px 0 15px 0;
-		padding-top: 120px;
 	}
 	
 	h2 {
@@ -1617,7 +1612,7 @@ img.mobile {
 	
 	p {
 		font-size: 1.15em;
-		color: #7f8497;
+		color: #717894;
 		font-weight: 400;
 		line-height: 1.5;
 		margin: 0 10px;
@@ -1666,7 +1661,7 @@ img.mobile {
 		height: 90px;
 		top:0;
 		z-index: 9;
-		background-color: #1C1D22;
+		background-color: #0e103c;
 	}
 	
 	.brand {
@@ -1737,7 +1732,7 @@ img.mobile {
 	.nav ul li {
 		margin: 55px 10px;
 		list-style-type: none;
-		color: #CECECE;
+		color: #f5f6ff;
 		font-size: 14px;
 		text-decoration: none;
 		display: inline-block;	
@@ -1746,7 +1741,7 @@ img.mobile {
 	.nav li a {
 		font-family: 'Nunito Sans', sans-serif;
 		font-weight: 700;
-		color: #CECECE;
+		color: #f5f6ff;
 	}
 
 	.nav a {
@@ -1809,12 +1804,12 @@ img.mobile {
 	}
 	
 	.navbar-collapse {
-		background-color: #291C36;
+		background-color: #0e103c;
 	}
 	
 	#about {
 		overflow-y: hidden;
-		padding: 120px 0 60px 0 !important;
+		padding: 50px 0 60px 0 !important;
 	}
 	
 	.stats {
@@ -1836,7 +1831,7 @@ img.mobile {
 	#features {
 		overflow-y: hidden;
 		padding: 150px 0 150px 0 !important;
-		background: #d66247;
+		background: #be833d;
 	}
 	
 	.features-bg {
@@ -2114,7 +2109,6 @@ img.mobile {
 	h1 {
 		font-size: 3.3em !important;
 		margin: 20px 0 15px 0;
-		padding-top: 120px;
 	}
 	
 	h2 {
@@ -2139,7 +2133,7 @@ img.mobile {
 	
 	p {
 		font-size: 1.15em;
-		color: #7f8497;
+		color: #717894;
 		font-weight: 400;
 		line-height: 1.5;
 		margin: 0 10px;
@@ -2189,7 +2183,7 @@ img.mobile {
 		height: 90px;
 		top:0;
 		z-index: 9;
-		background-color: #1C1D22;
+		background-color: #0e103c;
 	}
 	
 	.brand {
@@ -2260,7 +2254,7 @@ img.mobile {
 	.nav ul li {
 		margin: 55px 10px;
 		list-style-type: none;
-		color: #CECECE;
+		color: #f5f6ff;
 		font-size: 14px;
 		text-decoration: none;
 		display: inline-block;	
@@ -2269,7 +2263,7 @@ img.mobile {
 	.nav li a {
 		font-family: 'Nunito Sans', sans-serif;
 		font-weight: 700;
-		color: #CECECE;
+		color: #f5f6ff;
 	}
 
 	.nav a {
@@ -2332,12 +2326,12 @@ img.mobile {
 	}
 	
 	.navbar-collapse {
-		background-color: #291C36;
+		background-color: #0e103c;
 	}
 	
 	#about {
 		overflow-y: hidden;
-		padding: 120px 0 60px 0 !important;
+		padding: 50px 0 60px 0 !important;
 	}
 	
 	.stats {
@@ -2359,7 +2353,7 @@ img.mobile {
 	#features {
 		overflow-y: hidden;
 		padding: 150px 0 150px 0 !important;
-		background: #d66247;
+		background: #be833d;
 	}
 	
 	.features-bg {
@@ -2639,7 +2633,6 @@ img.mobile {
 	h1 {
 		font-size: 3.3em !important;
 		margin: 20px 0 15px 0;
-		padding-top: 120px;
 	}
 	
 	h2 {
@@ -2664,7 +2657,7 @@ img.mobile {
 	
 	p {
 		font-size: 1.15em;
-		color: #7f8497;
+		color: #717894;
 		font-weight: 400;
 		line-height: 1.5;
 		margin: 0 10px;
@@ -2714,7 +2707,7 @@ img.mobile {
 		height: 90px;
 		top:0;
 		z-index: 9;
-		background-color: #1C1D22;
+		background-color: #0e103c;
 	}
 	
 	.brand {
@@ -2785,7 +2778,7 @@ img.mobile {
 	.nav ul li {
 		margin: 55px 10px;
 		list-style-type: none;
-		color: #CECECE;
+		color: #f5f6ff;
 		font-size: 14px;
 		text-decoration: none;
 		display: inline-block;	
@@ -2794,7 +2787,7 @@ img.mobile {
 	.nav li a {
 		font-family: 'Nunito Sans', sans-serif;
 		font-weight: 700;
-		color: #CECECE;
+		color: #f5f6ff;
 	}
 
 	.nav a {
@@ -2856,12 +2849,12 @@ img.mobile {
 	}
 	
 	.navbar-collapse {
-		background-color: #291C36;
+		background-color: #0e103c;
 	}
 	
 	#about {
 		overflow-y: hidden;
-		padding: 120px 0 60px 0 !important;
+		padding: 50px 0 60px 0 !important;
 	}
 	
 	.stats {
@@ -2883,7 +2876,7 @@ img.mobile {
 	#features {
 		overflow-y: hidden;
 		padding: 150px 0 150px 0 !important;
-		background: #d66247;
+		background: #be833d;
 	}
 	
 	.features-bg {
@@ -3169,7 +3162,6 @@ img.mobile {
 	h1 {
 		font-size: 3.6em !important;
 		margin: 40px 0 15px 0;
-		padding-top: 120px;
 	}
 	
 	h2 {
@@ -3194,7 +3186,7 @@ img.mobile {
 	
 	p {
 		font-size: 1.15em;
-		color: #7f8497;
+		color: #717894;
 		font-weight: 400;
 		line-height: 1.5;
 		margin: 0 10px;
@@ -3243,7 +3235,7 @@ img.mobile {
 		height: 90px;
 		top:0;
 		z-index: 9;
-		background-color: #1C1D22;
+		background-color: #0e103c;
 	}
 	
 	.brand {
@@ -3315,7 +3307,7 @@ img.mobile {
 	.nav ul li {
 		margin: 55px 10px;
 		list-style-type: none;
-		color: #CECECE;
+		color: #f5f6ff;
 		font-size: 14px;
 		text-decoration: none;
 		display: inline-block;	
@@ -3324,7 +3316,7 @@ img.mobile {
 	.nav li a {
 		font-family: 'Nunito Sans', sans-serif;
 		font-weight: 700;
-		color: #CECECE;
+		color: #f5f6ff;
 	}
 
 	.nav a {
@@ -3386,12 +3378,12 @@ img.mobile {
 	}
 	
 	.navbar-collapse {
-		background-color: #291C36;
+		background-color: #0e103c;
 	}
 	
 	#about {
 		overflow-y: hidden;
-		padding: 120px 0 60px 0 !important;
+		padding: 50px 0 60px 0 !important;
 	}
 	
 	.stats {
@@ -3413,7 +3405,7 @@ img.mobile {
 	#features {
 		overflow-y: hidden;
 		padding: 150px 0 150px 0 !important;
-		background: #d66247;
+		background: #be833d;
 	}
 	
 	.features-bg {
@@ -3710,7 +3702,6 @@ img.mobile {
 	h1 {
 		font-size: 3.8em !important;
 		font-weight: 600;
-		padding-top: 130px;
 	}
 
 	h2 {
@@ -3735,7 +3726,7 @@ img.mobile {
 	
 	p {
 		font-size: 1.15em;
-		color: #7f8497;
+		color: #717894;
 		font-weight: 400;
 		line-height: 1.5;
 		margin: 0 10px;
@@ -3784,7 +3775,7 @@ img.mobile {
 		height: 90px;
 		top:0;
 		z-index: 9;
-		background-color: #1C1D22;
+		background-color: #0e103c;
 	}
 	
 	.brand {
@@ -3855,7 +3846,7 @@ img.mobile {
 	.nav ul li {
 		margin: 55px 10px;
 		list-style-type: none;
-		color: #CECECE;
+		color: #f5f6ff;
 		font-size: 14px;
 		text-decoration: none;
 		display: inline-block;	
@@ -3864,7 +3855,7 @@ img.mobile {
 	.nav li a {
 		font-family: 'Nunito Sans', sans-serif;
 		font-weight: 700;
-		color: #CECECE;
+		color: #f5f6ff;
 	}
 
 	.nav a {
@@ -3930,12 +3921,12 @@ img.mobile {
 	}
 	
 	.navbar-collapse {
-		background-color: #291C36;
+		background-color: #0e103c;
 	}
 	
 	#about {
 		overflow-y: hidden;
-		padding: 150px 0 120px 0 !important;
+		padding: 50px 0 120px 0 !important;
 	}
 	
 	.stats {
@@ -3957,7 +3948,7 @@ img.mobile {
 	#features {
 		overflow-y: hidden;
 		padding: 150px 0 60px 0 !important;
-		background: #d66247;
+		background: #be833d;
 	}
 	
 	.features-bg {
@@ -4276,7 +4267,6 @@ img.mobile {
 	h1 {
 		font-size: 4.1em !important;
 		font-weight: 600;
-		padding-top: 180px;
 	}
 
 	h2 {
@@ -4301,7 +4291,7 @@ img.mobile {
 	
 	p {
 		font-size: 1.15em;
-		color: #7f8497;
+		color: #717894;
 		font-weight: 400;
 		line-height: 1.5;
 		margin: 0 10px;
@@ -4350,7 +4340,7 @@ img.mobile {
 		height: 90px;
 		top:0;
 		z-index: 9;
-		background-color: #1C1D22;
+		background-color: #0e103c;
 	}
 	
 	.brand {
@@ -4421,7 +4411,7 @@ img.mobile {
 	.nav ul li {
 		margin: 55px 10px;
 		list-style-type: none;
-		color: #CECECE;
+		color: #f5f6ff;
 		font-size: 14px;
 		text-decoration: none;
 		display: inline-block;	
@@ -4430,7 +4420,7 @@ img.mobile {
 	.nav li a {
 		font-family: 'Nunito Sans', sans-serif;
 		font-weight: 700;
-		color: #CECECE;
+		color: #f5f6ff;
 	}
 
 	.nav a {
@@ -4496,12 +4486,12 @@ img.mobile {
 	}
 	
 	.navbar-collapse {
-		background-color: #291C36;
+		background-color: #0e103c;
 	}
 	
 	#about {
 		overflow-y: hidden;
-		padding: 150px 0 120px 0 !important;
+		padding: 50px 0 120px 0 !important;
 	}
 	
 	.stats {
@@ -4523,7 +4513,7 @@ img.mobile {
 	#features {
 		overflow-y: hidden;
 		padding: 150px 0 60px 0 !important;
-		background: #d66247;
+		background: #be833d;
 	}
 	
 	.features-bg {
@@ -4838,7 +4828,6 @@ img.mobile {
 	h1 {
 		font-size: 4.2em !important;
 		font-weight: 600;
-		padding-top: 160px;
 	}
 
 	h2 {
@@ -4863,7 +4852,7 @@ img.mobile {
 	
 	p {
 		font-size: 1.16em;
-		color: #7f8497;
+		color: #717894;
 		font-weight: 400;
 		line-height: 1.5;
 		margin: 0 10px;
@@ -4913,7 +4902,7 @@ img.mobile {
 		height: 90px;
 		top:0;
 		z-index: 9;
-		background-color: #1C1D22;
+		background-color: #0e103c;
 	}
 	
 	.brand {
@@ -4984,7 +4973,7 @@ img.mobile {
 	.nav ul li {
 		margin: 55px 10px;
 		list-style-type: none;
-		color: #CECECE;
+		color: #f5f6ff;
 		font-size: 14px;
 		text-decoration: none;
 		display: inline-block;	
@@ -4993,7 +4982,7 @@ img.mobile {
 	.nav li a {
 		font-family: 'Nunito Sans', sans-serif;
 		font-weight: 700;
-		color: #CECECE;
+		color: #f5f6ff;
 	}
 
 	.nav a {
@@ -5059,12 +5048,12 @@ img.mobile {
 	}
 	
 	.navbar-collapse {
-		background-color: #291C36;
+		background-color: #0e103c;
 	}
 	
 	#about {
 		overflow-y: hidden;
-		padding: 150px 0 120px 0 !important;
+		padding: 50px 0 120px 0 !important;
 	}
 	
 	.stats {
@@ -5086,7 +5075,7 @@ img.mobile {
 	#features {
 		overflow-y: hidden;
 		padding: 150px 0 60px 0 !important;
-		background: #d66247;
+		background: #be833d;
 	}
 	
 	.features-bg {
@@ -5400,7 +5389,6 @@ img.mobile {
 	h1 {
 		font-size: 4.2em !important;
 		font-weight: 600;
-		padding-top: 160px;
 	}
 
 	h2 {
@@ -5425,7 +5413,7 @@ img.mobile {
 	
 	p {
 		font-size: 1.16em;
-		color: #7f8497;
+		color: #717894;
 		font-weight: 400;
 		line-height: 1.5;
 		margin: 0 10px;
@@ -5475,7 +5463,7 @@ img.mobile {
 		height: 90px;
 		top:0;
 		z-index: 9;
-		background-color: #1C1D22;
+		background-color: #0e103c;
 	}
 	
 	.brand {
@@ -5546,7 +5534,7 @@ img.mobile {
 	.nav ul li {
 		margin: 55px 10px;
 		list-style-type: none;
-		color: #CECECE;
+		color: #f5f6ff;
 		font-size: 14px;
 		text-decoration: none;
 		display: inline-block;	
@@ -5555,7 +5543,7 @@ img.mobile {
 	.nav li a {
 		font-family: 'Nunito Sans', sans-serif;
 		font-weight: 700;
-		color: #CECECE;
+		color: #f5f6ff;
 	}
 
 	.nav a {
@@ -5621,12 +5609,12 @@ img.mobile {
 	}
 	
 	.navbar-collapse {
-		background-color: #291C36;
+		background-color: #0e103c;
 	}
 	
 	#about {
 		overflow-y: hidden;
-		padding: 150px 0 120px 0 !important;
+		padding: 50px 0 120px 0 !important;
 	}
 	
 	.stats {
@@ -5648,7 +5636,7 @@ img.mobile {
 	#features {
 		overflow-y: hidden;
 		padding: 150px 0 60px 0 !important;
-		background: #d66247;
+		background: #be833d;
 	}
 	
 	.features-bg {
@@ -5980,7 +5968,6 @@ img.mobile {
 	h1 {
 		font-size: 4.2em !important;
 		font-weight: 600;
-		padding-top: 160px;
 	}
 
 	h2 {
@@ -6005,7 +5992,7 @@ img.mobile {
 	
 	p {
 		font-size: 1.16em;
-		color: #7f8497;
+		color: #717894;
 		font-weight: 400;
 		line-height: 1.5;
 		margin: 0 10px;
@@ -6055,7 +6042,7 @@ img.mobile {
 		height: 90px;
 		top:0;
 		z-index: 9;
-		background-color: #1C1D22;
+		background-color: #0e103c;
 	}
 	
 	.brand {
@@ -6126,7 +6113,7 @@ img.mobile {
 	.nav ul li {
 		margin: 55px 10px;
 		list-style-type: none;
-		color: #CECECE;
+		color: #f5f6ff;
 		font-size: 14px;
 		text-decoration: none;
 		display: inline-block;	
@@ -6135,7 +6122,7 @@ img.mobile {
 	.nav li a {
 		font-family: 'Nunito Sans', sans-serif;
 		font-weight: 700;
-		color: #CECECE;
+		color: #f5f6ff;
 	}
 
 	.nav a {
@@ -6201,12 +6188,12 @@ img.mobile {
 	}
 	
 	.navbar-collapse {
-		background-color: #d69447;
+		background-color: #be833d;
 	}
 	
 	#about {
 		overflow-y: hidden;
-		padding: 150px 0 120px 0 !important;
+		padding: 50px 0 120px 0 !important;
 	}
 	
 	.stats {
@@ -6228,7 +6215,7 @@ img.mobile {
 	#features {
 		overflow-y: hidden;
 		padding: 150px 0 60px 0 !important;
-		background: #d66247;
+		background: #be833d;
 	}
 	
 	.features-bg {
@@ -6561,7 +6548,6 @@ img.mobile {
 	h1 {
 		font-size: 4.2em !important;
 		font-weight: 600;
-		padding-top: 40%;
 	}
 
 	h2 {
@@ -6586,7 +6572,7 @@ img.mobile {
 	
 	p {
 		font-size: 1.16em;
-		color: #7f8497;
+		color: #717894;
 		font-weight: 400;
 		line-height: 1.5;
 		margin: 0 10px;
@@ -6637,7 +6623,7 @@ img.mobile {
 		height: 90px;
 		top:0;
 		z-index: 9;
-		background-color: #1C1D22;
+		background-color: #0e103c;
 	}
 	
 	.brand {
@@ -6708,7 +6694,7 @@ img.mobile {
 	.nav ul li {
 		margin: 55px 10px;
 		list-style-type: none;
-		color: #CECECE;
+		color: #f5f6ff;
 		font-size: 14px;
 		text-decoration: none;
 		display: inline-block;	
@@ -6717,7 +6703,7 @@ img.mobile {
 	.nav li a {
 		font-family: 'Nunito Sans', sans-serif;
 		font-weight: 700;
-		color: #CECECE;
+		color: #f5f6ff;
 	}
 
 	.nav a {
@@ -6783,12 +6769,12 @@ img.mobile {
 	}
 	
 	.navbar-collapse {
-		background-color: #291C36;
+		background-color: #0e103c;
 	}
 	
 	#about {
 		overflow-y: hidden;
-		padding: 180px 0 10px 0 !important;
+		padding: 50px 0 10px 0 !important;
 	}
 	
 	.stats {
@@ -6810,7 +6796,7 @@ img.mobile {
 	#features {
 		overflow-y: hidden;
 		padding: 280px 0 60px 0 !important;
-		background: #d66247;
+		background: #be833d;
 	}
 	
 	.features-bg {
@@ -7138,7 +7124,6 @@ img.mobile {
 	h1 {
 		font-size: 4.2em !important;
 		font-weight: 600;
-		padding-top: 40%;
 	}
 
 	h2 {
@@ -7163,7 +7148,7 @@ img.mobile {
 	
 	p {
 		font-size: 1.16em;
-		color: #7f8497;
+		color: #717894;
 		font-weight: 400;
 		line-height: 1.5;
 		margin: 0 10px;
@@ -7213,7 +7198,7 @@ img.mobile {
 		height: 90px;
 		top:0;
 		z-index: 9;
-		background-color: #1C1D22;
+		background-color: #0e103c;
 	}
 	
 	.brand {
@@ -7284,7 +7269,7 @@ img.mobile {
 	.nav ul li {
 		margin: 55px 10px;
 		list-style-type: none;
-		color: #CECECE;
+		color: #f5f6ff;
 		font-size: 14px;
 		text-decoration: none;
 		display: inline-block;	
@@ -7293,7 +7278,7 @@ img.mobile {
 	.nav li a {
 		font-family: 'Nunito Sans', sans-serif;
 		font-weight: 700;
-		color: #CECECE;
+		color: #f5f6ff;
 	}
 
 	.nav a {
@@ -7359,12 +7344,12 @@ img.mobile {
 	}
 	
 	.navbar-collapse {
-		background-color: #291C36;
+		background-color: #0e103c;
 	}
 	
 	#about {
 		overflow-y: hidden;
-		padding: 160px 0 10px 0 !important;
+		padding: 50px 0 10px 0 !important;
 	}
 	
 	.stats {
@@ -7386,7 +7371,7 @@ img.mobile {
 	#features {
 		overflow-y: hidden;
 		padding: 280px 0 80px 0 !important;
-		background: #d66247;
+		background: #be833d;
 	}
 	
 	.features-bg {

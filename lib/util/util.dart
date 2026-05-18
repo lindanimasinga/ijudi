@@ -224,6 +224,10 @@ class Utils {
   }
 
   static String saFormatNumber(String number) {
-    return number.startsWith("0") ? number.replaceFirst("0", "+27") : number.startsWith("27") ? number.replaceFirst("27", "+27") : number;
+    return number.startsWith("0")
+        ? number.replaceFirst("0", "+27")
+        : number.startsWith("27")
+            ? number.replaceFirst("27", "+27")
+            : number;
   }
 }

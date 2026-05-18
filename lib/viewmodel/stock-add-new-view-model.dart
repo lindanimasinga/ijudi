@@ -53,13 +53,11 @@ class StockAddNewViewModel extends BaseViewModel {
       progressMv?.isBusy = false;
     });
 
-    BaseViewModel.analytics
-        .logEvent(name: "shop.addStock", parameters: {
-          "name": stock.name ?? "",
-          "price": stock.storePrice ?? 0.0,
-          "qty": stock.quantity ?? 0,
-        })
-        .then((value) => null);
+    BaseViewModel.analytics.logEvent(name: "shop.addStock", parameters: {
+      "name": stock.name ?? "",
+      "price": stock.storePrice ?? 0.0,
+      "qty": stock.quantity ?? 0,
+    }).then((value) => null);
   }
 
   addMoreOptions() {

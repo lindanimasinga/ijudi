@@ -32,7 +32,8 @@ class MyShopOrderUpdateViewModel extends BaseViewModel {
       this.customer = customer;
     });
 
-    this.apiService
+    this
+        .apiService
         .findShopById(order.shopId)
         .asStream()
         .asyncExpand((shop) => this
@@ -95,16 +96,15 @@ class MyShopOrderUpdateViewModel extends BaseViewModel {
   }
 
   rejectOrder() {
-    if(progressMv?.mounted == true) {
+    if (progressMv?.mounted == true) {
       progressMv?.isBusy = true;
     }
-    apiService.cancelOrder(order.id!).asStream()
-        .listen((event) {
-        Navigator.pop(context);
+    apiService.cancelOrder(order.id!).asStream().listen((event) {
+      Navigator.pop(context);
     }, onError: (e) {
       showError(error: e);
     }, onDone: () {
-      if(progressMv?.isBusy) {
+      if (progressMv?.isBusy) {
         progressMv?.isBusy = progressMv?.isBusy;
       }
     });

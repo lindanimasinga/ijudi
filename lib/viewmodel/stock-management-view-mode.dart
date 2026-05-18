@@ -49,13 +49,11 @@ class StockManagementViewModel extends BaseViewModel
       progressMv!.isBusy = false;
     });
 
-    BaseViewModel.analytics
-        .logEvent(name: "shop.addStock", parameters: {
-          "name": stock.name ?? "",
-          "price": stock.price ?? 0.0,
-          "qty": stock.quantity ?? 0,
-        })
-        .then((value) => null);
+    BaseViewModel.analytics.logEvent(name: "shop.addStock", parameters: {
+      "name": stock.name ?? "",
+      "price": stock.price ?? 0.0,
+      "qty": stock.quantity ?? 0,
+    }).then((value) => null);
   }
 
   List<Stock>? get stocks => _stocks;
@@ -74,8 +72,6 @@ class StockManagementViewModel extends BaseViewModel
     super.dispose();
     WidgetsBinding.instance!.removeObserver(this);
   }
-
-  
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
