@@ -511,6 +511,16 @@ section {
 	-webkit-text-fill-color: #FFFFFF;
 }
 
+/* !important required: the inline <style> block sets .btn { background: var(--btn-red-color) !important }
+   so any external rule without !important loses regardless of specificity. */
+.btn.driver-btn {
+	background: var(--btn-green-color) !important;
+}
+
+.btn.driver-btn:hover {
+	background: #007f79 !important;
+}
+
 /* Scroll Down icon */
 
 .scroll {

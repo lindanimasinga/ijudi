@@ -138,15 +138,7 @@
 			background: #b84f37 !important;
 		}
 
-		.btn.driver-btn {
-			background: var(--btn-green-color) !important;
-		}
-
-		.btn.driver-btn:hover {
-			background: #007f79 !important;
-		}
-
-		.fab-container {
+.fab-container {
 			position: fixed;
 			bottom: 30px;
 			right: 30px;
@@ -189,22 +181,7 @@
 
 
 		
-		#particles-js {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100vw;
-			height: 100vh;
-			background: transparent;
-			z-index: 500;
-		}
-
-		#particles-js canvas {
-			width: 100% !important;
-			height: 100% !important;
-		}
-
-		.section-shell {
+.section-shell {
 			position: relative;
 			z-index: 2;
 			padding: 72px 0;
@@ -585,7 +562,7 @@
 				<div id="izinga-pay" class="service-card">
 					<h3 class="service-title">Drive &amp; Earn</h3>
 					<p class="service-text">Own a bakkie or truck? Sign up as a driver and start earning from furniture and parcel delivery jobs in your area.</p>
-					<a href="https://onboard.izinga.co.za?type=driver"><button class="btn shadow">Start Driving</button></a>
+					<a href="https://onboard.izinga.co.za?type=driver"><button class="btn shadow driver-btn">Start Driving</button></a>
 				</div>
 			</div>
 		</div>
@@ -685,10 +662,8 @@
 			$(window).on("scroll", function () {
 				if ($(window).scrollTop() >= 20) {
 					$(".navbar").addClass("compressed");
-					$("#particles-js").fadeOut(300);
 				} else {
 					$(".navbar").removeClass("compressed");
-					$("#particles-js").fadeIn(300);
 				}
 			});
 		});
