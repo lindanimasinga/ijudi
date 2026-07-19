@@ -54,18 +54,19 @@
 	<link rel="stylesheet" href="./css/style.css">
 	<link rel="stylesheet" href="./css/mobile.css">
 	<link rel="stylesheet" href="./css/all.min.css">
-	<link rel="stylesheet" href="./css/updates.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Catamaran:wght@300;400;500;700;800&display=swap">
 
 	<!-- Floating Action Button Styles -->
 	<style>
 		:root {
-			--fd-text-color: #212121;
-			--fd-bkg-color: #f8f7f7;
-			--fd-card-color: #f3f2f2;
-			--fd-btn-bg-color: #be833d;
+			--text-color: #212121;
+			--bkg-color: #F8F7F7;
+			--bkg-card-color: #f3f2f2;
+			--btn-bg-color: #be833d;
+			--btn-red-color: #D66247;
+			--btn-green-color: #00A9A1;
+			--btn-pill-color: #1083A5;
 			--fd-btn-hover-color: #a46f2f;
-			--fd-footer-bg-color: #be833d;
 			--fd-footer-text-color: #ffffff;
 		}
 
@@ -80,19 +81,19 @@
 		.btn,
 		.section-copy,
 		.fab-label {
-			font-family: Catamaran, Calibri, "Nunito Sans", sans-serif !important;
+			font-family: Catamaran, Calibri, sans-serif !important;
 		}
 
 		body {
-			background: var(--fd-bkg-color) !important;
-			color: var(--fd-text-color) !important;
+			background: var(--bkg-color) !important;
+			color: var(--text-color) !important;
 		}
 
 		.heading-button {
 			padding: 28px 24px;
 			border-radius: 5px;
-			background: var(--fd-text-color);
-			box-shadow: 0 20px 40px rgba(14, 16, 60, 0.3);
+			background: var(--text-color);
+			box-shadow: 0 20px 40px rgba(33, 33, 33, 0.3);
 			backdrop-filter: blur(3px);
 			z-index: 2000 !important;
 		}
@@ -126,15 +127,23 @@
 		
 		.btn {
 			border-radius: 0 !important;
-			background: var(--fd-btn-bg-color) !important;
-			font-weight: 300 !important;
+			background: var(--btn-red-color) !important;
+			font-weight: 700 !important;
 			padding: 15px 18px !important;
 			width: auto !important;
 			z-index: 2000 !important;
 		}
 
 		.btn:hover {
-			background: var(--fd-btn-hover-color) !important;
+			background: #b84f37 !important;
+		}
+
+		.btn.driver-btn {
+			background: var(--btn-green-color) !important;
+		}
+
+		.btn.driver-btn:hover {
+			background: #007f79 !important;
 		}
 
 		.fab-container {
@@ -205,23 +214,23 @@
 			font-size: 2rem;
 			font-weight: 800;
 			letter-spacing: 0.01em;
-			color: var(--fd-text-color);
+			color: var(--text-color);
 			margin-bottom: 14px;
 		}
 
 		.section-copy {
 			font-size: 1.05rem;
 			line-height: 1.7;
-			color: var(--fd-text-color);
+			color: var(--text-color);
 			max-width: 70ch;
 		}
 
 		.section-about {
-			background: linear-gradient(180deg, var(--fd-bkg-color) 0%, var(--fd-card-color) 100%);
+			background: linear-gradient(180deg, var(--bkg-color) 0%, var(--bkg-card-color) 100%);
 		}
 
 		.section-services {
-			background: var(--fd-bkg-color);
+			background: var(--bkg-color);
 		}
 
 		.service-grid {
@@ -231,7 +240,7 @@
 		}
 
 		.service-card {
-			background: var(--fd-card-color);
+			background: var(--bkg-card-color);
 			border: none;
 			border-radius: 0;
 			padding: 24px;
@@ -241,19 +250,19 @@
 		.service-title {
 			font-size: 1.25rem;
 			font-weight: 700;
-			color: var(--fd-text-color);
+			color: var(--text-color);
 			margin-bottom: 10px;
 		}
 
 		.service-text {
 			font-size: 0.98rem;
 			line-height: 1.6;
-			color: var(--fd-text-color);
+			color: var(--text-color);
 			margin-bottom: 18px;
 		}
 
 		.section-how {
-			background: var(--fd-text-color);
+			background: var(--text-color);
 		}
 
 		.section-how .section-heading,
@@ -297,15 +306,15 @@
 		.step-text {
 			font-size: 0.95rem;
 			line-height: 1.55;
-			color: #e8c8be;
+			color: #ffffff;
 		}
 
 		.section-cta {
-			background: linear-gradient(135deg, var(--fd-bkg-color) 0%, var(--fd-card-color) 100%);
+			background: linear-gradient(135deg, var(--bkg-color) 0%, var(--bkg-card-color) 100%);
 		}
 
 		.cta-panel {
-			background: var(--fd-card-color);
+			background: var(--bkg-card-color);
 			border-radius: 0;
 			padding: 28px;
 			box-shadow: none;
@@ -466,7 +475,7 @@
 	<a href="https://www.izinga.co.za/#" id="scroll" style="display: none;"><span></span></a>
 
 	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+	<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
 		<div class="container">
 
 			<a class="navbar-brand nav-link js-scroll-trigger" href="#page-top"><img src="./assets/images/izinga-logo-white.png" width="120px"></a>
@@ -631,14 +640,14 @@
 	<footer class="bg-dark">
 		<div class="container">
 			<div class="row">
-					<dl class="col-4 contact-list text-center">
+					<dl class="col-12 col-md-4 contact-list text-center">
 						<dt>Email: <a href="mailto:admin@curiousoft.io">admin@curiousoft.io</a></dt>
 					</dl>
-					<dl class="col-4 contact-list text-center">
+					<dl class="col-12 col-md-4 contact-list text-center">
 						<dt>Phone: <a href="tel:+27686401157">+27 68 640 1157</a></dt>
 						<dt>WhatsApp: <a href="https://wa.me/27686401157" target="_blank" rel="noopener noreferrer">Send to +27 68 640 1157</a></dt>
 					</dl>
-					<dl class="col-4 contact-list text-center">
+					<dl class="col-12 col-md-4 contact-list text-center">
 						<dt>Address: Randburg, Johannesburg, Africa</dt>
 					</dl>
 
@@ -664,7 +673,6 @@
 	<script src="./js/jquery.easing.1.3.js"></script>
 	<script src="./js/main.js"></script>
 	<script src="./js/anime.min.js"></script>
-	<script src="./js/particles.min.js"></script>
 	<script src="./js/TweenMax.min.js"></script>
 
 	<script>
@@ -697,142 +705,28 @@
 		/* =================================
 		   PARALLAX MOUSE MOVEMENT EFFECT
 		   ================================= */
-		
-		var parallaxTimeout;
-		$('.parallax-circle').on('mousemove', function (e) {
-			var $container = $(this);
-			if (parallaxTimeout) clearTimeout(parallaxTimeout);
-			parallaxTimeout = setTimeout(function () {
-				parallaxIt(e, $container, $container.find('.float'), -30);
-			}, 80);
-		});
 
-		function parallaxIt(e, $container, $target, movement) {
-			var relX = e.pageX - $container.offset().left;
-			var relY = e.pageY - $container.offset().top;
-
-			TweenMax.to($target, 1, {
-				x: (relX - $container.width() / 2) / $container.width() * movement,
-				y: (relY - $container.height() / 2) / $container.height() * movement,
-				ease: Power2.easeOut
+		if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			var parallaxTimeout;
+			$('.parallax-circle').on('mousemove', function (e) {
+				var $container = $(this);
+				if (parallaxTimeout) clearTimeout(parallaxTimeout);
+				parallaxTimeout = setTimeout(function () {
+					parallaxIt(e, $container, $container.find('.float'), -30);
+				}, 80);
 			});
-		}
 
-		/* =================================
-		   PARTICLES BACKGROUND ANIMATION
-		   ================================= */
-		
-		/* Particles JS */
-		particlesJS("particles-js", {
-			"particles": {
-				"number": {
-					"value": 80,
-					"density": {
-						"enable": true,
-						"value_area": 1000
-					}
-				},
-				"color": {
-					"value": "#be833d"
-				},
-				"shape": {
-					"type": "circle",
-					"stroke": {
-						"width": 0,
-						"color": "#FFFFFF"
-					},
-					"polygon": {
-						"nb_sides": 5
-					},
-					"image": {
-						"src": "img/github.svg",
-						"width": 100,
-						"height": 100
-					}
-				},
-				"opacity": {
-					"value": 0.48927153781200905,
-					"random": false,
-					"anim": {
-						"enable": true,
-						"speed": 0.5,
-						"opacity_min": 0,
-						"sync": false
-					}
-				},
-				"size": {
-					"value": 3.5,
-					"random": true,
-					"anim": {
-						"enable": true,
-						"speed": 6,
-						"size_min": 1,
-						"sync": false
-					}
-				},
-				"line_linked": {
-					"enable": false,
-					"distance": 150,
-					"color": "#0e103c",
-					"opacity": 0.8,
-					"width": 1
-				},
-				"move": {
-					"enable": true,
-					"speed": 1,
-					"direction": "none",
-					"random": true,
-					"straight": false,
-					"out_mode": "out",
-					"bounce": false,
-					"attract": {
-						"enable": false,
-						"rotateX": 600,
-						"rotateY": 1200
-					}
-				}
-			},
-			"interactivity": {
-				"detect_on": "canvas",
-				"events": {
-					"onhover": {
-						"enable": true,
-						"mode": "bubble"
-					},
-					"onclick": {
-						"enable": true,
-						"mode": "push"
-					},
-					"resize": true
-				},
-				"modes": {
-					"grab": {
-						"distance": 400,
-						"line_linked": {
-							"opacity": 1
-						}
-					},
-					"bubble": {
-						"distance": 83.91608391608392,
-						"size": 1,
-						"duration": 3,
-						"opacity": 1,
-						"speed": 3
-					},
-					"repulse": {
-						"distance": 200,
-						"duration": 0.4
-					},
-					"push": {
-						"particles_nb": 4
-					},
-					"remove": {
-						"particles_nb": 2
-					}
-				}
-			},
-			"retina_detect": true
-		});
+			function parallaxIt(e, $container, $target, movement) {
+				var relX = e.pageX - $container.offset().left;
+				var relY = e.pageY - $container.offset().top;
+
+				TweenMax.to($target, 1, {
+					x: (relX - $container.width() / 2) / $container.width() * movement,
+					y: (relY - $container.height() / 2) / $container.height() * movement,
+					ease: Power2.easeOut
+				});
+			}
+		}
 
 		/* =================================
 		   UI INTERACTIONS & ANIMATIONS
