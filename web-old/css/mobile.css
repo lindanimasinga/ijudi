@@ -172,6 +172,16 @@ img.desktop {
 		display: none;
 	}
 
+	/* Hero product image — override hide so it shows inside the wave circle area */
+	.parallax-circle img.mobile {
+		display: block;
+		width: 280px;
+		height: 280px;
+		object-fit: cover;
+		border-radius: 50%;
+		margin: 35px auto 0;
+	}
+
 	.service-grid,
 	.step-grid {
 		grid-template-columns: repeat(2, 1fr) !important;
