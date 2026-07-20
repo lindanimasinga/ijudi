@@ -1769,6 +1769,12 @@ span.social-link {
     vertical-align: middle;
 }
 
+/* Hero-specific override: cta-or on dark hero background (#food-market) must be light */
+#food-market .heading-button .cta-or {
+    color: rgba(255, 255, 255, 0.55);
+    opacity: 1;
+}
+
 footer dt {
     color: #ffffff;
     font-weight: 600;
