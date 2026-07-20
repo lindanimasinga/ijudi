@@ -45,7 +45,11 @@
 }
 	
 .parallax-circle img{
-	border-radius: 35px;	
+	border-radius: 35px;
+	width: clamp(180px, 28vw, 340px);
+	height: auto;
+	display: block;
+	margin: 0 auto;
 }
 
 embed {
@@ -63,7 +67,7 @@ body {
 	margin: 0 auto;
 	padding: 0;
 	font-family: Catamaran, Calibri, sans-serif;
-	font-weight: 600;
+	font-weight: 400;
 	color: var(--text-color);
 	font-size: 14px;
 	overflow-x: hidden;
@@ -351,7 +355,7 @@ section {
 /* --- 4. HEADER --- */
 
 #food-market {
-	background-color: var(--btn-red-color);
+	background-color: #212121;
 	margin-bottom: 0;
 	padding-top: 150px;
 }
@@ -411,25 +415,24 @@ section {
 	position: absolute;
 	top: 0;
 	right: 10%;
-	background: #F8F7F7;
-	width: 350px;
-	height: 350px;
+	background: rgba(255,255,255,0.05);
+	width: clamp(220px, 36vw, 400px);
+	height: clamp(220px, 36vw, 400px);
 	margin-right: 0;
 	margin-top: 50px;
 	transform-origin: 50% 48%;
 	border-radius: 45%;
 	z-index: -9000;
-	box-shadow: 0px 0px 15px var(--btn-red-color);
 }
 
 .wave.-three {
-	background: #F8F7F7;
+	background: rgba(255,255,255,0.05);
 }
 
 .wave.-two {
 	opacity: .9;
-	background: #F8F7F7;
-	box-shadow: 0px 0px 15px var(--btn-red-color);
+	background: rgba(255,255,255,0.05);
+	box-shadow: 0px 0px 20px rgba(0,169,161,0.18);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -506,7 +509,7 @@ section {
 	background-position: right center;
 	color: #FFFFFF;
 	border-radius: 0;
-	background: #b84f37;
+	filter: brightness(0.85);
 	background-clip: padding-box;
 	-webkit-text-fill-color: #FFFFFF;
 }
@@ -518,7 +521,8 @@ section {
 }
 
 .btn.driver-btn:hover {
-	background: #007f79 !important;
+	filter: brightness(0.85) !important;
+	background: var(--btn-green-color) !important;
 }
 
 /* Scroll Down icon */
@@ -1171,8 +1175,7 @@ span.img-text:hover {
 .pricing-tables {
 	margin: 0 10px;
 	border-radius: 25px;
-	box-shadow: 0 0 15px 0 rgba(181, 23, 134, 0.6);	
-	
+
 	-webkit-transition: 0.1s cubic-bezier(0.540, 1.410, 0.540, 0.870);
 	-moz-transition: 0.1s cubic-bezier(0.540, 1.410, 0.540, 0.870);
 	-o-transition: 0.1s cubic-bezier(0.540, 1.410, 0.540, 0.870);
@@ -1219,7 +1222,7 @@ span.img-text:hover {
 }
 
 .bg-pro {
-    background-color: #a46f2f;
+    filter: brightness(0.85);
 	padding: 12px 25px !important;
 }
 
@@ -1596,7 +1599,7 @@ a.faq-link[aria-expanded=true] {
 
 .btn:active {
 	transform: scale(0.9);
-	background-color: #a46f2f;
+	filter: brightness(0.85);
 	box-shadow: 0 2px 25px rgba(184, 82, 46, 0.3);
 }
 
@@ -1752,6 +1755,25 @@ span.social-link {
 }
 
 #scroll:hover {
-    background-color:#a46f2f;
+    filter: brightness(0.85);
     opacity:1;
+}
+
+.cta-or {
+    display: inline-block;
+    margin: 0 8px;
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-color);
+    opacity: 0.55;
+    vertical-align: middle;
+}
+
+footer dt {
+    color: #ffffff;
+    font-weight: 600;
+}
+footer dt a {
+    color: #ffffff;
+    text-decoration: underline;
 }

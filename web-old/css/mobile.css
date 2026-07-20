@@ -104,8 +104,14 @@ img.desktop {
 
 /* WhatsApp FAB */
 .fab-container {
-	bottom: 16px;
+	bottom: 64px;
 	right: 12px;
+}
+
+.cta-or {
+	display: block;
+	text-align: center;
+	margin: 2px 0;
 }
 
 .whatsapp-label {

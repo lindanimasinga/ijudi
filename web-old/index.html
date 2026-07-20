@@ -29,7 +29,7 @@
 	<meta name="twitter:creator" content="@iZingaApp">
 	
 	<!-- PWA Meta Tags -->
-	<meta name="theme-color" content="#D66247">
+	<meta name="theme-color" content="#212121">
 	<meta name="msapplication-navbutton-color" content="#D66247">
 	<meta name="apple-mobile-web-app-status-bar-style" content="default">
 	<meta name="apple-mobile-web-app-capable" content="yes">
@@ -66,7 +66,6 @@
 			--btn-red-color: #D66247;
 			--btn-green-color: #00A9A1;
 			--btn-pill-color: #1083A5;
-			--fd-btn-hover-color: #a46f2f;
 			--fd-footer-text-color: #ffffff;
 		}
 
@@ -91,11 +90,11 @@
 
 		.heading-button {
 			padding: 28px 24px;
-			border-radius: 5px;
-			background: var(--text-color);
-			box-shadow: 0 20px 40px rgba(33, 33, 33, 0.3);
-			backdrop-filter: blur(3px);
-			z-index: 2000 !important;
+			background: transparent;
+			box-shadow: none;
+			backdrop-filter: none;
+			border-radius: 0;
+			z-index: 2;
 		}
 
 		.heading-button .hero-title {
@@ -130,12 +129,11 @@
 			background: var(--btn-red-color) !important;
 			font-weight: 700 !important;
 			padding: 15px 18px !important;
-			width: auto !important;
 			z-index: 2000 !important;
 		}
 
 		.btn:hover {
-			background: #b84f37 !important;
+			filter: brightness(0.85);
 		}
 
 .fab-container {
@@ -203,11 +201,13 @@
 		}
 
 		.section-about {
-			background: linear-gradient(180deg, var(--bkg-color) 0%, var(--bkg-card-color) 100%);
+			background: var(--bkg-card-color);
+			border-top: 3px solid var(--btn-pill-color);
 		}
 
 		.section-services {
 			background: var(--bkg-color);
+			border-top: 3px solid var(--btn-pill-color);
 		}
 
 		.service-grid {
@@ -256,7 +256,7 @@
 		.step-card {
 			background: rgba(255, 255, 255, 0.08);
 			border: 1px solid rgba(255, 255, 255, 0.18);
-			border-radius: 14px;
+			border-radius: 0;
 			padding: 20px;
 		}
 
@@ -268,7 +268,7 @@
 			height: 34px;
 			border-radius: 50%;
 			font-weight: 700;
-			background: var(--fd-btn-bg-color);
+			background: var(--btn-bg-color);
 			color: #ffffff;
 			margin-bottom: 10px;
 		}
@@ -287,7 +287,8 @@
 		}
 
 		.section-cta {
-			background: linear-gradient(135deg, var(--bkg-color) 0%, var(--bkg-card-color) 100%);
+			background: var(--bkg-card-color);
+			border-top: 3px solid var(--btn-pill-color);
 		}
 
 		.cta-panel {
@@ -496,24 +497,26 @@
 
 	<div id="food-market" class="col-12">
 			<header class="text-white box">
+				<div class="container">
 				<div class="row head">
 					<div class="col-12 col-md-7 mx-auto mb-5 heading-button">
-						<img class="driver" src="./assets/images/bikeDriver.png" alt="iZinga delivery driver" class="float desktop" style="transform: matrix(1, 0, 0, 1, 14.45, 2.8);">
+						<img class="driver float desktop" src="./assets/images/bikeDriver.png" alt="iZinga delivery driver" style="transform: matrix(1, 0, 0, 1, 14.45, 2.8);">
 						<h1 class="hero-title">Same Day Parcel & Furniture Delivery In South Africa</h1>
 						<p class="header-lead mb-3 mt-3 text-center">
 							Move couches, appliances, and parcels with ease. iZinga connects you to trusted drivers for same-day furniture and parcel delivery.
 						</p>
 						<a href="https://delivery.izinga.co.za/">
-							<button class="btn shadow">Book a Delivery</button>	
+							<button class="btn shadow">Book a Delivery</button>
 						</a>
+						<span class="cta-or">or</span>
 						<a href="https://onboard.izinga.co.za?type=driver">
-							<button class="btn shadow driver-btn">Become A Driver</button>	
+							<button class="btn shadow driver-btn">Become A Driver</button>
 						</a>
 					</div>
-					<div class="col-12 col-md-5 mx-auto">
+					<div class="col-12 col-md-5 mx-auto" style="position: relative;">
 							<div class="parallax-circle">
 								<img class="float mobile" src="./assets/images/izinga-deliveries.png" alt="header image" style="transform: matrix(1, 0, 0, 1, 14.45, 2.8);">
-							</div>=
+							</div>
 					
 						<div class="wave -one"></div>
 						<div class="wave -two"></div>
@@ -521,6 +524,7 @@
 					</div><!-- /col-lg-6 mx-auto -->
 					<!-- /col-lg-6 mx-auto -->
 				</div><!-- /row head -->
+				</div><!-- /container -->
 			</header>
 		</div>
 
@@ -537,6 +541,7 @@
 						<h3 class="service-title mb-2">Ready to move something?</h3>
 						<p class="service-text">Book a furniture or parcel delivery in minutes, or sign up to drive and earn.</p>
 						<a href="https://delivery.izinga.co.za/"><button class="btn shadow">Book Delivery</button></a>
+						<span class="cta-or">or</span>
 						<a href="https://onboard.izinga.co.za?type=driver"><button class="btn shadow driver-btn">Become A Driver</button></a>
 					</div>
 				</div>
@@ -598,6 +603,7 @@
 				<h2 class="section-heading mb-2">Move something today with iZinga</h2>
 				<p class="section-copy mx-auto mb-4">Book a furniture or parcel delivery now, or sign up to drive and earn on your own schedule.</p>
 				<a href="https://delivery.izinga.co.za/"><button class="btn shadow">Book a Delivery</button></a>
+				<span class="cta-or">or</span>
 				<a href="https://onboard.izinga.co.za?type=driver"><button class="btn shadow driver-btn">Drive With iZinga</button></a>
 			</div>
 		</div>
@@ -608,7 +614,7 @@
 	<div class="fab-container">
 		<a class="whatsapp-fab" href="https://wa.me/27686401157?text=Hi%20iZinga%2C%20I%20want%20to%20get%20started." target="_blank" rel="noopener noreferrer" aria-label="Get started with WhatsApp">
 			<i class="fab fa-whatsapp whatsapp-icon" aria-hidden="true"></i>
-			<span class="whatsapp-label">No App Needed - Get Started On WhatsApp</span>
+			<span class="whatsapp-label">Chat on WhatsApp</span>
 		</a>
 	</div>
 
@@ -618,7 +624,7 @@
 		<div class="container">
 			<div class="row">
 					<dl class="col-12 col-md-4 contact-list text-center">
-						<dt>Email: <a href="mailto:admin@curiousoft.io">admin@curiousoft.io</a></dt>
+						<dt>Email: <a href="mailto:hello@curiousoft.dev">hello@curiousoft.dev</a></dt>
 					</dl>
 					<dl class="col-12 col-md-4 contact-list text-center">
 						<dt>Phone: <a href="tel:+27686401157">+27 68 640 1157</a></dt>
@@ -635,7 +641,7 @@
 
 		<div id="copyright" class="copyright-bg">
 			<div class="container">
-				<p class="rights"><span>©&nbsp; </span><span class="copyright-year"></span><span>&nbsp;</span><span>Curiousoft</span><span>.&nbsp;</span><span>All
+				<p class="rights"><span>©&nbsp; </span><span class="copyright-year"></span><span>&nbsp;</span><span>iZinga</span><span>.&nbsp;</span><span>All
 						Rights Reserved.</span></p>
 			</div><!-- /container -->
 		</div><!-- /copyright -->
