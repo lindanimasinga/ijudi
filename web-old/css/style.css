@@ -44,6 +44,19 @@
 	object-fit: cover;
 }
 	
+.parallax-circle {
+	position: relative;
+}
+
+/* At tablet+ the hero image is fixed 280px; match container so margin:auto centres correctly */
+@media (min-width: 768px) {
+	.parallax-circle {
+		width: 280px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
 .parallax-circle img{
 	border-radius: 35px;
 	width: clamp(180px, 28vw, 340px);
@@ -360,6 +373,17 @@ section {
 	padding-top: 150px;
 }
 
+@media (min-width: 768px) {
+	#food-market {
+		min-height: calc(100vh - 90px);
+	}
+	#food-market .box {
+		display: flex;
+		align-items: center;
+		min-height: calc(100vh - 90px);
+	}
+}
+
 #delivery-services {
 	margin-bottom: 0;
 }
@@ -413,16 +437,17 @@ section {
 .wave {
 	opacity: .5;
 	position: absolute;
-	top: 0;
-	right: 10%;
+	top: 50%;
+	left: 50%;
+	right: auto;
 	background: rgba(255,255,255,0.05);
 	width: clamp(220px, 36vw, 400px);
 	height: clamp(220px, 36vw, 400px);
-	margin-right: 0;
-	margin-top: 50px;
+	margin-top: calc(clamp(220px, 36vw, 400px) / -2);
+	margin-left: calc(clamp(220px, 36vw, 400px) / -2);
 	transform-origin: 50% 48%;
 	border-radius: 45%;
-	z-index: -9000;
+	z-index: 0;
 }
 
 .wave.-three {
