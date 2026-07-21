@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 420" class="sa-outline" aria-label="Map of South Africa showing iZinga service areas">
+  <!-- Simplified South Africa outline -->
+  <path d="M 85,80 L 95,70 L 120,65 L 150,60 L 185,58 L 220,55 L 260,52 L 300,50 L 340,52 L 370,58 L 395,68 L 415,82 L 425,100 L 430,118 L 428,138 L 420,155 L 408,172 L 398,185 L 390,200 L 388,218 L 385,235 L 375,252 L 360,268 L 345,280 L 330,290 L 318,300 L 308,312 L 298,325 L 288,340 L 280,355 L 272,368 L 268,378 L 264,388 L 260,395 L 256,388 L 250,375 L 244,362 L 238,350 L 230,338 L 220,325 L 208,312 L 195,300 L 180,290 L 162,278 L 145,265 L 130,250 L 115,232 L 102,215 L 90,195 L 80,175 L 74,155 L 70,135 L 72,115 L 78,97 Z"
+        fill="none" stroke="#444" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Lesotho cutout suggestion -->
+  <ellipse cx="270" cy="260" rx="18" ry="14" fill="none" stroke="#444" stroke-width="1.5"/>
+
+  <!-- Johannesburg pin (~centre-north) -->
+  <g class="map-pin" data-city="Johannesburg" tabindex="0" role="button" aria-label="Johannesburg — services pending">
+    <circle class="pin-dot" cx="230" cy="168" r="7" fill="var(--btn-green-color)" stroke="#fff" stroke-width="2"/>
+    <polygon points="226,174 234,174 230,182" fill="var(--btn-green-color)"/>
+    <g class="pin-label" style="pointer-events:none">
+      <rect x="185" y="142" width="90" height="24" rx="2" fill="rgba(0,0,0,0.8)"/>
+      <text x="230" y="153" text-anchor="middle" fill="#fff" font-family="Catamaran,sans-serif" font-size="8" font-weight="700">Johannesburg</text>
+      <text x="230" y="162" text-anchor="middle" fill="#aaa" font-family="Catamaran,sans-serif" font-size="6">Services coming soon</text>
+    </g>
+  </g>
+
+  <!-- Durban pin (~east coast) -->
+  <g class="map-pin" data-city="Durban" tabindex="0" role="button" aria-label="Durban — services pending">
+    <circle class="pin-dot" cx="328" cy="225" r="7" fill="var(--btn-red-color)" stroke="#fff" stroke-width="2"/>
+    <polygon points="324,231 332,231 328,239" fill="var(--btn-red-color)"/>
+    <g class="pin-label" style="pointer-events:none">
+      <rect x="283" y="200" width="90" height="24" rx="2" fill="rgba(0,0,0,0.8)"/>
+      <text x="328" y="211" text-anchor="middle" fill="#fff" font-family="Catamaran,sans-serif" font-size="8" font-weight="700">Durban</text>
+      <text x="328" y="220" text-anchor="middle" fill="#aaa" font-family="Catamaran,sans-serif" font-size="6">Services coming soon</text>
+    </g>
+  </g>
+
+  <!-- Cape Town pin (~south-west) -->
+  <g class="map-pin" data-city="Cape Town" tabindex="0" role="button" aria-label="Cape Town — services pending">
+    <circle class="pin-dot" cx="152" cy="330" r="7" fill="var(--btn-green-color)" stroke="#fff" stroke-width="2"/>
+    <polygon points="148,336 156,336 152,344" fill="var(--btn-green-color)"/>
+    <g class="pin-label" style="pointer-events:none">
+      <rect x="107" y="304" width="90" height="24" rx="2" fill="rgba(0,0,0,0.8)"/>
+      <text x="152" y="315" text-anchor="middle" fill="#fff" font-family="Catamaran,sans-serif" font-size="8" font-weight="700">Cape Town</text>
+      <text x="152" y="324" text-anchor="middle" fill="#aaa" font-family="Catamaran,sans-serif" font-size="6">Services coming soon</text>
+    </g>
+  </g>
+
+  <!-- Legend -->
+  <g class="map-legend">
+    <circle cx="338" cy="355" r="5" fill="var(--btn-green-color)"/>
+    <text x="348" y="359" fill="#aaa" font-family="Catamaran,sans-serif" font-size="8">Furniture · Parcel</text>
+    <circle cx="338" cy="370" r="5" fill="var(--btn-red-color)"/>
+    <text x="348" y="374" fill="#aaa" font-family="Catamaran,sans-serif" font-size="8">Food Delivery</text>
+  </g>
+</svg>
