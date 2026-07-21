@@ -61,6 +61,7 @@ img { max-width: 100%; display: block; }
 
 /* ============================================================
    FLAT BUTTON SYSTEM (spec: border-radius 0, Catamaran 700)
+   /* CEO override 21 Jul: all buttons #212121 */
    ============================================================ */
 .btn-iz {
   display: inline-flex;
@@ -80,15 +81,26 @@ img { max-width: 100%; display: block; }
   transition: filter 200ms ease;
   letter-spacing: 0.02em;
 }
-.btn-iz:hover { filter: brightness(0.9); }
+.btn-iz:hover { filter: brightness(1.4); }
 
-.btn-coral  { background: var(--btn-red-color);   color: #fff; border-color: var(--btn-red-color); }
-.btn-teal   { background: var(--btn-green-color);  color: #fff; border-color: var(--btn-green-color); }
-.btn-gold   { background: var(--btn-bg-color);     color: #fff; border-color: var(--btn-bg-color); }
-.btn-blue   { background: var(--btn-pill-color);   color: #fff; border-color: var(--btn-pill-color); }
-.btn-wa     { background: #25D366;                 color: #fff; border-color: #25D366; width: 100%; }
+/* CEO override 21 Jul: all filled buttons use #212121 regardless of role colour */
+.btn-coral,
+.btn-teal,
+.btn-gold,
+.btn-blue  { background: #212121; color: #fff; border-color: #212121; }
+.btn-wa    { background: #212121; color: #fff; border-color: #212121; width: 100%; }
 .btn-outline-white { background: transparent; color: #fff; border-color: #fff; }
-.btn-full   { width: 100%; }
+.btn-full  { width: 100%; }
+
+/* Buttons on dark (#212121) sections — invert to white fill so they remain legible */
+.hero-section    .btn-iz:not(.btn-outline-white),
+.drivers-section .btn-iz:not(.btn-outline-white) {
+  background: #fff; color: #212121; border-color: #fff;
+}
+.hero-section    .btn-iz:not(.btn-outline-white):hover,
+.drivers-section .btn-iz:not(.btn-outline-white):hover {
+  filter: brightness(0.88);
+}
 
 /* ============================================================
    EYEBROW
@@ -1068,18 +1080,18 @@ img { max-width: 100%; display: block; }
   bottom: 28px; right: 28px;
   z-index: 900;
   display: inline-flex; align-items: center; gap: 10px;
-  background: #25D366;
+  background: #212121; /* CEO override 21 Jul: all buttons #212121 */
   color: #fff;
   padding: 12px 18px;
   border-radius: 28px;
   font-family: Catamaran, Calibri, sans-serif;
   font-weight: 700; font-size: 0.875rem;
   text-decoration: none;
-  box-shadow: 0 4px 16px rgba(37,211,102,0.35);
+  box-shadow: 0 4px 16px rgba(33,33,33,0.35);
   transition: filter 200ms;
   min-height: 44px;
 }
-.iz-fab:hover { filter: brightness(0.9); }
+.iz-fab:hover { filter: brightness(1.4); }
 .iz-fab img { width: 20px; height: 20px; }
 
 /* ============================================================
