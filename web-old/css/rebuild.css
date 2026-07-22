@@ -1387,6 +1387,260 @@ img { max-width: 100%; display: block; }
 }
 
 /* ============================================================
+   COVERAGE MAP PINS (S09 — item 9)
+   ============================================================ */
+.coverage-map-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 480px;
+}
+.coverage-map-wrapper img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.map-pins-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.map-pin {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: all;
+  cursor: pointer;
+}
+.map-pin .pin-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.55);
+  transition: transform 150ms ease;
+  flex-shrink: 0;
+}
+.map-pin--teal  .pin-dot { background: var(--btn-green-color); }
+.map-pin--coral .pin-dot { background: var(--btn-red-color); }
+.map-pin:hover .pin-dot,
+.map-pin:focus .pin-dot,
+.map-pin.pin-active .pin-dot { transform: scale(1.4); }
+.pin-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: #fff;
+  color: var(--text-color);
+  font-family: Catamaran, Calibri, sans-serif;
+  font-weight: 700;
+  font-size: 0.6rem;
+  line-height: 1.4;
+  padding: 5px 8px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms ease;
+  z-index: 10;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.pin-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #fff;
+}
+.map-pin:hover .pin-tooltip,
+.map-pin:focus .pin-tooltip,
+.map-pin.pin-active .pin-tooltip { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .map-pin .pin-dot, .pin-tooltip { transition: none; }
+}
+/* Map legend */
+.map-legend {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(33,33,33,0.8);
+  padding: 8px 10px;
+  font-family: Catamaran, Calibri, sans-serif;
+  font-size: 0.6rem;
+  color: #fff;
+  line-height: 1.8;
+}
+.map-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.map-legend-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.map-legend-dot--teal  { background: var(--btn-green-color); }
+.map-legend-dot--coral { background: var(--btn-red-color); }
+
+/* ============================================================
+   FOOTER LEGAL PENDING TREATMENT (items 16)
+   ============================================================ */
+.footer-legal-pending {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: default;
+}
+.footer-pending-label {
+  font-size: 0.6rem;
+  color: var(--dark-text-faint);
+  display: inline;
+  margin-left: 4px;
+  font-style: italic;
+}
+
+/* ============================================================
+   CTA LEGAL REVIEW NOTE (item 18)
+   ============================================================ */
+.cta-legal-note {
+  font-size: 0.65rem;
+  color: #888;
+  line-height: 1.5;
+  margin-top: 10px;
+  font-family: Catamaran, Calibri, sans-serif;
+  font-style: italic;
+  border-top: 1px solid var(--rule);
+  padding-top: 8px;
+}
+
+/* ============================================================
+   POPIA FORM NOTICE (item 15)
+   ============================================================ */
+.form-popia-notice {
+  font-size: 0.7rem;
+  color: #888;
+  line-height: 1.6;
+  margin-top: 4px;
+  margin-bottom: 16px;
+  font-family: Catamaran, Calibri, sans-serif;
+  max-width: 100%;
+}
+.form-popia-notice a {
+  color: var(--btn-pill-color);
+  text-decoration: underline;
+}
+
+/* ============================================================
+   FURNITURE CARD — LIGHT CALCULATOR WIDGET (item 2)
+   ============================================================ */
+.card-calc-widget {
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+.card-calc-fields-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.card-calc-fields-disabled .calc-field-group {
+  margin-bottom: 10px;
+}
+.card-calc-fields-disabled .calc-label {
+  display: block;
+  font-size: 0.6rem;
+  font-family: Catamaran, Calibri, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #888;
+  margin-bottom: 3px;
+}
+.card-calc-fields-disabled .calc-input-light {
+  width: 100%;
+  border: 1px solid var(--rule);
+  padding: 8px 10px;
+  border-radius: 0;
+  background: var(--bkg-card-color);
+  color: var(--text-color);
+  font-family: Catamaran, Calibri, sans-serif;
+  font-size: 0.8rem;
+}
+.card-calc-coming-note {
+  font-size: 0.65rem;
+  color: #999;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   STORE BADGE BUTTONS — no-emoji version (item 11)
+   ============================================================ */
+.store-badge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  background: #212121;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 0;
+  text-decoration: none;
+  min-height: 52px;
+  min-width: 140px;
+  font-family: Catamaran, Calibri, sans-serif;
+  transition: filter 200ms;
+  border: 1px solid #444;
+}
+.store-badge:hover { filter: brightness(0.85); }
+.store-badge-sub {
+  font-size: 0.6rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #aaa;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.store-badge-name {
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+}
+
+/* ============================================================
+   iZINGA PAY — supporting image column (item 5)
+   ============================================================ */
+.pay-image-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pay-image-col img {
+  max-width: 220px;
+  width: 100%;
+  height: auto;
+  border-radius: 0;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+}
+
+/* ============================================================
+   MERCHANTS — supporting image (item 6)
+   ============================================================ */
+.merchants-image-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+.merchants-image-row img {
+  max-width: 320px;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+/* ============================================================
    ACCESSIBILITY & MOTION
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {

@@ -102,26 +102,24 @@
 
         <div class="prog-box" aria-labelledby="prog-rp-h3">
           <h3 id="prog-rp-h3">Referral Partner Programme</h3>
-          <!-- PENDING INPUT: Operations/BD to supply value statement and benefit bullets for this programme -->
-          <p class="prog-value prog-pending-note">Programme details coming soon — Operations and BD are finalising copy.</p>
+          <p class="prog-value prog-pending-note">Programme details coming soon.</p>
           <ul>
-            <li>Earn commission on referred merchants</li>
+            <li>Earn commissions on qualifying referrals you bring in</li>
             <li>Dedicated partner onboarding</li>
             <li>Track referrals in your dashboard</li>
           </ul>
-          <p class="prog-pending-note">Full value statement, rates, and benefit details: <em>[PENDING INPUT — D9]</em></p>
+          <p class="cta-legal-note" style="margin-top:12px;">Programme terms are currently under legal review. Registering now expresses interest only — no agreement is active until terms are finalised and you accept them separately.</p>
         </div>
 
         <div class="prog-box" aria-labelledby="prog-amb-h3">
           <h3 id="prog-amb-h3">Ambassador Programme</h3>
-          <!-- PENDING INPUT: Operations/BD to supply value statement and benefit bullets for this programme -->
-          <p class="prog-value prog-pending-note">Programme details coming soon — Operations and BD are finalising copy.</p>
+          <p class="prog-value prog-pending-note">Programme details coming soon.</p>
           <ul>
             <li>Community events and activations</li>
             <li>Driver and merchant recruitment</li>
-            <li>Earn on every milestone you unlock</li>
+            <li>Earn commissions for every driver you successfully introduce to iZinga.</li>
           </ul>
-          <p class="prog-pending-note">Full value statement, rates, and benefit details: <em>[PENDING INPUT — D9]</em></p>
+          <p class="cta-legal-note" style="margin-top:12px;">Programme terms are currently under legal review. Registering now expresses interest only — no agreement is active until terms are finalised and you accept them separately.</p>
         </div>
 
         <!-- Disclaimer visible on page for context -->
@@ -136,9 +134,8 @@
         <div class="biz-form-surface">
           <h2>Send an Enquiry</h2>
 
-          <!-- [PENDING INPUT] Form submit action is stubbed — NOT silently swallowing submissions -->
-          <div class="form-submit-pending" role="alert" aria-live="polite">
-            <strong>Note:</strong> Form submission routing is being confirmed. Your enquiry will be captured but not yet sent automatically. Contact <a href="mailto:hello@curiousoft.dev" style="color:var(--btn-pill-color);">hello@curiousoft.dev</a> directly for an immediate response.
+          <div class="form-submit-pending" role="note">
+            We are setting up automated routing. Use the form and we will respond within 1 business day, or email <a href="mailto:hello@curiousoft.dev" style="color:var(--btn-pill-color);">hello@curiousoft.dev</a> directly.
           </div>
 
           <form id="biz-enquiry-form" novalidate aria-label="Business enquiry form">
@@ -203,6 +200,11 @@
               </div>
             </div>
 
+            <!-- POPIA notice -->
+            <div class="form-row full">
+              <p class="form-popia-notice">By submitting this form, you agree to iZinga (operated by Curiousoft (Pty) Ltd) processing your information to respond to your enquiry. Your information will be handled in accordance with our <a href="https://www.izinga.co.za/privacy.html">Privacy Policy</a>. You may contact us to access, correct, or delete your information at any time.</p>
+            </div>
+
             <!-- Row 5: Submit -->
             <div class="form-row full" style="margin-top:8px;">
               <button class="btn-iz btn-blue btn-full" type="submit" id="form-submit-btn" style="padding:14px 32px;">
@@ -212,10 +214,10 @@
 
           </form>
 
-          <!-- [P11] Success state — replaces form on submission -->
+          <!-- Success state — replaces form on submission -->
           <div class="form-success" id="form-success" aria-live="polite" aria-atomic="true">
-            <h3>Thank you — we'll be in touch within 1 business day.</h3>
-            <p>Keep an eye on <strong><span class="success-email"></span></strong> for our response.</p>
+            <h3>Thank you — your interest has been recorded.</h3>
+            <p>We will be in touch once we have confirmed the best way to reach you.</p>
           </div>
 
         </div>
@@ -277,13 +279,12 @@
       </ul>
     </div>
   </div>
-  <!-- [B3 — PENDING INPUT — Legal & Compliance sign-off required] -->
   <div class="footer-copyright-strip">
-    <p>© <span class="biz-footer-year"></span> Curiousoft (Pty) Ltd. Trading as iZinga. All rights reserved. <em style="font-size:0.65rem;color:#555;">[Legal sign-off pending]</em></p>
+    <p>© <span class="biz-footer-year"></span> Curiousoft (Pty) Ltd (2016/429327/07). Trading as iZinga. All rights reserved.</p>
     <div class="footer-legal-links">
       <a href="https://www.izinga.co.za/privacy.html">Privacy Policy</a>
-      <a href="#">Terms &amp; Conditions</a>
-      <a href="#">POPIA Notice</a>
+      <a href="#" class="footer-legal-pending" aria-disabled="true">Terms &amp; Conditions</a><span class="footer-pending-label">(pending legal review)</span>
+      <a href="#" class="footer-legal-pending" aria-disabled="true">POPIA Notice</a><span class="footer-pending-label">(pending legal review)</span>
     </div>
   </div>
 </footer>

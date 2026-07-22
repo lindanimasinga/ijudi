@@ -219,11 +219,30 @@
         <span class="card-eyebrow">Featured Service</span>
         <div class="card-body">
           <h3 id="furniture-h3" class="h3-heading">Furniture Delivery</h3>
-          <!-- [PENDING INPUT — D3 — Operations to confirm feature bullets. Floor copy below is placeholder only] -->
-          <!-- [D3 — PENDING INPUT — Operations to confirm feature bullets. Floor copy below is placeholder only] -->
-          <p class="card-quote-note">Delivery details coming soon — book via WhatsApp for availability.</p>
-          <!-- [D11] Calculator Coming Soon state -->
-          <span class="card-quote-note">Quote calculator coming soon — book via WhatsApp for an immediate estimate.</span>
+          <ul>
+            <li>Large-item specialists — sofas, appliances, wardrobes</li>
+            <li>Two-person team for items over 30 kg</li>
+            <li>Available in Johannesburg and Durban — same-day bookings</li>
+          </ul>
+          <!-- Quote calculator — Coming Soon (Component D State 2) -->
+          <div class="card-calc-widget">
+            <span class="calc-coming-soon-badge">Coming Soon</span>
+            <div class="card-calc-fields-disabled" aria-hidden="true">
+              <div class="calc-field-group">
+                <label class="calc-label">Pickup suburb</label>
+                <input class="calc-input-light" type="text" placeholder="e.g. Sandton" disabled tabindex="-1">
+              </div>
+              <div class="calc-field-group">
+                <label class="calc-label">Drop-off suburb</label>
+                <input class="calc-input-light" type="text" placeholder="e.g. Randburg" disabled tabindex="-1">
+              </div>
+              <div class="calc-field-group">
+                <label class="calc-label">Floor number</label>
+                <input class="calc-input-light" type="number" placeholder="e.g. 3" disabled tabindex="-1">
+              </div>
+            </div>
+            <p class="card-calc-coming-note">Quote calculator coming soon — book via WhatsApp for an immediate estimate.</p>
+          </div>
           <!-- [D2] B2B escape hatch -->
           <a class="card-b2b-escape" href="./business.html">Furniture retailer or estate agent? See our Business programme →</a>
         </div>
@@ -283,8 +302,10 @@
         <span class="eyebrow eyebrow-blue">iZinga Pay</span>
         <h2 id="pay-h2">Instant payments, built into every delivery.</h2>
         <p>Accept payments, share links, and let customers tip drivers — all without downloading another app.</p>
-        <!-- [P4 — PENDING INPUT — PO to decide final CTA target and audience framing] Interim label used -->
         <a class="btn-iz btn-blue" href="https://pay.izinga.co.za/" style="margin-top:8px;">Pay or Tip with iZinga Pay</a>
+        <div class="pay-image-col" style="margin-top:24px;">
+          <img src="./assets/images/izinga-pay.png" alt="iZinga Pay — instant payment and tipping screen" loading="lazy">
+        </div>
       </div>
 
       <!-- [P3] Four confirmed capabilities -->
@@ -362,7 +383,7 @@
         <p>Join a growing network of iZinga drivers delivering furniture, parcels, and food across South Africa.</p>
         <ul class="drivers-features" aria-label="Driver benefits">
           <li>Flexible hours — work when it suits you</li>
-          <li>Weekly payouts directly to your account</li>
+          <li>Regular payouts directly to your account</li>
           <li>App-based job management and tracking</li>
         </ul>
         <div class="drivers-cta-stack">
@@ -404,6 +425,10 @@
         <p>iZinga Pay handles collection so you get paid without chasing customers.</p>
       </div>
     </div>
+
+    <div class="merchants-image-row">
+      <img src="./assets/images/izinga-deliveries.png" alt="iZinga delivery driver fulfilling a merchant order" loading="lazy">
+    </div>
   </div>
 
   <!-- Full-width CTA bar -->
@@ -432,7 +457,7 @@
         <h2 id="rp-h2">Refer businesses. Earn commission.</h2>
         <p>Know furniture retailers, estate agents, or businesses that need reliable delivery? Introduce them to iZinga and earn commission on every deal you bring in.</p>
         <ul class="rp-benefits" aria-label="Referral Partner benefits">
-          <li>Earn commission on every merchant you refer</li>
+          <li>Earn commissions on qualifying referrals you bring in</li>
           <li>No delivery work required — introduce and earn</li>
           <li>Dedicated partner support and onboarding</li>
           <li>Track referrals and earnings in your partner dashboard</li>
@@ -450,6 +475,7 @@
           <br>
           <!-- [CONFLICT 1 — RESOLVED] Exact button text: "Register Your Interest" -->
           <a class="btn-iz btn-blue btn-full" href="https://biz.izinga.co.za/?source=rp-section" style="margin-top:4px;">Register Your Interest</a>
+          <p class="cta-legal-note">Programme terms are currently under legal review. Registering now expresses interest only — no agreement is active until terms are finalised and you accept them separately.</p>
         </div>
       </div>
 
@@ -474,6 +500,7 @@
           </p>
           <!-- [CONFLICT 1 — RESOLVED] Exact button text: "Register Your Interest" -->
           <a class="btn-iz btn-blue btn-full" href="https://biz.izinga.co.za/?source=ambassador-section" style="margin-top:8px;">Register Your Interest</a>
+          <p class="cta-legal-note">Programme terms are currently under legal review. Registering now expresses interest only — no agreement is active until terms are finalised and you accept them separately.</p>
         </div>
       </div>
 
@@ -512,7 +539,40 @@
       </div>
 
       <div class="coverage-map-col">
-        <img src="./assets/images/sa-map.svg" alt="Map of South Africa showing iZinga service areas in Johannesburg, Durban, and Cape Town" style="width:100%;max-width:480px;">
+        <div class="coverage-map-wrapper" role="img" aria-label="Map of South Africa — iZinga service areas in Johannesburg, Durban, and Cape Town">
+          <img src="./assets/images/sa-map.svg" alt="" aria-hidden="true">
+          <div class="map-pins-overlay" aria-hidden="true">
+            <!-- Johannesburg: ~42% from left, ~36% from top -->
+            <div class="map-pin map-pin--teal" role="button" tabindex="0" aria-label="Johannesburg — services being confirmed"
+                 style="left:42%;top:36%;transform:translate(-50%,-50%);">
+              <div class="pin-dot"></div>
+              <div class="pin-tooltip">Johannesburg<br>Services: being confirmed</div>
+            </div>
+            <!-- Durban: ~65% from left, ~55% from top -->
+            <div class="map-pin map-pin--coral" role="button" tabindex="0" aria-label="Durban — services being confirmed"
+                 style="left:65%;top:55%;transform:translate(-50%,-50%);">
+              <div class="pin-dot"></div>
+              <div class="pin-tooltip">Durban<br>Services: being confirmed</div>
+            </div>
+            <!-- Cape Town: ~26% from left, ~84% from top -->
+            <div class="map-pin map-pin--teal" role="button" tabindex="0" aria-label="Cape Town — services being confirmed"
+                 style="left:26%;top:84%;transform:translate(-50%,-50%);">
+              <div class="pin-dot"></div>
+              <div class="pin-tooltip">Cape Town<br>Services: being confirmed</div>
+            </div>
+            <!-- Legend -->
+            <div class="map-legend">
+              <div class="map-legend-item">
+                <div class="map-legend-dot map-legend-dot--teal"></div>
+                <span>Furniture &middot; Parcel</span>
+              </div>
+              <div class="map-legend-item">
+                <div class="map-legend-dot map-legend-dot--coral"></div>
+                <span>Food Delivery</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -532,21 +592,21 @@
         <h2 id="app-h2">Order in minutes. Track in real time.</h2>
         <p>The iZinga app puts furniture, parcel, and food delivery at your fingertips — plus real-time driver tracking.</p>
 
-        <!-- Store buttons — self-hosted store icons not yet available; using text buttons -->
+        <!-- Store badge buttons — flat styled, no emoji -->
         <div class="store-buttons">
-          <a class="store-btn" href="https://download.izinga.co.za/app" aria-label="Download iZinga on the App Store">
-            <span aria-hidden="true">🍎</span> App Store
+          <a class="store-badge" href="https://download.izinga.co.za/app" aria-label="Download iZinga on the App Store">
+            <span class="store-badge-sub">Download on the</span>
+            <span class="store-badge-name">App Store</span>
           </a>
-          <a class="store-btn" href="https://download.izinga.co.za/app" aria-label="Download iZinga on Google Play">
-            <span aria-hidden="true">▶</span> Google Play
+          <a class="store-badge" href="https://download.izinga.co.za/app" aria-label="Download iZinga on Google Play">
+            <span class="store-badge-sub">Get it on</span>
+            <span class="store-badge-name">Google Play</span>
           </a>
         </div>
 
-        <!-- QR frame -->
+        <!-- QR frame — real QR code injected by qr-gen.js -->
         <div style="display:inline-block;margin-top:12px;">
-          <div class="qr-frame">
-            <div class="qr-placeholder" aria-label="QR code placeholder — scan to download iZinga app">QR</div>
-          </div>
+          <div class="qr-frame"></div>
           <span class="qr-label">Scan to download</span>
         </div>
       </div>
@@ -615,8 +675,13 @@
       </div>
     </div>
 
-    <!-- [P6 — PENDING INPUT — Operations to confirm WhatsApp number for share link] -->
-    <p class="testimonials-sub">Testimonials coming soon.</p>
+    <p class="testimonials-sub">Testimonials coming soon.
+      <a href="https://wa.me/27686401157?text=I+want+to+share+my+iZinga+experience"
+         target="_blank" rel="noopener"
+         style="color:var(--btn-pill-color);text-decoration:underline;font-size:0.72rem;">
+        Share your iZinga experience on WhatsApp →
+      </a>
+    </p>
 
   </div>
 </section>
@@ -691,14 +756,12 @@
   </div>
 
   <!-- Copyright strip -->
-  <!-- [B3 — PENDING INPUT — Legal & Compliance] Draft below must not ship without Legal sign-off. "iZinga (Pty) Ltd" is not a registered entity. -->
-  <!-- LEGAL PENDING: Final wording awaited from Legal & Compliance before go-live -->
   <div class="footer-copyright-strip">
-    <p>© <span id="footer-year"></span> Curiousoft (Pty) Ltd. Trading as iZinga. All rights reserved. <em style="font-size:0.65rem;color:#555;">[Legal sign-off pending]</em></p>
+    <p>© <span id="footer-year"></span> Curiousoft (Pty) Ltd (2016/429327/07). Trading as iZinga. All rights reserved.</p>
     <div class="footer-legal-links">
       <a href="https://www.izinga.co.za/privacy.html">Privacy Policy</a>
-      <a href="#">Terms &amp; Conditions</a>
-      <a href="#">POPIA Notice</a>
+      <a href="#" class="footer-legal-pending" aria-disabled="true">Terms &amp; Conditions</a><span class="footer-pending-label">(pending legal review)</span>
+      <a href="#" class="footer-legal-pending" aria-disabled="true">POPIA Notice</a><span class="footer-pending-label">(pending legal review)</span>
     </div>
   </div>
 
@@ -718,6 +781,7 @@
      SCRIPTS
      ============================================================ -->
 <script src="./js/site.js" defer></script>
+<script src="./js/qr-gen.js" defer></script>
 
 <script>
   /* Inline: footer year — runs immediately */
