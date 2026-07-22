@@ -61,7 +61,7 @@ img { max-width: 100%; display: block; }
 
 /* ============================================================
    FLAT BUTTON SYSTEM (spec: border-radius 0, Catamaran 700)
-   /* CEO override 21 Jul: all buttons #212121 */
+   CEO override 21 Jul: all buttons #212121
    ============================================================ */
 .btn-iz {
   display: inline-flex;
@@ -89,7 +89,15 @@ img { max-width: 100%; display: block; }
 .btn-gold,
 .btn-blue  { background: #212121; color: #fff; border-color: #212121; }
 .btn-wa    { background: #212121; color: #fff; border-color: #212121; width: 100%; }
-.btn-outline-white { background: transparent; color: #fff; border-color: #fff; }
+.btn-outline-white {
+  background: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 13px 26px;
+  font-family: Catamaran, Calibri, sans-serif;
+  font-weight: 700;
+  border-radius: 0;
+}
 .btn-full  { width: 100%; }
 
 /* Buttons on dark (#212121) sections — invert to white fill so they remain legible */
