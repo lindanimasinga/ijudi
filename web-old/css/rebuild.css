@@ -305,7 +305,8 @@ img { max-width: 100%; display: block; }
 }
 
 .hero-copy {
-  padding: var(--sp-xl) var(--sp-md) var(--sp-xl) var(--sp-xl);
+  /* Issue 6: reduced left inset from --sp-xl (80px) to --sp-lg (48px) for visual balance */
+  padding: var(--sp-xl) var(--sp-xl) var(--sp-xl) var(--sp-lg);
 }
 .hero-copy .eyebrow { font-size: 0.7rem; letter-spacing: 0.14em; }
 .hero-copy h1 {
@@ -409,7 +410,8 @@ img { max-width: 100%; display: block; }
   margin-bottom: 8px;
 }
 .delivery-section .section-sub {
-  color: #555; font-size: 1rem; margin: 0 auto 40px; max-width: 60ch;
+  /* Issue 7: reduced from 40px to --sp-sm (16px) to match sibling section vertical rhythm */
+  color: #555; font-size: 1rem; margin: 0 auto var(--sp-sm); max-width: 60ch;
 }
 
 .delivery-grid {
@@ -1143,7 +1145,8 @@ img { max-width: 100%; display: block; }
 }
 .prog-box h3 {
   font-family: Catamaran, Calibri, sans-serif;
-  font-weight: 800; font-size: 1rem;
+  /* Issue 10: bumped from 1rem to 1.125rem to reduce steep step from biz-hero h1 */
+  font-weight: 800; font-size: 1.125rem;
   color: var(--text-color);
   margin-bottom: 6px;
 }
@@ -1306,13 +1309,16 @@ img { max-width: 100%; display: block; }
   .delivery-grid { grid-template-columns: 1fr; }
   .pay-inner { grid-template-columns: 1fr; }
   .biz-inner { grid-template-columns: 1fr; }
-}
-
-/* --- <768px tablet --- */
-@media (max-width: 767px) {
-  .merchants-tiles { grid-template-columns: 1fr; }
+  /* Issue 2: collapse at 900px (same as .biz-inner) instead of 767px to fix cramped tablet layout */
   .rp-inner { grid-template-columns: 1fr; }
   .ambassador-inner { grid-template-columns: 1fr; }
+}
+
+/* --- <768px mobile (merged — Issue 8) --- */
+@media (max-width: 767px) {
+  /* Grid collapses */
+  .merchants-tiles { grid-template-columns: 1fr; }
+  /* rp-inner and ambassador-inner moved to 900px block — Issue 2 */
   .ambassador-cta-col { order: 2; }
   .ambassador-copy { order: 1; }
   .coverage-inner { grid-template-columns: 1fr; }
@@ -1325,10 +1331,10 @@ img { max-width: 100%; display: block; }
   .biz-form-surface { padding: 24px; }
   .form-row { grid-template-columns: 1fr; }
   .coverage-map-col img { max-width: 300px; margin: 0 auto; }
-}
 
-/* --- 375–767px mobile --- */
-@media (max-width: 767px) {
+  /* Issue 4: card accent stripe — match card's 16px mobile padding to prevent bleed */
+  .card-top-accent { margin: -16px -16px 16px; }
+
   /* Nav */
   .iz-nav__links { display: none; }
   .iz-nav__hamburger { display: flex; }
@@ -1344,10 +1350,11 @@ img { max-width: 100%; display: block; }
     padding: var(--sp-lg) var(--sp-md);
     order: 1;
   }
+  /* Issue 12: increased from 200px to 260px for full-body driver photo */
   .hero-image-col {
     order: 2;
-    min-height: 200px;
-    height: 200px;
+    min-height: 260px;
+    height: 260px;
   }
   .hero-cta-stack { flex-direction: column; }
   .hero-cta-stack .btn-iz { width: 100%; }
@@ -1373,6 +1380,20 @@ img { max-width: 100%; display: block; }
 
   /* Store buttons */
   .store-buttons { flex-direction: column; }
+
+  /* Issue 11: reduce negative margin on mobile where heading wraps to two lines */
+  .form-submit-pending { margin-top: -8px; }
+
+  /* Issue 5: reduce disproportionate vertical gap between biz-hero and biz-main on mobile */
+  .biz-hero { padding: 80px 0 40px; }
+  .biz-main { padding: var(--sp-lg) 0; } /* --sp-lg = 48px */
+}
+
+/* --- <480px intermediate step — Issue 9 --- */
+/* Gives ~440px content width at 500px viewport, reducing the cliff edge at 420px.
+   The 420px rule below overrides .iz-container for anything ≤420px (later in cascade). */
+@media (max-width: 480px) {
+  .iz-container { padding: 0 20px; }
 }
 
 /* --- 375px tight --- */
@@ -1384,6 +1405,8 @@ img { max-width: 100%; display: block; }
   .coverage-section, .app-section, .testimonials-section {
     padding: var(--sp-lg) 0;
   }
+  /* Issue 3: match .iz-container 16px side padding at narrowest widths */
+  .merchants-cta-bar { padding: 20px 16px; }
 }
 
 /* ============================================================
@@ -1776,14 +1799,15 @@ img { max-width: 100%; display: block; }
   outline-offset: 2px;
 }
 
-/* Tap target safety net */
-button, a, [role="button"] {
+/* Tap target safety net — Issue 1: scoped to actual interactive controls only.
+   Bare <a> tags (nav logo, footer links, inline copy links) are excluded
+   so .iz-nav__logo and similar non-CTA anchors are not forced to min-height/flex. */
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
-}
-/* Override for inline anchors */
-p a, li a, .card-b2b-escape, .card-app-link, .card-quote-note {
-  min-height: unset;
-  display: inline;
 }
