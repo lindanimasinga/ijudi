@@ -1691,6 +1691,22 @@ img { max-width: 100%; display: block; }
   display: block;
 }
 
+/* S03 Parcel card — supporting photo (matches food card pattern) */
+.parcel-card-photo {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.parcel-card-photo img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  object-position: 50% 20%;
+  border-radius: 10px;
+  display: block;
+}
+
 /* S05 Drivers — supporting photo (below copy CTAs) */
 .drivers-photo {
   margin-top: 20px;
