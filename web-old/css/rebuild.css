@@ -1722,6 +1722,21 @@ img { max-width: 100%; display: block; }
   display: block;
 }
 
+/* S06 Drivers — calculator column supporting photo */
+.drivers-calc-photo {
+  margin-top: 20px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.drivers-calc-photo img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: 55% 30%;
+  border-radius: 10px;
+  display: block;
+}
+
 /* S08 Ambassador — supporting photo (below copy) */
 .ambassador-photo-col {
   margin-top: 20px;
