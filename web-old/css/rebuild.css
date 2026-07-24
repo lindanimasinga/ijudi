@@ -692,9 +692,7 @@ img { max-width: 100%; display: block; }
   color: var(--text-color);
 }
 .merchants-tiles {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  /* layout: Bootstrap row (col-12 col-md-4) */
   margin: 32px 0;
 }
 .merchant-tile {
@@ -977,9 +975,7 @@ img { max-width: 100%; display: block; }
 .section--populated .testimonials-heading-trust { display: block; }
 
 .skeleton-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  /* layout: Bootstrap row (col-12 col-md-4) */
   margin-top: 32px;
   text-align: left;
 }
@@ -1317,13 +1313,13 @@ img { max-width: 100%; display: block; }
 /* --- <768px mobile (merged — Issue 8) --- */
 @media (max-width: 767px) {
   /* Grid collapses */
-  .merchants-tiles { grid-template-columns: 1fr; }
+  /* .merchants-tiles — handled by Bootstrap col-12 col-md-4 */
   /* rp-inner and ambassador-inner moved to 900px block — Issue 2 */
   .ambassador-cta-col { order: 2; }
   .ambassador-copy { order: 1; }
   .coverage-inner { grid-template-columns: 1fr; }
   .app-inner { grid-template-columns: 1fr; }
-  .skeleton-grid { grid-template-columns: 1fr; }
+  /* .skeleton-grid — handled by Bootstrap col-12 col-md-4 */
   .pay-tiles { grid-template-columns: 1fr; }
   .drivers-inner { grid-template-columns: 1fr; }
   .drivers-copy { order: 1; }
