@@ -35,6 +35,25 @@
 }
 
 /* ============================================================
+   BOOTSTRAP v4 OVERRIDE BLOCK
+   Neutralises Bootstrap reboot rules that conflict with iZinga
+   brand requirements. All rules here target Bootstrap defaults.
+   ============================================================ */
+
+/* Bootstrap sets a:hover { text-decoration: underline } — override globally
+   so nav links, footer links, and button anchors stay decoration-free.
+   Specific underline intent (inline copy links, card-app-link etc.) is
+   re-applied via targeted selectors below. */
+a:hover { text-decoration: none; }
+
+/* Bootstrap reboot adds border-radius to inputs/selects/textareas (via
+   inherited Normalize). iZinga flat aesthetic requires border-radius: 0. */
+input, select, textarea, button { border-radius: 0; }
+
+/* Bootstrap sets box-sizing on *, margin/padding on *, body reset — all
+   compatible with rebuild.css so no override needed for those. */
+
+/* ============================================================
    GLOBAL RESETS FOR REBUILD SECTIONS
    ============================================================ */
 *, *::before, *::after { box-sizing: border-box; }
@@ -533,9 +552,6 @@ img { max-width: 100%; display: block; }
 }
 .pay-copy p { color: #555; max-width: 44ch; }
 
-.pay-tiles {
-  /* layout: Bootstrap row (col-6) — 2-column always */
-}
 .pay-tile {
   background: #fff;
   border-left: 3px solid var(--btn-pill-color);
