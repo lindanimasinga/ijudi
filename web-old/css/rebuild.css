@@ -565,9 +565,7 @@ img { max-width: 100%; display: block; }
   padding: var(--sp-xl) 0;
 }
 .drivers-inner {
-  display: grid;
-  grid-template-columns: 45% 55%;
-  gap: 48px;
+  /* layout: Bootstrap row (col-12 col-md-5 / col-md-7) */
   align-items: start;
 }
 .drivers-copy { order: 2; }
@@ -829,9 +827,7 @@ img { max-width: 100%; display: block; }
   padding: var(--sp-xl) 0;
 }
 .coverage-inner {
-  display: grid;
-  grid-template-columns: 40% 60%;
-  gap: 48px;
+  /* layout: Bootstrap row (col-12 col-md-5 / col-md-7) */
   align-items: center;
 }
 .coverage-copy h2 {
@@ -868,9 +864,7 @@ img { max-width: 100%; display: block; }
   padding: var(--sp-xl) 0;
 }
 .app-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  /* layout: Bootstrap row (col-12 col-md-6 / col-md-6) */
   align-items: center;
 }
 .app-copy h2 {
@@ -1317,11 +1311,11 @@ img { max-width: 100%; display: block; }
   /* rp-inner and ambassador-inner moved to 900px block — Issue 2 */
   .ambassador-cta-col { order: 2; }
   .ambassador-copy { order: 1; }
-  .coverage-inner { grid-template-columns: 1fr; }
-  .app-inner { grid-template-columns: 1fr; }
+  /* .coverage-inner — handled by Bootstrap col-12 col-md-5/col-md-7 */
+  /* .app-inner — handled by Bootstrap col-12 col-md-6 */
   /* .skeleton-grid — handled by Bootstrap col-12 col-md-4 */
   .pay-tiles { grid-template-columns: 1fr; }
-  .drivers-inner { grid-template-columns: 1fr; }
+  /* .drivers-inner — handled by Bootstrap col-12 col-md-5/col-md-7 */
   .drivers-copy { order: 1; }
   .drivers-calculator-col { order: 2; }
   .biz-form-surface { padding: 24px; }
