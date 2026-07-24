@@ -1680,9 +1680,9 @@ img { max-width: 100%; display: block; }
 }
 .food-card-photo img {
   width: 100%;
-  height: 160px;
+  height: 220px;
   object-fit: cover;
-  object-position: center center;
+  object-position: 50% 28%;
   border-radius: 10px;
   display: block;
 }
@@ -1695,9 +1695,9 @@ img { max-width: 100%; display: block; }
 }
 .drivers-photo img {
   width: 100%;
-  height: 280px;
+  height: 360px;
   object-fit: cover;
-  object-position: center top;
+  object-position: 50% 32%;
   border-radius: 10px;
   display: block;
 }
@@ -1710,9 +1710,9 @@ img { max-width: 100%; display: block; }
 }
 .ambassador-photo-col img {
   width: 100%;
-  height: 260px;
+  height: 360px;
   object-fit: cover;
-  object-position: center top;
+  object-position: 50% 42%;
   border-radius: 10px;
   display: block;
 }
@@ -1779,8 +1779,8 @@ img { max-width: 100%; display: block; }
     width: 100%;
     height: 180px;
   }
-  .drivers-photo img { height: 220px; }
-  .ambassador-photo-col img { height: 200px; }
+  .drivers-photo img { height: 300px; }
+  .ambassador-photo-col img { height: 280px; }
 }
 
 /* ============================================================
