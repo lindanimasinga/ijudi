@@ -122,7 +122,8 @@ img { max-width: 100%; display: block; }
 /* Buttons on dark (#212121) sections — invert to white fill so they remain legible */
 .hero-section    .btn-iz:not(.btn-outline-white),
 .drivers-section .btn-iz:not(.btn-outline-white) {
-  background: #fff; color: #212121; border-color: #fff;
+    background: var(--btn-green-color);
+    color: #ffffff;
 }
 .hero-section    .btn-iz:not(.btn-outline-white):hover,
 .drivers-section .btn-iz:not(.btn-outline-white):hover {
@@ -141,7 +142,9 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   margin-bottom: 10px;
 }
-.eyebrow-coral { color: var(--btn-red-color); }
+.eyebrow-coral {
+    color: var(--btn-red-color);
+}
 .eyebrow-teal  { color: var(--btn-green-color); }
 .eyebrow-gold  { color: var(--btn-bg-color); }
 .eyebrow-blue  { color: var(--btn-pill-color); }
