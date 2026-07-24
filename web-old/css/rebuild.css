@@ -534,9 +534,7 @@ img { max-width: 100%; display: block; }
 .pay-copy p { color: #555; max-width: 44ch; }
 
 .pay-tiles {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  /* layout: Bootstrap row (col-6) — 2-column always */
 }
 .pay-tile {
   background: #fff;
@@ -1314,7 +1312,7 @@ img { max-width: 100%; display: block; }
   /* .coverage-inner — handled by Bootstrap col-12 col-md-5/col-md-7 */
   /* .app-inner — handled by Bootstrap col-12 col-md-6 */
   /* .skeleton-grid — handled by Bootstrap col-12 col-md-4 */
-  .pay-tiles { grid-template-columns: 1fr; }
+  /* .pay-tiles — handled by Bootstrap col-6 (2-col always; content is compact enough) */
   /* .drivers-inner — handled by Bootstrap col-12 col-md-5/col-md-7 */
   .drivers-copy { order: 1; }
   .drivers-calculator-col { order: 2; }
