@@ -1,0 +1,61 @@
+/*****************************************************
+ WEB-001 Bug Fixes
+ Branch: feature/WEB-001-marketing-site-visual-cleanup
+*****************************************************/
+
+
+/* --- BUG 1: Wave circles co-centered with product image ---
+ *
+ * Previously .wave divs used position:absolute anchored to .box (the full-width
+ * header), causing a 53px offset at 768px. Waves are now children of #circles
+ * (moved in index.html), and #circles is given position:relative so that
+ * top/left 50% + negative margins center each wave exactly on the image.
+ *
+ * margin offsets = half the wave diameter (350px / 2 = 175px).
+ * Using margin rather than translate() avoids conflicting with the
+ * drift @keyframes animation which uses transform:rotate().
+ */
+
+#circles {
+    position: relative;
+}
+
+.wave {
+    top: 50%;
+    left: 50%;
+    right: auto;
+    margin-top: -175px;
+    margin-left: -175px;
+}
+
+
+/* --- BUG 2: Hero fills viewport at wide screens ---
+ *
+ * #head had a fixed height:1080px and .box had height:980px, so at
+ * 1920x1080 the hero was only 803px tall (74.4% fill). The fix:
+ *   - Override both fixed heights to auto.
+ *   - Give #head and .box a min-height of calc(100vh - 90px) (navbar is 90px).
+ *   - Use flex-direction:column + justify-content:center on .box to vertically
+ *     centre content inside the now-viewport-tall hero.
+ *   - Reset .head top-padding (was 220px) to avoid double-offsetting on desktop.
+ *   - Scoped to min-width:768px so the mobile layout is unchanged.
+ */
+
+@media (min-width: 768px) {
+    #head {
+        height: auto;
+        min-height: calc(100vh - 90px);
+    }
+
+    .box {
+        height: auto;
+        min-height: calc(100vh - 90px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .head {
+        padding-top: 0 !important;
+    }
+}
