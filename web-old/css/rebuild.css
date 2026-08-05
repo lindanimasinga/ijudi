@@ -1719,6 +1719,15 @@ img { max-width: 100%; display: block; }
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 
+/* <picture> is a non-rendering wrapper — it must never become the sized
+   box. Where a photo container is `display:flex` (.merchants-image-row,
+   .phone-frame--real), the <picture> became the flex item and the inner
+   `img { width:100% }` resolved against a picture with no intrinsic size,
+   collapsing both to 0x0 (image invisible AND never lazy-loaded).
+   display:contents makes the <img> the direct flex/grid/block child again,
+   so every `<container> img` rule keeps resolving as authored. */
+picture { display: contents; }
+
 /* ============================================================
    REAL PHOTO SYSTEM — new section photos (Task A + B)
    Rounded corners + object-fit: cover applied site-wide

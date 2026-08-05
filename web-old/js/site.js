@@ -449,21 +449,77 @@
     });
   }
 
-  /* --- 3. Observers, grouped by threshold (§6.4) ---------------------- */
-  var observers = Object.create(null);
+  /* --- 3. Visibility driver (§6.4) ------------------------------------
+     This used to be an IntersectionObserver. It cannot be: IO computes
+     the intersection rect from the target's *painted* geometry, after
+     the target's own clip-path and transform are applied. Three of the
+     six FROM states in rebuild.css are zero-area by construction —
 
-  function observerFor(threshold) {
-    var key = String(threshold);
-    if (!observers[key]) {
-      observers[key] = new IntersectionObserver(function (entries, io) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('is-revealed');
-          io.unobserve(entry.target);   /* once-only, always (§6.2) */
-        });
-      }, { threshold: threshold, rootMargin: '0px 0px -10% 0px' });
+       R2 wipe  clip-path: inset(0 100% 0 0)
+       R5 mask  clip-path: inset(100% 0 0 0)
+       R3 draw  transform: scaleX(0)
+
+     — so those targets report intersectionRatio 0 no matter where the
+     page is scrolled, and the observer that exists to remove the hidden
+     state can never fire. The element stays invisible for the life of
+     the page, and native lazy-loading of any <img> inside a clipped
+     ancestor is suppressed by the same clip, so its photo never loads
+     either. (Measured in Chrome: the same card, the same observer
+     options — ratio 0.00 while clipped, 0.54 with the clip removed.)
+     This is what took the whole Furniture/Parcel/Food card row off the
+     page.
+
+     getBoundingClientRect() reports *layout* geometry and is unaffected
+     by clip-path, so it is the correct primitive here. Threshold and the
+     -10% bottom margin are preserved, so visual timing is unchanged.
+
+     Second guarantee: anything the viewport has already passed is
+     revealed unconditionally. A fast flick, an anchor jump, or a restored
+     scroll position can move the page further in one frame than an
+     element is tall, and content the user has scrolled by must never
+     still be sitting at opacity 0. */
+  var pending = [];
+  var ticking = false;
+
+  function shouldReveal(el, threshold) {
+    var r = el.getBoundingClientRect();
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var vw = window.innerWidth || document.documentElement.clientWidth;
+    if (r.bottom <= 0) return true;          /* already scrolled past */
+    var rootBottom = vh * 0.9;               /* rootMargin 0 0 -10% 0 */
+    var area = r.width * r.height;
+    /* getBoundingClientRect is unaffected by clip-path but DOES apply
+       transforms, so R3 draw (`transform: scaleX(0)`) still measures a
+       zero-width box. A zero-area target has no ratio to threshold
+       against — fall back to a position test on the axis that survives. */
+    if (!area) return r.top >= 0 && r.top <= rootBottom;
+    var iw = Math.min(r.right, vw) - Math.max(r.left, 0);
+    var ih = Math.min(r.bottom, rootBottom) - Math.max(r.top, 0);
+    if (iw <= 0 || ih <= 0) return false;
+    /* An element taller than the shrunk root can never expose `threshold`
+       of itself; treat "fills the root" as satisfied. */
+    if (r.height >= rootBottom && ih >= rootBottom * 0.5) return true;
+    return (iw * ih) / area >= threshold;
+  }
+
+  function check() {
+    ticking = false;
+    if (!pending.length) return;
+    pending = pending.filter(function (item) {
+      if (!shouldReveal(item.el, item.t)) return true;
+      item.el.classList.add('is-revealed');
+      return false;                          /* once-only, always (§6.2) */
+    });
+    if (!pending.length) {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
     }
-    return observers[key];
+  }
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(check);
   }
 
   var observed = [];
@@ -471,9 +527,15 @@
     if (el.hasAttribute('data-reveal-immediate')) return;
     var t = parseFloat(el.dataset.revealThreshold);
     if (isNaN(t)) t = DEFAULT_THRESHOLD;
-    observerFor(t).observe(el);
+    pending.push({ el: el, t: t });
     observed.push(el);
   });
+
+  if (pending.length) {
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    requestAnimationFrame(check);   /* whatever is already in view */
+  }
 
   /* --- 4. End-of-document sweep -------------------------------------
      `rootMargin: '0px 0px -10% 0px'` shrinks the root's bottom edge, which
@@ -487,6 +549,9 @@
     if (window.scrollY + window.innerHeight < document.documentElement.scrollHeight - 2) return;
     observed.forEach(function (el) { el.classList.add('is-revealed'); });
     observed = [];
+    pending = [];
+    window.removeEventListener('scroll', onScroll);
+    window.removeEventListener('resize', onScroll);
     window.removeEventListener('scroll', sweepAtBottom);
     window.removeEventListener('resize', sweepAtBottom);
   }
