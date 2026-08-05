@@ -611,7 +611,11 @@
 <!-- ============================================================
      S09 COVERAGE MAP
      ============================================================ -->
-<section class="coverage-section" id="coverage" data-reveal="trace" data-reveal-threshold="0.25" aria-labelledby="coverage-h2">
+<!-- trace-outline-hold: suppresses only the SA outline self-draw until the
+     accurate sa-map.svg asset swap lands (current asset is geographically
+     inaccurate). Pins/legend still animate. Remove the class to re-enable —
+     see "TEMPORARY KILL-SWITCH" in css/rebuild.css §5. -->
+<section class="coverage-section trace-outline-hold" id="coverage" data-reveal="trace" data-reveal-threshold="0.25" aria-labelledby="coverage-h2">
   <div class="iz-container">
     <div class="coverage-inner row">
 
