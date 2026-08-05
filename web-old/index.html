@@ -159,7 +159,13 @@
   </div>
 
   <div class="hero-image-col" aria-hidden="true">
-    <img src="./assets/images/bikeDriver.png" alt="iZinga delivery driver on a bicycle">
+    <picture>
+      <source srcset="./assets/images/bikeDriver.webp" type="image/webp">
+      <img src="./assets/images/bikeDriver-fallback.png"
+           alt="iZinga delivery driver on a bicycle"
+           width="1200" height="800"
+           fetchpriority="high" decoding="async">
+    </picture>
   </div>
 
 </section>
