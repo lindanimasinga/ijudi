@@ -1267,7 +1267,8 @@ img { max-width: 100%; display: block; }
   font-size: 0.9rem;
   color: var(--text-color);
   background: #fff;
-  transition: border-color var(--dur-quick) var(--ease-standard);
+  transition: border-color var(--dur-quick) var(--ease-standard),
+              box-shadow var(--dur-quick) var(--ease-standard);
   appearance: none;
   -webkit-appearance: none;
 }
@@ -1276,10 +1277,11 @@ img { max-width: 100%; display: block; }
 .field-textarea:focus {
   outline: none;
   border-color: var(--btn-pill-color);
-  /* DEFECT FIX (motion-spec-v1 §4.15): the 3px focus glow was elevation on a
-     form field. Removed. Focus indication comes from the global
-     `:focus-visible { outline: 2px solid var(--btn-pill-color) }` at the foot
-     of this file, which is accessible, radius-free and never suppressed. */
+  /* Sanctioned exception to the flat-hover vocabulary (motion-spec-v1 §4.15),
+     restored by design decision: form fields keep the richer focus affordance.
+     The global `:focus-visible { outline: 2px solid var(--btn-pill-color) }`
+     at the foot of this file still applies for keyboard users. */
+  box-shadow: 0 0 0 3px rgba(16,131,165,0.15);
 }
 .field-textarea { min-height: 100px; resize: vertical; }
 .field-select {
