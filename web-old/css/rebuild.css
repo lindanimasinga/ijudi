@@ -122,8 +122,8 @@ img { max-width: 100%; display: block; }
 /* Buttons on dark (#212121) sections — invert to white fill so they remain legible */
 .hero-section    .btn-iz:not(.btn-outline-white),
 .drivers-section .btn-iz:not(.btn-outline-white) {
-    background: var(--btn-green-color);
-    color: #ffffff;
+    background: #ffffff;
+    color: #212121;
 }
 .hero-section    .btn-iz:not(.btn-outline-white):hover,
 .drivers-section .btn-iz:not(.btn-outline-white):hover {
