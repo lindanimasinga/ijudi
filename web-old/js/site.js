@@ -124,6 +124,8 @@
 
     var start = performance.now();
     (function step(now) {
+      /* 1400ms === the --dur-count token (motion-spec-v1 §1.1, RESERVED).
+         Kept as a literal so the count-up has no CSSOM dependency. */
       var t = Math.min((now - start) / 1400, 1);
       numEl.textContent = Math.ceil((1 - Math.pow(1 - t, 3)) * target);
       if (t < 1) {
@@ -340,27 +342,156 @@
 
 
 /* ============================================================
-   NAV ACTIVE STATE on scroll (index.html section tracking)
+   NAV ACTIVE STATE — IntersectionObserver (replaces the unthrottled
+   offsetTop scroll listener, which forced a layout read on every
+   scroll event). Falls back to a no-op if IO is unavailable: the
+   server-rendered `.active` class on the first link simply stays.
    ============================================================ */
 (function () {
   var navLinks = document.querySelectorAll('.iz-nav__links a[href^="#"]');
   if (!navLinks.length) return;
+  if (!('IntersectionObserver' in window)) return;
 
-  var sections = Array.from(navLinks).map(function (a) {
+  var sections = Array.prototype.map.call(navLinks, function (a) {
     var id = a.getAttribute('href').replace('#', '');
     return { el: document.getElementById(id), link: a };
   }).filter(function (s) { return s.el; });
+  if (!sections.length) return;
 
-  function updateActive() {
-    var scrollY = window.scrollY + 80;
+  var visible = new Set();
+
+  function paint() {
+    /* Match the previous semantics: the LAST section in DOM order whose
+       top has passed under the nav wins. */
     var current = null;
     sections.forEach(function (s) {
-      if (s.el.offsetTop <= scrollY) current = s;
+      if (visible.has(s.el)) current = s;
     });
+    if (!current) return;
     navLinks.forEach(function (a) { a.classList.remove('active'); });
-    if (current) current.link.classList.add('active');
+    current.link.classList.add('active');
   }
 
-  window.addEventListener('scroll', updateActive, { passive: true });
-  updateActive();
+  var navObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        visible.add(entry.target);
+      } else {
+        visible.delete(entry.target);
+      }
+    });
+    paint();
+  }, {
+    /* Top edge sits just under the 64px fixed nav; bottom edge pulled up
+       so only the section occupying the upper viewport counts as current. */
+    rootMargin: '-80px 0px -55% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(function (s) { navObserver.observe(s.el); });
 })();
+
+
+/* ============================================================
+   REVEAL ENGINE — motion-spec-v1 §6
+   ------------------------------------------------------------
+   FAIL-OPEN BY CONSTRUCTION. Every hidden state in rebuild.css is
+   scoped under `html.js-reveal`, which is set ONLY by the blocking
+   inline <head> script, and only when reduced motion is not requested
+   and IntersectionObserver exists. If that class is absent — script
+   blocked, parse error, old browser, reduced motion — nothing below
+   runs and the page is already at its final, fully visible state.
+   Therefore: bail out immediately if the class is not present.
+   ============================================================ */
+(function () {
+  var root = document.documentElement;
+  if (!root.classList.contains('js-reveal')) return;
+
+  var STAGGER_CAP = 6;          /* §6.3 — a 12-item list must not take 960ms */
+  var DEFAULT_STEP = 80;        /* --stagger-base */
+  var DEFAULT_THRESHOLD = 0.15;
+
+  /* --- 1. Stagger indices, fixed delays, and pin indices --------------
+     Must complete BEFORE any observer is constructed. */
+  document.querySelectorAll('[data-reveal-stagger]').forEach(function (container) {
+    var step = parseInt(container.dataset.revealStagger, 10);
+    if (isNaN(step)) step = DEFAULT_STEP;
+    container.style.setProperty('--reveal-step', step + 'ms');
+    /* :scope > — direct children only. A nested grid declares its own stagger.
+       Bootstrap column pass-through: when NO direct child carries [data-reveal]
+       (because the direct children are .col-* elements, which may never be
+       transformed or clipped per constraint 6), index the single reveal wrapper
+       one level down instead. This is a fallback, never a mixed mode. */
+    var kids = container.querySelectorAll(':scope > [data-reveal]');
+    if (!kids.length) kids = container.querySelectorAll(':scope > * > [data-reveal]');
+    kids.forEach(function (el, i) {
+      el.style.setProperty('--reveal-i', Math.min(i, STAGGER_CAP));
+    });
+  });
+
+  document.querySelectorAll('[data-reveal-delay]').forEach(function (el) {
+    var d = parseInt(el.dataset.revealDelay, 10);
+    if (!isNaN(d)) el.style.setProperty('--reveal-delay', d + 'ms');
+  });
+
+  /* §5.3 — pin arrival order is north to south, which is already DOM order. */
+  document.querySelectorAll('.map-pins-overlay .map-pin').forEach(function (pin, i) {
+    pin.style.setProperty('--pin-i', i);
+  });
+
+  /* --- 2. Hero fires on DOM ready, no observer (§4.2) ----------------- */
+  var immediate = document.querySelectorAll('[data-reveal-immediate]');
+  if (immediate.length) {
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        immediate.forEach(function (el) { el.classList.add('is-revealed'); });
+      });
+    });
+  }
+
+  /* --- 3. Observers, grouped by threshold (§6.4) ---------------------- */
+  var observers = Object.create(null);
+
+  function observerFor(threshold) {
+    var key = String(threshold);
+    if (!observers[key]) {
+      observers[key] = new IntersectionObserver(function (entries, io) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-revealed');
+          io.unobserve(entry.target);   /* once-only, always (§6.2) */
+        });
+      }, { threshold: threshold, rootMargin: '0px 0px -10% 0px' });
+    }
+    return observers[key];
+  }
+
+  var observed = [];
+  document.querySelectorAll('[data-reveal]').forEach(function (el) {
+    if (el.hasAttribute('data-reveal-immediate')) return;
+    var t = parseFloat(el.dataset.revealThreshold);
+    if (isNaN(t)) t = DEFAULT_THRESHOLD;
+    observerFor(t).observe(el);
+    observed.push(el);
+  });
+
+  /* --- 4. End-of-document sweep -------------------------------------
+     `rootMargin: '0px 0px -10% 0px'` shrinks the root's bottom edge, which
+     is correct for mid-page content but means anything sitting inside the
+     last 10% of the viewport when the document is already scrolled to its
+     end can NEVER satisfy the observer — it would stay hidden forever.
+     (Reproduced on business.html's .footer-copyright-strip.) When the user
+     reaches the bottom of the document, reveal whatever is left. Passive,
+     once-only, self-removing. */
+  function sweepAtBottom() {
+    if (window.scrollY + window.innerHeight < document.documentElement.scrollHeight - 2) return;
+    observed.forEach(function (el) { el.classList.add('is-revealed'); });
+    observed = [];
+    window.removeEventListener('scroll', sweepAtBottom);
+    window.removeEventListener('resize', sweepAtBottom);
+  }
+  window.addEventListener('scroll', sweepAtBottom, { passive: true });
+  window.addEventListener('resize', sweepAtBottom, { passive: true });
+  sweepAtBottom();   /* short pages are already at their end */
+})();
+
