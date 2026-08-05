@@ -32,6 +32,33 @@
   --sp-lg:  48px;
   --sp-xl:  80px;
   --sp-2xl: 120px;
+
+  /* --- MOTION: duration (motion-spec-v1 §1.1) --- */
+  --dur-instant:    100ms;  /* colour-only swaps, focus rings, tooltip opacity */
+  --dur-quick:      150ms;  /* micro: link colour, icon nudge, dot scale */
+  --dur-base:       200ms;  /* DEFAULT. hover states, surface tone shift, filter */
+  --dur-moderate:   240ms;  /* drawer, overlay, accent-rule draw, card hover set */
+  --dur-slow:       300ms;  /* entrance reveals (rise, fade), carousel slide */
+  --dur-deliberate: 420ms;  /* wipe and mask entrances — the "considered" tier */
+  --dur-count:     1400ms;  /* stat count-up. RESERVED. Do not reuse. */
+  --dur-trace:     1600ms;  /* SA map self-draw. RESERVED. Single use, S09 only. */
+
+  /* --- MOTION: easing (motion-spec-v1 §1.2) --- */
+  --ease-out:      cubic-bezier(0.215, 0.61, 0.355, 1);  /* easeOutCubic. DEFAULT. */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);         /* two-way: hover on AND off */
+  --ease-trace:    cubic-bezier(0.65, 0, 0.35, 1);       /* easeInOutCubic. Map draw only. */
+
+  /* --- MOTION: stagger & distance (motion-spec-v1 §1.3) --- */
+  --stagger-tight: 60ms;   /* 4+ sibling items (tile grids, footer columns) */
+  --stagger-base:  80ms;   /* DEFAULT. 2-4 siblings */
+  --stagger-loose: 120ms;  /* 2 siblings only, or deliberately theatrical pairs */
+  --reveal-dist:    16px;  /* rise distance, DEFAULT */
+  --reveal-dist-lg: 24px;  /* rise distance for full-width section headers only */
+
+  /* NOTE (motion-spec-v1 §1.4): there is deliberately NO --shadow-*, --radius-*
+     or --elevation-* token here, and none may be added. A token is a permission
+     slip. Any elevation exemption (modals/overlays only) is written inline at
+     the component with a comment naming the exemption. */
 }
 
 /* ============================================================
@@ -97,7 +124,7 @@ img { max-width: 100%; display: block; }
   cursor: pointer;
   text-decoration: none;
   line-height: 1;
-  transition: filter 200ms ease;
+  transition: filter var(--dur-base) var(--ease-standard);
   letter-spacing: 0.02em;
 }
 .btn-iz:hover { filter: brightness(1.4); }
@@ -173,7 +200,7 @@ img { max-width: 100%; display: block; }
   top: 0; left: 0; right: 0;
   z-index: 1000;
   background: transparent;
-  transition: background 200ms ease;
+  transition: background var(--dur-base) var(--ease-standard);
   padding: 0 var(--sp-md);
 }
 .iz-nav.scrolled { background: #212121; }
@@ -204,7 +231,7 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.04em;
   color: #fff;
   opacity: 1;
-  transition: opacity 150ms;
+  transition: opacity var(--dur-quick) var(--ease-standard);
   padding-bottom: 2px;
   border-bottom: 2px solid transparent;
   text-decoration: none;
@@ -258,7 +285,7 @@ img { max-width: 100%; display: block; }
   background: #212121;
   z-index: 1100;
   transform: translateX(100%);
-  transition: transform 240ms ease-out;
+  transition: transform var(--dur-moderate) var(--ease-out);
   overflow-y: auto;
   padding: 72px 0 32px;
   position: fixed;
@@ -293,7 +320,7 @@ img { max-width: 100%; display: block; }
   background: rgba(0,0,0,0.5);
   z-index: 1050;
   opacity: 0; pointer-events: none;
-  transition: opacity 240ms ease-out;
+  transition: opacity var(--dur-moderate) var(--ease-out);
 }
 .iz-overlay.open { opacity: 1; pointer-events: all; }
 @media (prefers-reduced-motion: reduce) {
@@ -879,14 +906,11 @@ img { max-width: 100%; display: block; }
   max-width: 100%;
   height: auto;
 }
-/* Map pin hover */
+/* Map pin hover — DEFECT FIX (motion-spec-v1 §5.1.4): the duplicate
+   `.map-pin .pin-dot` transition + conflicting scale(1.33) hover that used to
+   live here has been deleted. The single canonical pin rule set, standardised
+   on scale(1.4), lives in the COVERAGE MAP PINS block below. */
 .map-pin { cursor: pointer; }
-.map-pin .pin-dot { transition: transform 150ms ease; }
-.map-pin:hover .pin-dot,
-.map-pin:focus .pin-dot { transform: scale(1.33); }
-@media (prefers-reduced-motion: reduce) {
-  .map-pin .pin-dot { transition: none; }
-}
 
 /* ============================================================
    S10 APP DOWNLOADS
@@ -913,7 +937,7 @@ img { max-width: 100%; display: block; }
   font-family: Catamaran, Calibri, sans-serif;
   font-weight: 700; font-size: 0.85rem;
   min-height: 44px; text-decoration: none;
-  transition: filter 200ms;
+  transition: filter var(--dur-base) var(--ease-standard);
 }
 .store-btn:hover { filter: brightness(0.85); }
 
@@ -949,7 +973,7 @@ img { max-width: 100%; display: block; }
   background: #f3f2f2;
   display: flex; align-items: center; justify-content: center;
   flex-direction: column; gap: 8px;
-  transition: transform 200ms, opacity 200ms;
+  transition: transform var(--dur-base) var(--ease-standard), opacity var(--dur-base) var(--ease-standard);
   flex-shrink: 0;
 }
 .phone-frame.active {
@@ -977,7 +1001,10 @@ img { max-width: 100%; display: block; }
   width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--rule);
-  transition: all 200ms;
+  /* DEFECT FIX (motion-spec-v1 §3.5/§4.11): was `transition: all 200ms`, which
+     animated border-radius. Radius must never animate. Properties enumerated. */
+  transition: width var(--dur-base) var(--ease-standard),
+              background-color var(--dur-base) var(--ease-standard);
 }
 .dot.active {
   width: 18px;
@@ -1053,7 +1080,7 @@ img { max-width: 100%; display: block; }
   margin-bottom: 16px;
 }
 .footer-social { display: flex; gap: 16px; align-items: center; }
-.footer-social a { color: var(--dark-text-muted); transition: color 150ms; }
+.footer-social a { color: var(--dark-text-muted); transition: color var(--dur-quick) var(--ease-standard); }
 .footer-social a:hover { color: var(--dark-text-primary); }
 .footer-social svg { width: 20px; height: 20px; display: block; }
 
@@ -1074,7 +1101,7 @@ img { max-width: 100%; display: block; }
   font-size: 0.85rem;
   color: var(--dark-text-muted);
   text-decoration: none;
-  transition: color 150ms;
+  transition: color var(--dur-quick) var(--ease-standard);
 }
 .footer-col ul li a:hover { color: var(--dark-text-primary); }
 .footer-col ul li a.active { text-decoration-color: var(--btn-bg-color); text-decoration: underline; }
@@ -1120,7 +1147,7 @@ img { max-width: 100%; display: block; }
   font-weight: 700; font-size: 0.875rem;
   text-decoration: none;
   box-shadow: 0 4px 16px rgba(33,33,33,0.35);
-  transition: filter 200ms;
+  transition: filter var(--dur-base) var(--ease-standard);
   min-height: 44px;
 }
 .iz-fab:hover { filter: brightness(1.4); }
@@ -1240,7 +1267,7 @@ img { max-width: 100%; display: block; }
   font-size: 0.9rem;
   color: var(--text-color);
   background: #fff;
-  transition: border-color 150ms, box-shadow 150ms;
+  transition: border-color var(--dur-quick) var(--ease-standard);
   appearance: none;
   -webkit-appearance: none;
 }
@@ -1249,7 +1276,10 @@ img { max-width: 100%; display: block; }
 .field-textarea:focus {
   outline: none;
   border-color: var(--btn-pill-color);
-  box-shadow: 0 0 0 3px rgba(16,131,165,0.15);
+  /* DEFECT FIX (motion-spec-v1 §4.15): the 3px focus glow was elevation on a
+     form field. Removed. Focus indication comes from the global
+     `:focus-visible { outline: 2px solid var(--btn-pill-color) }` at the foot
+     of this file, which is accessible, radius-free and never suppressed. */
 }
 .field-textarea { min-height: 100px; resize: vertical; }
 .field-select {
@@ -1463,7 +1493,7 @@ img { max-width: 100%; display: block; }
   height: 12px;
   border-radius: 50%;
   border: 2px solid rgba(255,255,255,0.55);
-  transition: transform 150ms ease;
+  transition: transform var(--dur-quick) var(--ease-standard);
   flex-shrink: 0;
 }
 .map-pin--teal  .pin-dot { background: var(--btn-green-color); }
@@ -1486,7 +1516,7 @@ img { max-width: 100%; display: block; }
   padding: 5px 8px;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 150ms ease;
+  transition: opacity var(--dur-quick) var(--ease-standard);
   z-index: 10;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
@@ -1634,7 +1664,7 @@ img { max-width: 100%; display: block; }
   min-height: 52px;
   min-width: 140px;
   font-family: Catamaran, Calibri, sans-serif;
-  transition: filter 200ms;
+  transition: filter var(--dur-base) var(--ease-standard);
   border: 1px solid #444;
 }
 .store-badge:hover { filter: brightness(0.85); }
