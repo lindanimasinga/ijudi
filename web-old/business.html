@@ -5,6 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="iZinga Business Programmes — Referral Partner and Ambassador opportunities for furniture retailers, estate agents, and community leaders across South Africa.">
   <meta name="author" content="iZinga">
+
+  <!-- ============================================================
+       REVEAL ENGINE GATE — motion-spec-v1 §6.1 / §7
+       Blocking, in <head>, before first paint. Sets the ONLY class that
+       enables any hidden state in rebuild.css. Three fail-open gates:
+       reduced motion, no IntersectionObserver, or any exception at all
+       => class is never added => the page renders 100% visible with no
+       observers ever constructed. Do not make this async or deferred.
+       ============================================================ -->
+  <script>
+    (function () {
+      try {
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            && 'IntersectionObserver' in window) {
+          document.documentElement.className += ' js-reveal';
+        }
+      } catch (e) { /* fail open: no class, everything visible */ }
+    })();
+  </script>
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://izinga.co.za/business.html">
 
@@ -84,7 +103,8 @@
     <h1 id="biz-h1">
       Partner with iZinga.<br>Grow your business.
     </h1>
-    <p>
+    <span class="section-rule" data-reveal="draw" data-reveal-immediate data-reveal-delay="120" aria-hidden="true"></span>
+    <p data-reveal="rise" data-reveal-immediate data-reveal-delay="200">
       Whether you refer clients or build iZinga's presence in your community, we have a programme designed for you.
     </p>
   </div>
@@ -99,9 +119,9 @@
     <div class="biz-inner">
 
       <!-- Left col: Programme summary boxes -->
-      <div class="biz-programmes">
+      <div class="biz-programmes" data-reveal-stagger="80">
 
-        <div class="prog-box" aria-labelledby="prog-rp-h3">
+        <div class="prog-box iz-card" data-reveal="wipe" aria-labelledby="prog-rp-h3">
           <h3 id="prog-rp-h3">Referral Partner Programme</h3>
           <p class="prog-value">Refer furniture retailers, estate agents, or businesses to iZinga and earn commission when they start delivering with us. This programme is built for sales professionals, logistics consultants, and well-connected business people who know companies that need reliable last-mile delivery across South Africa. There is no delivery work involved — you make the introduction, we handle the rest.</p>
           <ul>
@@ -113,7 +133,7 @@
           <p class="cta-legal-note" style="margin-top:12px;">Programme terms are currently under legal review. Registering now expresses interest only — no agreement is active until terms are finalised and you accept them separately.</p>
         </div>
 
-        <div class="prog-box" aria-labelledby="prog-amb-h3">
+        <div class="prog-box iz-card" data-reveal="wipe" aria-labelledby="prog-amb-h3">
           <h3 id="prog-amb-h3">Ambassador Programme</h3>
           <p class="prog-value">Help build iZinga's driver network on the ground. As an iZinga Ambassador, you identify prospective drivers and messengers in your community, walk them through the registration process, and assist them in uploading the required documents — then earn commission for every driver who is successfully approved. This programme is for community connectors, field agents, and motivated individuals who want to grow iZinga's presence where they live.</p>
           <ul>
@@ -135,19 +155,20 @@
       <!-- Right col: Enquiry form [Component G] -->
       <div>
         <div class="biz-form-surface">
+          <span class="section-rule section-rule--full" data-reveal="draw" aria-hidden="true"></span>
           <h2>Send an Enquiry</h2>
 
           <div class="form-submit-pending" role="note">
             We are setting up automated routing. Use the form and we will respond within 1 business day, or email <a href="mailto:hello@curiousoft.dev" style="color:var(--btn-pill-color);">hello@curiousoft.dev</a> directly.
           </div>
 
-          <form id="biz-enquiry-form" novalidate aria-label="Business enquiry form">
+          <form id="biz-enquiry-form" data-reveal-stagger="60" novalidate aria-label="Business enquiry form">
 
             <!-- Hidden source tag [Component G JS] -->
             <input type="hidden" name="source" value="">
 
             <!-- Row 1: Name | Company -->
-            <div class="form-row">
+            <div class="form-row" data-reveal="rise" data-reveal-delay="200">
               <div class="field-group" id="fg-name">
                 <label class="field-label" for="f-name">Full name <span class="req" aria-hidden="true">*</span></label>
                 <input class="field-input" id="f-name" name="name" type="text" required autocomplete="name" placeholder="Jane Dlamini">
@@ -161,7 +182,7 @@
             </div>
 
             <!-- Row 2: Job title | Email -->
-            <div class="form-row">
+            <div class="form-row" data-reveal="rise" data-reveal-delay="200">
               <!-- [D7] Job title now REQUIRED -->
               <div class="field-group" id="fg-jobtitle">
                 <label class="field-label" for="f-jobtitle">Job title <span class="req" aria-hidden="true">*</span></label>
@@ -176,7 +197,7 @@
             </div>
 
             <!-- Row 3: Phone | Service interest -->
-            <div class="form-row">
+            <div class="form-row" data-reveal="rise" data-reveal-delay="200">
               <div class="field-group" id="fg-phone">
                 <label class="field-label" for="f-phone">Phone number</label>
                 <input class="field-input" id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="+27 82 000 0000">
@@ -195,7 +216,7 @@
             </div>
 
             <!-- Row 4: Message full-width -->
-            <div class="form-row full">
+            <div class="form-row full" data-reveal="rise" data-reveal-delay="200">
               <div class="field-group" id="fg-message">
                 <label class="field-label" for="f-message">Message <span class="req" aria-hidden="true">*</span></label>
                 <textarea class="field-textarea" id="f-message" name="message" required placeholder="Tell us about your business and what you're looking for…"></textarea>
@@ -204,12 +225,12 @@
             </div>
 
             <!-- POPIA notice -->
-            <div class="form-row full">
+            <div class="form-row full" data-reveal="rise" data-reveal-delay="200">
               <p class="form-popia-notice">By submitting this form, you agree to iZinga (operated by Curiousoft (Pty) Ltd) processing your information to respond to your enquiry. Your information will be handled in accordance with our <a href="https://www.izinga.co.za/privacy.html">Privacy Policy</a>. You may contact us to access, correct, or delete your information at any time.</p>
             </div>
 
             <!-- Row 5: Submit -->
-            <div class="form-row full" style="margin-top:8px;">
+            <div class="form-row full" data-reveal="rise" data-reveal-delay="200" style="margin-top:8px;">
               <button class="btn btn-iz btn-blue btn-full" type="submit" id="form-submit-btn" style="padding:14px 32px;">
                 Send Enquiry
               </button>
@@ -235,8 +256,9 @@
      FOOTER
      ============================================================ -->
 <footer class="iz-footer" aria-label="Site footer">
-  <div class="footer-inner">
-    <div class="footer-logo-col">
+  <div class="footer-inner" data-reveal-stagger="60">
+    <span class="footer-top-rule" data-reveal="draw" aria-hidden="true"></span>
+    <div class="footer-logo-col" data-reveal="fade" data-reveal-delay="200">
       <div class="footer-logo">
         <a href="./index.html" aria-label="iZinga home">
           <img loading="lazy" decoding="async" src="./assets/images/izinga-logo-white.png" alt="iZinga" width="120" height="40">
@@ -255,7 +277,7 @@
         </a>
       </div>
     </div>
-    <div class="footer-col">
+    <div class="footer-col" data-reveal="fade" data-reveal-delay="200">
       <h4>Quick Links</h4>
       <ul>
         <li><a href="./index.html">Home</a></li>
@@ -265,7 +287,7 @@
         <li><a href="./index.html#izinga-pay">iZinga Pay</a></li>
       </ul>
     </div>
-    <div class="footer-col">
+    <div class="footer-col" data-reveal="fade" data-reveal-delay="200">
       <h4>Services</h4>
       <ul>
         <li><a href="https://delivery.izinga.co.za/" target="_blank" rel="noopener">Furniture Delivery</a></li>
@@ -274,7 +296,7 @@
         <li><a href="https://pay.izinga.co.za/" target="_blank" rel="noopener">iZinga Pay</a></li>
       </ul>
     </div>
-    <div class="footer-col">
+    <div class="footer-col" data-reveal="fade" data-reveal-delay="200">
       <h4>Contact</h4>
       <ul>
         <li><a href="mailto:hello@curiousoft.dev">hello@curiousoft.dev</a></li>
@@ -282,7 +304,7 @@
       </ul>
     </div>
   </div>
-  <div class="footer-copyright-strip">
+  <div class="footer-copyright-strip" data-reveal="fade" data-reveal-delay="500">
     <p>© <span class="biz-footer-year"></span> Curiousoft (Pty) Ltd (2016/429327/07). Trading as iZinga. All rights reserved.</p>
     <div class="footer-legal-links">
       <a href="https://www.izinga.co.za/privacy.html">Privacy Policy</a>
@@ -294,7 +316,7 @@
 
 
 <!-- Floating WhatsApp FAB -->
-<a class="iz-fab" href="https://wa.me/27686401157?text=Hi%20iZinga%2C%20I%20have%20a%20business%20enquiry." target="_blank" rel="noopener noreferrer" aria-label="Chat with iZinga on WhatsApp">
+<a class="iz-fab" data-reveal="settle" data-reveal-immediate data-reveal-delay="600" href="https://wa.me/27686401157?text=Hi%20iZinga%2C%20I%20have%20a%20business%20enquiry." target="_blank" rel="noopener noreferrer" aria-label="Chat with iZinga on WhatsApp">
   <img src="./assets/images/whatsapp.svg" alt="WhatsApp" width="20" height="20">
   <span>Chat on WhatsApp</span>
 </a>
