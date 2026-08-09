@@ -6,6 +6,25 @@
   <meta name="description" content="iZinga — Furniture, parcel, and food delivery across South Africa. Move anything, anywhere with trusted iZinga drivers in Johannesburg, Durban, and Cape Town.">
   <meta name="keywords" content="iZinga, furniture delivery, parcel delivery, food delivery, South Africa, Johannesburg, Durban, Cape Town, iZinga Pay, driver jobs">
   <meta name="author" content="iZinga">
+
+  <!-- ============================================================
+       REVEAL ENGINE GATE — motion-spec-v1 §6.1 / §7
+       Blocking, in <head>, before first paint. Sets the ONLY class that
+       enables any hidden state in rebuild.css. Three fail-open gates:
+       reduced motion, no IntersectionObserver, or any exception at all
+       => class is never added => the page renders 100% visible with no
+       observers ever constructed. Do not make this async or deferred.
+       ============================================================ -->
+  <script>
+    (function () {
+      try {
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            && 'IntersectionObserver' in window) {
+          document.documentElement.className += ' js-reveal';
+        }
+      } catch (e) { /* fail open: no class, everything visible */ }
+    })();
+  </script>
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://izinga.co.za/">
 
@@ -14,7 +33,11 @@
   <meta property="og:url" content="https://izinga.co.za">
   <meta property="og:title" content="iZinga — Move Anything, Anywhere">
   <meta property="og:description" content="Furniture, parcels, and food delivered by iZinga drivers across Johannesburg, Durban, and Cape Town.">
-  <meta property="og:image" content="https://izinga.co.za/assets/images/izinga-social-preview.png">
+  <!-- TODO(brand): replace with a purpose-designed 1200x630 social card. Interim: real branded photo (917x628). -->
+  <meta property="og:image" content="https://izinga.co.za/assets/images/driver-furniture-handoff.jpg">
+  <meta property="og:image:width" content="917">
+  <meta property="og:image:height" content="628">
+  <meta property="og:image:alt" content="iZinga driver handing furniture to a smiling customer at a branded delivery truck">
   <meta property="og:site_name" content="iZinga">
   <meta property="og:locale" content="en_ZA">
 
@@ -22,7 +45,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="iZinga — Move Anything, Anywhere">
   <meta name="twitter:description" content="Furniture, parcels, and food delivered across South Africa.">
-  <meta name="twitter:image" content="https://izinga.co.za/assets/images/izinga-social-preview.png">
+  <meta name="twitter:image" content="https://izinga.co.za/assets/images/driver-furniture-handoff.jpg">
 
   <!-- PWA -->
   <meta name="theme-color" content="#212121">
@@ -35,8 +58,9 @@
 
   <title>iZinga — Furniture &amp; Parcel Delivery in South Africa | Move Anything, Anywhere</title>
 
-  <!-- Fonts (self-hosted via google-fonts.css where available, fallback to fonts.googleapis.com) -->
-  <link href="./css/google-fonts.css" rel="stylesheet">
+  <!-- Fonts — Catamaran only (site never uses Nunito Sans; google-fonts.css removed). display=swap. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@400;700;800&display=swap" rel="stylesheet">
 
   <!-- Stylesheets -->
@@ -144,17 +168,25 @@
     <h1 id="hero-h1" class="h1-display">
       Move <em style="color:var(--btn-bg-color);font-style:normal">Anything</em>, Anywhere.
     </h1>
-    <p class="hero-sub">
+    <span class="section-rule" data-reveal="draw" data-reveal-immediate data-reveal-delay="120" aria-hidden="true"></span>
+    <p class="hero-sub" data-reveal="rise" data-reveal-immediate data-reveal-delay="200">
       Furniture, parcels, and food — delivered on your schedule by iZinga drivers across Johannesburg, Durban, and Cape Town.
     </p>
-    <div class="hero-cta-stack">
-      <a class="btn btn-iz btn-coral" href="https://delivery.izinga.co.za/">Order a Delivery</a>
-      <a class="btn btn-iz btn-outline-white" href="https://driver.izinga.co.za" target="_blank" rel="noopener">Become a Driver</a>
+    <div class="hero-cta-stack" data-reveal-stagger="80">
+      <a class="btn btn-iz btn-coral" href="https://delivery.izinga.co.za/" data-reveal="rise" data-reveal-immediate data-reveal-delay="300">Order a Delivery</a>
+      <a class="btn btn-iz btn-outline-white" href="https://driver.izinga.co.za" target="_blank" rel="noopener" data-reveal="rise" data-reveal-immediate data-reveal-delay="300">Become a Driver</a>
     </div>
   </div>
 
   <div class="hero-image-col" aria-hidden="true">
-    <img src="./assets/images/bikeDriver.png" alt="iZinga delivery driver on a bicycle">
+    <picture>
+      <source srcset="./assets/images/bikeDriver.webp" type="image/webp">
+      <img src="./assets/images/bikeDriver-fallback.png"
+           data-reveal="fade" data-reveal-immediate
+           alt="iZinga delivery driver on a bicycle"
+           width="1200" height="800"
+           fetchpriority="high" decoding="async">
+    </picture>
   </div>
 
 </section>
@@ -204,17 +236,18 @@
   <div class="iz-container">
 
     <span class="eyebrow eyebrow-muted" style="color:#888;text-align:center;display:block;">What We Deliver</span>
-    <h2 id="delivery-h2" style="text-align:center;font-size:clamp(1.5rem,3vw,2.25rem);font-weight:800;color:var(--text-color);margin-bottom:8px;">
+    <h2 data-reveal="rise" id="delivery-h2" style="text-align:center;font-size:clamp(1.5rem,3vw,2.25rem);font-weight:800;color:var(--text-color);margin-bottom:8px;">
       Services built for South Africa
     </h2>
-    <p class="section-sub" style="color:#555;text-align:center;margin:0 auto 40px;max-width:60ch;font-size:1rem;line-height:1.65;">
+    <span class="section-rule section-rule--centred" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
+    <p class="section-sub" data-reveal="rise" data-reveal-delay="180" style="color:#555;text-align:center;margin:0 auto 40px;max-width:60ch;font-size:1rem;line-height:1.65;">
       Whether you're moving furniture, sending a parcel, or ordering food — iZinga has a driver ready.
     </p>
 
-    <div class="delivery-grid">
+    <div class="delivery-grid" data-reveal-stagger="80">
 
       <!-- Card 1: Furniture [CONFLICT 2 — D1 + B5] -->
-      <div class="delivery-card delivery-card--furniture" aria-labelledby="furniture-h3">
+      <div class="delivery-card delivery-card--furniture iz-card" data-reveal="wipe" data-reveal-delay="260" aria-labelledby="furniture-h3">
         <div class="card-top-accent"></div>
         <span class="chip chip-teal-solid">Furniture</span>
         <span class="card-eyebrow">Featured Service</span>
@@ -245,11 +278,11 @@
             <p class="card-calc-coming-note">Quote calculator coming soon — book via WhatsApp for an immediate estimate.</p>
           </div>
           <!-- [D2] B2B escape hatch -->
-          <a class="card-b2b-escape" href="./business.html">Furniture retailer or estate agent? See our Business programme →</a>
+          <a class="card-b2b-escape" href="./business.html">Furniture retailer or estate agent? See our Business programme <span class="card-link-arrow" aria-hidden="true">&rarr;</span></a>
         </div>
         <!-- [Component F] WhatsApp button -->
         <a class="btn btn-iz btn-wa" href="https://wa.me/27686401157?text=Hi+iZinga+I+would+like+to+book+a+furniture+delivery" target="_blank" rel="noopener" aria-label="Book furniture delivery via WhatsApp" style="margin-top:16px;">
-          <img src="./assets/images/whatsapp.svg" alt="WhatsApp" width="20" height="20">
+          <img loading="lazy" decoding="async" src="./assets/images/whatsapp.svg" alt="WhatsApp" width="20" height="20">
           Book via WhatsApp
         </a>
         <!-- [D6] App deep-link — subordinate -->
@@ -257,7 +290,7 @@
       </div>
 
       <!-- Card 2: Parcel [B5] -->
-      <div class="delivery-card delivery-card--parcel" aria-labelledby="parcel-h3">
+      <div class="delivery-card delivery-card--parcel iz-card" data-reveal="wipe" data-reveal-delay="260" aria-labelledby="parcel-h3">
         <span class="chip chip-teal-outlined">Parcel</span>
         <div class="card-body">
           <h3 id="parcel-h3" class="h3-heading">Parcel Delivery</h3>
@@ -268,14 +301,17 @@
           </ul>
           <!-- Parcel delivery supporting photo -->
           <div class="parcel-card-photo">
-            <img src="./assets/images/driver-packing-box.jpg" alt="iZinga driver carefully packing a leather bag into a branded iZinga delivery box at a warehouse workbench">
+            <picture>
+              <source srcset="./assets/images/driver-packing-box.webp" type="image/webp">
+              <img loading="lazy" decoding="async" width="1200" height="1097" src="./assets/images/driver-packing-box.jpg" alt="iZinga driver carefully packing a leather bag into a branded iZinga delivery box at a warehouse workbench">
+            </picture>
           </div>
         </div>
         <a class="btn btn-iz btn-teal btn-full" href="https://delivery.izinga.co.za/" style="margin-top:16px;">Book Online</a>
       </div>
 
       <!-- Card 3: Food [B5, F7, F10] -->
-      <div class="delivery-card delivery-card--food" aria-labelledby="food-h3">
+      <div class="delivery-card delivery-card--food iz-card" data-reveal="wipe" data-reveal-delay="260" aria-labelledby="food-h3">
         <span class="chip chip-coral-solid">Food</span>
         <div class="card-body">
           <h3 id="food-h3" class="h3-heading">Food Delivery</h3>
@@ -288,7 +324,10 @@
           <p class="card-availability">Available now in Durban</p>
           <!-- Food delivery supporting photo -->
           <div class="food-card-photo">
-            <img src="./assets/images/food-delivery-photo.jpg" alt="iZinga motorbike courier with branded delivery box and food app screen showing Shoprite and KFC listings">
+            <picture>
+              <source srcset="./assets/images/food-delivery-photo.webp" type="image/webp">
+              <img loading="lazy" decoding="async" width="1080" height="1080" src="./assets/images/food-delivery-photo.jpg" alt="iZinga motorbike courier with branded delivery box and food app screen showing Shoprite and KFC listings">
+            </picture>
           </div>
         </div>
         <!-- [F7] CTA — "Browse Food Stores" not "Order Food" -->
@@ -309,32 +348,41 @@
 
       <div class="pay-copy">
         <span class="eyebrow eyebrow-blue">iZinga Pay</span>
-        <h2 id="pay-h2">Instant payments, built into every delivery.</h2>
-        <p>Accept payments, share links, and let customers tip drivers — all without downloading another app.</p>
-        <a class="btn btn-iz btn-blue" href="https://pay.izinga.co.za/" style="margin-top:8px;">Pay or Tip with iZinga Pay</a>
+        <h2 id="pay-h2" data-reveal="rise">Instant payments, built into every delivery.</h2>
+        <span class="section-rule" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
+        <p data-reveal="rise" data-reveal-delay="180">Accept payments, share links, and let customers tip drivers — all without downloading another app.</p>
+        <a class="btn btn-iz btn-blue" data-reveal="rise" data-reveal-delay="260" href="https://pay.izinga.co.za/" style="margin-top:8px;">Pay or Tip with iZinga Pay</a>
       </div>
 
       <!-- [P3] Four confirmed capabilities -->
-      <div class="pay-tiles row" aria-label="iZinga Pay capabilities">
-        <div class="pay-tile col-6">
+      <div class="pay-tiles row" data-reveal-stagger="60" aria-label="iZinga Pay capabilities">
+        <div class="pay-tile iz-card col-6">
+          <div class="reveal-wrap" data-reveal="rise" data-reveal-delay="260">
           <div class="pay-tile-icon" aria-hidden="true">🔗</div>
           <h4>Payment Links</h4>
           <p>Share a link, get paid instantly</p>
+          </div>
         </div>
-        <div class="pay-tile col-6">
+        <div class="pay-tile iz-card col-6">
+          <div class="reveal-wrap" data-reveal="rise" data-reveal-delay="260">
           <div class="pay-tile-icon" aria-hidden="true">💳</div>
           <h4>Tip Your Driver</h4>
           <p>Scan a QR code, tip in seconds</p>
+          </div>
         </div>
-        <div class="pay-tile col-6">
+        <div class="pay-tile iz-card col-6">
+          <div class="reveal-wrap" data-reveal="rise" data-reveal-delay="260">
           <div class="pay-tile-icon" aria-hidden="true">🔒</div>
           <h4>Yoco-Powered</h4>
           <p>Trusted South African card processing</p>
+          </div>
         </div>
-        <div class="pay-tile col-6">
+        <div class="pay-tile iz-card col-6">
+          <div class="reveal-wrap" data-reveal="rise" data-reveal-delay="260">
           <div class="pay-tile-icon" aria-hidden="true">📱</div>
           <h4>No App Required</h4>
           <p>Customers pay without downloading anything</p>
+          </div>
         </div>
       </div>
 
@@ -385,20 +433,24 @@
       <!-- Copy col -->
       <div class="drivers-copy col-12 col-md-7">
         <span class="eyebrow eyebrow-teal">Drive With iZinga</span>
-        <h2 id="drivers-h2">Earn on your schedule.</h2>
-        <p>Join a growing network of iZinga drivers delivering furniture, parcels, and food across South Africa.</p>
-        <ul class="drivers-features" aria-label="Driver benefits">
-          <li>Flexible hours — work when it suits you</li>
-          <li>Regular payouts directly to your account</li>
-          <li>App-based job management and tracking</li>
+        <h2 id="drivers-h2" data-reveal="rise" data-reveal-delay="140">Earn on your schedule.</h2>
+        <span class="section-rule" data-reveal="draw" data-reveal-delay="260" aria-hidden="true"></span>
+        <p data-reveal="rise" data-reveal-delay="320">Join a growing network of iZinga drivers delivering furniture, parcels, and food across South Africa.</p>
+        <ul class="drivers-features" data-reveal-stagger="60" aria-label="Driver benefits">
+          <li data-reveal="rise" data-reveal-delay="320">Flexible hours — work when it suits you</li>
+          <li data-reveal="rise" data-reveal-delay="320">Regular payouts directly to your account</li>
+          <li data-reveal="rise" data-reveal-delay="320">App-based job management and tracking</li>
         </ul>
-        <div class="drivers-cta-stack">
+        <div class="drivers-cta-stack" data-reveal="rise" data-reveal-delay="620">
           <a class="btn btn-iz btn-teal" href="https://driver.izinga.co.za" target="_blank" rel="noopener">Register to Drive</a>
           <a class="btn btn-iz btn-outline-white" href="#partners">Learn About the Programme</a>
         </div>
         <!-- Driver supporting photo -->
-        <div class="drivers-photo">
-          <img src="./assets/images/driver-furniture-handoff.jpg" alt="iZinga driver handing furniture to a smiling customer at the back of a branded delivery truck">
+        <div class="drivers-photo" data-reveal="mask">
+          <picture>
+            <source srcset="./assets/images/driver-furniture-handoff.webp" type="image/webp">
+            <img loading="lazy" decoding="async" width="917" height="628" src="./assets/images/driver-furniture-handoff.jpg" alt="iZinga driver handing furniture to a smiling customer at the back of a branded delivery truck">
+          </picture>
         </div>
       </div>
 
@@ -413,30 +465,40 @@
 <section class="merchants-section" id="for-merchants" aria-labelledby="merchants-h2">
   <div class="iz-container">
     <span class="eyebrow eyebrow-gold">For Merchants</span>
-    <h2 id="merchants-h2">Your store, our drivers.</h2>
-    <p style="color:#555;max-width:52ch;line-height:1.65;">
+    <h2 id="merchants-h2" data-reveal="rise">Your store, our drivers.</h2>
+    <span class="section-rule" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
+    <p data-reveal="rise" data-reveal-delay="180" style="color:#555;max-width:52ch;line-height:1.65;">
       Give your customers same-day delivery without building your own fleet. iZinga merchants plug in and start delivering from day one.
     </p>
-    <div class="merchants-tiles row" aria-label="Merchant benefits">
-      <div class="merchant-tile col-12 col-md-4">
+    <div class="merchants-tiles row" data-reveal-stagger="80" aria-label="Merchant benefits">
+      <div class="merchant-tile iz-card col-12 col-md-4">
+        <div class="reveal-wrap" data-reveal="wipe" data-reveal-delay="200">
         <div class="merchant-tile-icon" aria-hidden="true">🚚</div>
         <h3>On-Demand Drivers</h3>
         <p>Access a pool of vetted drivers whenever orders come in — no fixed fleet costs.</p>
+        </div>
       </div>
-      <div class="merchant-tile col-12 col-md-4">
+      <div class="merchant-tile iz-card col-12 col-md-4">
+        <div class="reveal-wrap" data-reveal="wipe" data-reveal-delay="200">
         <div class="merchant-tile-icon" aria-hidden="true">📦</div>
         <h3>Order Management</h3>
         <p>Manage orders, assign drivers, and track deliveries from a single dashboard.</p>
+        </div>
       </div>
-      <div class="merchant-tile col-12 col-md-4">
+      <div class="merchant-tile iz-card col-12 col-md-4">
+        <div class="reveal-wrap" data-reveal="wipe" data-reveal-delay="200">
         <div class="merchant-tile-icon" aria-hidden="true">💳</div>
         <h3>Integrated Payments</h3>
         <p>iZinga Pay handles collection so you get paid without chasing customers.</p>
+        </div>
       </div>
     </div>
 
     <div class="merchants-image-row">
-      <img src="./assets/images/izinga-deliveries.png" alt="iZinga delivery driver fulfilling a merchant order" loading="lazy">
+      <picture>
+        <source srcset="./assets/images/izinga-deliveries.webp" type="image/webp">
+        <img loading="lazy" decoding="async" width="738" height="1520" src="./assets/images/izinga-deliveries.png" alt="iZinga delivery driver fulfilling a merchant order">
+      </picture>
     </div>
   </div>
 
@@ -463,17 +525,21 @@
       <div class="rp-copy">
         <span class="eyebrow eyebrow-blue">Referral Partner Programme</span>
         <!-- [CONFLICT 1 — RESOLVED] Programme name in H2 -->
-        <h2 id="rp-h2">Refer businesses. Earn commission.</h2>
-        <p>Know furniture retailers, estate agents, or businesses that need reliable delivery? Introduce them to iZinga and earn commission on every deal you bring in.</p>
-        <ul class="rp-benefits" aria-label="Referral Partner benefits">
-          <li>Earn commissions on qualifying referrals you bring in</li>
-          <li>No delivery work required — introduce and earn</li>
-          <li>Dedicated partner support and onboarding</li>
-          <li>Track referrals and earnings in your partner dashboard</li>
+        <h2 id="rp-h2" data-reveal="rise">Refer businesses. Earn commission.</h2>
+        <span class="section-rule" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
+        <p data-reveal="rise" data-reveal-delay="180">Know furniture retailers, estate agents, or businesses that need reliable delivery? Introduce them to iZinga and earn commission on every deal you bring in.</p>
+        <ul class="rp-benefits" data-reveal-stagger="80" aria-label="Referral Partner benefits">
+          <li data-reveal="rise" data-reveal-delay="260">Earn commissions on qualifying referrals you bring in</li>
+          <li data-reveal="rise" data-reveal-delay="260">No delivery work required — introduce and earn</li>
+          <li data-reveal="rise" data-reveal-delay="260">Dedicated partner support and onboarding</li>
+          <li data-reveal="rise" data-reveal-delay="260">Track referrals and earnings in your partner dashboard</li>
         </ul>
         <!-- Referral partner lifestyle photo -->
         <div class="rp-photo">
-          <img src="./assets/images/customer-with-app.jpg" alt="Customer smiling on a coastal balcony holding a phone showing the iZinga delivery booking screen, with iZinga drivers moving branded boxes in the background">
+          <picture>
+            <source srcset="./assets/images/customer-with-app.webp" type="image/webp">
+            <img loading="lazy" decoding="async" width="1368" height="2048" src="./assets/images/customer-with-app.jpg" alt="Customer smiling on a coastal balcony holding a phone showing the iZinga delivery booking screen, with iZinga drivers moving branded boxes in the background">
+          </picture>
         </div>
         <!-- [Component J — VERBATIM — CEO LOCKED] Disclaimer ABOVE CTA button in DOM order -->
         <p class="rp-disclaimer">
@@ -502,7 +568,7 @@
     <div class="ambassador-inner">
 
       <!-- CTA card LEFT (mirrored from S07) -->
-      <div class="ambassador-cta-col">
+      <div class="ambassador-cta-col" data-reveal="rise" data-reveal-delay="440">
         <div class="rp-cta-card">
           <h3>Become an Ambassador</h3>
           <p>Register your interest and we will send you the full programme details.</p>
@@ -521,13 +587,17 @@
       <div class="ambassador-copy">
         <span class="eyebrow eyebrow-blue">Ambassador Programme</span>
         <!-- [CONFLICT 1 — RESOLVED] -->
-        <h2 id="amb-h2">Grow iZinga in your community.</h2>
-        <p>
+        <h2 id="amb-h2" data-reveal="rise" data-reveal-delay="140">Grow iZinga in your community.</h2>
+        <span class="section-rule" data-reveal="draw" data-reveal-delay="260" aria-hidden="true"></span>
+        <p data-reveal="rise" data-reveal-delay="320">
           Ambassadors build iZinga presence on the ground — events, activations, community recruitment. If you are connected in your community and passionate about the iZinga mission, this programme is for you.
         </p>
         <!-- Ambassador supporting photo -->
-        <div class="ambassador-photo-col">
-          <img src="./assets/images/ambassador-photo.png" alt="Two people in iZinga Ambassador t-shirts next to an iZinga cargo bike on a Durban street at golden hour">
+        <div class="ambassador-photo-col" data-reveal="mask">
+          <picture>
+            <source srcset="./assets/images/ambassador-photo.webp" type="image/webp">
+            <img loading="lazy" decoding="async" width="539" height="538" src="./assets/images/ambassador-photo.png" alt="Two people in iZinga Ambassador t-shirts next to an iZinga cargo bike on a Durban street at golden hour">
+          </picture>
         </div>
       </div>
 
@@ -541,14 +611,19 @@
 <!-- ============================================================
      S09 COVERAGE MAP
      ============================================================ -->
-<section class="coverage-section" id="coverage" aria-labelledby="coverage-h2">
+<!-- trace-outline-hold: suppresses only the SA outline self-draw until the
+     accurate sa-map.svg asset swap lands (current asset is geographically
+     inaccurate). Pins/legend still animate. Remove the class to re-enable —
+     see "TEMPORARY KILL-SWITCH" in css/rebuild.css §5. -->
+<section class="coverage-section trace-outline-hold" id="coverage" data-reveal="trace" data-reveal-threshold="0.25" aria-labelledby="coverage-h2">
   <div class="iz-container">
     <div class="coverage-inner row">
 
       <div class="coverage-copy col-12 col-md-5">
         <span class="eyebrow" style="color:var(--btn-pill-color);letter-spacing:0.1em;text-transform:uppercase;font-size:0.7rem;font-weight:700;display:block;margin-bottom:10px;">Where We Are</span>
-        <h2 id="coverage-h2">Where we operate.</h2>
-        <p>iZinga operates in Johannesburg, Durban, and Cape Town. Expanding soon.</p>
+        <h2 id="coverage-h2" data-reveal="rise">Where we operate.</h2>
+        <span class="section-rule" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
+        <p data-reveal="rise" data-reveal-delay="180">iZinga operates in Johannesburg, Durban, and Cape Town. Expanding soon.</p>
         <p style="font-size:0.8rem;color:var(--dark-text-muted);margin-top:8px;">
           Per-city service lists are being confirmed. Pin details will be updated as each service area is finalised.
         </p>
@@ -556,23 +631,36 @@
 
       <div class="coverage-map-col col-12 col-md-7">
         <div class="coverage-map-wrapper" role="img" aria-label="Map of South Africa — iZinga service areas in Johannesburg, Durban, and Cape Town">
-          <img src="./assets/images/sa-map.svg" alt="" aria-hidden="true">
+          <!-- Inlined from assets/images/sa-map.svg (motion-spec-v1 §5.1.1) —
+               saves a request and makes the outline animatable.
+               Stripped on inlining: the source file carried its own duplicate
+               .map-pin / .pin-dot / .map-legend groups, which would have
+               collided with the HTML overlay below (six pins, broken JS
+               selectors). The overlay is the single source of pin truth.
+               pathLength="1" (§5.1.2) normalises the outline to unit length so
+               the self-draw needs no getTotalLength() and survives the pending
+               replacement of this geographically-approximate asset (§8(d)). -->
+          <svg class="sa-outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 420" aria-hidden="true" focusable="false">
+            <path pathLength="1" stroke-linejoin="round"
+                  d="M 85,80 L 95,70 L 120,65 L 150,60 L 185,58 L 220,55 L 260,52 L 300,50 L 340,52 L 370,58 L 395,68 L 415,82 L 425,100 L 430,118 L 428,138 L 420,155 L 408,172 L 398,185 L 390,200 L 388,218 L 385,235 L 375,252 L 360,268 L 345,280 L 330,290 L 318,300 L 308,312 L 298,325 L 288,340 L 280,355 L 272,368 L 268,378 L 264,388 L 260,395 L 256,388 L 250,375 L 244,362 L 238,350 L 230,338 L 220,325 L 208,312 L 195,300 L 180,290 L 162,278 L 145,265 L 130,250 L 115,232 L 102,215 L 90,195 L 80,175 L 74,155 L 70,135 L 72,115 L 78,97 Z"/>
+            <ellipse cx="270" cy="260" rx="18" ry="14" fill="none" stroke-width="1.5"/>
+          </svg>
           <div class="map-pins-overlay" aria-hidden="true">
             <!-- Johannesburg: ~42% from left, ~36% from top -->
             <div class="map-pin map-pin--teal" role="button" tabindex="0" aria-label="Johannesburg — services being confirmed"
-                 style="left:42%;top:36%;transform:translate(-50%,-50%);">
+                 style="left:42%;top:36%;">
               <div class="pin-dot"></div>
               <div class="pin-tooltip">Johannesburg<br>Services: being confirmed</div>
             </div>
             <!-- Durban: ~65% from left, ~55% from top -->
             <div class="map-pin map-pin--coral" role="button" tabindex="0" aria-label="Durban — services being confirmed"
-                 style="left:65%;top:55%;transform:translate(-50%,-50%);">
+                 style="left:65%;top:55%;">
               <div class="pin-dot"></div>
               <div class="pin-tooltip">Durban<br>Services: being confirmed</div>
             </div>
             <!-- Cape Town: ~26% from left, ~84% from top -->
             <div class="map-pin map-pin--teal" role="button" tabindex="0" aria-label="Cape Town — services being confirmed"
-                 style="left:26%;top:84%;transform:translate(-50%,-50%);">
+                 style="left:26%;top:84%;">
               <div class="pin-dot"></div>
               <div class="pin-tooltip">Cape Town<br>Services: being confirmed</div>
             </div>
@@ -605,23 +693,24 @@
 
       <div class="app-copy col-12 col-md-6">
         <span class="eyebrow eyebrow-coral">Download the App</span>
-        <h2 id="app-h2">Order in minutes. Track in real time.</h2>
-        <p>The iZinga app puts furniture, parcel, and food delivery at your fingertips — plus real-time driver tracking.</p>
+        <h2 id="app-h2" data-reveal="rise">Order in minutes. Track in real time.</h2>
+        <span class="section-rule" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
+        <p data-reveal="rise" data-reveal-delay="180">The iZinga app puts furniture, parcel, and food delivery at your fingertips — plus real-time driver tracking.</p>
 
         <!-- Store badge buttons — flat styled, no emoji -->
-        <div class="store-buttons">
-          <a class="store-badge" href="https://download.izinga.co.za/app" aria-label="Download iZinga on the App Store">
+        <div class="store-buttons" data-reveal-stagger="80">
+          <a class="store-badge" data-reveal="rise" data-reveal-delay="260" href="https://download.izinga.co.za/app" aria-label="Download iZinga on the App Store">
             <span class="store-badge-sub">Download on the</span>
             <span class="store-badge-name">App Store</span>
           </a>
-          <a class="store-badge" href="https://download.izinga.co.za/app" aria-label="Download iZinga on Google Play">
+          <a class="store-badge" data-reveal="rise" data-reveal-delay="260" href="https://download.izinga.co.za/app" aria-label="Download iZinga on Google Play">
             <span class="store-badge-sub">Get it on</span>
             <span class="store-badge-name">Google Play</span>
           </a>
         </div>
 
         <!-- QR frame — real QR code injected by qr-gen.js -->
-        <div style="display:inline-block;margin-top:12px;">
+        <div data-reveal="rise" data-reveal-delay="420" style="display:inline-block;margin-top:12px;">
           <div class="qr-frame"></div>
           <span class="qr-label">Scan to download</span>
         </div>
@@ -630,12 +719,20 @@
       <!-- [Component C] App carousel — centre frame replaced with real UI mockup -->
       <div class="col-12 col-md-6">
         <!-- [F-Q2] Labels: Browse Stores · Join As A Driver · Track Your Order -->
-        <div class="app-carousel" aria-label="iZinga app screenshot previews" role="img">
+        <!-- Deviation from §4.11 item 6: R6 fade on the carousel container rather
+             than R1 rise on each .phone-frame. `.phone-frame.adjacent` carries a
+             static transform: scale(0.9); a rise reveal would overwrite it while
+             hidden and then animate transform back to scale(0.9), i.e. a scale
+             animation, which Law 3 bans. Fade is in the sanctioned set (§3.4). -->
+        <div class="app-carousel" data-reveal="fade" data-reveal-delay="300" aria-label="iZinga app screenshot previews" role="img">
           <div class="phone-frame adjacent" aria-hidden="true">
             <div class="phone-frame-label">Browse Stores</div>
           </div>
           <div class="phone-frame active phone-frame--real" aria-hidden="true">
-            <img src="./assets/images/driver-signup-mockup.png" alt="iZinga Join As A Driver app screen showing branded Kia K2700 bakkie">
+            <picture>
+              <source srcset="./assets/images/driver-signup-mockup.webp" type="image/webp">
+              <img loading="lazy" decoding="async" width="736" height="1422" src="./assets/images/driver-signup-mockup.png" alt="iZinga Join As A Driver app screen showing branded Kia K2700 bakkie">
+            </picture>
           </div>
           <div class="phone-frame adjacent" aria-hidden="true">
             <div class="phone-frame-label">Track Your Order</div>
@@ -662,16 +759,20 @@
     <span class="eyebrow eyebrow-muted" style="text-align:center;display:block;">What people say</span>
 
     <!-- [P5] Conditional headings — JS toggles section--populated class when real cards present -->
-    <h2 id="testimonials-h2" class="testimonials-heading-placeholder h2-heading">
+    <h2 id="testimonials-h2" class="testimonials-heading-placeholder h2-heading" data-reveal="fade">
       Share your iZinga experience.
     </h2>
-    <h2 class="testimonials-heading-trust h2-heading" aria-hidden="true">
+    <h2 class="testimonials-heading-trust h2-heading" aria-hidden="true" data-reveal="fade">
       Trusted by drivers, merchants, and customers.
     </h2>
+    <span class="section-rule section-rule--centred" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
 
     <!-- Customer photo feature — neutral caption, no fabricated quote -->
     <div class="testimonials-photo-feature">
-      <img src="./assets/images/customer-testimonial-photo.jpg" alt="Customer on apartment balcony holding phone showing the iZinga app, with moving boxes and iZinga delivery truck visible below">
+      <picture>
+        <source srcset="./assets/images/customer-testimonial-photo.webp" type="image/webp">
+        <img loading="lazy" decoding="async" width="1600" height="1261" src="./assets/images/customer-testimonial-photo.jpg" alt="Customer on apartment balcony holding phone showing the iZinga app, with moving boxes and iZinga delivery truck visible below">
+      </picture>
       <div class="testimonials-photo-caption">
         <strong>Real deliveries, real customers.</strong>
         iZinga delivers furniture, parcels, and food to customers across South Africa — tracked from pickup to door.
@@ -679,24 +780,30 @@
     </div>
 
     <!-- [Component B] Skeleton placeholder — no fake quotes -->
-    <div class="skeleton-grid row" aria-label="Testimonials loading — no reviews yet">
+    <div class="skeleton-grid row" data-reveal-stagger="60" aria-label="Testimonials loading — no reviews yet">
       <div class="skeleton-frame col-12 col-md-4" aria-hidden="true">
+        <div class="reveal-wrap" data-reveal="fade" data-reveal-delay="200">
         <div class="skeleton-avatar"></div>
         <div class="skeleton-bar" style="width:80%"></div>
         <div class="skeleton-bar" style="width:90%"></div>
         <div class="skeleton-bar" style="width:60%"></div>
+        </div>
       </div>
       <div class="skeleton-frame col-12 col-md-4" aria-hidden="true">
+        <div class="reveal-wrap" data-reveal="fade" data-reveal-delay="200">
         <div class="skeleton-avatar"></div>
         <div class="skeleton-bar" style="width:75%"></div>
         <div class="skeleton-bar" style="width:85%"></div>
         <div class="skeleton-bar" style="width:55%"></div>
+        </div>
       </div>
       <div class="skeleton-frame col-12 col-md-4" aria-hidden="true">
+        <div class="reveal-wrap" data-reveal="fade" data-reveal-delay="200">
         <div class="skeleton-avatar"></div>
         <div class="skeleton-bar" style="width:88%"></div>
         <div class="skeleton-bar" style="width:70%"></div>
         <div class="skeleton-bar" style="width:65%"></div>
+        </div>
       </div>
     </div>
 
@@ -717,13 +824,16 @@
      ============================================================ -->
 <footer class="iz-footer" aria-label="Site footer">
 
-  <div class="footer-inner">
+  <div class="footer-inner" data-reveal-stagger="60">
+    <!-- §4.13 the page's closing gesture: the hero draws a 60px rule, the
+         footer draws a full-width one. Same gesture, page scale. -->
+    <span class="footer-top-rule" data-reveal="draw" aria-hidden="true"></span>
 
     <!-- Col 1: Logo + tagline + social -->
-    <div class="footer-logo-col">
+    <div class="footer-logo-col" data-reveal="fade" data-reveal-delay="200">
       <div class="footer-logo">
         <a href="#page-top" aria-label="iZinga home">
-          <img src="./assets/images/izinga-logo-white.png" alt="iZinga" width="120" height="40">
+          <img loading="lazy" decoding="async" src="./assets/images/izinga-logo-white.png" alt="iZinga" width="120" height="40">
         </a>
       </div>
       <p class="footer-tagline">Move Anything, Anywhere. Delivering across South Africa.</p>
@@ -738,13 +848,13 @@
         </a>
         <!-- WhatsApp -->
         <a href="https://wa.me/27686401157" target="_blank" rel="noopener" aria-label="iZinga on WhatsApp">
-          <img src="./assets/images/whatsapp.svg" alt="WhatsApp" width="20" height="20" style="filter:invert(70%);">
+          <img loading="lazy" decoding="async" src="./assets/images/whatsapp.svg" alt="WhatsApp" width="20" height="20" style="filter:invert(70%);">
         </a>
       </div>
     </div>
 
     <!-- Col 2: Links -->
-    <div class="footer-col" id="fc-links">
+    <div class="footer-col" data-reveal="fade" data-reveal-delay="200" id="fc-links">
       <h4>Quick Links</h4>
       <ul>
         <li><a href="#page-top">Home</a></li>
@@ -757,7 +867,7 @@
     </div>
 
     <!-- Col 3: Services -->
-    <div class="footer-col" id="fc-services">
+    <div class="footer-col" data-reveal="fade" data-reveal-delay="200" id="fc-services">
       <h4>Services</h4>
       <ul>
         <li><a href="https://delivery.izinga.co.za/" target="_blank" rel="noopener">Furniture Delivery</a></li>
@@ -771,7 +881,7 @@
     </div>
 
     <!-- Col 4: Legal + contact -->
-    <div class="footer-col" id="fc-legal">
+    <div class="footer-col" data-reveal="fade" data-reveal-delay="200" id="fc-legal">
       <h4>Contact</h4>
       <ul>
         <li><a href="mailto:hello@curiousoft.dev">hello@curiousoft.dev</a></li>
@@ -783,7 +893,7 @@
   </div>
 
   <!-- Copyright strip -->
-  <div class="footer-copyright-strip">
+  <div class="footer-copyright-strip" data-reveal="fade" data-reveal-delay="500">
     <p>© <span id="footer-year"></span> Curiousoft (Pty) Ltd (2016/429327/07). Trading as iZinga. All rights reserved.</p>
     <div class="footer-legal-links">
       <a href="https://www.izinga.co.za/privacy.html">Privacy Policy</a>
@@ -798,7 +908,7 @@
 <!-- ============================================================
      FLOATING WHATSAPP FAB
      ============================================================ -->
-<a class="iz-fab" href="https://wa.me/27686401157?text=Hi%20iZinga%2C%20I%20would%20like%20to%20get%20started." target="_blank" rel="noopener noreferrer" aria-label="Chat with iZinga on WhatsApp">
+<a class="iz-fab" data-reveal="settle" data-reveal-immediate data-reveal-delay="600" href="https://wa.me/27686401157?text=Hi%20iZinga%2C%20I%20would%20like%20to%20get%20started." target="_blank" rel="noopener noreferrer" aria-label="Chat with iZinga on WhatsApp">
   <img src="./assets/images/whatsapp.svg" alt="WhatsApp" width="20" height="20">
   <span>Chat on WhatsApp</span>
 </a>
