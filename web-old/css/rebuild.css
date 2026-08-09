@@ -32,6 +32,33 @@
   --sp-lg:  48px;
   --sp-xl:  80px;
   --sp-2xl: 120px;
+
+  /* --- MOTION: duration (motion-spec-v1 §1.1) --- */
+  --dur-instant:    100ms;  /* colour-only swaps, focus rings, tooltip opacity */
+  --dur-quick:      150ms;  /* micro: link colour, icon nudge, dot scale */
+  --dur-base:       200ms;  /* DEFAULT. hover states, surface tone shift, filter */
+  --dur-moderate:   240ms;  /* drawer, overlay, accent-rule draw, card hover set */
+  --dur-slow:       300ms;  /* entrance reveals (rise, fade), carousel slide */
+  --dur-deliberate: 420ms;  /* wipe and mask entrances — the "considered" tier */
+  --dur-count:     1400ms;  /* stat count-up. RESERVED. Do not reuse. */
+  --dur-trace:     1600ms;  /* SA map self-draw. RESERVED. Single use, S09 only. */
+
+  /* --- MOTION: easing (motion-spec-v1 §1.2) --- */
+  --ease-out:      cubic-bezier(0.215, 0.61, 0.355, 1);  /* easeOutCubic. DEFAULT. */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);         /* two-way: hover on AND off */
+  --ease-trace:    cubic-bezier(0.65, 0, 0.35, 1);       /* easeInOutCubic. Map draw only. */
+
+  /* --- MOTION: stagger & distance (motion-spec-v1 §1.3) --- */
+  --stagger-tight: 60ms;   /* 4+ sibling items (tile grids, footer columns) */
+  --stagger-base:  80ms;   /* DEFAULT. 2-4 siblings */
+  --stagger-loose: 120ms;  /* 2 siblings only, or deliberately theatrical pairs */
+  --reveal-dist:    16px;  /* rise distance, DEFAULT */
+  --reveal-dist-lg: 24px;  /* rise distance for full-width section headers only */
+
+  /* NOTE (motion-spec-v1 §1.4): there is deliberately NO --shadow-*, --radius-*
+     or --elevation-* token here, and none may be added. A token is a permission
+     slip. Any elevation exemption (modals/overlays only) is written inline at
+     the component with a comment naming the exemption. */
 }
 
 /* ============================================================
@@ -97,7 +124,7 @@ img { max-width: 100%; display: block; }
   cursor: pointer;
   text-decoration: none;
   line-height: 1;
-  transition: filter 200ms ease;
+  transition: filter var(--dur-base) var(--ease-standard);
   letter-spacing: 0.02em;
 }
 .btn-iz:hover { filter: brightness(1.4); }
@@ -122,8 +149,8 @@ img { max-width: 100%; display: block; }
 /* Buttons on dark (#212121) sections — invert to white fill so they remain legible */
 .hero-section    .btn-iz:not(.btn-outline-white),
 .drivers-section .btn-iz:not(.btn-outline-white) {
-    background: var(--btn-green-color);
-    color: #ffffff;
+    background: #ffffff;
+    color: #212121;
 }
 .hero-section    .btn-iz:not(.btn-outline-white):hover,
 .drivers-section .btn-iz:not(.btn-outline-white):hover {
@@ -173,7 +200,7 @@ img { max-width: 100%; display: block; }
   top: 0; left: 0; right: 0;
   z-index: 1000;
   background: transparent;
-  transition: background 200ms ease;
+  transition: background var(--dur-base) var(--ease-standard);
   padding: 0 var(--sp-md);
 }
 .iz-nav.scrolled { background: #212121; }
@@ -204,7 +231,7 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.04em;
   color: #fff;
   opacity: 1;
-  transition: opacity 150ms;
+  transition: opacity var(--dur-quick) var(--ease-standard);
   padding-bottom: 2px;
   border-bottom: 2px solid transparent;
   text-decoration: none;
@@ -258,7 +285,7 @@ img { max-width: 100%; display: block; }
   background: #212121;
   z-index: 1100;
   transform: translateX(100%);
-  transition: transform 240ms ease-out;
+  transition: transform var(--dur-moderate) var(--ease-out);
   overflow-y: auto;
   padding: 72px 0 32px;
   position: fixed;
@@ -293,7 +320,7 @@ img { max-width: 100%; display: block; }
   background: rgba(0,0,0,0.5);
   z-index: 1050;
   opacity: 0; pointer-events: none;
-  transition: opacity 240ms ease-out;
+  transition: opacity var(--dur-moderate) var(--ease-out);
 }
 .iz-overlay.open { opacity: 1; pointer-events: all; }
 @media (prefers-reduced-motion: reduce) {
@@ -879,14 +906,11 @@ img { max-width: 100%; display: block; }
   max-width: 100%;
   height: auto;
 }
-/* Map pin hover */
+/* Map pin hover — DEFECT FIX (motion-spec-v1 §5.1.4): the duplicate
+   `.map-pin .pin-dot` transition + conflicting scale(1.33) hover that used to
+   live here has been deleted. The single canonical pin rule set, standardised
+   on scale(1.4), lives in the COVERAGE MAP PINS block below. */
 .map-pin { cursor: pointer; }
-.map-pin .pin-dot { transition: transform 150ms ease; }
-.map-pin:hover .pin-dot,
-.map-pin:focus .pin-dot { transform: scale(1.33); }
-@media (prefers-reduced-motion: reduce) {
-  .map-pin .pin-dot { transition: none; }
-}
 
 /* ============================================================
    S10 APP DOWNLOADS
@@ -913,7 +937,7 @@ img { max-width: 100%; display: block; }
   font-family: Catamaran, Calibri, sans-serif;
   font-weight: 700; font-size: 0.85rem;
   min-height: 44px; text-decoration: none;
-  transition: filter 200ms;
+  transition: filter var(--dur-base) var(--ease-standard);
 }
 .store-btn:hover { filter: brightness(0.85); }
 
@@ -949,7 +973,7 @@ img { max-width: 100%; display: block; }
   background: #f3f2f2;
   display: flex; align-items: center; justify-content: center;
   flex-direction: column; gap: 8px;
-  transition: transform 200ms, opacity 200ms;
+  transition: transform var(--dur-base) var(--ease-standard), opacity var(--dur-base) var(--ease-standard);
   flex-shrink: 0;
 }
 .phone-frame.active {
@@ -977,7 +1001,10 @@ img { max-width: 100%; display: block; }
   width: 6px; height: 6px;
   border-radius: 50%;
   background: var(--rule);
-  transition: all 200ms;
+  /* DEFECT FIX (motion-spec-v1 §3.5/§4.11): was `transition: all 200ms`, which
+     animated border-radius. Radius must never animate. Properties enumerated. */
+  transition: width var(--dur-base) var(--ease-standard),
+              background-color var(--dur-base) var(--ease-standard);
 }
 .dot.active {
   width: 18px;
@@ -1053,7 +1080,7 @@ img { max-width: 100%; display: block; }
   margin-bottom: 16px;
 }
 .footer-social { display: flex; gap: 16px; align-items: center; }
-.footer-social a { color: var(--dark-text-muted); transition: color 150ms; }
+.footer-social a { color: var(--dark-text-muted); transition: color var(--dur-quick) var(--ease-standard); }
 .footer-social a:hover { color: var(--dark-text-primary); }
 .footer-social svg { width: 20px; height: 20px; display: block; }
 
@@ -1074,7 +1101,7 @@ img { max-width: 100%; display: block; }
   font-size: 0.85rem;
   color: var(--dark-text-muted);
   text-decoration: none;
-  transition: color 150ms;
+  transition: color var(--dur-quick) var(--ease-standard);
 }
 .footer-col ul li a:hover { color: var(--dark-text-primary); }
 .footer-col ul li a.active { text-decoration-color: var(--btn-bg-color); text-decoration: underline; }
@@ -1120,7 +1147,7 @@ img { max-width: 100%; display: block; }
   font-weight: 700; font-size: 0.875rem;
   text-decoration: none;
   box-shadow: 0 4px 16px rgba(33,33,33,0.35);
-  transition: filter 200ms;
+  transition: filter var(--dur-base) var(--ease-standard);
   min-height: 44px;
 }
 .iz-fab:hover { filter: brightness(1.4); }
@@ -1240,7 +1267,8 @@ img { max-width: 100%; display: block; }
   font-size: 0.9rem;
   color: var(--text-color);
   background: #fff;
-  transition: border-color 150ms, box-shadow 150ms;
+  transition: border-color var(--dur-quick) var(--ease-standard),
+              box-shadow var(--dur-quick) var(--ease-standard);
   appearance: none;
   -webkit-appearance: none;
 }
@@ -1249,6 +1277,10 @@ img { max-width: 100%; display: block; }
 .field-textarea:focus {
   outline: none;
   border-color: var(--btn-pill-color);
+  /* Sanctioned exception to the flat-hover vocabulary (motion-spec-v1 §4.15),
+     restored by design decision: form fields keep the richer focus affordance.
+     The global `:focus-visible { outline: 2px solid var(--btn-pill-color) }`
+     at the foot of this file still applies for keyboard users. */
   box-shadow: 0 0 0 3px rgba(16,131,165,0.15);
 }
 .field-textarea { min-height: 100px; resize: vertical; }
@@ -1352,7 +1384,9 @@ img { max-width: 100%; display: block; }
   .drivers-calculator-col { order: 2; }
   .biz-form-surface { padding: 24px; }
   .form-row { grid-template-columns: 1fr; }
-  .coverage-map-col img { max-width: 300px; margin: 0 auto; }
+  /* Mobile map sizing lives with the wrapper rule in COVERAGE MAP PINS below
+     (it has to come after the base .coverage-map-wrapper max-width to win). */
+  .coverage-map-col img { max-width: 100%; margin: 0 auto; }
 
   /* Issue 4: card accent stripe — match card's 16px mobile padding to prevent bleed */
   .card-top-accent { margin: -16px -16px 16px; }
@@ -1440,6 +1474,15 @@ img { max-width: 100%; display: block; }
   width: 100%;
   max-width: 480px;
 }
+/* Mobile: cap the WRAPPER, never the <svg> on its own. .map-pins-overlay is
+   `inset: 0` on the wrapper, so the pins' left/top percentages are resolved
+   against the wrapper box. Capping only the svg (as the ≤767px block used to)
+   left a 300px map sitting inside a full-width wrapper and pushed every pin
+   off the coastline. Capping the wrapper keeps map and overlay coincident at
+   every breakpoint. */
+@media (max-width: 767px) {
+  .coverage-map-wrapper { max-width: 300px; margin: 0 auto; }
+}
 .coverage-map-wrapper img {
   display: block;
   width: 100%;
@@ -1463,7 +1506,7 @@ img { max-width: 100%; display: block; }
   height: 12px;
   border-radius: 50%;
   border: 2px solid rgba(255,255,255,0.55);
-  transition: transform 150ms ease;
+  transition: transform var(--dur-quick) var(--ease-standard);
   flex-shrink: 0;
 }
 .map-pin--teal  .pin-dot { background: var(--btn-green-color); }
@@ -1486,7 +1529,7 @@ img { max-width: 100%; display: block; }
   padding: 5px 8px;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 150ms ease;
+  transition: opacity var(--dur-quick) var(--ease-standard);
   z-index: 10;
   text-align: center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
@@ -1634,7 +1677,7 @@ img { max-width: 100%; display: block; }
   min-height: 52px;
   min-width: 140px;
   font-family: Catamaran, Calibri, sans-serif;
-  transition: filter 200ms;
+  transition: filter var(--dur-base) var(--ease-standard);
   border: 1px solid #444;
 }
 .store-badge:hover { filter: brightness(0.85); }
@@ -1686,6 +1729,15 @@ img { max-width: 100%; display: block; }
   object-fit: cover;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
+
+/* <picture> is a non-rendering wrapper — it must never become the sized
+   box. Where a photo container is `display:flex` (.merchants-image-row,
+   .phone-frame--real), the <picture> became the flex item and the inner
+   `img { width:100% }` resolved against a picture with no intrinsic size,
+   collapsing both to 0x0 (image invisible AND never lazy-loaded).
+   display:contents makes the <img> the direct flex/grid/block child again,
+   so every `<container> img` rule keeps resolving as authored. */
+picture { display: contents; }
 
 /* ============================================================
    REAL PHOTO SYSTEM — new section photos (Task A + B)
@@ -1834,6 +1886,303 @@ img { max-width: 100%; display: block; }
   }
   .drivers-photo img { height: 300px; }
   .ambassador-photo-col img { height: 280px; }
+}
+
+/* ============================================================
+   MOTION SYSTEM — implements web-old/docs/motion-spec-v1.md §3–§7
+   ------------------------------------------------------------
+   SAFETY INVERSION (§6.1) — read before editing anything below.
+   The REVEALED state is the CSS default. Every hidden state is scoped
+   under `html.js-reveal`, a class only the blocking inline <head> script
+   can set. If site.js fails to load, throws, or IntersectionObserver is
+   unavailable, or the user prefers reduced motion, the class is never
+   added and the page renders fully visible.
+   => No rule below may set opacity:0, a hiding clip-path, scaleX(0) or a
+      non-zero stroke-dashoffset outside an `html.js-reveal` selector.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   §6.5 Smooth scrolling + anchor offset for the fixed 64px nav
+   ------------------------------------------------------------ */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+section[id], main[id], div[id], footer[id] { scroll-margin-top: 80px; }
+
+/* ------------------------------------------------------------
+   §3.4 The six entrance patterns (R1–R6) + §5 trace
+   Transition declarations are unconditional (harmless without JS);
+   only the FROM states are gated on html.js-reveal.
+   ------------------------------------------------------------ */
+[data-reveal="rise"],
+[data-reveal="settle"],
+[data-reveal="fade"] {
+  transition: opacity var(--dur-slow) var(--ease-out),
+              transform var(--dur-slow) var(--ease-out);
+}
+[data-reveal="settle"] {
+  transition: opacity var(--dur-moderate) var(--ease-out),
+              transform var(--dur-moderate) var(--ease-out);
+}
+[data-reveal="wipe"],
+[data-reveal="mask"] {
+  transition: clip-path var(--dur-deliberate) var(--ease-out);
+}
+[data-reveal="draw"] {
+  transform-origin: left;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+/* §3.3 sanctioned deviation from Law 2: a centred rule drawing from one end
+   reads as broken, so centred headers draw from the middle outwards. */
+[data-reveal="draw"].section-rule--centred { transform-origin: center; }
+/* Page-scale rules (footer bookend, form surface) take the deliberate tier. */
+[data-reveal="draw"].section-rule--full,
+[data-reveal="draw"].footer-top-rule { transition-duration: var(--dur-deliberate); }
+
+/* R1 rise */
+html.js-reveal [data-reveal="rise"]:not(.is-revealed) {
+  opacity: 0;
+  transform: translateY(var(--reveal-dist));
+}
+/* R2 wipe — opacity stays 1; the content is uncovered, never faded */
+html.js-reveal [data-reveal="wipe"]:not(.is-revealed) {
+  clip-path: inset(0 100% 0 0);
+}
+/* R3 draw */
+html.js-reveal [data-reveal="draw"]:not(.is-revealed) {
+  transform: scaleX(0);
+}
+/* R4 settle — arrives downward (Law 2: only literal arrivals fall) */
+html.js-reveal [data-reveal="settle"]:not(.is-revealed) {
+  opacity: 0;
+  transform: translateY(-12px);
+}
+/* R5 mask */
+html.js-reveal [data-reveal="mask"]:not(.is-revealed) {
+  clip-path: inset(100% 0 0 0);
+}
+/* R6 fade — for LCP-adjacent imagery and skeletons; never translates */
+html.js-reveal [data-reveal="fade"]:not(.is-revealed) {
+  opacity: 0;
+}
+
+/* §6.2 delay resolution. Higher specificity than the shorthands above, so
+   the `transition:` shorthands cannot reset transition-delay to 0. */
+html.js-reveal [data-reveal] {
+  transition-delay: calc(var(--reveal-i, 0) * var(--reveal-step, 0ms) + var(--reveal-delay, 0ms));
+}
+
+/* §4.0 constraint 6 wrapper — exists only to be animated, carries no layout. */
+.reveal-wrap { display: block; }
+
+/* ------------------------------------------------------------
+   §4.0 One accent colour per section
+   ------------------------------------------------------------ */
+.hero-section         { --section-accent: var(--btn-red-color);   }  /* S01 Coral */
+.stats-strip          { --section-accent: var(--btn-bg-color);    }  /* S02 Gold  */
+.delivery-section     { --section-accent: var(--btn-green-color); }  /* S03 Teal  */
+.pay-section          { --section-accent: var(--btn-pill-color);  }  /* S04 Blue  */
+.drivers-section      { --section-accent: var(--btn-green-color); }  /* S05 Teal  */
+.merchants-section    { --section-accent: var(--btn-bg-color);    }  /* S06 Gold  */
+.rp-section           { --section-accent: var(--btn-pill-color);  }  /* S07 Blue  */
+.ambassador-section   { --section-accent: var(--btn-pill-color);  }  /* S08 Blue  */
+.coverage-section     { --section-accent: var(--btn-green-color); }  /* S09 Teal  */
+.app-section          { --section-accent: var(--btn-red-color);   }  /* S10 Coral */
+.testimonials-section { --section-accent: var(--btn-pill-color);  }  /* S11 Blue  */
+.iz-footer            { --section-accent: var(--btn-green-color); }  /* S12 Teal  */
+.biz-hero, .biz-main  { --section-accent: var(--btn-pill-color);  }  /* Blue      */
+
+/* S03 sanctioned dual accent — delivery cards carry their own role colour
+   on the card accent bar; the section rule stays Teal. */
+.delivery-card--furniture,
+.delivery-card--parcel { --section-accent: var(--btn-green-color); }
+.delivery-card--food   { --section-accent: var(--btn-red-color); }
+
+/* ------------------------------------------------------------
+   §3.3 Section-header rule — the recurring motif
+   ------------------------------------------------------------ */
+.section-rule {
+  display: block;
+  width: 60px; height: 3px;
+  background: var(--section-accent, var(--btn-green-color));
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+.section-rule--centred { margin-left: auto; margin-right: auto; }
+/* §4.13 S12 — the page's closing gesture. Bookends the 60px hero rule with a
+   full-container-width one: same drawn gesture, page scale. */
+.footer-top-rule {
+  display: block;
+  grid-column: 1 / -1;
+  width: 100%; height: 1px;
+  background: var(--dark-rule);
+  margin: 0 0 8px;
+}
+.section-rule--full { width: 100%; }
+.section-rule--sm { width: 40px; height: 2px; }
+
+/* ------------------------------------------------------------
+   §3.1 Flat card hover vocabulary — four simultaneous layers.
+   Applies to .delivery-card, .pay-tile, .merchant-tile, .prog-box.
+   BANNED here permanently: box-shadow, drop-shadow, transform: scale,
+   hover translateY, border-radius, borders that appear on hover.
+   ------------------------------------------------------------ */
+.iz-card { position: relative; }
+
+/* Layer 1 — the accent rule. The flat substitute for elevation.
+   Same language as the mobile drawer's `border-left: 4px solid [role]`. */
+.iz-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 3px; height: 100%;
+  background: var(--section-accent, var(--btn-green-color));
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--dur-moderate) var(--ease-standard);
+  pointer-events: none;
+}
+.iz-card:hover::before,
+.iz-card:focus-within::before { transform: scaleY(1); }
+
+/* Layer 2 — tonal separation. Hovering always moves the surface toward
+   light. NOTE: every current .iz-card is already #fff on a light section,
+   so this is a no-op today; it is here so future card-tone surfaces and
+   the dark-section variant inherit the correct behaviour. */
+.iz-card { transition: background-color var(--dur-base) var(--ease-standard); }
+.iz-card:hover, .iz-card:focus-within { background-color: #ffffff; }
+.section--dark .iz-card { background-color: #212121; }
+.section--dark .iz-card:hover,
+.section--dark .iz-card:focus-within { background-color: #2b2b2b; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Layer 3 — letterform opening. Layout-triggering, so restricted to a
+     single short heading per card, and NOT applied to .pay-tile h4, whose
+     narrow col-6 measure makes it a wrap risk at 375px. */
+  .delivery-card h3,
+  .merchant-tile h3,
+  .prog-box h3 { transition: letter-spacing var(--dur-moderate) var(--ease-standard); }
+  .delivery-card:hover h3, .delivery-card:focus-within h3,
+  .merchant-tile:hover h3, .merchant-tile:focus-within h3,
+  .prog-box:hover h3,      .prog-box:focus-within h3 { letter-spacing: 0.01em; }
+
+  /* Layer 4 — directional cue, 4px left-to-right per Law 2. */
+  .iz-card .card-link-arrow {
+    display: inline-block;
+    transition: transform var(--dur-quick) var(--ease-standard);
+  }
+  .iz-card:hover .card-link-arrow,
+  .iz-card:focus-within .card-link-arrow { transform: translateX(4px); }
+}
+
+/* ------------------------------------------------------------
+   §5 COVERAGE MAP — the signature moment. Runs 0 → ~2.4s, then the
+   section is permanently static. No looping pulse (§5.5).
+   The mechanism is path-data independent via pathLength="1", so it
+   survives the pending SA outline asset replacement (§8(d)).
+   ------------------------------------------------------------ */
+.coverage-map-wrapper svg { display: block; width: 100%; height: auto; }
+
+.coverage-section .sa-outline path {
+  stroke: var(--btn-green-color);
+  stroke-width: 2;
+  fill: var(--btn-green-color);
+  fill-opacity: 0.08;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;   /* DEFAULT = fully drawn and filled. §6.1. */
+}
+/* (The former `.sa-outline ellipse` rule is gone: the hand-drawn ellipse that
+   stood in for Lesotho was replaced by a genuine interior ring in the path
+   itself, rendered as a hole via fill-rule="evenodd".) */
+
+html.js-reveal .coverage-section[data-reveal="trace"]:not(.is-revealed) .sa-outline path {
+  stroke-dashoffset: 1;
+  fill-opacity: 0;
+}
+.coverage-section[data-reveal="trace"].is-revealed .sa-outline path {
+  stroke-dashoffset: 0;
+  fill-opacity: 0.08;
+  transition:
+    stroke-dashoffset var(--dur-trace) var(--ease-trace),
+    fill-opacity var(--dur-deliberate) var(--ease-out) 1200ms;
+}
+
+/* ---- TEMPORARY KILL-SWITCH: outline self-draw held back ----
+   The `.trace-outline-hold` class on .coverage-section suppresses ONLY the
+   stroke-dashoffset self-draw of the SA outline. Pins, legend and pin rings
+   still animate normally off the same `data-reveal="trace"` state.
+
+   WHY (original): the old sa-map.svg was geographically inaccurate (crude
+   ~40-point outline, missing the Lesotho enclave), and drawing an inaccurate
+   border slowly made the inaccuracy the focal point of the section.
+
+   STATUS: the accurate Natural Earth outline has now landed, so the original
+   blocker is cleared. The hold stays in place for one more step only: the
+   coverage-map trace was flagged as needing Lindani's visual sign-off before
+   it ships. This is a deliberate hold, not an outstanding asset defect.
+
+   TO RE-ENABLE: delete the `trace-outline-hold` class from the
+   <section class="coverage-section"> in index.html once that sign-off is in.
+   The §5 mechanism above is complete and verified; it is asset-independent
+   via pathLength="1", so no CSS or JS change is needed at that point.
+   Deleting this block too is optional. */
+html.js-reveal .coverage-section.trace-outline-hold[data-reveal="trace"]:not(.is-revealed) .sa-outline path {
+  stroke-dashoffset: 0;
+  fill-opacity: 0.08;
+}
+.coverage-section.trace-outline-hold[data-reveal="trace"].is-revealed .sa-outline path {
+  transition: none;
+}
+
+/* §5.3 Pin arrival — R4 settle, north to south, 140ms apart, after the
+   trace completes. transform moved off the inline style (§5.1.3) so the
+   stylesheet can compose it. */
+.map-pin { transform: translate(-50%, -50%); }
+
+html.js-reveal .coverage-section[data-reveal="trace"]:not(.is-revealed) .map-pin {
+  opacity: 0;
+  transform: translate(-50%, calc(-50% - 12px));
+}
+.coverage-section[data-reveal="trace"].is-revealed .map-pin {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+  transition:
+    opacity var(--dur-moderate) var(--ease-out),
+    transform var(--dur-moderate) var(--ease-out);
+  transition-delay: calc(1600ms + (var(--pin-i, 0) * 140ms));
+}
+
+html.js-reveal .coverage-section[data-reveal="trace"]:not(.is-revealed) .map-legend {
+  opacity: 0;
+}
+.coverage-section[data-reveal="trace"].is-revealed .map-legend {
+  opacity: 1;
+  transition: opacity var(--dur-slow) var(--ease-out) 2020ms;
+}
+
+/* §5.4 Pin ring — fires exactly once, then holds at opacity 0 forever.
+   `forwards` + a non-repeating keyframe is what keeps this off the banned
+   looping/ambient list. Do not add `infinite`. */
+.map-pin .pin-dot { position: relative; }
+.map-pin--teal  .pin-dot { color: var(--btn-green-color); }
+.map-pin--coral .pin-dot { color: var(--btn-red-color); }
+.map-pin .pin-dot::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;              /* circular data mark under 16px — sanctioned, §1.4 */
+  border: 2px solid currentColor;
+  opacity: 0;
+  pointer-events: none;
+}
+.coverage-section[data-reveal="trace"].is-revealed .map-pin .pin-dot::after {
+  animation: pin-arrive 700ms var(--ease-out) forwards;
+  animation-delay: calc(1600ms + (var(--pin-i, 0) * 140ms) + 120ms);
+}
+@keyframes pin-arrive {
+  from { opacity: 0.7; transform: scale(1); }
+  to   { opacity: 0;   transform: scale(2.6); }
 }
 
 /* ============================================================
