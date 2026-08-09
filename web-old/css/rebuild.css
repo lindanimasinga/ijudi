@@ -1384,7 +1384,9 @@ img { max-width: 100%; display: block; }
   .drivers-calculator-col { order: 2; }
   .biz-form-surface { padding: 24px; }
   .form-row { grid-template-columns: 1fr; }
-  .coverage-map-col img, .coverage-map-col svg { max-width: 300px; margin: 0 auto; }
+  /* Mobile map sizing lives with the wrapper rule in COVERAGE MAP PINS below
+     (it has to come after the base .coverage-map-wrapper max-width to win). */
+  .coverage-map-col img { max-width: 100%; margin: 0 auto; }
 
   /* Issue 4: card accent stripe — match card's 16px mobile padding to prevent bleed */
   .card-top-accent { margin: -16px -16px 16px; }
@@ -1471,6 +1473,15 @@ img { max-width: 100%; display: block; }
   display: inline-block;
   width: 100%;
   max-width: 480px;
+}
+/* Mobile: cap the WRAPPER, never the <svg> on its own. .map-pins-overlay is
+   `inset: 0` on the wrapper, so the pins' left/top percentages are resolved
+   against the wrapper box. Capping only the svg (as the ≤767px block used to)
+   left a 300px map sitting inside a full-width wrapper and pushed every pin
+   off the coastline. Capping the wrapper keeps map and overlay coincident at
+   every breakpoint. */
+@media (max-width: 767px) {
+  .coverage-map-wrapper { max-width: 300px; margin: 0 auto; }
 }
 .coverage-map-wrapper img {
   display: block;
@@ -2081,7 +2092,9 @@ html.js-reveal [data-reveal] {
   stroke-dasharray: 1;
   stroke-dashoffset: 0;   /* DEFAULT = fully drawn and filled. §6.1. */
 }
-.coverage-section .sa-outline ellipse { stroke: var(--btn-green-color); }
+/* (The former `.sa-outline ellipse` rule is gone: the hand-drawn ellipse that
+   stood in for Lesotho was replaced by a genuine interior ring in the path
+   itself, rendered as a hole via fill-rule="evenodd".) */
 
 html.js-reveal .coverage-section[data-reveal="trace"]:not(.is-revealed) .sa-outline path {
   stroke-dashoffset: 1;
@@ -2100,15 +2113,20 @@ html.js-reveal .coverage-section[data-reveal="trace"]:not(.is-revealed) .sa-outl
    stroke-dashoffset self-draw of the SA outline. Pins, legend and pin rings
    still animate normally off the same `data-reveal="trace"` state.
 
-   WHY: the current sa-map.svg is geographically inaccurate (crude ~40-point
-   outline, missing the Lesotho enclave). Drawing an inaccurate border slowly
-   and deliberately makes the inaccuracy the focal point of the section.
+   WHY (original): the old sa-map.svg was geographically inaccurate (crude
+   ~40-point outline, missing the Lesotho enclave), and drawing an inaccurate
+   border slowly made the inaccuracy the focal point of the section.
+
+   STATUS: the accurate Natural Earth outline has now landed, so the original
+   blocker is cleared. The hold stays in place for one more step only: the
+   coverage-map trace was flagged as needing Lindani's visual sign-off before
+   it ships. This is a deliberate hold, not an outstanding asset defect.
 
    TO RE-ENABLE: delete the `trace-outline-hold` class from the
-   <section class="coverage-section"> in index.html once the accurate
-   sa-map.svg asset swap lands. The §5 mechanism above is complete and
-   verified; it is asset-independent via pathLength="1", so no CSS or JS
-   change is needed at that point. Deleting this block too is optional. */
+   <section class="coverage-section"> in index.html once that sign-off is in.
+   The §5 mechanism above is complete and verified; it is asset-independent
+   via pathLength="1", so no CSS or JS change is needed at that point.
+   Deleting this block too is optional. */
 html.js-reveal .coverage-section.trace-outline-hold[data-reveal="trace"]:not(.is-revealed) .sa-outline path {
   stroke-dashoffset: 0;
   fill-opacity: 0.08;
