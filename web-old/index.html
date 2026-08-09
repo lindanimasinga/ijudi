@@ -611,12 +611,11 @@
 <!-- ============================================================
      S09 COVERAGE MAP
      ============================================================ -->
-<!-- trace-outline-hold: suppresses only the SA outline self-draw. The accurate
-     Natural Earth asset swap has landed, so the hold now waits on Lindani's
-     visual sign-off of the coverage-map trace, not on the asset.
-     Pins/legend still animate. Remove the class to re-enable —
-     see "TEMPORARY KILL-SWITCH" in css/rebuild.css §5. -->
-<section class="coverage-section trace-outline-hold" id="coverage" data-reveal="trace" data-reveal-threshold="0.25" aria-labelledby="coverage-h2">
+<!-- The trace-outline-hold kill-switch has been removed: the accurate Natural
+     Earth outline landed and Lindani gave visual sign-off, so the SA outline
+     self-draw (§5, rebuild.css) is now live. The dormant .trace-outline-hold
+     rules remain in css/rebuild.css §5 should the hold ever be needed again. -->
+<section class="coverage-section" id="coverage" data-reveal="trace" data-reveal-threshold="0.25" aria-labelledby="coverage-h2">
   <div class="iz-container">
     <div class="coverage-inner row">
 
