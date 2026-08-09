@@ -611,9 +611,10 @@
 <!-- ============================================================
      S09 COVERAGE MAP
      ============================================================ -->
-<!-- trace-outline-hold: suppresses only the SA outline self-draw until the
-     accurate sa-map.svg asset swap lands (current asset is geographically
-     inaccurate). Pins/legend still animate. Remove the class to re-enable —
+<!-- trace-outline-hold: suppresses only the SA outline self-draw. The accurate
+     Natural Earth asset swap has landed, so the hold now waits on Lindani's
+     visual sign-off of the coverage-map trace, not on the asset.
+     Pins/legend still animate. Remove the class to re-enable —
      see "TEMPORARY KILL-SWITCH" in css/rebuild.css §5. -->
 <section class="coverage-section trace-outline-hold" id="coverage" data-reveal="trace" data-reveal-threshold="0.25" aria-labelledby="coverage-h2">
   <div class="iz-container">
@@ -638,29 +639,41 @@
                collided with the HTML overlay below (six pins, broken JS
                selectors). The overlay is the single source of pin truth.
                pathLength="1" (§5.1.2) normalises the outline to unit length so
-               the self-draw needs no getTotalLength() and survives the pending
-               replacement of this geographically-approximate asset (§8(d)). -->
-          <svg class="sa-outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 420" aria-hidden="true" focusable="false">
-            <path pathLength="1" stroke-linejoin="round"
-                  d="M 85,80 L 95,70 L 120,65 L 150,60 L 185,58 L 220,55 L 260,52 L 300,50 L 340,52 L 370,58 L 395,68 L 415,82 L 425,100 L 430,118 L 428,138 L 420,155 L 408,172 L 398,185 L 390,200 L 388,218 L 385,235 L 375,252 L 360,268 L 345,280 L 330,290 L 318,300 L 308,312 L 298,325 L 288,340 L 280,355 L 272,368 L 268,378 L 264,388 L 260,395 L 256,388 L 250,375 L 244,362 L 238,350 L 230,338 L 220,325 L 208,312 L 195,300 L 180,290 L 162,278 L 145,265 L 130,250 L 115,232 L 102,215 L 90,195 L 80,175 L 74,155 L 70,135 L 72,115 L 78,97 Z"/>
-            <ellipse cx="270" cy="260" rx="18" ry="14" fill="none" stroke-width="1.5"/>
+               the self-draw needs no getTotalLength(); it survived the §8(d)
+               asset swap that replaced the old approximate outline with the
+               Natural Earth geometry below without any CSS or JS change. -->
+          <svg class="sa-outline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 441" aria-hidden="true" focusable="false">
+            <!-- Outline path data derived from Natural Earth 1:110m Admin 0 —
+                 Countries (ne_110m_admin_0_countries), feature ADM0_A3 = ZAF.
+                 Source:  https://www.naturalearthdata.com/ (vector mirror:
+                          https://github.com/nvkelso/natural-earth-vector)
+                 Licence: public domain / CC0 — "no restrictions of any kind"
+                          per the Natural Earth terms of use; commercial use OK.
+                 Projected equirectangular with longitude scaled by
+                 cos(mean latitude), fitted to a 500-wide box with 8 padding.
+                 The second subpath is the Lesotho enclave, a genuine interior
+                 ring from the source data; fill-rule="evenodd" renders it as a
+                 true hole, which replaces the hand-drawn <ellipse> that used to
+                 stand in for it here. -->
+            <path pathLength="1" fill-rule="evenodd" stroke-linejoin="round"
+                  d="M8 224.6L22.1 208.1L33.7 217.2L38.6 231.5L51.8 233.9L70.2 240.2L86 237.8L112.2 220.7L112.3 97.4L120.2 102.4L137.6 134.1L134.9 154.5L141.4 166.2L162.5 162.8L177.1 147.9L191 137.8L198.2 121.8L212.6 114.1L224.9 118.2L239 127.5L262.8 129.2L281.6 121.4L284.6 111L289.8 95L305.7 92.3L314.6 79.8L324.3 57.5L350.7 32.6L392.2 8L404.2 8.4L418.4 14L428.3 10L443.9 13.3L458 60.4L465.6 84.1L460.4 121.3L462.9 133.3L448 127.2L439.6 129.6L436.8 139.3L428.8 151.8L429 163.4L446.6 181.5L463.8 177.9L469.7 163L492 163.3L484.7 187.6L481.2 215.4L473.6 230.4L453.6 247.3L447.8 252.1L435.4 269.1L427.2 286.3L410.5 310.2L377.4 344.6L356.6 364.7L334.5 379.9L303.8 392.8L288.8 394.6L285 403.8L267.2 398.9L252.7 405.3L220.8 398.8L203 402.9L190.9 401.1L160.6 414.3L135.5 419.6L117.4 432.2L104 433L91.6 421.1L81.7 420.5L69.1 405.6L67.7 410.2L63.8 401.3L63.9 381.7L54.4 359.3L63.9 353.2L63.1 327.6L43.9 296.3L29.1 268.1L29.1 268ZM378.9 237.2L366.1 226.9L352.4 233.7L336.5 246.8L320.8 268L342.8 293.6L353.3 290.3L358.7 279.7L375.1 274.4L380.1 263.5L389.1 247.3Z"/>
           </svg>
           <div class="map-pins-overlay" aria-hidden="true">
-            <!-- Johannesburg: ~42% from left, ~36% from top -->
+            <!-- Johannesburg (-26.204, 28.047): 70.3% from left, 32.9% from top -->
             <div class="map-pin map-pin--teal" role="button" tabindex="0" aria-label="Johannesburg — services being confirmed"
-                 style="left:42%;top:36%;">
+                 style="left:70.3%;top:32.9%;">
               <div class="pin-dot"></div>
               <div class="pin-tooltip">Johannesburg<br>Services: being confirmed</div>
             </div>
-            <!-- Durban: ~65% from left, ~55% from top -->
+            <!-- Durban (-29.858, 31.022): 87.8% from left, 60.6% from top -->
             <div class="map-pin map-pin--coral" role="button" tabindex="0" aria-label="Durban — services being confirmed"
-                 style="left:65%;top:55%;">
+                 style="left:87.8%;top:60.6%;">
               <div class="pin-dot"></div>
               <div class="pin-tooltip">Durban<br>Services: being confirmed</div>
             </div>
-            <!-- Cape Town: ~26% from left, ~84% from top -->
+            <!-- Cape Town (-33.925, 18.424): 13.8% from left, 91.4% from top -->
             <div class="map-pin map-pin--teal" role="button" tabindex="0" aria-label="Cape Town — services being confirmed"
-                 style="left:26%;top:84%;">
+                 style="left:13.8%;top:91.4%;">
               <div class="pin-dot"></div>
               <div class="pin-tooltip">Cape Town<br>Services: being confirmed</div>
             </div>
