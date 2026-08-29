@@ -65,7 +65,16 @@ class Bank {
   Map<String, dynamic> toJson() => _$BankToJson(this);
 }
 
-enum ProfileRoles { CUSTOMER, STORE_ADMIN, STORE, MESSENGER, ADMIN }
+enum ProfileRoles {
+  CUSTOMER,
+  STORE_ADMIN,
+  STORE,
+  MESSENGER,
+  ADMIN,
+  MESSENGER_ADMIN,
+  AMBASSADOR,
+  REFERRAL_PARTNER,
+}
 
 enum BankAccType { CHEQUE, EWALLET, SAVINGS, TRANSMISSION }
 
