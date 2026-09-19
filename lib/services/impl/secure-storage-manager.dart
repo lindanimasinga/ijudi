@@ -140,7 +140,8 @@ class SecureStorageManager extends StorageManager {
     return stringEnum == null
         ? null
         : ProfileRoles.values
-            .singleWhere((item) => item.toString() == stringEnum, orElse: null);
+            .cast<ProfileRoles?>()
+            .singleWhere((item) => item.toString() == stringEnum, orElse: () => null);
   }
 
   @override
