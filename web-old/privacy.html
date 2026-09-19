@@ -1,45 +1,27 @@
-<html lang="en" class="js cssanimations cssanimations cssanimations"><head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta name="description" content="iZinga Privacy Policy — how we collect, use, store and protect your personal information in accordance with POPIA.">
-	<meta name="og:title" property="og:title" content="iZinga Privacy Policy">
-	<meta name="twitter:card" content="iZinga Privacy Policy">
-	<title>iZinga Privacy Policy</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="iZinga Privacy Policy — how we collect, use, store and protect your personal information in accordance with POPIA.">
+  <meta property="og:title" content="iZinga Privacy Policy">
+  <meta name="twitter:card" content="summary">
+  <title>iZinga Privacy Policy</title>
 
+  <meta name="keywords" content="iZinga, privacy policy, POPIA, personal information, data protection, South Africa">
 
-	<!-- Meta -->
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/izinga-short.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/images/izinga-short.png">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="iZinga Privacy Policy">
-	<meta name="keywords" content="iZinga, privacy policy, POPIA, personal information, data protection, South Africa">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@400;700;800&display=swap" rel="stylesheet">
 
-	<!-- Favicon
-	<link rel="shortcut icon" href="http://designwp.com/spacey/images/favicon.ico">  -->
-
-	<!-- Stylesheets -->
-	<link rel="stylesheet" href="./bootstrap.min_files/bootstrap.css">
-	<link rel="stylesheet" href="./bootstrap.min_files/style.css">
-	<link rel="stylesheet" href="./bootstrap.min_files/mobile.css">
-	<link rel="stylesheet" href="./bootstrap.min_files/all.min.css">
-	<link rel="stylesheet" href="./bootstrap.min_files/updates.css">
-
-	<!--[if lt IE 9]>
-	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-
-	<!--[if gt IE 7]>
-	<link rel="stylesheet" type="text/css" media="all" href="css/IE.css">
-	<![endif]-->
-
-	<!--[if gte IE 8]>
-	<link rel="stylesheet" type="text/css" media="all" href="css/IE.css">
-	<![endif]-->
-
-
-	<!-- Fonts -->
-	<link href="./bootstrap.min_files/css" rel="stylesheet">
-
-	<!-- Scripts -->
-	<script src="./bootstrap.min_files/modernizr-custom.js"></script>
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./css/bootstrap.css">
+  <link rel="stylesheet" href="./css/rebuild.css">
 
 	<style>
 		/* Policy page — scoped styles */
@@ -166,38 +148,40 @@
 
 	<a href="#" id="scroll" style="display: none;"><span></span></a>
 
-	<!-- Navigation -->
-	<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-		<div class="container">
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav class="iz-nav" id="iz-nav" aria-label="Main navigation">
+  <div class="iz-nav__inner">
 
-			<a class="navbar-brand nav-link js-scroll-trigger" href="#page-top">iZinga</a>
+    <a class="iz-nav__logo" href="./" aria-label="iZinga home">
+      <img src="./assets/images/izinga-logo-white.png" alt="iZinga logo" width="120" height="36">
+    </a>
 
-			<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-				<span class="icon-bar top-bar"></span>
-				<span class="icon-bar middle-bar"></span>
-				<span class="icon-bar bottom-bar"></span>
-			</button>
+    <!-- Desktop links (1280+) -->
+    <ul class="iz-nav__links" role="list">
+      <li><a href="./">Home</a></li>
+      <li><a href="./#delivery-services" class="hide-at-960">Delivery Services</a></li>
+      <li><a href="./#for-drivers" class="accent-teal hide-at-960">For Drivers</a></li>
+      <li><a href="./#for-merchants" class="hide-at-960">For Merchants</a></li>
+      <li><a href="./#izinga-pay" class="accent-blue">iZinga Pay</a></li>
+      <li><a href="./#partners">Partners</a></li>
+      <li><a href="./business.html" class="nav-biz">Business</a></li>
+    </ul>
 
-			<div class="navbar-collapse collapse" id="navbarResponsive" style="">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="./">HOME</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="#about">ABOUT</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" href="./privacy.html">PRIVACY POLICY</a>
-					</li>
-				</ul>
-			</div><!-- /collapse navbar-collapse -->
+    <!-- 960–1279: More menu (populated via JS) -->
+    <div class="iz-nav__more-wrap" style="display:none; position:relative;" aria-label="More navigation links">
+      <button class="iz-nav__more-btn" id="moreBtn" aria-expanded="false" aria-controls="moreDropdown">More ▾</button>
+      <ul class="iz-nav__dropdown" id="moreDropdown" role="list"></ul>
+    </div>
 
-		</div><!-- /container -->
-	</nav>
+    <!-- Mobile hamburger -->
+    <button class="iz-nav__hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="iz-drawer">
+      <span></span><span></span><span></span>
+    </button>
 
-
-	<div id="particles-js"><canvas class="particles-js-canvas-el" width="1440" height="720" style="width: 100%; height: 100%;"></canvas></div>
+  </div>
+</nav>
 
 
 	<section id="head">
@@ -621,291 +605,89 @@
 	</div><!-- /block -->
 
 
-	<!-- Footer -->
-	<footer class="bg-dark">
+<!-- Footer -->
+<footer class="iz-footer" aria-label="Site footer">
 
-		<div class="container">
+  <div class="footer-inner" data-reveal-stagger="60">
+    <span class="footer-top-rule" data-reveal="draw" aria-hidden="true"></span>
 
-			<div class="row row-30">
-				<div class="col-md-5 col-xl-5">
-					<div class="pr-xl-5"><a class="brand" href="./index.html">
-							<div class="brand-logo-light">iZinga Market</div>
-						</a>
-						<div class="about-footer">
-							<p class="foot">A cardless, cashless online market place for small growing shops in Africa.
-							</p>
-						</div>
-					</div>
-				</div><!-- /col-md-5 col-xl-5 -->
+    <!-- Col 1: Logo + tagline + social -->
+    <div class="footer-logo-col" data-reveal="fade" data-reveal-delay="200">
+      <div class="footer-logo">
+        <a href="./" aria-label="iZinga home">
+          <img loading="lazy" decoding="async" src="./assets/images/izinga-logo-white.png" alt="iZinga" width="120" height="40">
+        </a>
+      </div>
+      <p class="footer-tagline">Move Anything, Anywhere. Delivering across South Africa.</p>
+      <div class="footer-social" aria-label="Social media links">
+        <a href="https://www.facebook.com/izingaapp" target="_blank" rel="noopener" aria-label="iZinga on Facebook">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/izingaapp" target="_blank" rel="noopener" aria-label="iZinga on Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </a>
+        <a href="https://wa.me/27686401157" target="_blank" rel="noopener" aria-label="iZinga on WhatsApp">
+          <img loading="lazy" decoding="async" src="./assets/images/whatsapp.svg" alt="WhatsApp" width="20" height="20" style="filter:invert(70%);">
+        </a>
+      </div>
+    </div>
 
-				<div class="col-md-3">
-					<h5>Contacts</h5>
-					<dl class="contact-list">
-						<dt>Email:</dt>
-						<dd><a href="mailto:admin@curiousoft.io">admin@curiousoft.io</a></dd>
-					</dl>
-					<dl class="contact-list">
-						<dt>Phone:</dt>
-						<dd><a href="tel:+27812815707">+27 81 281 5707</a>
-						</dd>
-					</dl>
-				</div><!-- /col-md-3 -->
+    <!-- Col 2: Links -->
+    <div class="footer-col" data-reveal="fade" data-reveal-delay="200">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="./">Home</a></li>
+        <li><a href="./#delivery-services">Delivery Services</a></li>
+        <li><a href="./#for-drivers">For Drivers</a></li>
+        <li><a href="./#for-merchants">For Merchants</a></li>
+        <li><a href="./#izinga-pay">iZinga Pay</a></li>
+        <li><a href="./#partners">Partners</a></li>
+      </ul>
+    </div>
 
-				<div class="col-md-1"></div>
-			</div><!-- /row -->
+    <!-- Col 3: Services -->
+    <div class="footer-col" data-reveal="fade" data-reveal-delay="200">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="https://delivery.izinga.co.za/" target="_blank" rel="noopener">Furniture Delivery</a></li>
+        <li><a href="https://delivery.izinga.co.za/" target="_blank" rel="noopener">Parcel Delivery</a></li>
+        <li><a href="https://shop.izinga.co.za/main" target="_blank" rel="noopener">Food Delivery</a></li>
+        <li><a href="https://pay.izinga.co.za/" target="_blank" rel="noopener">iZinga Pay</a></li>
+        <li><a href="./business.html">Business Programmes</a></li>
+        <li><a href="https://ambassador.izinga.co.za" target="_blank" rel="noopener">Become an Ambassador</a></li>
+        <li><a href="https://refer.izinga.co.za" target="_blank" rel="noopener">Become a Referral Partner</a></li>
+      </ul>
+    </div>
 
-		</div><!-- /.container -->
+    <!-- Col 4: Contact -->
+    <div class="footer-col" data-reveal="fade" data-reveal-delay="200">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:hello@curiousoft.dev">hello@curiousoft.dev</a></li>
+        <li><a href="https://wa.me/27686401157" target="_blank" rel="noopener">WhatsApp us</a></li>
+        <li><a href="./business.html">Business Enquiries</a></li>
+      </ul>
+    </div>
 
-		<div id="copyright" class="copyright-bg">
-			<div class="container">
-				<p class="rights"><span>©&nbsp; </span><span class="copyright-year">2026</span><span>&nbsp;</span><span>Curiousoft</span><span>.&nbsp;</span><span>All
-						Rights Reserved.</span></p>
-			</div><!-- /container -->
-		</div><!-- /copyright -->
+  </div>
 
-	</footer>
+  <!-- Copyright strip -->
+  <div class="footer-copyright-strip" data-reveal="fade" data-reveal-delay="500">
+    <p>© <span id="footer-year"></span> Curiousoft (Pty) Ltd (2016/429327/07). Trading as iZinga. All rights reserved.</p>
+    <p class="small mt-1" style="color: var(--dark-text-muted)">Registered address: 68 Jacaranda Avenue, Olivedale, Randburg, 2188, South Africa</p>
+    <p class="small" style="color: var(--dark-text-muted)">Information Officer (POPIA): Lindani Masinga &mdash; <a href="mailto:privacy@izinga.co.za">privacy@izinga.co.za</a></p>
+    <div class="footer-legal-links">
+      <a href="./privacy.html" aria-current="page">Privacy Policy</a>
+      <a href="./terms.html">Terms &amp; Conditions</a>
+      <a href="./privacy.html">POPIA Notice</a>
+    </div>
+  </div>
 
+</footer>
 
-	<!-- Scripts -->
-	<script src="./bootstrap.min_files/jquery-3.3.1.min.js"></script>
-	<script src="./bootstrap.min_files/bootstrap.bundle.min.js"></script>
-	<script src="./bootstrap.min_files/scrolling-nav.js"></script>
-	<script src="./bootstrap.min_files/jquery.easing.1.3.js"></script>
-	<script src="./bootstrap.min_files/main.js"></script>
-	<script src="./bootstrap.min_files/anime.min.js"></script>
-	<script src="./bootstrap.min_files/particles.min.js"></script>
-	<script src="./bootstrap.min_files/TweenMax.min.js"></script>
-	<script src="./bootstrap.min_files/jquery.waypoints.min.js"></script>
-	<script src="./bootstrap.min_files/jquery.countup.js"></script>
-	<script src="./bootstrap.min_files/owl.carousel.js"></script>
-	<script src="./bootstrap.min_files/glider.min.js"></script>
+<script>
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+</script>
 
-	<script>
-
-		/* Header shrink on scroll */
-		$(document).ready(function () {
-			$(window).on("scroll", function () {
-				if ($(window).scrollTop() >= 20) {
-					$(".navbar").addClass("compressed");
-				} else {
-					$(".navbar").removeClass("compressed");
-				}
-			});
-		});
-
-
-		$('.navbar .nav-link').click(function () {
-			$('.navbar .nav-link').removeClass('active');
-			$(this).addClass('active');
-		})
-
-
-		/* Moving background circles */
-		var timeout;
-		$('#circles').mousemove(function (e) {
-			if (timeout) clearTimeout(timeout);
-			setTimeout(callParallax.bind(null, e), 200);
-		});
-
-		function callParallax(e) {
-			parallaxIt(e, '.float', -30);
-		}
-
-		function parallaxIt(e, target, movement) {
-			var $this = $('#circles');
-			var relX = e.pageX - $this.offset().left;
-			var relY = e.pageY - $this.offset().top;
-
-			TweenMax.to(target, 1, {
-				x: (relX - $this.width() / 2) / $this.width() * movement,
-				y: (relY - $this.height() / 2) / $this.height() * movement,
-				ease: Power2.easeOut
-			});
-		}
-
-
-		/* Particles JS */
-		particlesJS("particles-js", {
-			"particles": {
-				"number": {
-					"value": 40,
-					"density": {
-						"enable": true,
-						"value_area": 1000
-					}
-				},
-				"color": {
-					"value": "#EEE8B9"
-				},
-				"shape": {
-					"type": "circle",
-					"stroke": {
-						"width": 0,
-						"color": "#FFFFFF"
-					},
-					"polygon": {
-						"nb_sides": 5
-					},
-					"image": {
-						"src": "img/github.svg",
-						"width": 100,
-						"height": 100
-					}
-				},
-				"opacity": {
-					"value": 0.48927153781200905,
-					"random": false,
-					"anim": {
-						"enable": true,
-						"speed": 0.5,
-						"opacity_min": 0,
-						"sync": false
-					}
-				},
-				"size": {
-					"value": 3.5,
-					"random": true,
-					"anim": {
-						"enable": true,
-						"speed": 6,
-						"size_min": 1,
-						"sync": false
-					}
-				},
-				"line_linked": {
-					"enable": false,
-					"distance": 150,
-					"color": "#383089",
-					"opacity": 0.8,
-					"width": 1
-				},
-				"move": {
-					"enable": true,
-					"speed": 1,
-					"direction": "none",
-					"random": true,
-					"straight": false,
-					"out_mode": "out",
-					"bounce": false,
-					"attract": {
-						"enable": false,
-						"rotateX": 600,
-						"rotateY": 1200
-					}
-				}
-			},
-			"interactivity": {
-				"detect_on": "canvas",
-				"events": {
-					"onhover": {
-						"enable": true,
-						"mode": "bubble"
-					},
-					"onclick": {
-						"enable": true,
-						"mode": "push"
-					},
-					"resize": true
-				},
-				"modes": {
-					"grab": {
-						"distance": 400,
-						"line_linked": {
-							"opacity": 1
-						}
-					},
-					"bubble": {
-						"distance": 83.91608391608392,
-						"size": 1,
-						"duration": 3,
-						"opacity": 1,
-						"speed": 3
-					},
-					"repulse": {
-						"distance": 200,
-						"duration": 0.4
-					},
-					"push": {
-						"particles_nb": 4
-					},
-					"remove": {
-						"particles_nb": 2
-					}
-				}
-			},
-			"retina_detect": true
-		});
-
-
-		/* Owl Carousel */
-		$("#owl-demo").each(function () {
-			$(this).owlCarousel({
-				loop: true,
-				margin: 0,
-				width: 255,
-				nav: true,
-				navText: ["<div class='nav-btn prev-slide'></div>", "<div class='nav-btn next-slide'></div>"],
-				dots: false,
-				center: true,
-				autoplay: true,
-				responsiveClass: true,
-				responsive: {
-					0: {
-						items: 1,
-						nav: false,
-						loop: true,
-						center: true
-					},
-					568: {
-						items: 1,
-						nav: false,
-						loop: true
-					},
-					1024: {
-						items: 2,
-						nav: false,
-						loop: true
-					},
-					1336: {
-						items: 4,
-						nav: false,
-						loop: true
-					}
-				}
-			});
-		});
-
-
-		/* Counter */
-		$('.counter').countUp();
-
-
-		/* Reviews Slider */
-		$('#myCarousel').carousel({
-			interval: 3500,
-			cycle: true
-		});
-
-
-		/* Back to Top Button */
-		$(document).ready(function () {
-			$(window).scroll(function () {
-				if ($(this).scrollTop() > 100) {
-					$('#scroll').fadeIn();
-				} else {
-					$('#scroll').fadeOut();
-				}
-			});
-			$('#scroll').click(function () {
-				$("html, body").animate({ scrollTop: 0 }, 600);
-				return false;
-			});
-		});
-
-
-	</script>
-
-
-
-
-</body></html>
+</body>
+</html>
