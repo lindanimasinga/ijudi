@@ -3,11 +3,14 @@ import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:ijudi/model/supported-location.dart';
 import 'package:ijudi/util/theme-utils.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:uuid/uuid.dart';
 
 class IjudiAddressInputField extends StatelessWidget {
-  // Note: This key must match the one in AndroidManifest.xml for Android and AppDelegate.swift for iOS
-  // Using Android manifest key as primary since flutter_google_places reads from there on Android
-  static const kGoogleApiKey = "AIzaSyBp-6oglDWlbTL1fomlsLVVIQnQsiL_JT8";
+  // Injected at build time: --dart-define=PLACES_API_KEY=<value>
+  // Do NOT hardcode the key value here. The sosfast-prod GCP project that
+  // originally provisioned the previous key was deleted and will be purged
+  // around 2026-11-01 — the old key must be replaced before that date.
+  static const kGoogleApiKey = String.fromEnvironment('PLACES_API_KEY');
   final GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
   final String hint;
@@ -79,17 +82,20 @@ class IjudiAddressInputField extends StatelessWidget {
 
   openAddressFinder(BuildContext context) async {
     print("finding address....");
+    final sessionToken = const Uuid().v4();
     Prediction? p = await PlacesAutocomplete.show(
         context: context,
         apiKey: kGoogleApiKey,
         mode: Mode.overlay,
         language: "en",
+        sessionToken: sessionToken,
         types: [],
         strictbounds: false,
         components: [Component(Component.country, "za")]);
 
     if (p != null) {
-      var placeDetails = await _places.getDetailsByPlaceId(p.placeId!);
+      var placeDetails = await _places.getDetailsByPlaceId(p.placeId!,
+          sessionToken: sessionToken);
       var lat = placeDetails.result.geometry!.location.lat;
       var long = placeDetails.result.geometry!.location.lng;
       var address = placeDetails.result.formattedAddress!;
