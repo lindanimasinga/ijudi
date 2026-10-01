@@ -6,9 +6,11 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:uuid/uuid.dart';
 
 class IjudiAddressInputField extends StatelessWidget {
-  // Note: This key must match the one in AndroidManifest.xml for Android and AppDelegate.swift for iOS
-  // Using Android manifest key as primary since flutter_google_places reads from there on Android
-  static const kGoogleApiKey = "AIzaSyAZ-hcX5O2J78MNe9PN9ssLzQXsEp_qesw";
+  // Injected at build time: --dart-define=PLACES_API_KEY=<value>
+  // Do NOT hardcode the key value here. The sosfast-prod GCP project that
+  // originally provisioned the previous key was deleted and will be purged
+  // around 2026-11-01 — the old key must be replaced before that date.
+  static const kGoogleApiKey = String.fromEnvironment('PLACES_API_KEY');
   final GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
 
   final String hint;
