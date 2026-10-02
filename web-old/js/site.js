@@ -111,6 +111,11 @@
    [Component H — Spec S02]
    ============================================================ */
 (function () {
+  /* Thousands separator — "2971" → "2,971" */
+  function formatNum(n) {
+    return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
   function animateCounter(el) {
     var target = parseInt(el.dataset.target, 10);
     if (isNaN(target)) return;
@@ -118,7 +123,7 @@
     if (!numEl) return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      numEl.textContent = target;
+      numEl.textContent = formatNum(target);
       return;
     }
 
@@ -127,11 +132,11 @@
       /* 1400ms === the --dur-count token (motion-spec-v1 §1.1, RESERVED).
          Kept as a literal so the count-up has no CSSOM dependency. */
       var t = Math.min((now - start) / 1400, 1);
-      numEl.textContent = Math.ceil((1 - Math.pow(1 - t, 3)) * target);
+      numEl.textContent = formatNum(Math.ceil((1 - Math.pow(1 - t, 3)) * target));
       if (t < 1) {
         requestAnimationFrame(step);
       } else {
-        numEl.textContent = target;
+        numEl.textContent = formatNum(target);
       }
     })(performance.now());
   }
@@ -447,6 +452,19 @@
         immediate.forEach(function (el) { el.classList.add('is-revealed'); });
       });
     });
+    /* Safety net: rAF is paused in background tabs (browser throttles
+       rendering when the tab is not visible). A 600ms setTimeout fires
+       at 1 Hz minimum even in background, so any still-pending immediate
+       element is force-revealed well before the user can see it.
+       Condition guard (is-revealed not yet present) keeps this idempotent;
+       safe for index.html — it uses the same [data-reveal-immediate] pattern. */
+    setTimeout(function () {
+      immediate.forEach(function (el) {
+        if (!el.classList.contains('is-revealed')) {
+          el.classList.add('is-revealed');
+        }
+      });
+    }, 600);
   }
 
   /* --- 3. Visibility driver (§6.4) ------------------------------------

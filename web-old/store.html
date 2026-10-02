@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sell online with your own iZinga branded storefront, custom domain, dedicated WhatsApp line, and AI-powered customer service. Start free, upgrade on your terms.">
+  <meta name="author" content="iZinga">
+
+  <!-- ============================================================
+       REVEAL ENGINE GATE — motion-spec-v1 §6.1 / §7
+       Fail-open: if JS unavailable or reduced motion, page renders
+       fully visible with no observers. Do not make async or deferred.
+       ============================================================ -->
+  <script>
+    (function () {
+      try {
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            && 'IntersectionObserver' in window) {
+          document.documentElement.className += ' js-reveal';
+        }
+      } catch (e) { /* fail open */ }
+    })();
+  </script>
+
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://izinga.co.za/store.html">
+
+  <title>Sell Online — iZinga Store Platform</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Catamaran:wght@400;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets — same load order as index.html and business.html -->
+  <link rel="stylesheet" href="./css/bootstrap.css">
+  <link rel="stylesheet" href="./css/rebuild.css?v=20261002-a">
+  <link rel="stylesheet" href="./css/dark-theme.css?v=20261002-f">
+
+  <!-- Sell Online page-specific overrides — scoped to avoid touching shared stylesheets.
+       Dark-first: dark-theme.css forces the page dark unconditionally; @media
+       prefers-color-scheme guards are not used here. -->
+  <style>
+    /* ----------------------------------------------------------------
+       TIER CARDS — three columns desktop (lg+), stacked on mobile.
+       Card classes mirror index.html #for-merchants exactly
+       so dark-theme.css .section--dark .iz-card rules apply.
+       ---------------------------------------------------------------- */
+
+    .prostore-tiers { gap: 24px; }
+
+    .tier-card {
+      display: flex;
+      flex-direction: column;
+      padding: 32px 28px;
+      border-radius: 12px;
+      position: relative;
+    }
+
+    /* Free tier: teal left border */
+    .tier-card--free  { border: 2px solid var(--driver-teal, #00A9A1); }
+
+    /* Gold tiers: gold left border */
+    .tier-card--gold  { border: 2px solid var(--shop-gold, #be833d); }
+
+    /* Featured (Tier 2): dark gold gradient highlight — no white */
+    .tier-card--featured {
+      background: linear-gradient(160deg, #1e1800 0%, var(--surface-2, #212121) 60%);
+    }
+
+    /* "Featured" ribbon on Tier 2 */
+    .tier-featured-badge {
+      position: absolute;
+      top: -1px;
+      right: 20px;
+      background: var(--shop-gold, #be833d);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 0 0 8px 8px;
+    }
+
+    .tier-name {
+      font-family: 'Catamaran', Calibri, sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin: 0 0 4px;
+    }
+
+    .tier-tagline {
+      font-size: 0.875rem;
+      color: var(--dark-text-muted, #979797);
+      margin: 0 0 16px;
+    }
+
+    .tier-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px;
+      flex: 1;
+    }
+
+    .tier-features li {
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .tier-features li::before {
+      content: "\25CF";
+      color: var(--shop-gold, #be833d);
+      font-size: 0.5rem;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    /* Divider item — visual break between cumulative tier groups */
+    li.tier-divider {
+      border-bottom: 1px solid rgba(190, 131, 61, 0.45) !important;
+      padding: 0 !important;
+      height: 0;
+      margin: 4px 0;
+    }
+    li.tier-divider::before { display: none; }
+
+    .tier-price {
+      font-family: 'Catamaran', Calibri, sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 0 0 16px;
+    }
+
+    .tier-card--free .tier-price { color: var(--driver-teal, #00A9A1); }
+
+    /* ----------------------------------------------------------------
+       FEE DISCLOSURE — sits between price and CTA in the Free card.
+       Dark surface, readable contrast. No white or near-white bg.
+       ---------------------------------------------------------------- */
+    .tier-fee-disclosure {
+      background: var(--surface-3, #2e2e2e);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      color: var(--dark-text-secondary, #bdbdbd);
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+
+    .tier-fee-disclosure strong {
+      display: block;
+      margin-bottom: 2px;
+      color: var(--dark-text-primary, #eeeeee);
+    }
+
+    /* ----------------------------------------------------------------
+       DIFFERENTIATOR SECTION — dark surface, not card-bg fallback
+       ---------------------------------------------------------------- */
+    .prostore-diff-section {
+      background: var(--surface-1, #1c1c1c);
+      padding: 72px 0;
+      border-top: 1px solid #2d2d2d;
+    }
+
+    .prostore-diff-section .diff-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .prostore-diff-section .diff-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .diff-point { display: flex; gap: 14px; align-items: flex-start; }
+    .diff-point-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+
+    .diff-point h3 {
+      font-family: 'Catamaran', Calibri, sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      margin: 0 0 4px;
+    }
+
+    .diff-point p {
+      font-size: 0.875rem;
+      color: var(--dark-text-secondary, #bdbdbd);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* ----------------------------------------------------------------
+       CTA BAR
+       ---------------------------------------------------------------- */
+    .prostore-cta-bar {
+      background: var(--driver-teal, #00A9A1);
+      padding: 40px 24px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .prostore-cta-bar p { margin: 0 0 16px; font-size: 1.125rem; font-weight: 600; }
+    .prostore-cta-bar .cta-note { font-size: 0.8rem; opacity: 0.8; margin-top: 10px; }
+  </style>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/izinga-short.png">
+  <meta name="theme-color" content="#212121">
+
+  <!-- Facebook Pixel (same as other pages) -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init','565463741264864');fbq('track','PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=565463741264864&ev=PageView&noscript=1"/></noscript>
+</head>
+
+<body id="page-top">
+
+<!-- ============================================================
+     NAVIGATION — identical pattern to business.html
+     NOTE: A "Pro Store" or "Sell Online" nav item should be added
+     to the iz-nav__links list across all site pages once the
+     product name is confirmed. That change touches index.html,
+     business.html, store.html, and the drawer on each.
+     Defer until name is locked.
+     ============================================================ -->
+<nav class="iz-nav" id="iz-nav" aria-label="Main navigation">
+  <div class="iz-nav__inner">
+    <a class="iz-nav__logo" href="./index.html" aria-label="iZinga home">
+      <img src="./assets/images/izinga-logo-white.png" alt="iZinga logo" width="120" height="36">
+    </a>
+    <ul class="iz-nav__links" role="list">
+      <li><a href="./index.html">Home</a></li>
+      <li><a href="./index.html#for-merchants" class="hide-at-960">For Merchants</a></li>
+      <li><a href="./index.html#for-drivers"   class="accent-teal hide-at-960">For Drivers</a></li>
+      <li><a href="./store.html"                  class="accent-gold hide-at-960" aria-current="page">Sell Online</a></li>
+      <li><a href="./index.html#izinga-pay"    class="accent-blue">iZinga Pay</a></li>
+      <li><a href="./index.html#partners">Partners</a></li>
+      <li><a href="./business.html"                     class="nav-biz">Business</a></li>
+    </ul>
+    <div class="iz-nav__more-wrap" style="display:none;position:relative;" aria-label="More navigation links">
+      <button class="iz-nav__more-btn" id="moreBtn" aria-expanded="false" aria-controls="moreDropdown">More ▾</button>
+      <ul class="iz-nav__dropdown" id="moreDropdown" role="list"></ul>
+    </div>
+    <button class="iz-nav__hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="iz-drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="iz-overlay" id="iz-overlay" aria-hidden="true"></div>
+<nav class="iz-drawer" id="iz-drawer" aria-label="Mobile navigation" aria-hidden="true">
+  <button class="iz-drawer__close" id="drawerClose" aria-label="Close navigation menu">&times;</button>
+  <ul class="iz-drawer__links" role="list">
+    <li><a href="./index.html"                onclick="closeDrawer()">Home</a></li>
+    <li><a href="./index.html#for-merchants"  class="accent-gold"  onclick="closeDrawer()">For Merchants</a></li>
+    <li><a href="./index.html#for-drivers"    class="accent-teal"  onclick="closeDrawer()">For Drivers</a></li>
+    <li><a href="./store.html"                   class="accent-gold"  onclick="closeDrawer()" aria-current="page">Sell Online</a></li>
+    <li><a href="./index.html#izinga-pay"     class="accent-blue"  onclick="closeDrawer()">iZinga Pay</a></li>
+    <li><a href="./index.html#partners"       onclick="closeDrawer()">Partners</a></li>
+    <li><a href="./business.html"                      class="accent-blue">Business</a></li>
+  </ul>
+</nav>
+
+
+<!-- ============================================================
+     HERO — mirrors .biz-hero from business.html
+     ============================================================ -->
+<div class="biz-hero" aria-labelledby="prostore-h1">
+  <div class="iz-container">
+    <span class="eyebrow eyebrow-gold">Your Online Store</span>
+    <h1 id="prostore-h1">
+      Start selling online for free.<br>Your brand when you're ready.
+    </h1>
+    <span class="section-rule" data-reveal="draw" data-reveal-immediate data-reveal-delay="120" aria-hidden="true"></span>
+    <p data-reveal="rise" data-reveal-immediate data-reveal-delay="200">
+      Get your store live on proven, already-running infrastructure.
+      No development costs, no bespoke build — free to start, and your own branded
+      storefront with a dedicated WhatsApp line when you upgrade.
+    </p>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     TIERS SECTION
+     Three cumulative tiers. Each premium card opens with an
+     explicit "includes all [lower tier] features" callout so
+     the cumulative structure is impossible to miss.
+     ============================================================ -->
+<main id="prostore-tiers-anchor">
+<section class="py-5" aria-labelledby="tiers-h2">
+  <div class="iz-container">
+
+    <span class="eyebrow eyebrow-gold" style="display:block;text-align:center;">Platform Tiers</span>
+    <h2 id="tiers-h2" data-reveal="rise" style="text-align:center;">
+      One platform. Three levels. Start free.
+    </h2>
+    <span class="section-rule section-rule--centred" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
+    <p data-reveal="rise" data-reveal-delay="180"
+       style="text-align:center;color:var(--dark-text-secondary);max-width:56ch;margin:0 auto 40px;line-height:1.65;">
+      Every tier is cumulative — Premium Tier 1 includes Free, and Premium Tier 2 includes all Tier 1 features. You grow into the platform at your own pace.
+    </p>
+
+    <div class="row prostore-tiers" data-reveal-stagger="80">
+
+      <!-- --------------------------------------------------------
+           FREE TIER — 7 bullets
+           -------------------------------------------------------- -->
+      <div class="col-12 col-lg-4">
+        <div class="tier-card tier-card--free iz-card" data-reveal="wipe" data-reveal-delay="200"
+             aria-labelledby="tier-free-h3">
+          <span class="tier-badge tier-badge--free" style="font-size:0.7rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--btn-green-color);">Free</span>
+          <h3 class="tier-name" id="tier-free-h3">Get online, zero cost</h3>
+          <p class="tier-tagline">Your store live and sellable from day one.</p>
+
+          <ul class="tier-features" aria-label="Free tier features">
+            <li>Store listing, live immediately</li>
+            <li>Secure payments</li>
+            <li>Live order tracking</li>
+            <li>Store Admin app — manage pricing &amp; menu yourself</li>
+            <li>Daily payouts — funds reflect within 3 business days (bank processing)</li>
+            <li>Delivery handled for you — access to iZinga's driver network</li>
+            <li>iZinga T&amp;Cs &amp; Privacy Policy apply — drivers carry their own goods-in-transit insurance</li>
+          </ul>
+
+          <p class="tier-price">Free for merchants</p>
+
+          <!-- FEE DISCLOSURE — 6.5% is charged to the customer at checkout,
+               not deducted from the merchant payout. Consumer Protection Act
+               requires clear upfront disclosure. -->
+          <div class="tier-fee-disclosure" role="note">
+            <strong>Service fee: 6.5% per order</strong>
+            A 6.5% service fee — calculated on the order total plus the delivery fee — is added at customer checkout. This fee is paid by the customer, not deducted from your payout.
+          </div>
+
+          <a class="btn btn-iz btn-gold btn-full"
+             href="https://biz.izinga.co.za"
+             target="_blank" rel="noopener"
+             aria-label="Become a seller on iZinga — free tier">
+            Become a Seller
+          </a>
+        </div>
+      </div>
+
+      <!-- --------------------------------------------------------
+           PREMIUM TIER 1 — 7 base + divider + 4 = 11 bullets
+           -------------------------------------------------------- -->
+      <div class="col-12 col-lg-4">
+        <div class="tier-card tier-card--gold iz-card" data-reveal="wipe" data-reveal-delay="280"
+             aria-labelledby="tier-t1-h3">
+          <span class="tier-badge tier-badge--gold" style="font-size:0.7rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--btn-bg-color);">Premium Tier 1</span>
+          <h3 class="tier-name" id="tier-t1-h3">Your own brand</h3>
+          <p class="tier-tagline">Includes all Free features — with your brand in front.</p>
+
+          <ul class="tier-features" aria-label="Premium Tier 1 features">
+            <li>Store listing, live immediately</li>
+            <li>Secure payments</li>
+            <li>Live order tracking</li>
+            <li>Store Admin app — manage pricing &amp; menu yourself</li>
+            <li>Daily payouts — funds reflect within 3 business days (bank processing)</li>
+            <li>Delivery handled for you — access to iZinga's driver network</li>
+            <li>iZinga T&amp;Cs &amp; Privacy Policy apply — drivers carry their own goods-in-transit insurance</li>
+            <li aria-hidden="true" class="tier-divider"></li>
+            <li>Branded storefront — your colours, logo, tone</li>
+            <li>Custom domain (returned to you within 30 days if you downgrade)</li>
+            <li>Dedicated WhatsApp order line (number stays with iZinga)</li>
+            <li>Regulated-industry compliance (product-level filtering)</li>
+          </ul>
+
+          <!-- NOTE: Confirm VAT treatment before publishing. -->
+          <p class="tier-price">R800<span style="font-size:1rem;font-weight:400;">/month</span></p>
+          <a class="btn btn-iz btn-gold btn-full"
+             href="https://biz.izinga.co.za"
+             target="_blank" rel="noopener"
+             aria-label="Become a seller on iZinga — Premium Tier 1, R800 per month">
+            Become a Seller
+          </a>
+        </div>
+      </div>
+
+      <!-- --------------------------------------------------------
+           PREMIUM TIER 2 — 7 base + divider + 4 + divider + 3 = 14 bullets
+           -------------------------------------------------------- -->
+      <div class="col-12 col-lg-4">
+        <div class="tier-card tier-card--gold tier-card--featured iz-card" data-reveal="wipe" data-reveal-delay="360"
+             aria-labelledby="tier-t2-h3">
+          <span class="tier-featured-badge" aria-label="Most complete tier">Full Platform</span>
+
+          <span class="tier-badge tier-badge--gold" style="font-size:0.7rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--btn-bg-color);">Premium Tier 2</span>
+          <h3 class="tier-name" id="tier-t2-h3">AI-powered commerce</h3>
+          <p class="tier-tagline">Includes all Tier 1 features — plus a 24/7 AI assistant on your WhatsApp line.</p>
+
+          <ul class="tier-features" aria-label="Premium Tier 2 features">
+            <li>Store listing, live immediately</li>
+            <li>Secure payments</li>
+            <li>Live order tracking</li>
+            <li>Store Admin app — manage pricing &amp; menu yourself</li>
+            <li>Daily payouts — funds reflect within 3 business days (bank processing)</li>
+            <li>Delivery handled for you — access to iZinga's driver network</li>
+            <li>iZinga T&amp;Cs &amp; Privacy Policy apply — drivers carry their own goods-in-transit insurance</li>
+            <li aria-hidden="true" class="tier-divider"></li>
+            <li>Branded storefront — your colours, logo, tone</li>
+            <li>Custom domain (returned to you within 30 days if you downgrade)</li>
+            <li>Dedicated WhatsApp order line (number stays with iZinga)</li>
+            <li>Regulated-industry compliance (product-level filtering)</li>
+            <li aria-hidden="true" class="tier-divider"></li>
+            <li>24/7 AI assistant on WhatsApp — FAQs, order status and product facts</li>
+            <li>Advice mode available on application — regulatory licences required; you're responsible for monitoring all AI responses</li>
+            <li>Hands off to your team for anything needing a human</li>
+          </ul>
+
+          <!-- NOTE: Confirm VAT treatment before publishing. -->
+          <p class="tier-price">R3,000<span style="font-size:1rem;font-weight:400;">/month</span></p>
+          <a class="btn btn-iz btn-gold btn-full"
+             href="https://biz.izinga.co.za"
+             target="_blank" rel="noopener"
+             aria-label="Become a seller on iZinga — Premium Tier 2, R3,000 per month">
+            Become a Seller
+          </a>
+          <!-- Proof point — do not remove until replaced with a published case study -->
+          <p style="font-size:0.75rem;color:var(--dark-text-muted,#979797);margin-top:12px;line-height:1.5;">
+            Proven on a live South African OTC pharmacy — not theoretical. The AI assistant and compliance guardrails are already running in production.
+          </p>
+        </div>
+      </div>
+
+    </div>
+    <!-- /row -->
+
+  </div>
+</section>
+</main>
+
+
+<!-- ============================================================
+     DIFFERENTIATOR SECTION
+     "Why this beats a bespoke build"
+     Mirrors merchant-tiles layout from index.html.
+     ============================================================ -->
+<section class="prostore-diff-section" aria-labelledby="diff-h2">
+  <div class="iz-container">
+
+    <span class="eyebrow eyebrow-blue" style="display:block;">Why Sell on iZinga</span>
+    <h2 id="diff-h2" data-reveal="rise">
+      Not a bespoke build. Proven infrastructure, your brand on top.
+    </h2>
+    <span class="section-rule" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
+    <p data-reveal="rise" data-reveal-delay="180"
+       style="color:var(--dark-text-secondary);max-width:56ch;line-height:1.65;margin-bottom:36px;">
+      Most of what you're buying — the backend, payment integration, driver network, AI agent infrastructure, and security review — is already built and running on real stores. You're not funding R&amp;D. You're buying proven infrastructure, free to start, with your own brand on top when you upgrade.
+    </p>
+
+    <div class="diff-grid" data-reveal-stagger="80">
+
+      <div class="diff-point" data-reveal="rise" data-reveal-delay="200">
+        <span class="diff-point-icon" aria-hidden="true">⚡</span>
+        <div>
+          <h3>Faster than a custom build</h3>
+          <p>Because the platform already exists. You're not waiting for backend development, payment gateway approval, or driver network setup — those are live on day one.</p>
+        </div>
+      </div>
+
+      <div class="diff-point" data-reveal="rise" data-reveal-delay="240">
+        <span class="diff-point-icon" aria-hidden="true">💳</span>
+        <div>
+          <h3>Payments and payouts built in</h3>
+          <p>Card processing, order collection, and daily payouts to your account — funds reflect within 3 business days (bank processing). No payment integration project required on your side.</p>
+        </div>
+      </div>
+
+      <div class="diff-point" data-reveal="rise" data-reveal-delay="280">
+        <span class="diff-point-icon" aria-hidden="true">🚚</span>
+        <div>
+          <h3>Driver network on demand</h3>
+          <p>Access iZinga's vetted driver pool from day one, or set up your own dedicated drivers on the platform if your business model requires it.</p>
+        </div>
+      </div>
+
+      <div class="diff-point" data-reveal="rise" data-reveal-delay="320">
+        <span class="diff-point-icon" aria-hidden="true">🔒</span>
+        <div>
+          <h3>Compliance included</h3>
+          <p>POPIA-compliant data handling and platform T&amp;Cs are built into every tier — drivers carry their own goods-in-transit insurance. Regulated-category filtering is available from Tier 1 upward.</p>
+        </div>
+      </div>
+
+      <div class="diff-point" data-reveal="rise" data-reveal-delay="360">
+        <span class="diff-point-icon" aria-hidden="true">🤖</span>
+        <div>
+          <h3>AI that knows the rules</h3>
+          <p>The Tier 2 AI assistant has been deployed on a live regulated-industry storefront. It handles FAQs, order status queries, and product facts — and hands off anything that needs a person — reducing liability instead of creating it.</p>
+        </div>
+      </div>
+
+      <div class="diff-point" data-reveal="rise" data-reveal-delay="400">
+        <span class="diff-point-icon" aria-hidden="true">🏷️</span>
+        <div>
+          <h3>Genuinely custom-branded</h3>
+          <p>Tier 1 and Tier 2 are not cookie-cutter templates. Your domain, your brand, your colours — running on shared backend infrastructure that would cost six figures to build from scratch.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     CTA BAR
+     Single conversion action — points to the business enquiry
+     form on business.html.
+     ============================================================ -->
+<div class="prostore-cta-bar">
+  <p>Ready to get your store online?</p>
+  <a class="btn btn-iz btn-gold"
+     href="https://biz.izinga.co.za"
+     target="_blank" rel="noopener"
+     aria-label="Become a seller on iZinga">
+    Become a Seller
+  </a>
+  <p class="cta-note">
+    Free tier: no commitment, get started today.
+    Premium tiers: upgrade at any time once you're live.
+  </p>
+</div>
+
+
+<!-- ============================================================
+     FOOTER — identical to business.html footer
+     ============================================================ -->
+<footer class="iz-footer" role="contentinfo">
+  <div class="iz-container">
+    <div class="footer-grid row">
+
+      <div class="footer-col" data-reveal="fade" data-reveal-delay="200">
+        <a href="./index.html" aria-label="iZinga home">
+          <img src="./assets/images/izinga-logo-white.png" alt="iZinga" width="100" height="30" loading="lazy">
+        </a>
+        <p class="footer-tagline">Moving Anything, Anywhere.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/izingaapp" target="_blank" rel="noopener" aria-label="iZinga on Facebook">Facebook</a>
+          <a href="https://www.instagram.com/izingaapp" target="_blank" rel="noopener" aria-label="iZinga on Instagram">Instagram</a>
+        </div>
+      </div>
+
+      <div class="footer-col" data-reveal="fade" data-reveal-delay="200" id="fc-services">
+        <h4>Our Services</h4>
+        <ul role="list">
+          <li><a href="./index.html#delivery-services">Furniture &amp; Parcel Delivery</a></li>
+          <li><a href="https://shop.izinga.co.za/" target="_blank" rel="noopener">Food Market</a></li>
+          <li><a href="./index.html#izinga-pay">iZinga Pay</a></li>
+          <li><a href="./store.html" aria-current="page">Sell Online</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col" data-reveal="fade" data-reveal-delay="200">
+        <h4>Work With Us</h4>
+        <ul role="list">
+          <li><a href="https://onboard.izinga.co.za?type=driver" target="_blank" rel="noopener">Drive With iZinga</a></li>
+          <li><a href="./index.html#partners">Referral Partners</a></li>
+          <li><a href="./index.html#partners">Ambassadors</a></li>
+          <li><a href="./business.html">Business Enquiries</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col" data-reveal="fade" data-reveal-delay="200" id="fc-legal">
+        <h4>Legal</h4>
+        <ul role="list">
+          <li>
+            <a href="./terms.html" rel="noopener">Terms &amp; Conditions</a>
+          </li>
+          <li>
+            <a href="./privacy.html" rel="noopener">Privacy Policy</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <p style="text-align:center;font-size:0.75rem;color:#888;padding:16px 0 0;">
+    &copy; <span id="footer-year"></span> Curiousoft (Pty) Ltd (2016/429327/07). Trading as iZinga. All rights reserved.
+  </p>
+</footer>
+
+
+<!-- ============================================================
+     SCRIPTS — identical load pattern to business.html
+     ============================================================ -->
+<script src="./js/site.js?v=20261002-f" defer></script>
+<script>
+  // Footer year (same micro-pattern as index.html)
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

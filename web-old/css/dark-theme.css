@@ -1,0 +1,436 @@
+/* ==========================================================================
+   DARK THEME — iZinga Design System — Oct 2026  (Pass A)
+   Surface tokens, section alternation, hairlines, card surfaces, text/element
+   colour rules.  Loaded only by homepage-draft.html and store-draft.html.
+   NOT loaded by index.html (live production).
+   ========================================================================== */
+
+/* ── Tokens ───────────────────────────────────────────────────────────────── */
+:root {
+  --surface-0: #141414;
+  --surface-1: #1c1c1c;
+  --surface-2: #212121;
+  --surface-3: #2e2e2e;
+  --surface-4: #353535;
+  --dark-text-faint: #979797;   /* overrides rebuild.css's #666 — WCAG fix, 5.9:1 on #212121 */
+}
+
+/* ── Page-level default ───────────────────────────────────────────────────── */
+body { background: var(--surface-2); }
+
+/* ── Section surfaces — alternation scheme ────────────────────────────────── */
+/* surface-2 (#212121) — primary dark tier */
+.hero-section,
+.drivers-section,
+.rp-section,
+.ambassador-section,
+.delivery-section,
+.app-section           { background: var(--surface-2); }
+
+/* surface-1 (#1c1c1c) — recessed tier for visual alternation */
+.merchants-section,
+.pay-section,
+.coverage-section      { background: var(--surface-1); }
+
+/* surface-0 (#141414) — footer well */
+.iz-footer             { background: var(--surface-0); }
+
+/* ── Section hairlines (all sections except .hero-section) ───────────────── */
+.drivers-section,
+.rp-section,
+.ambassador-section,
+.delivery-section,
+.app-section,
+.merchants-section,
+.pay-section,
+.coverage-section,
+.iz-footer             { border-top: 1px solid #2d2d2d; }
+
+/* ── iz-card surfaces in dark section contexts ────────────────────────────── */
+/* Rationale: gold #BE833D and teal #00A9A1 small labels pass AA (4.59:1 / 4.65:1)
+   on #2e2e2e but fail on #2a2a2a (4.27:1 / 4.33:1). */
+.section--dark .iz-card {
+  background-color: #2e2e2e;
+  transition: background-color var(--dur-base) var(--ease-standard);
+}
+.section--dark .iz-card:hover,
+.section--dark .iz-card:focus-within { background-color: #353535; }
+
+/* ── Component card surfaces ──────────────────────────────────────────────── */
+.pay-tile {
+  background: #2e2e2e;
+  transition: background-color var(--dur-base) var(--ease-standard);
+}
+.pay-tile:hover,
+.pay-tile:focus-within  { background: #353535; }
+
+.merchant-tile {
+  background: #2e2e2e;
+  transition: background-color var(--dur-base) var(--ease-standard);
+}
+.merchant-tile:hover,
+.merchant-tile:focus-within { background: #353535; }
+
+/* box-shadow removed — depth comes from surface step + accent border, not shadow */
+.delivery-card {
+  background: #2e2e2e;
+  transition: background-color var(--dur-base) var(--ease-standard);
+}
+.delivery-card:hover,
+.delivery-card:focus-within { background: #353535; }
+
+/* box-shadow removed — depth comes from surface step + accent border, not shadow */
+.rp-cta-card {
+  background: #2e2e2e;
+  transition: background-color var(--dur-base) var(--ease-standard);
+}
+.rp-cta-card:hover,
+.rp-cta-card:focus-within   { background: #353535; }
+
+.merchants-cta-bar {
+  background: #2e2e2e;
+  border-top-color: var(--dark-rule);
+  transition: background-color var(--dur-base) var(--ease-standard);
+}
+
+.testimonials-photo-feature {
+  background: #2e2e2e;
+  transition: background-color var(--dur-base) var(--ease-standard);
+}
+
+/* Global iz-card hover — prevents flash to #ffffff regardless of .section--dark */
+.iz-card:hover,
+.iz-card:focus-within { background-color: #2b2b2b; }
+
+/* ── Section heading text ─────────────────────────────────────────────────── */
+.delivery-section h2,
+.pay-copy h2,
+.merchants-section h2,
+.rp-copy h2,
+.ambassador-copy h2,
+.app-copy h2           { color: var(--dark-text-primary); }
+
+/* ── Section body copy ────────────────────────────────────────────────────── */
+.delivery-section .section-sub,
+.pay-copy p,
+.rp-copy p,
+.ambassador-copy p,
+.app-copy p              { color: var(--dark-text-secondary); }
+
+/* ── Delivery card inner text ─────────────────────────────────────────────── */
+.delivery-card h3        { color: var(--dark-text-primary); }
+.delivery-card ul,
+.delivery-card ul li     { color: var(--dark-text-secondary); }
+.card-availability       { color: var(--dark-text-muted); }
+.card-quote-note         { color: var(--dark-text-muted); }
+
+/* ── Pay tile inner text ──────────────────────────────────────────────────── */
+.pay-tile h4             { color: var(--dark-text-primary); }
+.pay-tile p              { color: var(--dark-text-secondary); }
+
+/* ── Merchant tile and cta-bar inner text ────────────────────────────────── */
+.merchant-tile h3        { color: var(--dark-text-primary); }
+.merchant-tile p         { color: var(--dark-text-secondary); }
+.merchants-cta-bar p     { color: var(--dark-text-primary); }
+
+/* ── Referral partner text ────────────────────────────────────────────────── */
+.rp-benefits li          { color: var(--dark-text-secondary); }
+.rp-disclaimer           { color: var(--dark-text-muted); border-top-color: var(--dark-rule); }
+.rp-cta-card h3          { color: var(--dark-text-primary); }
+.rp-cta-card p           { color: var(--dark-text-secondary); }
+
+/* ── CTA legal note ───────────────────────────────────────────────────────── */
+.cta-legal-note          { color: var(--dark-text-muted); border-top-color: var(--dark-rule); }
+
+/* ── Platform stats band ─────────────────────────────────────────────────── */
+/* Override rebuild.css: show the band, use surface-1 (#1c1c1c), 4-column grid  */
+.stats-strip {
+  display: block;
+  background: var(--surface-1);
+  border-top: 1px solid #2d2d2d;
+}
+.stats-strip .stats-inner {
+  grid-template-columns: repeat(4, 1fr);
+}
+/* Suffix "+" — ensure visible (rebuild.css may default to hidden) */
+.stats-strip .stat-suffix { display: inline; }
+
+@media (max-width: 767px) {
+  /* 2×2 grid — four items, no orphan */
+  .stats-strip .stats-inner {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stats-strip .stat-item {
+    border-right: none;
+    border-bottom: 1px solid #2d2d2d;
+  }
+  /* Restore right hairline for odd items (left column) */
+  .stats-strip .stat-item:nth-child(odd) {
+    border-right: 1px solid #2d2d2d;
+  }
+  /* Remove bottom hairline from bottom row (items 3 and 4) */
+  .stats-strip .stat-item:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+}
+
+/* ── App section small elements ───────────────────────────────────────────── */
+.phone-frame             { background: #2e2e2e; border-color: var(--dark-rule); }
+.phone-frame-label       { color: var(--dark-text-muted); }
+.qr-label                { color: var(--dark-text-muted); }
+.dot                     { background: var(--dark-rule); }
+
+/* ── Form components (dark-section guard) ────────────────────────────────── */
+.form-submit-pending               { background: #2e2e2e; border-top-color: var(--dark-rule); color: var(--dark-text-muted); }
+.card-calc-fields-disabled .calc-input-light { background: #2e2e2e; border-color: var(--dark-rule); color: var(--dark-text-secondary); }
+
+/* ==========================================================================
+   PASS B — iZinga Design System — Oct 2026
+   Section rules, tier cards, typography, button system, hero mask,
+   coverage map, motion.
+   ========================================================================== */
+
+/* ── 1. SECTION RULES — gradient draw ────────────────────────────────────── */
+/* Override .section-rule background per section so the existing scaleX draw
+   animation looks like the line materialises from the left: solid start,
+   transparent tail.                                                           */
+.merchants-section .section-rule {
+  background: linear-gradient(to right, #be833d, rgba(190,131,61,0));
+}
+.drivers-section .section-rule {
+  background: linear-gradient(to right, #00a9a1, rgba(0,169,161,0));
+}
+.pay-section .section-rule,
+.coverage-section .section-rule {
+  background: linear-gradient(to right, #1083a5, rgba(16,131,165,0));
+}
+
+/* ── 2. TIER CARDS ─────────────────────────────────────────────────────────── */
+
+/* 2a. Tier label badge pill */
+.tier-badge {
+  padding: 2px 8px;
+  display: inline-block;
+  border-radius: 4px;
+}
+.tier-badge--free { background: rgba(0,169,161,0.10); }
+.tier-badge--gold { background: rgba(190,131,61,0.10); }
+
+/* 2b. Featured card (Tier 2) — full-perimeter border, restores left accent.
+   Uses !important to override both the inline border-left and the CEO override
+   blanket that sets border-color: #212121 on all .btn-* class elements.      */
+.tier-card--featured {
+  border: 1px solid rgba(190,131,61,0.20) !important;
+  border-left: 4px solid var(--btn-bg-color) !important;
+}
+
+/* 2c. Price — override the 1.1rem inline font-size; free price stays teal
+   (colour set inline, not touched here).                                      */
+.tier-price {
+  font-size: 1.4rem !important;
+  font-weight: 800 !important;
+}
+
+/* 2d. Bullets → accent checkmarks.
+   Scoped to tier cards in .merchants-section only — does NOT affect .iz-card
+   elements elsewhere (pay-tiles, delivery-cards, rp-cta-card, etc.).         */
+.merchants-section .iz-card ul {
+  list-style: none;
+  padding-left: 1.4em !important; /* override inline 1.2em */
+}
+.merchants-section .iz-card ul li {
+  color: var(--dark-text-secondary);
+}
+.merchants-section .iz-card ul li::before {
+  content: "✓";
+  display: inline-block;
+  width: 1.2em;
+  margin-left: -1.2em;
+  font-weight: 800;
+  color: inherit; /* overridden per-card below */
+}
+/* Free card: teal accent checkmark */
+.merchants-section .tier-card--free ul li::before {
+  color: #00a9a1;
+}
+/* Tier 1 and Tier 2 cards: gold accent checkmark */
+.merchants-section .tier-card--gold ul li::before {
+  color: #be833d;
+}
+
+/* 2e. Dividers — .tier-divider inserted via HTML; no checkmark, hairline */
+.merchants-section .iz-card ul .tier-divider {
+  height: 1px;
+  background: rgba(190,131,61,0.15);
+  margin: 6px 0;
+  list-style: none;
+}
+.merchants-section .iz-card ul .tier-divider::before {
+  content: none !important;
+}
+
+/* ── 3. TYPOGRAPHY ─────────────────────────────────────────────────────────── */
+.h1-display { letter-spacing: -0.01em; }
+
+/* ── 4. BUTTON SYSTEM ──────────────────────────────────────────────────────── */
+/* Hero white-fill confirmed scoped to .hero-section in rebuild.css
+   (lines 150-158 include .drivers-section — override below corrects that).  */
+
+/* Drivers teal: override rebuild.css white-fill that bleeds into drivers section */
+.drivers-section .btn-teal {
+  background: #00A9A1 !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+/* Merchants gold */
+.merchants-section .btn-gold {
+  background: #BE833D;
+  color: #fff;
+  border-color: transparent;
+}
+
+/* Pay / Partners role blue: restore from CEO #212121 blanket in rebuild.css */
+.pay-section .btn-blue,
+.rp-section .btn-blue,
+.ambassador-section .btn-blue {
+  background: #1083A5;
+  color: #fff;
+  border-color: transparent;
+}
+
+/* Disabled calculator button: dark surface replaces light #e0dfdf */
+.calc-btn-disabled {
+  background: #2c2c2c !important;
+  color: #5a5a5a !important;
+  border: 1px solid #3a3a3a !important;
+}
+
+/* Hover — role-filled buttons brightness(1.12); transition already on .btn-iz */
+.drivers-section .btn-teal:hover,
+.merchants-section .btn-gold:hover,
+.pay-section .btn-blue:hover,
+.rp-section .btn-blue:hover,
+.ambassador-section .btn-blue:hover {
+  filter: brightness(1.12);
+}
+/* Hero white-fill buttons brightness(0.88) handled by rebuild.css lines 155-158 */
+
+/* ── 5. HERO IMAGE COLUMN MASK ─────────────────────────────────────────────── */
+/* Desktop: two-gradient mask — left fade blends photo into copy column;
+   bottom lift separates photo from section floor.
+   Both gradients intersect (mask-composite: intersect) so only the area
+   opaque in both gradients remains fully visible.                            */
+@media (min-width: 768px) {
+  .hero-image-col {
+    -webkit-mask-image:
+      linear-gradient(to left, transparent 0%, #000 65%),
+      linear-gradient(to top,  transparent 0%, #000 25%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(to left, transparent 0%, #000 65%),
+      linear-gradient(to top,  transparent 0%, #000 25%);
+    mask-composite: intersect;
+  }
+}
+/* Mobile (rebuild.css ~line 1410 sets .hero-image-col height: 260px stacked):
+   left fade looks wrong when the column is full-width; keep only bottom lift. */
+@media (max-width: 767px) {
+  .hero-image-col {
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, #000 25%);
+    mask-image: linear-gradient(to top, transparent 0%, #000 25%);
+  }
+}
+
+/* ── 6. COVERAGE MAP & TOOLTIPS ────────────────────────────────────────────── */
+/* SA outline: dark fill, subtle stroke.
+   Must match rebuild.css specificity (.coverage-section .sa-outline path)
+   since that rule sets fill/stroke via var(--btn-green-color). Loading order
+   (dark-theme after rebuild) breaks the tie in our favour at equal specificity. */
+.coverage-section .sa-outline path {
+  fill: #252525;
+  stroke: #3d3d3d;
+  stroke-width: 0.8;
+}
+/* Pin tooltips: last white-background elements on the page */
+.pin-tooltip {
+  background: #1e1e1e;
+  border: 1px solid #3d3d3d;
+  color: #fff;
+}
+
+/* ── 7. MOTION — card heading letter-spacing nudge ─────────────────────────── */
+/* Applied only to .section--dark cards; skip heading elements that wrap
+   (spec constraint — CSS cannot detect wrapping, so this is a best-effort
+   application; multi-line headings will animate too but the nudge is subtle
+   enough to be harmless).
+   The existing prefers-reduced-motion blanket in rebuild.css §ACCESSIBILITY
+   sets transition-duration: 0.01ms !important on *, so no additional
+   @media block is needed here.                                               */
+.section--dark .iz-card h3 {
+  letter-spacing: 0;
+  transition: letter-spacing var(--dur-moderate) var(--ease-standard);
+}
+.section--dark .iz-card:hover h3,
+.section--dark .iz-card:focus-within h3 {
+  letter-spacing: 0.01em;
+}
+
+/* ── 8. HERO CAROUSEL ─────────────────────────────────────────────────────── */
+/* Image stack fills the column entirely; column owns its own height.          */
+.hero-carousel-stack {
+  position: absolute;
+  inset: 0;
+}
+
+/* Each slide sits in the same box; active one is opaque, others transparent.  */
+.hero-carousel-slide {
+  position: absolute;
+  inset: 0;
+  display: block;
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-standard);
+}
+.hero-carousel-slide--active {
+  opacity: 1;
+}
+
+/* Override rebuild.css .hero-image-col img (object-fit: contain) for carousel  */
+.hero-carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* Dot strip — sits over the image, bottom-centred                             */
+.hero-carousel-dots {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+/* Individual dots — 8×8 px circles                                            */
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: #444;
+  transition: background-color var(--dur-quick) var(--ease-standard);
+}
+.hero-dot--active,
+.hero-dot[aria-current="true"] {
+  background: #00A9A1;
+}
+.hero-dot:focus-visible {
+  outline: 2px solid #00A9A1;
+  outline-offset: 3px;
+}

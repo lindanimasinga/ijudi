@@ -31,8 +31,8 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://izinga.co.za">
-  <meta property="og:title" content="iZinga — Move Anything, Anywhere">
-  <meta property="og:description" content="Furniture, parcels, and food delivered by iZinga drivers across Johannesburg, Durban, and Cape Town.">
+  <meta property="og:title" content="iZinga — Drive, Sell, and Move Anything Across South Africa">
+  <meta property="og:description" content="Earn as a driver, sell online with your own store, or book a delivery — iZinga connects drivers, merchants, and customers across South Africa.">
   <!-- TODO(brand): replace with a purpose-designed 1200x630 social card. Interim: real branded photo (917x628). -->
   <meta property="og:image" content="https://izinga.co.za/assets/images/driver-furniture-handoff.jpg">
   <meta property="og:image:width" content="917">
@@ -43,8 +43,8 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="iZinga — Move Anything, Anywhere">
-  <meta name="twitter:description" content="Furniture, parcels, and food delivered across South Africa.">
+  <meta name="twitter:title" content="iZinga — Drive, Sell, and Move Anything Across South Africa">
+  <meta name="twitter:description" content="Earn as a driver, sell online, or book a delivery — iZinga connects drivers, merchants, and customers across South Africa.">
   <meta name="twitter:image" content="https://izinga.co.za/assets/images/driver-furniture-handoff.jpg">
 
   <!-- PWA -->
@@ -56,7 +56,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/izinga-short.png">
   <link rel="apple-touch-icon" sizes="180x180" href="./assets/images/izinga-short.png">
 
-  <title>iZinga — Furniture &amp; Parcel Delivery in South Africa | Move Anything, Anywhere</title>
+  <title>iZinga — Drive, Sell, and Move Anything Across South Africa</title>
 
   <!-- Fonts — Catamaran only (site never uses Nunito Sans; google-fonts.css removed). display=swap. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,7 +65,8 @@
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="./css/bootstrap.css">
-  <link rel="stylesheet" href="./css/rebuild.css">
+  <link rel="stylesheet" href="./css/rebuild.css?v=20261002-a">
+  <link rel="stylesheet" href="./css/dark-theme.css?v=20261002-f">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -101,9 +102,42 @@
     fbq('init','565463741264864');fbq('track','PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=565463741264864&ev=PageView&noscript=1"/></noscript>
+
+  <style>
+    /* ============================================================
+       FAB clearance fix — index.html only (do NOT copy to rebuild.css).
+       At very short mobile viewports (landscape phones, forced-narrow windows
+       below ~517px height), the fixed "Chat on WhatsApp" pill (bottom: 28px,
+       ~45px tall) overlaps the stacked hero CTAs because the mobile padding
+       rule in rebuild.css reserves 48px top + 48px bottom in .hero-copy.
+       Compressing that padding at these heights pushes the entire CTA stack
+       higher, clearing the FAB. Horizontal padding (32px L/R) is preserved.
+       Scoped to max-width: 767px — desktop is unaffected (CTAs side-by-side,
+       FAB is far right of the left-aligned button column).
+       ============================================================ */
+    @media (max-height: 560px) and (max-width: 767px) {
+      .hero-copy {
+        padding-top:    0;
+        padding-bottom: 0;
+      }
+      .hero-copy h1              { margin-bottom: 0; }
+      .hero-copy .section-rule   { margin-top: 0; margin-bottom: 0; }
+      .hero-copy .hero-sub       { margin-bottom: 0; }
+      .hero-cta-stack            { gap: 4px; }
+    }
+    /* Three-CTA clearance — extreme-short landscape (≤480px h, ≤767px w).
+       With three stacked buttons the CTA stack is ~22px taller than the
+       two-button original. This sub-rule saves those 22px (−6px/button
+       min-height, −2px gap) so btn3 bottom stays above the fixed FAB.
+       Measured: btn3 bottom 367px < FAB top 374px at 400×446 → +7px. */
+    @media (max-height: 480px) and (max-width: 767px) {
+      .hero-cta-stack            { gap: 2px; }
+      .hero-cta-stack .btn-iz    { min-height: 38px; padding-top: 6px; padding-bottom: 6px; }
+    }
+  </style>
 </head>
 
-<body id="page-top">
+<body>
 
 <!-- ============================================================
      NAVIGATION
@@ -117,10 +151,10 @@
 
     <!-- Desktop links (1280+) -->
     <ul class="iz-nav__links" role="list">
-      <li><a href="#page-top"            class="active">Home</a></li>
-      <li><a href="#delivery-services"             class="hide-at-960">Delivery Services</a></li>
-      <li><a href="#for-drivers"          class="accent-teal hide-at-960">For Drivers</a></li>
+      <li><a href="#page-top"            class="active" aria-current="page">Home</a></li>
       <li><a href="#for-merchants"        class="hide-at-960">For Merchants</a></li>
+      <li><a href="#for-drivers"          class="accent-teal hide-at-960">For Drivers</a></li>
+      <li><a href="./store.html"    class="accent-gold hide-at-960">Sell Online</a></li>
       <li><a href="#izinga-pay"           class="accent-blue">iZinga Pay</a></li>
       <li><a href="#partners">Partners</a></li>
       <li><a href="./business.html"       class="nav-biz">Business</a></li>
@@ -147,247 +181,193 @@
 <nav class="iz-drawer" id="iz-drawer" aria-label="Mobile navigation" aria-hidden="true">
   <button class="iz-drawer__close" id="drawerClose" aria-label="Close navigation menu">&times;</button>
   <ul class="iz-drawer__links" role="list">
-    <li><a href="#page-top"          onclick="closeDrawer()">Home</a></li>
-    <li><a href="#delivery-services" onclick="closeDrawer()">Delivery Services</a></li>
-    <li><a href="#for-drivers"       class="accent-teal"  onclick="closeDrawer()">For Drivers</a></li>
+    <li><a href="#page-top"          onclick="closeDrawer()" aria-current="page">Home</a></li>
     <li><a href="#for-merchants"     class="accent-gold"  onclick="closeDrawer()">For Merchants</a></li>
+    <li><a href="#for-drivers"       class="accent-teal"  onclick="closeDrawer()">For Drivers</a></li>
+    <li><a href="./store.html" class="accent-gold"  onclick="closeDrawer()">Sell Online</a></li>
     <li><a href="#izinga-pay"        class="accent-blue"  onclick="closeDrawer()">iZinga Pay</a></li>
     <li><a href="#partners"          onclick="closeDrawer()">Partners</a></li>
     <li><a href="./business.html"    class="accent-blue">Business</a></li>
   </ul>
 </nav>
 
+<main id="main-content">
 
 <!-- ============================================================
      S01 HERO
+     Eyebrow: "South Africa's Delivery Platform" (coral)
+     H1: "Drive." (teal) + "Sell." (gold) + "iZinga." (plain)
+     CTA 1: Become a Driver (btn-coral → renders white-fill in dark hero)
+     CTA 2: Become a Seller (btn-outline-white → white border) — scrolls to #for-merchants on this page
+     CTA 3: Book a Delivery (btn-outline-white → white border) — delivery.izinga.co.za
+     CAMPAIGN HERO — SWAP GUIDE
+     To change campaign: edit these 4 items only.
+       1. eyebrow text + class (eyebrow-coral | eyebrow-gold | eyebrow-blue | eyebrow-teal)
+       2. h1 content (keep em wrapper pattern for accent words)
+       3. .hero-sub text
+       4. CTA hrefs and button text — three CTAs: btn-coral (primary, solid white) + two btn-outline-white (secondary)
+     Current campaign: Driver + Merchant dual acquisition + delivery booking (Oct 2026)
+     Previous: Logistics / customer-first — "Move Anything, Anywhere" (pre-Oct 2026)
      ============================================================ -->
 <section class="hero-section" id="page-top" aria-labelledby="hero-h1">
 
   <div class="hero-copy">
-    <span class="eyebrow eyebrow-coral">Delivering Across South Africa</span>
+    <span class="eyebrow eyebrow-coral">South Africa's Delivery Platform</span>
     <h1 id="hero-h1" class="h1-display">
-      Move <em style="color:var(--btn-bg-color);font-style:normal">Anything</em>, Anywhere.
+      <em style="color:var(--btn-green-color);font-style:normal">Drive.</em>
+      <em style="color:var(--btn-bg-color);font-style:normal">Sell.</em>
+      iZinga.
     </h1>
     <span class="section-rule" data-reveal="draw" data-reveal-immediate data-reveal-delay="120" aria-hidden="true"></span>
     <p class="hero-sub" data-reveal="rise" data-reveal-immediate data-reveal-delay="200">
-      Furniture, parcels, and food — delivered on your schedule by iZinga drivers across Johannesburg, Durban, and Cape Town.
+      Earn as a driver on your schedule across Johannesburg, Durban, and Cape Town — or get your store selling online, free, on proven delivery infrastructure.
     </p>
     <div class="hero-cta-stack" data-reveal-stagger="80">
-      <a class="btn btn-iz btn-coral" href="https://delivery.izinga.co.za/" data-reveal="rise" data-reveal-immediate data-reveal-delay="300">Order a Delivery</a>
-      <a class="btn btn-iz btn-outline-white" href="https://driver.izinga.co.za" target="_blank" rel="noopener" data-reveal="rise" data-reveal-immediate data-reveal-delay="300">Become a Driver</a>
+      <a class="btn btn-iz btn-coral" href="https://driver.izinga.co.za" target="_blank" rel="noopener" data-reveal="rise" data-reveal-immediate data-reveal-delay="300">Become a Driver</a>
+      <!-- href: #for-merchants — same-page scroll to tier summary section -->
+      <a class="btn btn-iz btn-outline-white" href="#for-merchants" data-reveal="rise" data-reveal-immediate data-reveal-delay="300">Become a Seller</a>
+      <a class="btn btn-iz btn-outline-white" href="https://delivery.izinga.co.za/" target="_blank" rel="noopener" data-reveal="rise" data-reveal-immediate data-reveal-delay="380">Book a Delivery</a>
     </div>
   </div>
 
-  <div class="hero-image-col" aria-hidden="true">
-    <picture>
-      <source srcset="./assets/images/bikeDriver.webp" type="image/webp">
-      <img src="./assets/images/bikeDriver-fallback.png"
-           data-reveal="fade" data-reveal-immediate
-           alt="iZinga delivery driver on a bicycle"
-           width="1200" height="800"
-           fetchpriority="high" decoding="async">
-    </picture>
+  <div class="hero-image-col">
+    <!-- Image stack — aria-hidden on the stack (decorative); dots are interactive and outside -->
+    <div class="hero-carousel-stack" aria-hidden="true">
+      <picture class="hero-carousel-slide hero-carousel-slide--active">
+        <source srcset="./assets/images/bikeDriver.webp" type="image/webp">
+        <img src="./assets/images/bikeDriver-fallback.png"
+             alt="iZinga delivery driver on a motorcycle"
+             width="1200" height="800"
+             fetchpriority="high" decoding="async">
+      </picture>
+      <picture class="hero-carousel-slide">
+        <source srcset="./assets/images/driver-packing-box.webp" type="image/webp">
+        <img src="./assets/images/driver-packing-box.jpg"
+             alt="iZinga driver packing a parcel into a branded box"
+             width="1200" height="800"
+             loading="lazy" decoding="async">
+      </picture>
+      <picture class="hero-carousel-slide">
+        <source srcset="./assets/images/driver-furniture-handoff.webp" type="image/webp">
+        <img src="./assets/images/driver-furniture-handoff.jpg"
+             alt="iZinga driver handing furniture to a customer"
+             width="917" height="628"
+             loading="lazy" decoding="async">
+      </picture>
+    </div>
+    <!-- Dot navigation — outside aria-hidden stack, keyboard + click accessible -->
+    <div class="hero-carousel-dots" role="group" aria-label="Hero photo navigation">
+      <button class="hero-dot hero-dot--active" aria-label="Show photo 1 of 3" aria-current="true"  data-slide="0"></button>
+      <button class="hero-dot"                  aria-label="Show photo 2 of 3" aria-current="false" data-slide="1"></button>
+      <button class="hero-dot"                  aria-label="Show photo 3 of 3" aria-current="false" data-slide="2"></button>
+    </div>
   </div>
 
 </section>
 
 
-<!-- ============================================================
-     S02 PLATFORM STATS — SHIPS HIDDEN (CONFLICT 3)
-     DevOps: do not uncomment until Data Intelligence approves ALL 5 figures
-     ============================================================ -->
-<!-- STATS STRIP — DO NOT UNCOMMENT UNTIL DATA INTELLIGENCE APPROVES ALL FIGURES
-<section class="stats-strip" aria-label="Platform statistics">
-  <div class="stats-inner">
-    <div class="stat-item" data-target="[VERIFIED]" data-date="[MONTH YEAR]">
-      <span class="stat-num-value">0</span><span class="stat-suffix">+</span>
-      <span class="stat-label">Active Drivers</span>
-      <span class="stat-date"></span>
-    </div>
-    <div class="stat-item" data-target="[VERIFIED]" data-date="[MONTH YEAR]">
-      <span class="stat-num-value">0</span><span class="stat-suffix">+</span>
-      <span class="stat-label">Deliveries Completed</span>
-      <span class="stat-date"></span>
-    </div>
-    <div class="stat-item" data-target="[VERIFIED]" data-date="[MONTH YEAR]">
-      <span class="stat-num-value">0</span><span class="stat-suffix">+</span>
-      <span class="stat-label">Partner Stores</span>
-      <span class="stat-date"></span>
-    </div>
-    <div class="stat-item" data-target="[VERIFIED]" data-date="[MONTH YEAR]">
-      <span class="stat-num-value">0</span><span class="stat-suffix">+</span>
-      <span class="stat-label">Cities Active</span>
-      <span class="stat-date"></span>
-    </div>
-    <div class="stat-item" data-target="[VERIFIED]" data-date="[MONTH YEAR]">
-      <span class="stat-num-value">0</span><span class="stat-suffix">+</span>
-      <span class="stat-label">App Downloads</span>
-      <span class="stat-date"></span>
-    </div>
-  </div>
-</section>
--->
-
 
 <!-- ============================================================
-     S03 DELIVERY SERVICES
+     S06 FOR MERCHANTS
+     The #for-merchants anchor and aria-labelledby="merchants-h2"
+     are preserved so existing nav links do not break.
      ============================================================ -->
-<section class="delivery-section" id="delivery-services" aria-labelledby="delivery-h2">
+<section class="merchants-section section--dark" id="for-merchants" aria-labelledby="merchants-h2">
+
+  <!-- ============================================================
+       S06a — Sell Online (PRIMARY)
+       Primary merchant pitch: storefront platform, three tiers.
+       Full tier details live on store.html — these are summary cards only.
+       ============================================================ -->
   <div class="iz-container">
-
-    <span class="eyebrow eyebrow-muted" style="color:#888;text-align:center;display:block;">What We Deliver</span>
-    <h2 data-reveal="rise" id="delivery-h2" style="text-align:center;font-size:clamp(1.5rem,3vw,2.25rem);font-weight:800;color:var(--text-color);margin-bottom:8px;">
-      Services built for South Africa
-    </h2>
-    <span class="section-rule section-rule--centred" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
-    <p class="section-sub" data-reveal="rise" data-reveal-delay="180" style="color:#555;text-align:center;margin:0 auto 40px;max-width:60ch;font-size:1rem;line-height:1.65;">
-      Whether you're moving furniture, sending a parcel, or ordering food — iZinga has a driver ready.
+    <span class="eyebrow eyebrow-gold">For Merchants</span>
+    <h2 id="merchants-h2" data-reveal="rise">Your store. Our infrastructure.</h2>
+    <span class="section-rule" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
+    <p data-reveal="rise" data-reveal-delay="180" style="color:var(--dark-text-secondary);max-width:56ch;line-height:1.65;">
+      Sell online from day one — no development costs, no bespoke build. Start free, keep your brand when you're ready to upgrade.
     </p>
 
-    <div class="delivery-grid" data-reveal-stagger="80">
+    <!-- Tier summary cards — compact, three columns desktop / stacked mobile -->
+    <!-- Full feature lists are on store.html; these are scan-level hooks only -->
+    <div class="row" style="margin:32px 0 8px;row-gap:16px;" data-reveal-stagger="80" aria-label="Store platform pricing tiers">
 
-      <!-- Card 1: Furniture [CONFLICT 2 — D1 + B5] -->
-      <div class="delivery-card delivery-card--furniture iz-card" data-reveal="wipe" data-reveal-delay="260" aria-labelledby="furniture-h3">
-        <div class="card-top-accent"></div>
-        <span class="chip chip-teal-solid">Furniture</span>
-        <span class="card-eyebrow">Featured Service</span>
-        <div class="card-body">
-          <h3 id="furniture-h3" class="h3-heading">Furniture Delivery</h3>
-          <ul>
-            <li>Large-item specialists — sofas, appliances, wardrobes</li>
-            <li>Two-person team for items over 30 kg</li>
-            <li>Available in Johannesburg and Durban — same-day bookings</li>
+      <!-- Free tier -->
+      <div class="col-12 col-md-4" data-reveal="wipe" data-reveal-delay="200">
+        <div class="iz-card tier-card--free" style="padding:24px 20px;border-left:4px solid var(--btn-green-color);height:100%;display:flex;flex-direction:column;gap:6px;">
+          <span class="tier-badge tier-badge--free" style="font-size:0.7rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--btn-green-color);">Free</span>
+          <h3 style="font-family:Catamaran,Calibri,sans-serif;font-size:1.05rem;font-weight:800;margin:0;color:var(--dark-text-primary);">Get online, zero cost</h3>
+          <ul style="font-size:0.85rem;color:var(--dark-text-secondary);margin:4px 0 0;padding-left:1.2em;line-height:1.7;flex:1;">
+            <li>Store listing, live immediately</li>
+            <li>Secure payments</li>
+            <li>Live order tracking</li>
+            <li>Store Admin app — manage pricing &amp; menu yourself</li>
+            <li>Daily payouts — funds reflect within 3 business days (bank processing)</li>
+            <li>Delivery handled for you — access to iZinga's driver network</li>
+            <li>iZinga T&amp;Cs &amp; Privacy Policy apply — drivers carry their own goods-in-transit insurance</li>
           </ul>
-          <!-- Quote calculator — Coming Soon (Component D State 2) -->
-          <div class="card-calc-widget">
-            <span class="calc-coming-soon-badge">Coming Soon</span>
-            <div class="card-calc-fields-disabled" aria-hidden="true">
-              <div class="calc-field-group">
-                <label class="calc-label">Pickup suburb</label>
-                <input class="calc-input-light" type="text" placeholder="e.g. Sandton" disabled tabindex="-1">
-              </div>
-              <div class="calc-field-group">
-                <label class="calc-label">Drop-off suburb</label>
-                <input class="calc-input-light" type="text" placeholder="e.g. Randburg" disabled tabindex="-1">
-              </div>
-              <div class="calc-field-group">
-                <label class="calc-label">Floor number</label>
-                <input class="calc-input-light" type="number" placeholder="e.g. 3" disabled tabindex="-1">
-              </div>
-            </div>
-            <p class="card-calc-coming-note">Quote calculator coming soon — book via WhatsApp for an immediate estimate.</p>
-          </div>
-          <!-- [D2] B2B escape hatch -->
-          <a class="card-b2b-escape" href="./business.html">Furniture retailer or estate agent? See our Business programme <span class="card-link-arrow" aria-hidden="true">&rarr;</span></a>
+          <p class="tier-price" style="font-size:1.1rem;font-weight:800;color:var(--btn-green-color);margin:8px 0 0;">Free for merchants</p>
+          <p style="font-size:0.75rem;color:var(--dark-text-muted);margin:0;line-height:1.4;">6.5% service fee added at customer checkout — paid by customer, not deducted from your payout.</p>
         </div>
-        <!-- [Component F] WhatsApp button -->
-        <a class="btn btn-iz btn-wa" href="https://wa.me/27686401157?text=Hi+iZinga+I+would+like+to+book+a+furniture+delivery" target="_blank" rel="noopener" aria-label="Book furniture delivery via WhatsApp" style="margin-top:16px;">
-          <img loading="lazy" decoding="async" src="./assets/images/whatsapp.svg" alt="WhatsApp" width="20" height="20">
-          Book via WhatsApp
-        </a>
-        <!-- [D6] App deep-link — subordinate -->
-        <a class="card-app-link" href="https://delivery.izinga.co.za/">Already have the iZinga app? Open app</a>
       </div>
 
-      <!-- Card 2: Parcel [B5] -->
-      <div class="delivery-card delivery-card--parcel iz-card" data-reveal="wipe" data-reveal-delay="260" aria-labelledby="parcel-h3">
-        <span class="chip chip-teal-outlined">Parcel</span>
-        <div class="card-body">
-          <h3 id="parcel-h3" class="h3-heading">Parcel Delivery</h3>
-          <ul>
-            <li>Send packages, documents, and goods across your city</li>
-            <li>GPS tracking from pickup to drop-off</li>
-            <li>Vetted drivers, reliable service</li>
+      <!-- Premium Tier 1 -->
+      <div class="col-12 col-md-4" data-reveal="wipe" data-reveal-delay="280">
+        <div class="iz-card tier-card--gold" style="padding:24px 20px;border-left:4px solid var(--btn-bg-color);height:100%;display:flex;flex-direction:column;gap:6px;">
+          <span class="tier-badge tier-badge--gold" style="font-size:0.7rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--btn-bg-color);">Premium Tier 1</span>
+          <h3 style="font-family:Catamaran,Calibri,sans-serif;font-size:1.05rem;font-weight:800;margin:0;color:var(--dark-text-primary);">Your own brand</h3>
+          <ul style="font-size:0.85rem;color:var(--dark-text-secondary);margin:4px 0 0;padding-left:1.2em;line-height:1.7;flex:1;">
+            <li>Store listing, live immediately</li>
+            <li>Secure payments</li>
+            <li>Live order tracking</li>
+            <li>Store Admin app — manage pricing &amp; menu yourself</li>
+            <li>Daily payouts — funds reflect within 3 business days (bank processing)</li>
+            <li>Delivery handled for you — access to iZinga's driver network</li>
+            <li>iZinga T&amp;Cs &amp; Privacy Policy apply — drivers carry their own goods-in-transit insurance</li>
+            <li aria-hidden="true" class="tier-divider"></li>
+            <li>Branded storefront — your colours, logo, tone</li>
+            <li>Custom domain (returned to you within 30 days if you downgrade)</li>
+            <li>Dedicated WhatsApp order line (number stays with iZinga)</li>
+            <li>Regulated-industry compliance (product-level filtering)</li>
           </ul>
-          <!-- Parcel delivery supporting photo -->
-          <div class="parcel-card-photo">
-            <picture>
-              <source srcset="./assets/images/driver-packing-box.webp" type="image/webp">
-              <img loading="lazy" decoding="async" width="1200" height="1097" src="./assets/images/driver-packing-box.jpg" alt="iZinga driver carefully packing a leather bag into a branded iZinga delivery box at a warehouse workbench">
-            </picture>
-          </div>
+          <p class="tier-price" style="font-size:1.1rem;font-weight:800;color:var(--dark-text-primary);margin:8px 0 0;">R800<span style="font-size:0.85rem;font-weight:400;color:var(--dark-text-secondary);">/month</span></p>
         </div>
-        <a class="btn btn-iz btn-teal btn-full" href="https://delivery.izinga.co.za/" style="margin-top:16px;">Book Online</a>
       </div>
 
-      <!-- Card 3: Food [B5, F7, F10] -->
-      <div class="delivery-card delivery-card--food iz-card" data-reveal="wipe" data-reveal-delay="260" aria-labelledby="food-h3">
-        <span class="chip chip-coral-solid">Food</span>
-        <div class="card-body">
-          <h3 id="food-h3" class="h3-heading">Food Delivery</h3>
-          <ul style="--check-color:var(--btn-red-color);">
-            <li>Browse local restaurants and food stores</li>
-            <li>Real-time order tracking</li>
-            <li>Contactless delivery available</li>
+      <!-- Premium Tier 2 -->
+      <div class="col-12 col-md-4" data-reveal="wipe" data-reveal-delay="360">
+        <div class="iz-card tier-card--gold tier-card--featured" style="padding:24px 20px;border-left:4px solid var(--btn-bg-color);height:100%;display:flex;flex-direction:column;gap:6px;">
+          <span class="tier-badge tier-badge--gold" style="font-size:0.7rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--btn-bg-color);">Premium Tier 2</span>
+          <h3 style="font-family:Catamaran,Calibri,sans-serif;font-size:1.05rem;font-weight:800;margin:0;color:var(--dark-text-primary);">AI-powered commerce</h3>
+          <ul style="font-size:0.85rem;color:var(--dark-text-secondary);margin:4px 0 0;padding-left:1.2em;line-height:1.7;flex:1;">
+            <li>Store listing, live immediately</li>
+            <li>Secure payments</li>
+            <li>Live order tracking</li>
+            <li>Store Admin app — manage pricing &amp; menu yourself</li>
+            <li>Daily payouts — funds reflect within 3 business days (bank processing)</li>
+            <li>Delivery handled for you — access to iZinga's driver network</li>
+            <li>iZinga T&amp;Cs &amp; Privacy Policy apply — drivers carry their own goods-in-transit insurance</li>
+            <li aria-hidden="true" class="tier-divider"></li>
+            <li>Branded storefront — your colours, logo, tone</li>
+            <li>Custom domain (returned to you within 30 days if you downgrade)</li>
+            <li>Dedicated WhatsApp order line (number stays with iZinga)</li>
+            <li>Regulated-industry compliance (product-level filtering)</li>
+            <li aria-hidden="true" class="tier-divider"></li>
+            <li>24/7 AI assistant on WhatsApp — FAQs, order status and product facts</li>
+            <li>Advice mode available on application — regulatory licences required; you're responsible for monitoring all AI responses</li>
+            <li>Hands off to your team for anything needing a human</li>
           </ul>
-          <!-- [F-Q1] Availability note -->
-          <p class="card-availability">Available now in Durban</p>
-          <!-- Food delivery supporting photo -->
-          <div class="food-card-photo">
-            <picture>
-              <source srcset="./assets/images/food-delivery-photo.webp" type="image/webp">
-              <img loading="lazy" decoding="async" width="1080" height="1080" src="./assets/images/food-delivery-photo.jpg" alt="iZinga motorbike courier with branded delivery box and food app screen showing Shoprite and KFC listings">
-            </picture>
-          </div>
-        </div>
-        <!-- [F7] CTA — "Browse Food Stores" not "Order Food" -->
-        <a class="btn btn-iz btn-coral btn-full" href="https://shop.izinga.co.za/main" target="_blank" rel="noopener" style="margin-top:16px;">Browse Food Stores</a>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- ============================================================
-     S04 iZINGA PAY
-     ============================================================ -->
-<section class="pay-section" id="izinga-pay" aria-labelledby="pay-h2">
-  <div class="iz-container">
-    <div class="pay-inner">
-
-      <div class="pay-copy">
-        <span class="eyebrow eyebrow-blue">iZinga Pay</span>
-        <h2 id="pay-h2" data-reveal="rise">Instant payments, built into every delivery.</h2>
-        <span class="section-rule" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
-        <p data-reveal="rise" data-reveal-delay="180">Accept payments, share links, and let customers tip drivers — all without downloading another app.</p>
-        <a class="btn btn-iz btn-blue" data-reveal="rise" data-reveal-delay="260" href="https://pay.izinga.co.za/" style="margin-top:8px;">Pay or Tip with iZinga Pay</a>
-      </div>
-
-      <!-- [P3] Four confirmed capabilities -->
-      <div class="pay-tiles row" data-reveal-stagger="60" aria-label="iZinga Pay capabilities">
-        <div class="pay-tile iz-card col-6">
-          <div class="reveal-wrap" data-reveal="rise" data-reveal-delay="260">
-          <div class="pay-tile-icon" aria-hidden="true">🔗</div>
-          <h4>Payment Links</h4>
-          <p>Share a link, get paid instantly</p>
-          </div>
-        </div>
-        <div class="pay-tile iz-card col-6">
-          <div class="reveal-wrap" data-reveal="rise" data-reveal-delay="260">
-          <div class="pay-tile-icon" aria-hidden="true">💳</div>
-          <h4>Tip Your Driver</h4>
-          <p>Scan a QR code, tip in seconds</p>
-          </div>
-        </div>
-        <div class="pay-tile iz-card col-6">
-          <div class="reveal-wrap" data-reveal="rise" data-reveal-delay="260">
-          <div class="pay-tile-icon" aria-hidden="true">🔒</div>
-          <h4>Yoco-Powered</h4>
-          <p>Trusted South African card processing</p>
-          </div>
-        </div>
-        <div class="pay-tile iz-card col-6">
-          <div class="reveal-wrap" data-reveal="rise" data-reveal-delay="260">
-          <div class="pay-tile-icon" aria-hidden="true">📱</div>
-          <h4>No App Required</h4>
-          <p>Customers pay without downloading anything</p>
-          </div>
+          <p class="tier-price" style="font-size:1.1rem;font-weight:800;color:var(--dark-text-primary);margin:8px 0 0;">R3,000<span style="font-size:0.85rem;font-weight:400;color:var(--dark-text-secondary);">/month</span></p>
         </div>
       </div>
 
     </div>
+
+    <p style="text-align:center;margin:24px 0 0;">
+      <a class="btn btn-iz btn-gold" href="https://biz.izinga.co.za" target="_blank" rel="noopener">Become a Seller</a>
+    </p>
+
   </div>
+
 </section>
 
 
@@ -460,52 +440,53 @@
 
 
 <!-- ============================================================
-     S06 FOR MERCHANTS
+     S04 iZINGA PAY
      ============================================================ -->
-<section class="merchants-section" id="for-merchants" aria-labelledby="merchants-h2">
+<section class="pay-section section--dark" id="izinga-pay" aria-labelledby="pay-h2">
   <div class="iz-container">
-    <span class="eyebrow eyebrow-gold">For Merchants</span>
-    <h2 id="merchants-h2" data-reveal="rise">Your store, our drivers.</h2>
-    <span class="section-rule" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
-    <p data-reveal="rise" data-reveal-delay="180" style="color:#555;max-width:52ch;line-height:1.65;">
-      Give your customers same-day delivery without building your own fleet. iZinga merchants plug in and start delivering from day one.
-    </p>
-    <div class="merchants-tiles row" data-reveal-stagger="80" aria-label="Merchant benefits">
-      <div class="merchant-tile iz-card col-12 col-md-4">
-        <div class="reveal-wrap" data-reveal="wipe" data-reveal-delay="200">
-        <div class="merchant-tile-icon" aria-hidden="true">🚚</div>
-        <h3>On-Demand Drivers</h3>
-        <p>Access a pool of vetted drivers whenever orders come in — no fixed fleet costs.</p>
-        </div>
-      </div>
-      <div class="merchant-tile iz-card col-12 col-md-4">
-        <div class="reveal-wrap" data-reveal="wipe" data-reveal-delay="200">
-        <div class="merchant-tile-icon" aria-hidden="true">📦</div>
-        <h3>Order Management</h3>
-        <p>Manage orders, assign drivers, and track deliveries from a single dashboard.</p>
-        </div>
-      </div>
-      <div class="merchant-tile iz-card col-12 col-md-4">
-        <div class="reveal-wrap" data-reveal="wipe" data-reveal-delay="200">
-        <div class="merchant-tile-icon" aria-hidden="true">💳</div>
-        <h3>Integrated Payments</h3>
-        <p>iZinga Pay handles collection so you get paid without chasing customers.</p>
-        </div>
-      </div>
-    </div>
+    <div class="pay-inner">
 
-    <div class="merchants-image-row">
-      <picture>
-        <source srcset="./assets/images/izinga-deliveries.webp" type="image/webp">
-        <img loading="lazy" decoding="async" width="738" height="1520" src="./assets/images/izinga-deliveries.png" alt="iZinga delivery driver fulfilling a merchant order">
-      </picture>
-    </div>
-  </div>
+      <div class="pay-copy">
+        <span class="eyebrow eyebrow-blue">iZinga Pay</span>
+        <h2 id="pay-h2" data-reveal="rise">Instant payments, built into every delivery.</h2>
+        <span class="section-rule" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
+        <p data-reveal="rise" data-reveal-delay="180">Accept payments, share links, and let customers tip drivers — all without downloading another app.</p>
+        <a class="btn btn-iz btn-blue" data-reveal="rise" data-reveal-delay="260" href="https://pay.izinga.co.za/" style="margin-top:8px;">Pay or Tip with iZinga Pay</a>
+      </div>
 
-  <!-- Full-width CTA bar -->
-  <div class="merchants-cta-bar">
-    <p>Ready to give your customers same-day delivery?</p>
-    <a class="btn btn-iz btn-gold" href="https://biz.izinga.co.za" target="_blank" rel="noopener">Get Started</a>
+      <!-- [P3] Four confirmed capabilities -->
+      <div class="pay-tiles row" data-reveal-stagger="60" aria-label="iZinga Pay capabilities">
+        <div class="pay-tile iz-card col-6">
+          <div class="reveal-wrap" data-reveal="rise" data-reveal-delay="260">
+          <div class="pay-tile-icon" aria-hidden="true">🔗</div>
+          <h4>Payment Links</h4>
+          <p>Share a link, get paid instantly</p>
+          </div>
+        </div>
+        <div class="pay-tile iz-card col-6">
+          <div class="reveal-wrap" data-reveal="rise" data-reveal-delay="260">
+          <div class="pay-tile-icon" aria-hidden="true">💳</div>
+          <h4>Tip Your Driver</h4>
+          <p>Scan a QR code, tip in seconds</p>
+          </div>
+        </div>
+        <div class="pay-tile iz-card col-6">
+          <div class="reveal-wrap" data-reveal="rise" data-reveal-delay="260">
+          <div class="pay-tile-icon" aria-hidden="true">🔒</div>
+          <h4>Yoco-Powered</h4>
+          <p>Trusted South African card processing</p>
+          </div>
+        </div>
+        <div class="pay-tile iz-card col-6">
+          <div class="reveal-wrap" data-reveal="rise" data-reveal-delay="260">
+          <div class="pay-tile-icon" aria-hidden="true">📱</div>
+          <h4>No App Required</h4>
+          <p>Customers pay without downloading anything</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -696,140 +677,38 @@
 </section>
 
 
+<!-- STATS BAND — figures supplied by Lindani Masinga, 2 Oct 2026 (not DB-verified by an agent). Labels are deliberate: "per month" and "on the network" (registered). -->
 <!-- ============================================================
-     S10 APP DOWNLOADS
+     PLATFORM STATS BAND (replaces S11 Testimonials — Oct 2026)
+     Placement: after Coverage, before Footer.
      ============================================================ -->
-<section class="app-section" id="app-downloads" aria-labelledby="app-h2">
-  <div class="iz-container">
-    <div class="app-inner row">
-
-      <div class="app-copy col-12 col-md-6">
-        <span class="eyebrow eyebrow-coral">Download the App</span>
-        <h2 id="app-h2" data-reveal="rise">Order in minutes. Track in real time.</h2>
-        <span class="section-rule" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
-        <p data-reveal="rise" data-reveal-delay="180">The iZinga app puts furniture, parcel, and food delivery at your fingertips — plus real-time driver tracking.</p>
-
-        <!-- Store badge buttons — flat styled, no emoji -->
-        <div class="store-buttons" data-reveal-stagger="80">
-          <a class="store-badge" data-reveal="rise" data-reveal-delay="260" href="https://download.izinga.co.za/app" aria-label="Download iZinga on the App Store">
-            <span class="store-badge-sub">Download on the</span>
-            <span class="store-badge-name">App Store</span>
-          </a>
-          <a class="store-badge" data-reveal="rise" data-reveal-delay="260" href="https://download.izinga.co.za/app" aria-label="Download iZinga on Google Play">
-            <span class="store-badge-sub">Get it on</span>
-            <span class="store-badge-name">Google Play</span>
-          </a>
-        </div>
-
-        <!-- QR frame — real QR code injected by qr-gen.js -->
-        <div data-reveal="rise" data-reveal-delay="420" style="display:inline-block;margin-top:12px;">
-          <div class="qr-frame"></div>
-          <span class="qr-label">Scan to download</span>
-        </div>
-      </div>
-
-      <!-- [Component C] App carousel — centre frame replaced with real UI mockup -->
-      <div class="col-12 col-md-6">
-        <!-- [F-Q2] Labels: Browse Stores · Join As A Driver · Track Your Order -->
-        <!-- Deviation from §4.11 item 6: R6 fade on the carousel container rather
-             than R1 rise on each .phone-frame. `.phone-frame.adjacent` carries a
-             static transform: scale(0.9); a rise reveal would overwrite it while
-             hidden and then animate transform back to scale(0.9), i.e. a scale
-             animation, which Law 3 bans. Fade is in the sanctioned set (§3.4). -->
-        <div class="app-carousel" data-reveal="fade" data-reveal-delay="300" aria-label="iZinga app screenshot previews" role="img">
-          <div class="phone-frame adjacent" aria-hidden="true">
-            <div class="phone-frame-label">Browse Stores</div>
-          </div>
-          <div class="phone-frame active phone-frame--real" aria-hidden="true">
-            <picture>
-              <source srcset="./assets/images/driver-signup-mockup.webp" type="image/webp">
-              <img loading="lazy" decoding="async" width="736" height="1422" src="./assets/images/driver-signup-mockup.png" alt="iZinga Join As A Driver app screen showing branded Kia K2700 bakkie">
-            </picture>
-          </div>
-          <div class="phone-frame adjacent" aria-hidden="true">
-            <div class="phone-frame-label">Track Your Order</div>
-          </div>
-        </div>
-        <div class="carousel-dots" aria-hidden="true">
-          <div class="dot"></div>
-          <div class="dot active"></div>
-          <div class="dot"></div>
-        </div>
-      </div>
-
+<section class="stats-strip" id="platform-stats" aria-label="Platform statistics">
+  <div class="stats-inner">
+    <div class="stat-item" data-target="2971" data-date="Oct 2026">
+      <span class="stat-num-value">0</span><span class="stat-suffix">+</span>
+      <span class="stat-label">Orders per month</span>
+      <span class="stat-date"></span>
+    </div>
+    <div class="stat-item" data-target="100" data-date="Oct 2026">
+      <span class="stat-num-value">0</span><span class="stat-suffix">+</span>
+      <span class="stat-label">Stores</span>
+      <span class="stat-date"></span>
+    </div>
+    <div class="stat-item" data-target="500" data-date="Oct 2026">
+      <span class="stat-num-value">0</span><span class="stat-suffix">+</span>
+      <span class="stat-label">Drivers on the network</span>
+      <span class="stat-date"></span>
+    </div>
+    <div class="stat-item" data-target="1382" data-date="Oct 2026">
+      <span class="stat-num-value">0</span><span class="stat-suffix">+</span>
+      <span class="stat-label">Customers</span>
+      <span class="stat-date"></span>
     </div>
   </div>
 </section>
 
 
-<!-- ============================================================
-     S11 TESTIMONIALS
-     ============================================================ -->
-<section class="testimonials-section" id="testimonials" aria-labelledby="testimonials-h2">
-  <div class="iz-container">
-
-    <span class="eyebrow eyebrow-muted" style="text-align:center;display:block;">What people say</span>
-
-    <!-- [P5] Conditional headings — JS toggles section--populated class when real cards present -->
-    <h2 id="testimonials-h2" class="testimonials-heading-placeholder h2-heading" data-reveal="fade">
-      Share your iZinga experience.
-    </h2>
-    <h2 class="testimonials-heading-trust h2-heading" aria-hidden="true" data-reveal="fade">
-      Trusted by drivers, merchants, and customers.
-    </h2>
-    <span class="section-rule section-rule--centred" data-reveal="draw" data-reveal-delay="120" aria-hidden="true"></span>
-
-    <!-- Customer photo feature — neutral caption, no fabricated quote -->
-    <div class="testimonials-photo-feature">
-      <picture>
-        <source srcset="./assets/images/customer-testimonial-photo.webp" type="image/webp">
-        <img loading="lazy" decoding="async" width="1600" height="1261" src="./assets/images/customer-testimonial-photo.jpg" alt="Customer on apartment balcony holding phone showing the iZinga app, with moving boxes and iZinga delivery truck visible below">
-      </picture>
-      <div class="testimonials-photo-caption">
-        <strong>Real deliveries, real customers.</strong>
-        iZinga delivers furniture, parcels, and food to customers across South Africa — tracked from pickup to door.
-      </div>
-    </div>
-
-    <!-- [Component B] Skeleton placeholder — no fake quotes -->
-    <div class="skeleton-grid row" data-reveal-stagger="60" aria-label="Testimonials loading — no reviews yet">
-      <div class="skeleton-frame col-12 col-md-4" aria-hidden="true">
-        <div class="reveal-wrap" data-reveal="fade" data-reveal-delay="200">
-        <div class="skeleton-avatar"></div>
-        <div class="skeleton-bar" style="width:80%"></div>
-        <div class="skeleton-bar" style="width:90%"></div>
-        <div class="skeleton-bar" style="width:60%"></div>
-        </div>
-      </div>
-      <div class="skeleton-frame col-12 col-md-4" aria-hidden="true">
-        <div class="reveal-wrap" data-reveal="fade" data-reveal-delay="200">
-        <div class="skeleton-avatar"></div>
-        <div class="skeleton-bar" style="width:75%"></div>
-        <div class="skeleton-bar" style="width:85%"></div>
-        <div class="skeleton-bar" style="width:55%"></div>
-        </div>
-      </div>
-      <div class="skeleton-frame col-12 col-md-4" aria-hidden="true">
-        <div class="reveal-wrap" data-reveal="fade" data-reveal-delay="200">
-        <div class="skeleton-avatar"></div>
-        <div class="skeleton-bar" style="width:88%"></div>
-        <div class="skeleton-bar" style="width:70%"></div>
-        <div class="skeleton-bar" style="width:65%"></div>
-        </div>
-      </div>
-    </div>
-
-    <p class="testimonials-sub">Testimonials coming soon.
-      <a href="https://wa.me/27686401157?text=I+want+to+share+my+iZinga+experience"
-         target="_blank" rel="noopener"
-         style="color:var(--btn-pill-color);text-decoration:underline;font-size:0.72rem;">
-        Share your iZinga experience on WhatsApp →
-      </a>
-    </p>
-
-  </div>
-</section>
-
+</main>
 
 <!-- ============================================================
      S12 FOOTER
@@ -848,7 +727,7 @@
           <img loading="lazy" decoding="async" src="./assets/images/izinga-logo-white.png" alt="iZinga" width="120" height="40">
         </a>
       </div>
-      <p class="footer-tagline">Move Anything, Anywhere. Delivering across South Africa.</p>
+      <p class="footer-tagline">Drive, sell, and move anything — South Africa's delivery and commerce platform.</p>
       <div class="footer-social" aria-label="Social media links">
         <!-- Facebook -->
         <a href="https://www.facebook.com/izingaapp" target="_blank" rel="noopener" aria-label="iZinga on Facebook">
@@ -870,9 +749,9 @@
       <h4>Quick Links</h4>
       <ul>
         <li><a href="#page-top">Home</a></li>
-        <li><a href="#delivery-services">Delivery Services</a></li>
-        <li><a href="#for-drivers">For Drivers</a></li>
         <li><a href="#for-merchants">For Merchants</a></li>
+        <li><a href="#for-drivers">For Drivers</a></li>
+        <li><a href="./store.html">Sell Online</a></li>
         <li><a href="#izinga-pay">iZinga Pay</a></li>
         <li><a href="#partners">Partners</a></li>
       </ul>
@@ -931,8 +810,9 @@
 <!-- ============================================================
      SCRIPTS
      ============================================================ -->
-<script src="./js/site.js" defer></script>
-<script src="./js/qr-gen.js" defer></script>
+<script src="./js/site.js?v=20261002-f" defer></script>
+<script src="./js/hero-carousel.js?v=20261002-f" defer></script>
+<script src="./js/qr-gen.js?v=20261002-f" defer></script>
 
 <script>
   /* Inline: footer year — runs immediately */
