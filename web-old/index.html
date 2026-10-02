@@ -106,15 +106,33 @@
   <style>
     /* ============================================================
        FAB clearance fix — index.html only (do NOT copy to rebuild.css).
-       At very short mobile viewports (landscape phones, forced-narrow windows
-       below ~517px height), the fixed "Chat on WhatsApp" pill (bottom: 28px,
-       ~45px tall) overlaps the stacked hero CTAs because the mobile padding
-       rule in rebuild.css reserves 48px top + 48px bottom in .hero-copy.
-       Compressing that padding at these heights pushes the entire CTA stack
-       higher, clearing the FAB. Horizontal padding (32px L/R) is preserved.
-       Scoped to max-width: 767px — desktop is unaffected (CTAs side-by-side,
-       FAB is far right of the left-aligned button column).
+       At narrow/short mobile viewports the fixed "Chat on WhatsApp" pill
+       (bottom: 28px, ~45px tall) overlaps the three stacked hero CTAs.
+       Three rules below — ordered least-to-most aggressive — each cover
+       a distinct viewport class. The 560px and 480px rules override the
+       700px rule where both conditions match (later position in cascade).
+       Desktop (≥768px) is unaffected: CTAs sit side-by-side and the FAB
+       clears the left-aligned button column entirely.
        ============================================================ */
+
+    /* Narrow-portrait clearance — widths ≤360px at heights 561–700px.
+       At ≤360px content widths the hero-sub wraps aggressively enough to
+       push btn3 into the fixed FAB zone even on a moderately tall viewport.
+       Measured at 280×679: btn3 bottom 618 vs FAB top 606 → 12px overlap.
+       Tightening spacing here saves ~66px; measured clearance ~54px. */
+    @media (max-height: 700px) and (max-width: 360px) {
+      .hero-copy {
+        padding-top:    24px;
+      }
+      .hero-copy h1              { margin-bottom: 8px; }
+      .hero-copy .section-rule   { margin-top: 6px; margin-bottom: 0; }
+      .hero-copy .hero-sub       { margin-bottom: 12px; }
+      .hero-cta-stack            { gap: 8px; }
+    }
+
+    /* Extreme-short mobile — any width ≤767px at ≤560px height.
+       Zero vertical padding and margins to push the CTA stack higher,
+       clearing the fixed FAB. Horizontal padding (32px L/R) preserved. */
     @media (max-height: 560px) and (max-width: 767px) {
       .hero-copy {
         padding-top:    0;
@@ -125,6 +143,7 @@
       .hero-copy .hero-sub       { margin-bottom: 0; }
       .hero-cta-stack            { gap: 4px; }
     }
+
     /* Three-CTA clearance — extreme-short landscape (≤480px h, ≤767px w).
        With three stacked buttons the CTA stack is ~22px taller than the
        two-button original. This sub-rule saves those 22px (−6px/button
